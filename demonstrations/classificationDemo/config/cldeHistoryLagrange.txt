@@ -1,0 +1,73 @@
+classificationDemo('do', 0)
+classificationDemo('do', 1);
+classificationDemo('show', 2)
+classificationDemo('show', 2);
+classificationDemo('do', 2);
+classificationDemo('do', 2, 'mask', {{2}});
+classificationDemo('do', 2, 'mask', {{1}});
+classificationDemo('do', 2, 'mask', {{}});
+classificationDemo('show', 4, 'mask', {1});
+classificationDemo('do', 2, 'mask', {1});
+classificationDemo('do', 0, 'mask', {1});
+classificationDemo('do', 0, 'mask', {2});
+classificationDemo('do', 3:4, 'mask', {2});
+classificationDemo('do', 0, 'mask', {});
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'do', 4);
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', {'c'});
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', {'c', 'metric', 'confusion'});
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', {'c', 'metric', 2});
+classificationDemo('show', 4, 'mask', {2 1 1 1 1:2}, 'display', {'c', 'metric', 2, 'confusion', 2});
+classificationDemo('show', 4, 'mask', {2 1 1 1 1:2}, 'display', {'c', 'metric', 2, 'confusion', 2}, 'do', 2);
+classificationDemo('show', 4, 'mask', {2 1 1 1 1:2}, 'display', {'c', 'metric', 2, 'confusion', 2}, 'do', 4);
+classificationDemo('do', 4, 'mask', {2 1 1 1 1 1}, 'display', {'c', 'metric', 2, 'confusion', 2});
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', {'c', 'metric', 2, 'confusion', 2});
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', {'c', 'metric', 2, 'confusion', 4});
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', {'c', 'metric', 2, 'confusion', 5});
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', {'c', 'metric', 2, 'confusion', 6});
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', {'c', 'metric', 4, 'confusion', 2});
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', {'c', 'metric', 5, 'confusion', 2});
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', {'c', 'metric', 5, 'confusion', 'class'});
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', {'c', 'metric', 5, 'parameter', 'class'});
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', {'c', 'metric', 5, 'parameter', 'class', 'put', 1});
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', {'c', 'metric', 5, 'parameter', 'class', 'put', 0});
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1});
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', 't', 'report', 1);
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', {'c', 'metric', 'confusion', 'parameter', 'class', 'put', 1});
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', {'c', 'metric', 'confusion', 'parameter', 'class', 'put', 0});
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', '>', 'report', 1);
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', 'l', 'report', 1);
+classificationDemo('sync', 0)
+classificationDemo('sync', 0);
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', {'c', 'metric', 'confusion', 'parameter', 'class', 'put', 2}, 'report', 2);
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', {'c', 'metric', 'confusion', 'parameter', 'class', 'put', 2}, 'report', 1);
+classificationDemo('show', 4, 'mask', {2 1 1 1 1 1}, 'display', {'c', 'metric', 'confusion', 'parameter', 'class', 'put', 1}, 'report', 1);
+classificationDemo('do', 4)
+classificationDemo('show', 4);
+classificationDemo('show', 4, 'display', {'c', 'parameter', 'confusion'});
+classificationDemo('show', 4, 'display', {'c', 'metric', 'confusion'});
+classificationDemo('show', 4, 'display', {'c', 'metric', 'confusion', 'parameter', 'class'});
+classificationDemo('do', 4, 'host', 2)
+classificationDemo('do', 4, 'mask', {{2}});
+classificationDemo('do', 4, 'host', 2);
+classificationDemo('do', 0);
+classificationDemo('do', 1, 'host', 2);
+classificationDemo('sync', '1d');
+classificationDemo('sync', 'c d 1d 2d');
+classificationDemo('sync', 'c d 0d');
+classificationDemo('sync', '1');
+classificationDemo('sync', '1s');
+classificationDemo('sync', '0s');
+classificationDemo('sync', '0d');
+classificationDemo('localDependencies', 2);
+classificationDemo('sync', 'd');
+classificationDemo('sync', 'd', 'localDependencies', 2);
+classificationDemo('do', 0, 'host', 2);
+classificationDemo('do', 2, 'host', 2);
+classificationDemo('do', 1:2, 'host', 2);
+classificationDemo('do', 4);
+classificationDemo('do', 3, 'mask', {2});
+classificationDemo('sync', 3)
+classificationDemo('sync', 3);
+classificationDemo('do', 4, 'mask', {2});
+classificationDemo('show', 4, 'mask', {2});
+classificationDemo('do', 4, 'mask', {});

@@ -1,0 +1,52 @@
+function config = exposeTable(config, data, p)
+
+switch p.put
+    case 0
+        numCell = expNumToCell(data.meanData, data.varData, config.displayDigitPrecision);
+        dataCell = [config.parameters.list(data.variantSelector, data.parameterSelector) numCell];
+        dataCell = expSortData(dataCell, p.sort, data.parameterSelector, config);
+        el = cell(1, length(p.columnNames));
+        [el{:}] = deal('---');
+        config.displayData.data = [p.columnNames; el; dataCell];
+    case 1
+        numCell = expNumToCell(data.meanData, data.varData, config.displayDigitPrecision, 0, data.highlights);
+         dataCell = [config.parameters.list(data.variantSelector, data.parameterSelector) numCell];
+        dataCell = expSortData(dataCell, p.sort, data.parameterSelector, config);
+        
+        
+        if ~feature('ShowFigureWindows'), return; end
+        
+        fPos = get(gcf, 'position');
+        margin = fPos(4)/20;
+        
+        clf
+        hTable=uitable('Data', dataCell, 'columnName', p.columnNames, 'fontName','courier', 'fontSize', 14);
+        set(hTable, 'units', get(gcf, 'units'));
+        set(hTable, 'position', [margin margin fPos(3:4)-2*margin]); % , 'position', [30 30 600 600]
+        
+        % adjust size
+        jScroll = findjobj(hTable);
+        if isempty(jScroll)
+            disp('Unable to get java handler for the table. Is the figure docked ?');;
+        else
+            jTable = jScroll.getViewport.getView;
+            jTable.setAutoResizeMode(jTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+            
+            % make it sortable
+            jTable.setSortable(true);		% or: set(jtable,'Sortable','on');
+            jTable.setAutoResort(true);
+            jTable.setMultiColumnSortable(true);
+            jTable.setPreserveSelectionsAfterSorting(true);
+            
+            if size(data, 1)>700
+                disp('Warning: number of variants > 700, sorting may be inaccurate :(');
+            end
+        end
+    case 2
+        numCell = expNumToCell(data.meanData, data.varData, config.displayDigitPrecision, 1, data.highlights); % TODO being able to remove variance
+        
+        
+        dataCell = [strrep(config.parameters.list(data.variantSelector, data.parameterSelector), '_', '\_') numCell];
+        
+        config.displayData.data = [p.columnNames; expSortData(dataCell, p.sort, data.parameterSelector, config)];
+end

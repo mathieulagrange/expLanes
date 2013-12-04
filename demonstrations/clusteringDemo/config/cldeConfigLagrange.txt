@@ -1,0 +1,73 @@
+% Config file for the clde project
+% Adapt at your convenience
+
+% path to backup of transfered data
+backupPath = /tmp/expCodeBackup/clusteringDemo
+% path to store code bundles
+bundlePath = /tmp/clusteringDemo
+% path to the code repository of the project 
+codePath = {'/Users/lagrange/tmp/demonstrations/clusteringDemo', '~/projects/clusteringDemo'}
+%
+dataPath = {'/Users/lagrange/tmp/demonstrations/clusteringDemo/data', '~/projects/clusteringDemo/data'}
+% path to static input data (read only access)
+inputPath = ~/data/databases
+% path to matlab
+matlabPath = {'', '/net/moncol/data/usr_local/MATLAB/R2010b/bin'}
+% complete name
+completeName = lagrange
+% names of the machines
+machineNames = {'mo-lagrange.irccyn.ec-nantes.fr', 'pc-adtsi-sunda.irccyn.ec-nantes.fr'}
+%
+projectName = clusteringDemo
+%
+shortProjectName = clde
+%
+userName = lagrange
+% version of the project
+versionName = 0.1
+% bundle mode
+bundle = 0
+% dependencies to load and export
+dependencies = {'/Users/lagrange/tmp/expCode'}
+% specify default display
+display = >
+% mantissa precision of value display
+displayDigitPrecision = 2
+% font size for display
+displayFontSize = 16
+% tasks to do: -1 none, 0 all, >0 task by numeric id
+do = -1
+% dummy mode
+dummy = 0
+%
+emailAddress = lagrange@ircam.fr
+% host index
+host = 0
+% dependencies (including exptool) can be part of the project: 0 do not use local versions, 1 use local versions, 2 update local versions
+localDependencies = 0
+% log level (set to 0 for no log)
+log = 1
+% variants Mask
+mask = {{}}
+% memo message
+message = default
+% use parallel processing or not, if >1 specify the number of cores
+parallel = 0
+% set the probe flag
+probe = 0
+% perform computation even if already stored
+redo = 1
+% generate report: -1 none, 0 show figures, 1 generation of tex report, 2 verbose tex report
+report = 0
+% resume last computation
+resume = 0
+% retrieve mode
+retrieve = 0
+% set the random seed for replicability
+setRandomSeed = 0
+% step for wich to display informations: -1 none, 0 last processed task if any, >0 specific task
+show = 0
+% sync mode
+sync = {}
+% usage of default exptool smtp
+useExpToolSmtp = 1

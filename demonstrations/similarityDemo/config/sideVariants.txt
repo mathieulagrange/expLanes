@@ -1,0 +1,6 @@
+similarity =2== {'euclidean', 'seuclidean', 'cosine'}
+nbClasses === 2:2:10
+nbDimensions === [2 10 100]
+spread === 0:10:100
+nbRealizations === 10
+nbElementsPerClass === 50

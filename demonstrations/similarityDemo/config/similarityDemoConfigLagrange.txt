@@ -1,0 +1,41 @@
+% Config file for the similarityDemo project
+% Adapt at your convenience
+
+backupPath = /tmp/expToolBackup/similarityDemo
+bundlePath = /tmp/similarityDemo
+codePath = {'/Users/lagrange/tmp/demonstrations/similarityDemo', '~/projects/similarityDemo'}
+displayPath = display
+generateDataPath = generateData
+inputPath = ~/data/databases
+matlabPath = {'', '/net/moncol/data/usr_local/MATLAB/R2010b/bin'}
+rootPath = {'/Users/lagrange/tmp/demonstrations/similarityDemo/data', '~/projects/similarityDemo'}
+similarityPath = similarity
+machineNames = {'mo-lagrange.irccyn.ec-nantes.fr', 'pc-adtsi-sunda.irccyn.ec-nantes.fr'}
+projectName = similarityDemo
+shortProjectName = side
+taskName = {'process', 'evaluate'}
+userName = lagrange
+versionName = 0.1
+bundle = 0
+dependencies = { '/Users/lagrange/tmp/expTool'}
+display = >
+displayDigitPrecision = 2
+displayFontSize = 16
+do = -1
+dummy = 0
+emailAddress = {'lagrange@ircam.fr', 'lagrange.mathieu@gmail.com'}
+host = 0
+localDependencies = 0
+log = 1
+mask = {{}}
+message = default
+parallel = 0
+probe = 0
+redo = 1
+report = 0
+resume = 0
+retrieve = 0
+setRandomSeed = 0
+show = 0
+sync = {}
+useExpToolSmtp = 1

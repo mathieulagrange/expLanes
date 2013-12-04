@@ -1,0 +1,40 @@
+% Config file for the audioSeparationDemo project
+% Adapt at your convenience
+
+backupPath = /tmp/expToolBackup/audioSeparationDemo
+bundlePath = bundle
+codePath = .
+configPath = config/
+displayPath = figures
+inputPath = ~/data/databases
+matlabPath = {''}
+mixPath = mix
+rootPath = ./data
+separatePath = separate
+machineNames = {'localhost'}
+projectName = audioSeparationDemo
+shortProjectName = ausede
+taskName = {'mix' 'separate'}
+userName = lagrange
+versionName = 0.1
+bundle = 0
+dependencies = { '../../expTool'}
+display = default
+displayDigitPrecision = 2
+displayFontSize = 16
+do = -1
+dummy = 0
+emailAddress = lagrange@ircam.fr
+host = 0
+log = 1
+mask = {{}}
+message = default
+parallel = 0
+probe = 0
+redo = 1
+resume = 0
+retrieve = 0
+setRandomSeed = 0
+sync = {}
+tex = 0
+updateDependencies = -1

@@ -1,0 +1,56 @@
+
+                backupPath: '/tmp/expToolBackup/classificationDemo/'
+                bundlePath: '/tmp/classificationDemo/'
+                  codePath: '/Users/lagrange/tmp/demonstrations/classificationDemo/'
+                 inputPath: '~/data/databases/'
+                matlabPath: ''
+                  dataPath: '/Users/lagrange/tmp/demonstrations/classificationDemo/data/'
+              machineNames: {'mo-lagrange.irccyn.ec-nantes.fr'  'pc-adtsi-sunda.irccyn.ec-nantes.fr'}
+               projectName: 'classificationDemo'
+          shortProjectName: 'clde'
+                  userName: 'lagrange'
+               versionName: 0.1000
+                    bundle: 0
+              dependencies: {'../../expCode'  '../tools/netlab'}
+                   display: '>'
+     displayDigitPrecision: 2
+           displayFontSize: 16
+                        do: -1
+                     dummy: 0
+              emailAddress: 'lagrange@ircam.fr'
+                      host: 0
+         localDependencies: 0
+                       log: 1
+                      mask: {{}}
+                   message: 'default'
+                  parallel: [0 0 0 0]
+                     probe: 0
+                      redo: 1
+                    report: 0
+                    resume: 0
+                  retrieve: 0
+             setRandomSeed: 1
+                      show: -1
+                      sync: {}
+            useExpToolSmtp: 1
+          latexCodeOptions: 'useliterate'
+              completeName: 'lagrange'
+               projectPath: '/Users/lagrange/tmp/demonstrations/classificationDemo/'
+            configFileName: '/Users/lagrange/tmp/demonstrations/classificationDemo/config/cldeConfigLagrange.txt'
+                  hostName: 'mo-lagrange.irccyn.ec-nantes.fr'
+           variantFileName: '/Users/lagrange/tmp/demonstrations/classificationDemo/config/cldeVariants.txt'
+     variantSpecifications: [1x1 struct]
+                     runId: 99
+             configMatName: '/Users/lagrange/tmp/demonstrations/classificationDemo/config/cldeConfiglagrange_99.mat'
+                reportPath: '/Users/lagrange/tmp/demonstrations/classificationDemo/report/'
+                  taskName: {'generateData'  'train'  'probe'  'test'}
+               displayData: [1x1 struct]
+               currentTask: 4
+    suggestedNumberOfCores: Inf
+              loadFileInfo: [1x1 struct]
+                   runInfo: []
+               logFileName: '/Users/lagrange/tmp/demonstrations/classificationDemo/report/log_99.txt'
+         errorDataFileName: {}
+                   logFile: 3
+
+

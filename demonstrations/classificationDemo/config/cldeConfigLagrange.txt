@@ -1,0 +1,39 @@
+% Config file for the classificationDemo project
+% Adapt at your convenience
+
+backupPath = /tmp/expToolBackup/classificationDemo
+bundlePath = /tmp/classificationDemo
+codePath = {'', '~/projects/classificationDemo'}
+inputPath = ~/data/databases
+matlabPath = {'', '/net/moncol/data/usr_local/MATLAB/R2010b/bin'}
+dataPath = {'data', '~/projects/audioSeparationDemo/data'}
+machineNames = {'mo-lagrange.irccyn.ec-nantes.fr', 'pc-adtsi-sunda.irccyn.ec-nantes.fr'}
+projectName = classificationDemo
+shortProjectName = clde
+userName = lagrange
+versionName = 0.1
+bundle = 0
+dependencies = {'../../expCode' '../tools/netlab'}
+display = >
+displayDigitPrecision = 2
+displayFontSize = 16
+do = -1
+dummy = 0
+emailAddress = lagrange@ircam.fr
+host = 0
+localDependencies = 0
+log = 1
+mask = {{}}
+message = default
+parallel = 0
+probe = 0
+redo = 1
+report = 0
+resume = 0
+retrieve = 0
+setRandomSeed = 1
+show = 0
+sync = {}
+useExpToolSmtp = 1
+latexCodeOptions = useliterate
+completeName = 
