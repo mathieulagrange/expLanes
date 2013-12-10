@@ -169,7 +169,7 @@ end
 % config = expDisplay(config, p);
 config = feval(exposeType, config, data, p);
 
-if p.put==0
+if any(p.put==[0 2])
     config = expDisplay(config, p);
 elseif p.save ~= 0
     if ischar(p.save)

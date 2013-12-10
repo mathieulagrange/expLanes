@@ -1,5 +1,5 @@
 function expCreate(projectName, taskNames, codePath, dataPath)
-% expCreate(projectName, taskNames, shortProjectName, codePath, dataPath)
+% expCreate(projectName, taskNames, codePath, dataPath)
 %   create an expCode project
 %
 %   projectName: the name of the project

@@ -736,9 +736,9 @@ CONSTRUCTOR(varargin{:});
 
         Data.tex{end+1}='\end{tabular}';
         Data.tex{end+1}='\end{center}';
-        Data.tex{end+1}=['\label{' label '}'];
          Data.tex{end+1}=['\caption{' caption '}' ];
-       
+         Data.tex{end+1}=['\label{' label '}'];
+      
          if landscape
          Data.tex{end+1}='\end{sidewaystable}';
         else
