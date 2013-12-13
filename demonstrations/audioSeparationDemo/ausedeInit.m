@@ -35,3 +35,4 @@ end
 noise = randn(length(y), 1);
 % store it for the next tasks
 store.noise = noise/std(noise);
+
