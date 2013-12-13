@@ -53,7 +53,7 @@ if all(task>0)
     if sum(abs(config.parallel))
         if any(config.parallel>1)
             matlabpool('open', 'local', max(config.parallel));
-        else
+        elseif matlabpool('size') == 0
             matlabpool('open', 'local');
         end
         
@@ -78,7 +78,7 @@ if all(task>0)
         end
         if sum(abs(config.parallel))
             config.parallel = matlabpool('size');
-            matlabpool('close');
+           % matlabpool('close');
         end
     else
         for k=1:length(task)

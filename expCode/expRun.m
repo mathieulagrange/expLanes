@@ -200,7 +200,7 @@ switch config.host
             end
             % sendMail does not like tilde
             config.mailAttachment = expandPath(config.mailAttachment);
-            sendmail(config.emailAddress, ['[Experiment] ' config.projectName ' ' num2str(config.runId) ' is over on ' config.hostName], message, config.mailAttachment);
+            sendmail(config.emailAddress, ['[expCode] ' config.projectName ' ' num2str(config.runId) ' is over on ' config.hostName], message, config.mailAttachment);
         end
         expConfigMatSave(config.configMatName);
         if config.host == -1, exit(); end

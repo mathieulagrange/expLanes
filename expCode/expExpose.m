@@ -177,15 +177,14 @@ if p.save ~= 0
     if ischar(p.save)
         if p.put==1
             expSaveFig([config.reportPath 'figures/' p.save], gcf);
-        else
+        elseif p.put==2
            expSaveTable([config.reportPath 'tables/' p.save '.tex'], config.displayData.latex(end)); 
         end
     else
         if p.put==1
             expSaveFig(strrep([config.reportPath 'figures/' p.title], ' ', '_'), gcf);
-        else
-              expSaveTable([config.reportPath 'tables/' p.save '.tex'], config.displayData.latex(end)); 
-         
+        elseif p.put==2
+              expSaveTable([config.reportPath 'tables/' p.save '.tex'], config.displayData.latex(end));          
         end
     end 
 end
