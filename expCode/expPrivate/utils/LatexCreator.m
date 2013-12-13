@@ -127,11 +127,14 @@ CONSTRUCTOR(varargin{:});
 
 
 
-    function CONSTRUCTOR(tex_file, keep, author_name, title, projectName)
+    function CONSTRUCTOR(tex_file, keep, author_name, title, projectName, template, noFigDir)
 
         Data.TexFn=tex_file;
         if nargin>2, Data.author=author_name; end
         if nargin>3, Data.title=title; end
+        if nargin<6, template=1; end
+        if nargin<7, noFigDir=0; end
+       
         % extraction nom repertoire et nom de fichier
         TmpCell=strread(Data.TexFn,'%s','delimiter','/');
         LengthStr=length(TmpCell);
@@ -169,8 +172,8 @@ CONSTRUCTOR(varargin{:});
 
 
         if ( ~exist(Data.Dir,'dir')); mkdir(Data.Dir); end
-        if ( ~exist([Data.Dir '/figures'],'dir')); mkdir([Data.Dir '/figures']); end
-        if ( ~keep || ~exist(Data.FullTexFn,'file')), createTemplate(); end
+        if ( ~noFigDir && ~exist([Data.Dir '/figures'],'dir')); mkdir([Data.Dir '/figures']); end
+        if ( ~keep || ~exist(Data.FullTexFn,'file')), createTemplate(template); end
 
         set_Default_CONFIG();
         set_CONFIG_from_file();
@@ -310,7 +313,7 @@ CONSTRUCTOR(varargin{:});
         % Chargement fichier et recherche du flag
         
         
-        copyfile(Data.FullTexFn,[Data.FullTexFn '~']);
+%         copyfile(Data.FullTexFn,[Data.FullTexFn '~']);
         
         TEX=textread(Data.FullTexFn,'%s','delimiter','\n');
         FIND_FLAG_c=strfind(TEX,'expDisplayInsertionFlag');        
@@ -383,7 +386,7 @@ CONSTRUCTOR(varargin{:});
         status=1;
     end
 
-    function createPDF(silent)
+    function res = createPDF(silent)
       
         if nargin<1, silent=1; end
            
@@ -427,8 +430,9 @@ CONSTRUCTOR(varargin{:});
         
         
     end
-   
-    function status=createTemplate()
+
+
+    function status=createTemplate(style)
         ho=getenv('HOME');
         TemFn=[ho,'/.LatexToolBar/DefaultTemplate.tex'];
         
@@ -436,6 +440,8 @@ CONSTRUCTOR(varargin{:});
         
         if(~exist(TemFn,'file'))
             Data.tex=[];
+            if style
+            
             Data.tex{1}=' ';
             Data.tex{end+1}='\documentclass[10pt,a4paper,fleqn]{article}';
             Data.tex{end+1}='\usepackage[latin1]{inputenc}';
@@ -447,6 +453,8 @@ CONSTRUCTOR(varargin{:});
             Data.tex{end+1}='\usepackage{rotating}';
             Data.tex{end+1}='% mcode options for matlab code insertion bw (for printing), numbered (line numbers), framed (frame around code blocks), useliterate (convert Matlab expressions to Latex ones), autolinebreaks (automatic code wraping, use it with caution';
             Data.tex{end+1}='\usepackage[literate]{mcode}';
+            
+            Data.tex{end+1}='\graphicspath{{../figures/}} ';
             Data.tex{end+1}=['\title{' Data.title '}'];
             Data.tex{end+1}=['\author{ ' Data.author ' }'];
             Data.tex{end+1}=' ';
@@ -467,7 +475,9 @@ CONSTRUCTOR(varargin{:});
             Data.tex{end+1}=' ';
             Data.tex{end+1}='\end{document}';
 
-
+            else
+                Data.tex{end+1}='% expDisplayInsertionFlag DO NOT CLEAR (but move it where you want the code to be inserted) ';
+            end  
 
 
 

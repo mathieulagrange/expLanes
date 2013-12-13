@@ -64,7 +64,7 @@ if ~isempty(variantSpecifications.selectParameters)
     end
     
     rec=rec+1;
-    mask= expSelectParametersNew(variantSpecifications, mask, mode, rec);
+    mask= expSelectParameters(variantSpecifications, mask, mode, rec);
 end
 
 function v = isMyEqual(m1, m2)

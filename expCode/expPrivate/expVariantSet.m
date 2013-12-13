@@ -6,7 +6,7 @@ for k=1:length(mask)
 end
 
 % prune vSet for repetition
-[newmat,index] = unique(vSet','rows','first');  %# Finds indices of unique rows
+[newmat,index] = unique(vSet','rows','first');  % Finds indices of unique rows
 vSet(:, setdiff(1:size(vSet,2),index))=[];
 
 end

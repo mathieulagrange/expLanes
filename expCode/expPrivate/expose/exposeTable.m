@@ -9,6 +9,8 @@ switch p.put
         [el{:}] = deal('---');
         config.displayData.data = [p.columnNames; el; dataCell];
     case 1
+        p.report=0;
+        config = expDisplay(config, p);
         numCell = expNumToCell(data.meanData, data.varData, config.displayDigitPrecision, 0, data.highlights);
          dataCell = [config.parameters.list(data.variantSelector, data.parameterSelector) numCell];
         dataCell = expSortData(dataCell, p.sort, data.parameterSelector, config);
@@ -33,13 +35,14 @@ switch p.put
             jTable.setAutoResizeMode(jTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
             
             % make it sortable
+            % FIXME wrong with negative values
             jTable.setSortable(true);		% or: set(jtable,'Sortable','on');
             jTable.setAutoResort(true);
             jTable.setMultiColumnSortable(true);
             jTable.setPreserveSelectionsAfterSorting(true);
             
-            if size(data, 1)>700
-                disp('Warning: number of variants > 700, sorting may be inaccurate :(');
+            if size(data, 1)>700 || any(data.meanData(:)<0)
+                disp('Display warning: sorting from column header may be inaccurate :(');
             end
         end
     case 2

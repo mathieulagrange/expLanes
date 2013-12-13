@@ -1,14 +1,12 @@
 function [config, store, display] = ausede3separate(config, variant, data)
 
-if nargin==0, audioSeparationDemo('do', 3, 'mask', {{2, 5, 1, 1, 1}}, 'display', '>'); return; end
-
-if ~config.redo && expDone(config), return; end
+if nargin==0, audioSeparationDemo('do', 3, 'mask', {{1}}, 'display', '>'); return; end
 
 disp([config.currentTaskName ' ' variant.infoString]);
 % no storage for this task
 store = [];
 % compute spectrograms
-sm = computeSpectrogram(data.mix, config.fftlen, config.samplingFrequency);
+sm = computeSpectrogram(data.mixture, config.fftlen, config.samplingFrequency);
 SM = abs(sm);
 switch variant.method
     case 'ibm'

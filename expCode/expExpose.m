@@ -22,6 +22,7 @@ p.task=0;
 p.label='';
 p.put=1;
 p.save=0;
+p.report=1;
 
 pNames = fieldnames(p);
 % overwrite default parameters with command line ones
@@ -171,13 +172,22 @@ config = feval(exposeType, config, data, p);
 
 if any(p.put==[0 2])
     config = expDisplay(config, p);
-elseif p.save ~= 0
+end
+if p.save ~= 0
     if ischar(p.save)
-        expSaveFig([config.reportPath p.save], gcf);
+        if p.put==1
+            expSaveFig([config.reportPath 'figures/' p.save], gcf);
+        else
+           expSaveTable([config.reportPath 'tables/' p.save '.tex'], config.displayData.latex(end)); 
+        end
     else
-        expSaveFig(strrep([config.reportPath p.title], ' ', '_'), gcf);
-    end
-    
+        if p.put==1
+            expSaveFig(strrep([config.reportPath 'figures/' p.title], ' ', '_'), gcf);
+        else
+              expSaveTable([config.reportPath 'tables/' p.save '.tex'], config.displayData.latex(end)); 
+         
+        end
+    end 
 end
 
 displayData = config.displayData;

@@ -1,7 +1,7 @@
 % Config file for the audioSeparationDemo project
 % Adapt at your convenience
 
-backupPath = /tmp/expToolBackup/audioSeparationDemo
+backupPath = /tmp/expCodeBackup/audioSeparationDemo
 bundlePath = bundle
 codePath = {'', '~/projects/audioSeparationDemo'}
 displayPath = figures
@@ -12,10 +12,10 @@ machineNames = {'mo-lagrange.irccyn.ec-nantes.fr', 'pc-adtsi-sunda.irccyn.ec-nan
 projectName = audioSeparationDemo
 shortProjectName = ausede
 userName = lagrange
-completeName = Mathieu LagrangeMathieu Lagrange
+completeName = Mathieu Lagrange
 versionName = 0.1
 bundle = 0
-dependencies = {'/Users/lagrange/tmp/expCode'}
+dependencies = {'../../expCode'}
 display = >
 displayDigitPrecision = 2
 displayFontSize = 16
@@ -33,8 +33,11 @@ resume = 0
 retrieve = 0
 setRandomSeed = 0
 sync = {}
-report = -1
+report = -3
 localDependencies = 0
 show=-1
-useExpToolSmtp = 1
+useExpCodeSmtp = 1
 latexCodeOptions = useliterate, framed
+useShortNamesForFiles = 1
+clean = 0
+pdfViewer =

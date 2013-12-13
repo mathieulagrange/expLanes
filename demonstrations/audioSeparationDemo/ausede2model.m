@@ -2,8 +2,6 @@ function [config, store, display] = ausede2model(config, variant, data)
 
 if nargin==0, audioSeparationDemo('do', 2, 'mask', {{2, 5, 1, 1, 5}}, 'display', '>'); return; end
 
-if ~config.redo && expDone(config), return; end
-
 disp([config.currentTaskName ' ' variant.infoString]);
 
 % propagate source, noise and mix for the next task

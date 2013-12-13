@@ -2,8 +2,6 @@ function [config, store, display] = side2similarity(config, variant, data, displ
 
 if nargin==0, similarityDemo('do', 2, 'mask', {{}}); return; end
 
-if ~config.redo && expDone(config), return; end
-
 disp([config.currentTaskName ' ' variant.infoString]);
 
 store=[];

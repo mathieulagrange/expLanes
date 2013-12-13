@@ -1,15 +1,10 @@
 function config = expConfig(projectPath, shortProjectName, commands)
 
-% TODO redo allow to rerun the specific run, aka store runId in stored Data
-
-% TODO function expAddTask to add a task at a given rank
-
 % TODO etudier la possibilite de compiler le code pour se passer de
 % parallel : mettre toute les variantes dans un fichier proteger par un
 % lock
 
-% TODO allow usage of local backup of dependencies (with expTool) 0 not, 1
-% use (set dependencies path to local ones in config structure), 2 perform backup
+% TODO command to purge server code base
 
 % FIXME store dependency string and force localDep = 2 if different
 
@@ -105,10 +100,10 @@ if config.setRandomSeed
     %     expRandomSeed(config);
 end
 
-config.displayData.figureHandles = findobj('Type','figure');
-config.displayData.figureTaken = zeros(1, length(config.displayData.figureHandles)) ;
-config.displayData.figureCaption = {};
-config.displayData.figureLabel = {};
+config.displayData.figure.handles = findobj('Type','figure');
+config.displayData.figure.taken = zeros(1, length(config.displayData.figure.handles)) ;
+config.displayData.figure.caption = {};
+config.displayData.figure.label = {};
 config.displayData.latex = [];
 
 config.currentTask = length(config.taskName);

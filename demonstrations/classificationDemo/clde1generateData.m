@@ -2,8 +2,6 @@ function [config, store, display] = clde1generateData(config, variant, data)
 
 if nargin==0, classificationDemo('do', 1, 'mask', {{}}); return; end
 
-if ~config.redo && expDone(config), return; end
-
 disp([config.currentTaskName ' ' variant.infoString]);
 
 % no display for this task

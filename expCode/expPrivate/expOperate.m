@@ -16,8 +16,10 @@ for k=1:length(config.taskName)
 end
 if ~exist(config.reportPath, 'dir')
     mkdir(config.reportPath);
+    mkdir([config.reportPath 'figures']);
+    mkdir([config.reportPath 'tables']);
     mkdir([config.reportPath 'tex/']);
-    copyfile([fileparts(mfilename('fullpath')) filesep 'thirdParty/mcode.sty'], [config.reportPath 'tex/']);
+    %     copyfile([fileparts(mfilename('fullpath')) filesep 'utils/mcode.sty'], [config.reportPath 'tex/']);
 end
 
 % expDependencies(config);
@@ -32,6 +34,8 @@ config.logFile = fopen([config.reportPath 'config.txt'], 'w');
 fprintf(config.logFile, '\n%s\n', evalc('disp(config)'));
 fclose(config.logFile);
 
+config.currentVariant = [];
+
 task = config.do;
 
 tic
@@ -41,7 +45,7 @@ catch error
     if config.host == 0
         rethrow(error);
     else
-        config = expLog(config, error, 2, 1);
+        config = expLog(config, error, 3, 1);
     end
 end
 
@@ -63,10 +67,8 @@ if all(task>0)
             
             if config.parallel(task(k))>0 % ~= 1 % length(config.taskName)
                 parfor l=1:length(config.variantSequence)
-                    %                     cf(l) =
                     expProcessOne(config, config.variants(config.variantSequence{l}), task(k));
                 end
-                %                 config = expConfigMerge(cf);
             else
                 for l=1:length(config.variantSequence)
                     config = expProcessOne(config, config.variants(config.variantSequence{l}), task(k));
@@ -118,7 +120,10 @@ function config = expProcessOneSub(config, variant, task)
 
 functionName = [config.shortProjectName num2str(task) config.taskName{task}];
 
-% if isempty(config.done) || ~any(strcmp(config.done, mat2str([task variant.infoId]))) % TODO remove this test
+if config.redo==0 && (exist(expSave(config, [], 'store'), 'file') || exist(expSave(config, [], 'display'), 'file'))
+   disp(['skipping ' config.currentTaskName ' ' config.currentVariant.infoString]);
+   return
+end
 
 loadedData = [];
 if config.currentTask>1
@@ -126,10 +131,10 @@ if config.currentTask>1
     if ~isempty(config.load)
         loadedData = config.load;
     end
-%     config = expLoad(config, [], [], 'display');
-%     if ~isempty(config.load)
-%         loadedDisplay = config.load;
-%     end
+    %     config = expLoad(config, [], [], 'display');
+    %     if ~isempty(config.load)
+    %         loadedDisplay = config.load;
+    %     end
 else
     loadedData = config.initStore;
 end

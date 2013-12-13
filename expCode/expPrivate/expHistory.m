@@ -25,7 +25,7 @@ if length(commands)<1,
 elseif length(commands)>1 % || isstruct(varargin{1})
     config = expConfig(projectPath, shortProjectName, commands);
 elseif isnumeric(commands{1})
-    config = expConfig(projectPath, shortProjectName);
+    config = expConfig(projectPath, shortProjectName, {});
     fid = fopen([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt'], 'rt');
     foundCommand = '';
     if fid>0

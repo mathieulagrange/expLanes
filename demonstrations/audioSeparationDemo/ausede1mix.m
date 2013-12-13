@@ -13,8 +13,6 @@ function [config, store, display] = ausede1mix(config, variant, data)
 
 if nargin==0, audioSeparationDemo('do', 1, 'mask', {{}}); return; end
 
-if ~config.redo && expDone(config), return; end
-
 disp([config.currentTaskName ' ' variant.infoString]);
 % no display for this task
 display=[];

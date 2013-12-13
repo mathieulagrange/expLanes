@@ -12,7 +12,7 @@ backupPath = /tmp/expCodeBackup/<>
 % path to store code bundles
 bundlePath = /tmp/<>
 % path to matlab
-matlabPath = {'', '/net/moncol/data/usr_local/MATLAB/R2010b/bin'}
+matlabPath = 
 % names of the machines
 machineNames = {'mo-lagrange.irccyn.ec-nantes.fr', 'pc-adtsi-sunda.irccyn.ec-nantes.fr'}
 % use parallel processing or not, if >1 specify the number of cores
@@ -27,12 +27,12 @@ do = -1
 probe = 0
 % dependencies to load and export
 dependencies = {}
-% dependencies (including exptool) can be part of the project: 0 do not use local versions, 1 use local versions, 2 update local versions
+% dependencies (including expCode) can be part of the project: 0 do not use local versions, 1 use local versions, 2 update local versions
 localDependencies = 0
-% email address ticked when processing is done server side
-emailAddress  = lagrange@ircam.fr 
-% usage of default exptool smtp
-useExpToolSmtp = 1
+% email address ticked when processing is done server side (leave empty for no mailing service), can be a cell array of email adresses
+emailAddress  = 
+% usage of default expcode smtp. If set to 0 assume availability of local stmp
+useExpCodeSmtp = 1
 % version of the project
 versionName = 0.1
 % mantissa precision of value display
@@ -43,8 +43,8 @@ displayFontSize = 16
 setRandomSeed = 0
 % memo message
 message = default
-% generate report: -1 none, 0 show figures, 1 generation of tex report, 2 verbose tex report
-report = 0
+% generate report: <=-3 none -2 verbose tex report -1 generation of tex report, 0 show figures, 1 show figures and generation of tex report, 2 show figures and verbose tex report >=3 none
+report = -3
 % resume last computation
 resume = 0
 % log level (set to 0 for no log)
@@ -61,7 +61,13 @@ display = >
 sync = {}
 % bundle mode
 bundle = 0
+% clean mode
+clean = 0
 % step for wich to display informations: -1 none, 0 last processed task if any, >0 specific task
 show = 0
-% complete name
+% complete name of user
 completeName = 
+% use abrevations for fileNames
+useShortNamesForFiles = 1
+% path to the pdf viewer (try to locate one if empty)
+pdfViewer = 

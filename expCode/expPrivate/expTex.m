@@ -2,8 +2,12 @@ function config = expTex(config, command)
 
 if nargin<2, command= 'cv'; end
 
-config.latexFileName = [config.reportPath 'tex/' config.projectName ]; % '.tex'
+latexPath = [config.reportPath 'tex/'];
+if ~exist(latexPath, 'dir')
+    mkdir(latexPath);
+end
 
+config.latexFileName = [latexPath config.projectName ]; % '.tex'
 
 for k=1:length(config.taskName)
     copyfile([config.codePath config.shortProjectName num2str(k) config.taskName{k} '.m'], [config.reportPath 'tex/' config.shortProjectName num2str(k) config.taskName{k} '.m']);
@@ -11,6 +15,7 @@ end
 copyfile([config.codePath config.shortProjectName 'Init.m'], [config.reportPath 'tex/' config.shortProjectName 'Init.m']);
 copyfile([config.codePath config.shortProjectName 'Report.m'], [config.reportPath 'tex/' config.shortProjectName 'Report.m']);
 copyfile([config.codePath config.projectName '.tex'], [config.latexFileName '.tex']);
+copyfile([fileparts(mfilename('fullpath')) filesep 'utils/mcode.sty'], [config.reportPath 'tex/']);
 
 config.pdfFileName = [config.reportPath config.projectName '_v' num2str(config.versionName) '_' config.userName  '_' date '_' strrep(config.message, ' ', '-') '.pdf'];
 
@@ -22,28 +27,39 @@ for k=1:length(config.displayData.latex)
 end
 
 % add figure
-for k=1:length(config.displayData.figureHandles)
-    if config.displayData.figureTaken(k)
-        config.latex.addFigure(config.displayData.figureHandles(k), 'caption', config.displayData.figureCaption{k}, 'label', config.displayData.figureLabel{k});
+for k=1:length(config.displayData.figure)
+    if config.displayData.figure(k).taken && config.displayData.figure(k).report
+        config.latex.addFigure(config.displayData.figure(k).handles, 'caption', config.displayData.figure(k).caption, 'label', config.displayData.figure(k).label);
     end
 end
 
 for k=1:length(command)
     switch command(k)
         case 'c'
+            oldFolder = cd(latexPath);
             disp('generating latex report. Press x enter if locked for too long (use report=2 for debug info)');
-            config.latex.createPDF(~(abs(config.report)-1));
-            copyfile([config.latexFileName '.pdf'], config.pdfFileName);
-            disp(['report available: ', config.pdfFileName])
+            res = config.latex.createPDF(~(abs(config.report)-1));
+            cd(oldFolder);
+            if ~res
+                copyfile([config.latexFileName '.pdf'], config.pdfFileName);
+                disp(['report available: ', config.pdfFileName])
+            else
+                return
+            end         
         case 'v'
-            if ismac
-                cmd=['open -a Preview ', config.pdfFileName, ' &'];
-            elseif isfield(config, 'pdfViewer')
+            if ~isempty(config.pdfViewer)
                 cmd=[config.pdfViewer ' ', config.pdfFileName, ' &'];
             else
-                disp('Please set a pdfViewer in your config file. For example: pdfViewer = /usr/bin/acroread');
-                return;
+                if ismac
+                    cmd=['open -a Preview ', config.pdfFileName, ' &'];
+                else
+                    open(config.pdfFileName);
+                    return;
+                end
             end
             system(cmd);
     end
 end
+warning off
+rmdir(latexPath, 's');
+warning on

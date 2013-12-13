@@ -1,25 +1,22 @@
 % Config file for the audioSeparationDemo project
 % Adapt at your convenience
 
-backupPath = /tmp/expToolBackup/audioSeparationDemo
+backupPath = /tmp/expCodeBackup/audioSeparationDemo
 bundlePath = bundle
-codePath = .
-configPath = config/
+codePath = {'', '~/projects/audioSeparationDemo'}
 displayPath = figures
 inputPath = ~/data/databases
 matlabPath = {''}
-mixPath = mix
-rootPath = ./data
-separatePath = separate
-machineNames = {'localhost'}
+dataPath = {'data', '~/projects/audioSeparationDemo/data'}
+machineNames = {'mo-lagrange.irccyn.ec-nantes.fr', 'pc-adtsi-sunda.irccyn.ec-nantes.fr'}
 projectName = audioSeparationDemo
 shortProjectName = ausede
-taskName = {'mix' 'separate'}
 userName = lagrange
+completeName = Mathieu Lagrange
 versionName = 0.1
 bundle = 0
-dependencies = { '../../expTool'}
-display = default
+dependencies = {'../../expCode'}
+display = >
 displayDigitPrecision = 2
 displayFontSize = 16
 do = -1
@@ -36,5 +33,11 @@ resume = 0
 retrieve = 0
 setRandomSeed = 0
 sync = {}
-tex = 0
-updateDependencies = -1
+report = -3
+localDependencies = 0
+show=-1
+useExpCodeSmtp = 1
+latexCodeOptions = useliterate, framed
+useShortNamesForFiles = 1
+clean = 0
+pdfViewer =

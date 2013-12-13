@@ -13,7 +13,6 @@ function [config, store, display] = clde2cluster(config, variant, data)
 
 if nargin==0, clusteringDemo('do', 2, 'mask', {{1, 3, 0, 3, 0, 0, 0, 0, 10}}); return; end
 
-if ~config.redo && expDone(config), return; end
 disp([config.currentTaskName ' ' variant.infoString]);
 
 store=[];

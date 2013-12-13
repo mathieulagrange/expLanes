@@ -32,6 +32,7 @@ if any(highlight)
     if latexStyle
         resultCell(highlight==1) = strcat('\textbf{', resultCell(highlight==1), '}');
     else
+%         resultCell(highlight==0) = strcat('<html><font color="black"><b>', resultCell(highlight==0), '</font></html>');
         resultCell(highlight==1) = strcat('<html><font color="purple"><b>', resultCell(highlight==1), '</font></html>');
     end
 end

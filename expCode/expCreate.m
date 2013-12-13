@@ -10,7 +10,7 @@ function expCreate(projectName, taskNames, codePath, dataPath)
 % TODO remove expPath
 
 expCodePath = fileparts(mfilename('fullpath'));
-expPath();
+addpath(genpath(expCodePath));
 
 if ~exist('projectName', 'var')
     projectName = 'helloProject';
@@ -153,7 +153,7 @@ rootString = char({...
 
 dlmwrite([config.codePath '/' projectName '.m'], rootString,'delimiter','');
 
-config.latex = LatexCreator([config.codePath filesep config.projectName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], projectName);
+config.latex = LatexCreator([config.codePath filesep config.projectName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], projectName, 1, 0);
 
 % create project functions
 % TODO add some comments
@@ -175,7 +175,6 @@ for k=1:length(taskNames)
         '';
         ['if nargin==0, ' , projectName '(''do'', ' num2str(k) ', ''mask'', {{}}); return; end'];
         '';
-        'if ~config.redo && expDone(config), return; end';
         'disp([config.currentTaskName '' '' variant.infoString]);';
         '';
         'store=[];';

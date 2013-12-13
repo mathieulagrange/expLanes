@@ -12,7 +12,11 @@ taskName = config.taskName{config.currentTask};
 
 path = [config.dataPath taskName filesep];
 
-name = config.currentVariant.infoShortString;
+if config.useShortNamesForFiles
+    name = config.currentVariant.infoShortString;
+else
+    name = config.currentVariant.infoString;
+end
 
 if config.dummy
     name = [name '_dummy_' num2str(config.dummy)];

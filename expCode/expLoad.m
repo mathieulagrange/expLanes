@@ -3,7 +3,7 @@ function config = expLoad(config, name, inputId, extension, selector)
 if nargin<2 || isempty(name), name = ''; end
 if nargin<3 || isempty(inputId), inputId=config.currentTask-1; end
 if nargin<4 || isempty(extension),
-    extension = '_data';
+    extension = '_store';
 else
     [p n] = fileparts(extension); % FIXME may be fragile
     extension = ['_' n];
@@ -41,7 +41,11 @@ end
 if nargin<2 || isempty(name)
     %     variant = expVariantBuild(config.variantSpecifications, config.currentVariant.infoId');
     tv = expVariants(config.variantSpecifications, {num2cell(config.currentVariant.infoId)}, inputId); % TODO slow but useful, detect if data flow is contracting
-    names = {tv.variants(:).infoShortString}; % FIXME should be masked
+    if config.useShortNamesForFiles
+        names = {tv.variants(:).infoShortString}; % FIXME should be masked
+    else
+        names = {tv.variants(:).infoString}; % FIXME should be masked
+    end
 end
 
 config.load={};

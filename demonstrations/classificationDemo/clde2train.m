@@ -2,11 +2,6 @@ function [config, store, display] = clde2train(config, variant, data)
 
 if nargin==0, classificationDemo('do', 2, 'mask', {{1}}); return; end
 
-if ~config.redo && expDone(config), return; end
-
-disp([config.currentTaskName ' ' variant.infoString]);
-
-
 switch variant.method
     case 'knn'
         % no display for the knn approach

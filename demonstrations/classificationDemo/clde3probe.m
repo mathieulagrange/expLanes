@@ -2,11 +2,6 @@ function [config, store, display] = clde3probe(config, variant, data)
 
 if nargin==0, classificationDemo('do', 3, 'mask', {{2}}); return; end
 
-if ~config.redo && expDone(config), return; end
-
-disp([config.currentTaskName ' ' variant.infoString]);
-
-
 switch variant.method
     case 'knn'
         % nothing to be done for the knn approach

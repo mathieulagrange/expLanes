@@ -1,3 +1,4 @@
 similarityDemo('do', 0);
 similarityDemo('do', 0, 'host', 2);
 similarityDemo('do', 0, 'host', 2, 'parallel', 1);
+similarityDemo('show', 1);

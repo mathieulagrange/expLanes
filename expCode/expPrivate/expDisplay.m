@@ -7,12 +7,13 @@ switch p.put
             config.displayData.data = [];
         end
     case 1
-        for k=1:length(config.displayData.figureTaken)
-            if ~config.displayData.figureTaken(k)
-                config.displayData.figureTaken(k) = 1;
-                config.displayData.figureCaption{k} = p.caption;
-                config.displayData.figureLabel{k} = p.label;
-                figure(config.displayData.figureHandles(k));
+        for k=1:length(config.displayData.figure)
+            if ~config.displayData.figure(k).taken
+                config.displayData.figure(k).taken = 1;
+                config.displayData.figure(k).caption = p.caption;
+                config.displayData.figure(k).label = p.label;
+                config.displayData.figure(k).report = p.report;
+                figure(config.displayData.figure(k).handles);
                 set(gcf,'name', p.title);
                 set(gcf,'number','off');
                 clf
@@ -20,10 +21,11 @@ switch p.put
             end
         end
         
-        config.displayData.figureHandles(end+1) = figure();
-        config.displayData.figureTaken(end+1) = 1;
-        config.displayData.figureCaption{end+1} = p.caption;
-        config.displayData.figureLabel{end+1} = p.label;
+        config.displayData.figure(end+1).handles = figure();
+        config.displayData.figure(end).taken = 1;
+        config.displayData.figure(end).caption = p.caption;
+        config.displayData.figure(end).label = p.label;
+        config.displayData.figure(end).report = p.report;
         set(gcf,'name', p.title);
         set(gcf,'number','off');
     case 2

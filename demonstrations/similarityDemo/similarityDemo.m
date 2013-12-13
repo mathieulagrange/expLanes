@@ -1,15 +1,16 @@
 function config = similarityDemo(varargin)
 
-[p projectName] = fileparts(mfilename('fullpath'));
-if nargin>0 && isstruct(varargin{1})
-    config = varargin{1};
-else
-    config = expConfigParse(getUserFileName(projectName, p));
-end
-
-expDependencies(config);
-config = expRun(p, varargin);
-
+shortProjectName = 'side';                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+[p projectName] = fileparts(mfilename('fullpath'));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+if nargin>0 && isstruct(varargin{1})                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+ config = varargin{1};                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+else                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+ config = expConfigParse(getUserFileName(shortProjectName, p));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+end                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+expDependencies(config);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+config = expRun(p, shortProjectName, varargin);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 function configFileName = getUserFileName(projectName, projectPath)
 
 % shortProjectName = names2shortNames(projectName);
@@ -26,12 +27,12 @@ if ~exist(configFileName, 'file')
 end
 
 
-
+                                                                                                                      
 function config = expConfigParse(configFileName)
 
 configFile=fopen(configFileName);
 if configFile==-1,
-    error('Unable to load the expTool config file for your project.');
+    error('Unable to load the expCode config file for your project.');
 end
 
 configCell=textscan(configFile,'%s%s ', 'commentStyle', '%', 'delimiter', '=');
@@ -39,11 +40,17 @@ fclose(configFile);
 names = strtrim(configCell{1});
 values = strtrim(configCell{2});
 
-for k=1:length(values)
-    if  ~isnan(str2double(values{k}))
-        values{k} = str2double(values{k});
-    elseif values{k}(1) == '{' || values{k}(1) == '['
-        values{k} =  eval(values{k});
+for k=1:length(names)
+    if k <= length(values)
+    if ~isempty(values{k})
+        if  ~isnan(str2double(values{k}))
+            values{k} = str2double(values{k});
+        elseif values{k}(1) == '{' || values{k}(1) == '['
+            values{k} =  eval(values{k});
+        end
+    end
+    else
+       values{k} = ''; 
     end
 end
 
@@ -53,26 +60,25 @@ config = cell2struct(values, names);
 function userId=getUserName()
 
 if isunix
-    userId = getenv('USER');
-    if isempty(userId), userName = getenv('USERNAME'); end
+userId = getenv('USER');
+if isempty(userId), userId = getenv('USERNAME'); end
 else
     userId = getenv('UserName');
 end
 
 
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 function expDependencies(config)
 
 p = fileparts(mfilename('fullpath'));
 addpath(genpath(p));
 
-if config.localDependencies == 0
+if config.localDependencies == 0 || config.localDependencies == 2
     for k=1:length(config.dependencies)
-        addpath(genpath(config.dependencies{k}));
+        dependencyPath = config.dependencies{k};
+        if dependencyPath(1) == '.'
+            dependencyPath = [p filesep dependencyPath];
+        end
+        addpath(genpath(dependencyPath));
     end
-elseif config.localDependencies ==2
-    expSync(config, 'd', 0, 0, 0, 1);
-    p = fileparts(mfilename('fullpath'));
-    addpath(genpath(p));
-end
-
+end                                                                                                                                                                                                                                                                                                                   

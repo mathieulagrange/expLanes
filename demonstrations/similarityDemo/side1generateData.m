@@ -2,8 +2,6 @@ function [config, store, display] = side1generateData(config, variant, data, dis
 
 if nargin==0, similarityDemo('do', 1, 'mask', {{}}); return; end
 
-if ~config.redo && expDone(config), return; end
-
 disp([config.currentTaskName ' ' variant.infoString]);
 
 tic

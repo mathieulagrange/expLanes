@@ -70,15 +70,12 @@ function expDependencies(config)
 p = fileparts(mfilename('fullpath'));
 addpath(genpath(p));
 
-if config.localDependencies == 0
+if config.localDependencies == 0 || config.localDependencies == 2
     for k=1:length(config.dependencies)
-        addpath(genpath(config.dependencies{k}));
-    end
-elseif config.localDependencies ==2
-    expSync(config, 'd', 0, 0, 0, 1);
-    if iscell(config.codePath)
-        addpath(genpath(config.codePath{1}));
-    else
-        addpath(genpath(config.codePath));
+        dependencyPath = config.dependencies{k};
+        if dependencyPath(1) == '.'
+            dependencyPath = [p filesep dependencyPath];
+        end
+        addpath(genpath(dependencyPath));
     end
 end

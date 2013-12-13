@@ -2,8 +2,6 @@ function [config, store, display] = clde4test(config, variant, data)
 
 if nargin==0, classificationDemo('do', 4, 'mask', {{1, 0, 0, 0, 0, 2}}); return; end
 
-if ~config.redo && expDone(config), return; end
-
 disp([config.currentTaskName ' ' variant.infoString]);
 
 % no storage for this task

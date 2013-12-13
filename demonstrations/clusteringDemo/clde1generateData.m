@@ -13,7 +13,6 @@ function [config, store, display] = clde1generateData(config, variant, data)
 
 if nargin==0, clusteringDemo('do', 1, 'mask', {{0 0 0 3}}); return; end
 
-if ~config.redo && expDone(config), return; end
 disp([config.currentTaskName ' ' variant.infoString]);
 
 store=[];
@@ -21,7 +20,7 @@ display=[];
 
 switch variant.dataType
     case 'spherical'
-               bandwidth = 0.1;
+        bandwidth = 0.1;
         data = zeros([variant.nbClasses*variant.nbElementsPerClass, 2]);
         idx = 1;
         for k = 1 : variant.nbClasses
@@ -44,11 +43,11 @@ switch variant.dataType
         data = [data; -data];
         variant.nbClasses = 2;
     case 'gaussian'
-       data = [];
-    class = [];
-    for m=1:variant.nbClasses
-        data = [data; repmat(m*2.5, variant.nbElementsPerClass, 2)+randn(variant.nbElementsPerClass, 2)];
-   end  
+        data = [];
+        class = [];
+        for m=1:variant.nbClasses
+            data = [data; repmat(m*2.5, variant.nbElementsPerClass, 2)+randn(variant.nbElementsPerClass, 2)];
+        end
 end
 
 class = [];

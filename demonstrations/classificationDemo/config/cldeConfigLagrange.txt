@@ -1,7 +1,7 @@
 % Config file for the classificationDemo project
 % Adapt at your convenience
 
-backupPath = /tmp/expToolBackup/classificationDemo
+backupPath = /tmp/expCodeBackup/classificationDemo
 bundlePath = /tmp/classificationDemo
 codePath = {'', '~/projects/classificationDemo'}
 inputPath = ~/data/databases
@@ -28,12 +28,14 @@ message = default
 parallel = 0
 probe = 0
 redo = 1
-report = 0
+report = -3
 resume = 0
 retrieve = 0
 setRandomSeed = 1
 show = 0
 sync = {}
-useExpToolSmtp = 1
+useExpCodeSmtp = 1
 latexCodeOptions = useliterate
 completeName = 
+clean = 0
+useShortNamesForFiles = 1
