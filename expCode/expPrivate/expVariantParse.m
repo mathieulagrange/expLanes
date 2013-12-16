@@ -22,13 +22,18 @@ for k=1:length(names)
         end
     end
     values{k}=eval(values{k});
-    if iscell(values{k})
+    if iscellstr(values{k})
         shortValues{k} = names2shortNames(values{k});
+       if ~all(cellfun(@isempty, strfind(values{k}, '/'))) || ~all(cellfun(@isempty, strfind(values{k}, '\'))) || ~all(cellfun(@isempty, strfind(values{k}, '.')))
+          error(['Invalid set of variants for ' names{k} ' parameter in ' fileName '. the variants shall not include any path-like characters like: ''/'', ''\'', or ''.''.']); 
+       end
         if length(unique(values{k})) < length(values{k})
             error(['Duplicate values of parameter ' names{k} ' in variant file']);
         end
-    else
+    elseif isnumeric(values{k})
         shortValues{k} = values{k};
+    else
+        error(['Invalid set of variants for ' names{k} ' parameter in ' fileName '. Shall be numeric or cell array of strings.']);
     end
 end
 
@@ -64,10 +69,12 @@ for k=1:size(values, 2)
         
         values{k} = num2cell(values{k});
         shortValues{k} = num2cell(shortValues{k});
-    elseif ischar(values{k}{1})
+    elseif iscellstr(values{k})
+        % check if cell array of strings
+        
         stringValues(k) = values(k);
-%         values{k} = values(k);
-%         shortValues{k} = shortValues(k);
+        %         values{k} = values(k);
+        %         shortValues{k} = shortValues(k);
     end
 end
 
