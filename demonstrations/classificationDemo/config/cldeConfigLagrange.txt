@@ -39,3 +39,4 @@ latexCodeOptions = useliterate
 completeName = 
 clean = 0
 useShortNamesForFiles = 1
+pdfViewer =

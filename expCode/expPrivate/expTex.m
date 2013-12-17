@@ -62,4 +62,5 @@ for k=1:length(command)
 end
 warning off
 rmdir(latexPath, 's');
+mkdir(latexPath);
 warning on

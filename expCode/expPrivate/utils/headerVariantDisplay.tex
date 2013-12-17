@@ -1,0 +1,17 @@
+\documentclass{minimal}
+\usepackage[a4paper,margin=1cm,landscape]{geometry}
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,shadows,arrows}
+\usepackage{verbatim}
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}%
+\begin{document}
+\tikzstyle{task}=[draw, rounded corners,
+         anchor=north, align=center, rectangle split part align={center, left}, rectangle split, rectangle split parts=3]
+\tikzstyle{all}=[draw, rounded corners, text=gray,
+         anchor=north, align=center, rectangle split part align={center, left}, rectangle split, rectangle split parts=3]         
+\tikzstyle{taskArrow}=[->, -diamond, thick,double]
+        
+\begin{center}
+\begin{tikzpicture}[node distance=2cm]

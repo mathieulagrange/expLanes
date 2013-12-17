@@ -51,6 +51,12 @@ elseif ischar(commands{1})
             config = expConfig(projectPath, shortProjectName, {});
             showVariants(config.variantFileName);
         case 'c'
+            
+        case 't'
+            config = expConfig(projectPath, shortProjectName);
+            expDisplayTasks(config);
+        otherwise
+            error('Unable to handle command');
     end
     return
 else

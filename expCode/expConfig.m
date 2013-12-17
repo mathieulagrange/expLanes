@@ -26,7 +26,7 @@ config.variantFileName = [projectPath '/config' filesep config.shortProjectName 
 config.variantSpecifications = expVariantParse(config.variantFileName);
 
 
-if nargin>1,
+if nargin>2,
     configOri = config;
     %     if ~mod(nargin, 2)
     config = commandLine(config, commands);
