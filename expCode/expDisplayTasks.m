@@ -10,7 +10,7 @@ end
 texFileName = [latexPath config.shortProjectName 'Tasks.tex'];
 pdfFileName = [config.reportPath 'figures/' config.shortProjectName 'Tasks.pdf'];
 
-copyfile([p '/expPrivate/utils/headerVariantDisplay.tex'], texFileName);
+copyfile([p '/private/utils/headerVariantDisplay.tex'], texFileName);
 
 % all tasks
 allIndex = cellfun(@isempty, config.variantSpecifications.step);

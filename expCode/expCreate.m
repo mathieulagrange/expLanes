@@ -145,10 +145,10 @@ rootString = char({...
     'expDependencies(config);';
     'config = expRun(p, shortProjectName, varargin);';
     '';
-    fileread([expCodePath '/expPrivate/utils/getUserFileName.m'])
-    fileread([expCodePath '/expPrivate/expConfigParse.m'])
-    fileread([expCodePath '/expPrivate/utils/getUserName.m'])
-    fileread([expCodePath '/expPrivate/utils/expDependencies.m'])
+    fileread([expCodePath '/private/utils/getUserFileName.m'])
+    fileread([expCodePath '/private/expConfigParse.m'])
+    fileread([expCodePath '/private/utils/getUserName.m'])
+    fileread([expCodePath '/private/utils/expDependencies.m'])
     });
 
 dlmwrite([config.codePath '/' projectName '.m'], rootString,'delimiter','');
