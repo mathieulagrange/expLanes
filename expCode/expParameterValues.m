@@ -1,9 +1,9 @@
 function values = expParameterValues(config, parameter)
 
-index = strcmp(config.variantSpecifications.names, parameter);
+index = strcmp(config.factorSpecifications.names, parameter);
 
 if isempty(index)
     error(['Unable to find parameter: ' parameter]);
 else
-    values = config.variantSpecifications.values{index};
+    values = config.factorSpecifications.values{index};
 end

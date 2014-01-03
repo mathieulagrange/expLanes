@@ -123,9 +123,9 @@ end
 fclose(fid);
 copyfile([configPath '/' config.shortProjectName 'ConfigDefault.txt'], [configPath '/' config.shortProjectName 'Config' [upper(config.userName(1)) config.userName(2:end)] '.txt']);
 
-% create variants file
-fid = fopen([configPath '/' config.shortProjectName 'Variants.txt'], 'w');
-fprintf(fid, 'method =1== {''methodOne'', ''methodTwo'', ''methodThree''} % method will be defined for step 1 only \nthreshold =s1:=1/[1 3]= [0:10] % threshold is defined for step 1 and the remaining steps, will be sequenced and valid for the 1st and 3rd value of the 1st parameter (methodOne and methodThree) \n\n%% Variants file for the %s project\n%% Adapt at your convenience\n', config.shortProjectName);
+% create modes file
+fid = fopen([configPath '/' config.shortProjectName 'Modes.txt'], 'w');
+fprintf(fid, 'method =1== {''methodOne'', ''methodTwo'', ''methodThree''} % method will be defined for step 1 only \nthreshold =s1:=1/[1 3]= [0:10] % threshold is defined for step 1 and the remaining steps, will be sequenced and valid for the 1st and 3rd value of the 1st parameter (methodOne and methodThree) \n\n%% Modes file for the %s project\n%% Adapt at your convenience\n', config.shortProjectName);
 fclose(fid);
 
 
@@ -160,11 +160,11 @@ config.latex = LatexCreator([config.codePath filesep config.projectName '.tex'],
 for k=1:length(stepNames)
     functionName = [shortProjectName num2str(k) stepNames{k}];
     functionString = char({...
-        ['function [config, store, display] = ' functionName '(config, variant, data)'];
+        ['function [config, store, display] = ' functionName '(config, mode, data)'];
         ['% ' functionName ' ' upper(stepNames{k}) ' step of the expCode project ' projectName];
-        ['%    [config, store, display] = ' functionName '(config, variant, data)'];
+        ['%    [config, store, display] = ' functionName '(config, mode, data)'];
         '%       config : expCode configuration state';
-        '%       variant: current set of parameters';
+        '%       mode: current set of parameters';
         '%       data   : processing data stored during the previous step';
         '%';
         '%       store  : processing data to be saved for the other steps ';
@@ -175,7 +175,7 @@ for k=1:length(stepNames)
         '';
         ['if nargin==0, ' , projectName '(''do'', ' num2str(k) ', ''mask'', {{}}); return; end'];
         '';
-        'disp([config.currentStepName '' '' variant.infoString]);';
+        'disp([config.currentStepName '' '' mode.infoString]);';
         '';
         'store=[];';
         'display=[];';
@@ -183,7 +183,7 @@ for k=1:length(stepNames)
     dlmwrite([config.codePath '/' functionName '.m'], functionString,'delimiter','');
     
     %     fid=fopen([config.codePath '/' functionName '.m'], 'w');
-    %     sprintf('function [config, store, display] = %s(config, variant, data)\n\nif nargin==0, %s(''do'', %d, ''mask'', {{}}); return; end\n\n\n\n', );
+    %     sprintf('function [config, store, display] = %s(config, mode, data)\n\nif nargin==0, %s(''do'', %d, ''mask'', {{}}); return; end\n\n\n\n', );
     %     fclose(fid);
 end
 
@@ -226,7 +226,7 @@ dlmwrite([config.codePath '/' shortProjectName 'Report.m'], functionString,'deli
 readmeString = char({['% This is the README for the experiment ' config.projectName]; ''; ['% Created on ' date() ' by ' config.userName]; ''; '% Purpose: '; ''; '% Reference: '; ''; '% Licence: '; ''; ''});
 dlmwrite([config.codePath '/README.txt'], readmeString, 'delimiter', '')
 % append remaining of the file
-dlmwrite([config.codePath '/README.txt'], fileread([expCodePath '/expPrivate/README.txt']), '-append', 'delimiter', '')
+dlmwrite([config.codePath '/README.txt'], fileread([expCodePath '/private/README.txt']), '-append', 'delimiter', '')
 
 runId=1;
 save([configPath config.shortProjectName], 'runId');

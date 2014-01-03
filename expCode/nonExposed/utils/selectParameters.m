@@ -1,6 +1,6 @@
 function config = selectParameters(config, mode)
 
-config.selectParameters =  config.variantSpecifications.selectParameters;
+config.selectParameters =  config.factorSpecifications.selectParameters;
 config= selectParametersRecursive(config, mode);
 config = rmfield(config, 'selectParameters');
 
@@ -17,7 +17,7 @@ if ~isempty(config.selectParameters)
     s = eval(c{2});
     ss = eval(c{3});
     
-    for k=1:length(config.variantSpecifications.names)
+    for k=1:length(config.factorSpecifications.names)
         s1mask{k} = 0;
         s2mask{k} = 0;
     end
@@ -26,7 +26,7 @@ if ~isempty(config.selectParameters)
     s1mask{s}=ss;
     
     s2mask{p} = -1;
-    s2mask{s} = setxor(ss, 1:length(config.variantSpecifications.values{s}));
+    s2mask{s} = setxor(ss, 1:length(config.factorSpecifications.values{s}));
     
     c1=config;
     c2=config;
@@ -34,8 +34,8 @@ if ~isempty(config.selectParameters)
     c1mask = c1.mask;
     c2mask = c2.mask;
     
-    c1.mask = mergeMask(c1mask, s1mask, config.variantSpecifications.values, mode);
-    c2.mask = mergeMask(c2mask, s2mask, config.variantSpecifications.values, mode);
+    c1.mask = mergeMask(c1mask, s1mask, config.factorSpecifications.values, mode);
+    c2.mask = mergeMask(c2mask, s2mask, config.factorSpecifications.values, mode);
     
     % c1.mask
     % c2.mask

@@ -1,4 +1,4 @@
-function [variants, parameters, parametersMasked, order, sequence] = expVariantsBck(config)
+function [modes, parameters, parametersMasked, order, sequence] = expModesBck(config)
 
 % if mod(nargin, 2)
 %     config = varargin{nargin};
@@ -6,11 +6,11 @@ function [variants, parameters, parametersMasked, order, sequence] = expVariants
 %     config.mask={{}};
 % end
 
-values = config.variantSpecifications.values;
-names = config.variantSpecifications.names;
-shortNames = config.variantSpecifications.shortNames;
-shortValues = config.variantSpecifications.shortValues;
-step = config.variantSpecifications.step;
+values = config.factorSpecifications.values;
+names = config.factorSpecifications.names;
+shortNames = config.factorSpecifications.shortNames;
+shortValues = config.factorSpecifications.shortValues;
+step = config.factorSpecifications.step;
 
 if isempty(config.mask) || isempty(config.mask{1})
     mask = cell(1, size(values, 2));
@@ -42,7 +42,7 @@ if isempty(names), values=[]; return; end
 
 keep=[];
 for k=1:length(mask) % FIXME multiple mask ?
-    if mask{k}(1) ~= -1 %|| length(variants{k})==1 || ischar(variants{k})
+    if mask{k}(1) ~= -1 %|| length(modes{k})==1 || ischar(modes{k})
         keep(end+1) = k;
     end
 end
@@ -73,7 +73,7 @@ end
 % end
 
 
-[v sv n] = buildVariantsCell(values, shortValues, mask);
+[v sv n] = buildModesCell(values, shortValues, mask);
 
 m={};
 invFilter=[];
@@ -115,10 +115,10 @@ for k=1:size(v, 2)
     end
     vn{k} = sprintf('%s, ', t{parameterOrder(invFilter)});
     svn{k} = sprintf('%s_', st{parameterOrder(invFilter)});
-    vnm{k} = sprintf('%s, ', t{invFilterMask}); % FIXME make it invariant
+    vnm{k} = sprintf('%s, ', t{invFilterMask}); % FIXME make it inmode
     svnm{k} = sprintf('%s_', st{invFilterMask});
     
-    variants(k) = cell2struct(v(end:-1:1, k), names);
+    modes(k) = cell2struct(v(end:-1:1, k), names);
     cmTmp = v(end:-1:1, k);
     cmm{k} = cmTmp;
     cm{k} = cmTmp(invFilterMask);
@@ -126,17 +126,17 @@ for k=1:size(v, 2)
 end
 
 for k=1:size(v, 2)
-    variants(k).id = k;
-    variants(k).infoString = vn{k}(1:end-2) ;
-    variants(k).infoShortString = svn{k}(1:end-1);
-    variants(k).infoStringMasked = vnm{k}(1:end-2);
-    variants(k).infoShortStringMasked = svnm{k}(1:end-1);
-    variants(k).infoStringMask = maskInfo(1:end-2);
-    variants(k).infoCellMasked = cm{k}';
-    variants(k).infoCell = cmm{k}';
-    variants(k).infoVariantNames = names(invFilterMask);
-    variants(k).infoVariantShortNames = shortNames(invFilterMask);
-    variants(k).infoId = n(end:-1:1, k)';
+    modes(k).id = k;
+    modes(k).infoString = vn{k}(1:end-2) ;
+    modes(k).infoShortString = svn{k}(1:end-1);
+    modes(k).infoStringMasked = vnm{k}(1:end-2);
+    modes(k).infoShortStringMasked = svnm{k}(1:end-1);
+    modes(k).infoStringMask = maskInfo(1:end-2);
+    modes(k).infoCellMasked = cm{k}';
+    modes(k).infoCell = cmm{k}';
+    modes(k).infoModeNames = names(invFilterMask);
+    modes(k).infoModeShortNames = shortNames(invFilterMask);
+    modes(k).infoId = n(end:-1:1, k)';
 end
 
 parametersMasked.name = names(invFilterMask);
@@ -152,9 +152,9 @@ for k=1:length(fMask)
     end
 end
 
-parameters.list = enumsFromInfo([variants(:).infoCell], parameters);
+parameters.list = enumsFromInfo([modes(:).infoCell], parameters);
 
-parametersMasked.list = enumsFromInfo([variants(:).infoCellMasked], parametersMasked);
+parametersMasked.list = enumsFromInfo([modes(:).infoCellMasked], parametersMasked);
 
 
 
@@ -165,17 +165,17 @@ parametersMasked.list = enumsFromInfo([variants(:).infoCellMasked], parametersMa
 %     parametersMasked.list = enums;
 % end
 
-if length(variants) >1
-    sequence = sequencingVariants(config, variants, parametersMasked);
+if length(modes) >1
+    sequence = sequencingModes(config, modes, parametersMasked);
 else
     sequence = {1};
 end
 
 
-for k=1:length(variants)
-    vv{k} = variants(k);
+for k=1:length(modes)
+    vv{k} = modes(k);
 end
-variants=vv;
+modes=vv;
 
 end
 
@@ -196,24 +196,24 @@ for k=1:size(enums, 2)
 end
 end
 
-function sequence = sequencingVariants(config, variants, parameters)
+function sequence = sequencingModes(config, modes, parameters)
 
-sequence = num2cell(1:length(variants));
+sequence = num2cell(1:length(modes));
 
 if isfield(config, 'sequentialParameter') && ~isempty(config.sequentialParameter)
     pIndex = find(strcmp(parameters.name, config.sequentialParameter));
     if ~isempty(pIndex)
         pValues =  parameters.set{pIndex};
-        notDone = ones(1, length(variants));
-        nbSequences = length(variants)/length(pValues);
+        notDone = ones(1, length(modes));
+        nbSequences = length(modes)/length(pValues);
         sequence = cell(1, nbSequences);
         activeSequence = 1;
         while sum(notDone)
-            for k=1:length(variants)
+            for k=1:length(modes)
                 if notDone(k) && length(sequence{activeSequence}) < length(pValues) && ...
-                        (ischar(variants(k).(config.sequentialParameter)) && strcmp(variants(k).(config.sequentialParameter), pValues{length(sequence{activeSequence})+1})...
+                        (ischar(modes(k).(config.sequentialParameter)) && strcmp(modes(k).(config.sequentialParameter), pValues{length(sequence{activeSequence})+1})...
                         || ...
-                        isnumeric(variants(k).(config.sequentialParameter)) && variants(k).(config.sequentialParameter) == pValues{length(sequence{activeSequence})+1}),
+                        isnumeric(modes(k).(config.sequentialParameter)) && modes(k).(config.sequentialParameter) == pValues{length(sequence{activeSequence})+1}),
                     sequence{activeSequence}(end+1) = k;
                     notDone(k) = 0;
                 end
@@ -226,26 +226,26 @@ end
 end
 
 
-function [v sv, n] = buildVariantsCell(variants, shortVariants, mask)
+function [v sv, n] = buildModesCell(modes, shortModes, mask)
 
 
-if length(variants)>1
-    [pvs spvs pns] = buildVariantsCell(variants(2:end), shortVariants(2:end), mask(2:end));
+if length(modes)>1
+    [pvs spvs pns] = buildModesCell(modes(2:end), shortModes(2:end), mask(2:end));
     v=[];
     sv=[];
     n=[];
     if mask{1}>0
         it = mask{1};
     else
-        it = 1:length(variants{1});
+        it = 1:length(modes{1});
     end
     for k=it
         pv=pvs;
         spv=spvs;
         pn=pns;
         for l=1:size(pv, 2)
-            pv{size(pvs, 1)+1, l} = variants{1}{k};
-            spv{size(spvs, 1)+1, l} = shortVariants{1}{k};
+            pv{size(pvs, 1)+1, l} = modes{1}{k};
+            spv{size(spvs, 1)+1, l} = shortModes{1}{k};
             pn(size(pns, 1)+1, l) = k;
         end
         v = [v pv];
@@ -254,13 +254,13 @@ if length(variants)>1
     end
 else
     if mask{1}>0
-        v= variants{1}(mask{1});
-        sv= shortVariants{1}(mask{1});
+        v= modes{1}(mask{1});
+        sv= shortModes{1}(mask{1});
         n= mask{1};
     else
-        v= variants{1};
-        sv= shortVariants{1};
-        n= 1:length(variants{1});
+        v= modes{1};
+        sv= shortModes{1};
+        n= 1:length(modes{1});
     end
 end
 end

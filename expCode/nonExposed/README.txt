@@ -8,7 +8,7 @@
 % Please have a look at the Config file. It allows you to set the general
 % configuration parameters.
 
-% Next, please have a look at the Variants file. It allows you to set the
+% Next, please have a look at the Modes file. It allows you to set the
 % specific parameters that need to be set and tested for every
 % configurations of your algorithm under evaluation.
 

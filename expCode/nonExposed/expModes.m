@@ -1,10 +1,10 @@
-function stepVariant = expVariants(vSpec, mask, currentStep)
+function stepMode = expModes(vSpec, mask, currentStep)
 
-vSet = expVariantSet(vSpec, mask, currentStep);
+vSet = expModeSet(vSpec, mask, currentStep);
 
-variants = expVariantBuild(vSpec, vSet);
+modes = expModeBuild(vSpec, vSet);
 
-sequence = expVariantSequence(vSpec, vSet);
+sequence = expModeSequence(vSpec, vSet);
 
 e=[];
 for k=1:size(vSet, 1)
@@ -26,10 +26,10 @@ parameters.list = list(e, :)';
 parameters.names = vSpec.names(e);
 parameters.values = values(e);
 
-stepVariant.variants = variants;
-stepVariant.sequence = sequence;
-stepVariant.parameters = parameters;
-stepVariant.set = vSet;
-stepVariant.id = currentStep;
+stepMode.modes = modes;
+stepMode.sequence = sequence;
+stepMode.parameters = parameters;
+stepMode.set = vSet;
+stepMode.id = currentStep;
 
 

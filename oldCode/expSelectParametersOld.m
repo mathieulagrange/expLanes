@@ -1,14 +1,14 @@
-function mask = expSelectParametersOld(variantSpecifications, mask, mode, rec)
+function mask = expSelectParametersOld(factorSpecifications, mask, mode, rec)
 
 if ~exist('mode', 'var'), mode=-1; end
 if ~exist('rec', 'var'), rec=1; end
 
-if ~isempty(variantSpecifications.selectParameters)
+if ~isempty(factorSpecifications.selectParameters)
     %     if rec==1
     %         mask = {mask};
     %     end
     % else
-    c = regexp(variantSpecifications.selectParameters{1}, '/', 'split');
+    c = regexp(factorSpecifications.selectParameters{1}, '/', 'split');
     if length(c)==3
         c{4} = '0';
     end
@@ -17,7 +17,7 @@ if ~isempty(variantSpecifications.selectParameters)
     s = eval(c{2});
     ss = eval(c{3});
     
-    for k=1:length(variantSpecifications.names)
+    for k=1:length(factorSpecifications.names)
         s1mask{k} = 0;
         s2mask{k} = 0;
     end
@@ -26,16 +26,16 @@ if ~isempty(variantSpecifications.selectParameters)
     s1mask{s}=ss;
     
     s2mask{p} = -1;
-    s2mask{s} = setxor(ss, 1:length(variantSpecifications.values{s}));
+    s2mask{s} = setxor(ss, 1:length(factorSpecifications.values{s}));
     
-    c1mask = mergeMask(mask, s1mask, variantSpecifications.values, mode);
-    c2mask = mergeMask(mask, s2mask, variantSpecifications.values, mode);
+    c1mask = mergeMask(mask, s1mask, factorSpecifications.values, mode);
+    c2mask = mergeMask(mask, s2mask, factorSpecifications.values, mode);
     mask = [c1mask c2mask];
     
     
-    variantSpecifications.selectParameters(1) = [];
+    factorSpecifications.selectParameters(1) = [];
     rec=rec+1;
-    mask= expSelectParameters(variantSpecifications, mask, mode, rec);
+    mask= expSelectParameters(factorSpecifications, mask, mode, rec);
 end
 
 function mask = mergeMask(m, s, values, mode)

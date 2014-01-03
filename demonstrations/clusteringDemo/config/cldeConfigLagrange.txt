@@ -47,7 +47,7 @@ host = 0
 localDependencies = 0
 % log level (set to 0 for no log)
 log = 1
-% variants Mask
+% modes Mask
 mask = {{}}
 % memo message
 message = default

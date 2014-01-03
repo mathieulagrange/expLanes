@@ -19,7 +19,7 @@ machineNames = {'mo-lagrange.irccyn.ec-nantes.fr', 'pc-adtsi-sunda.irccyn.ec-nan
 parallel = 0 
 % host index
 host = 0
-% variants Mask
+% factor Mask
 mask = {{}}
 % processing steps to do: -1 none, 0 all, >0 processing step by numeric id
 do = -1

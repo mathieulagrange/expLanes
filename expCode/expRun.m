@@ -48,9 +48,9 @@ config.runInfo=[];
 if config.do>-1
     fprintf('Project %s: running on host %s: \n', config.projectName, config.hostName);
     for k=1:length(config.do)
-        [config.stepVariants{config.do(k)}] = expVariants(config.variantSpecifications, config.mask, config.do(k));
+        [config.stepModes{config.do(k)}] = expModes(config.factorSpecifications, config.mask, config.do(k));
         
-        config.runInfo{k} = sprintf(' - step %s with %s (%d variants)', config.stepName{config.do(k)}, config.stepVariants{config.do(k)}.variants(1).infoStringMask, length(config.stepVariants{config.do(k)}.variants));
+        config.runInfo{k} = sprintf(' - step %s with %s (%d modes)', config.stepName{config.do(k)}, config.stepModes{config.do(k)}.modes(1).infoStringMask, length(config.stepModes{config.do(k)}.modes));
         disp(config.runInfo{k});
     end
     if config.show>0
@@ -62,11 +62,11 @@ else
     end
 end
 for k=1:length(rem)
-    [config.stepVariants{rem(k)}] = expVariants(config.variantSpecifications, config.mask, rem(k));
+    [config.stepModes{rem(k)}] = expModes(config.factorSpecifications, config.mask, rem(k));
 end
 
-% if ~isfield(config, 'stepVariants') || isempty(config.stepVariants{length(config.stepName)})
-%      [config.stepVariants{length(config.stepName)}.variants config.stepVariants{length(config.stepName)}.variantSequence config.stepVariants{length(config.stepName)}.parameters config.stepVariants{length(config.stepName)}.variantSet] = expVariants(config.variantSpecifications, config.mask, length(config.stepName));
+% if ~isfield(config, 'stepModes') || isempty(config.stepModes{length(config.stepName)})
+%      [config.stepModes{length(config.stepName)}.modes config.stepModes{length(config.stepName)}.modeSequence config.stepModes{length(config.stepName)}.parameters config.stepModes{length(config.stepName)}.modeSet] = expModes(config.factorSpecifications, config.mask, length(config.stepName));
 % end
 
 if isfield(config, 'serverConfig')

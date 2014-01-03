@@ -13,9 +13,9 @@ stepName = config.stepName{config.currentStep};
 path = [config.dataPath stepName filesep];
 
 if config.useShortNamesForFiles
-    name = config.currentVariant.infoShortString;
+    name = config.currentMode.infoShortString;
 else
-    name = config.currentVariant.infoString;
+    name = config.currentMode.infoString;
 end
 
 if config.dummy

@@ -22,16 +22,16 @@ end
 waitCount=1;
 while neededSize>availableMemory/8
     if config.probe
-        expLog(config, sprintf('Warning: there may be not enough memory to run task %s on variant %s.\nNeeded: %d Available %d (in double)\n', config.taskName{config.currentTask}, config.currentVariant.infoString, neededSize, availableMemory/8), 2);
+        expLog(config, sprintf('Warning: there may be not enough memory to run task %s on mode %s.\nNeeded: %d Available %d (in double)\n', config.taskName{config.currentTask}, config.currentMode.infoString, neededSize, availableMemory/8), 2);
         return;
     else
-        expLog(config, sprintf('Not enough memory to run task %s on variant %s.\n Needed: %d Available %d (in double)\n Attempting to resume in 1 minute...\n', config.taskName{config.currentTask}, config.currentVariant.infoString, neededSize, availableMemory/8), 2);
+        expLog(config, sprintf('Not enough memory to run task %s on mode %s.\n Needed: %d Available %d (in double)\n Attempting to resume in 1 minute...\n', config.taskName{config.currentTask}, config.currentMode.infoString, neededSize, availableMemory/8), 2);
         pause(60);
         availableMemory = vmStatCall(neededSize);
         waitCount = waitCount+1;
         if waitCount > 60*6
             % todo sendMail
-            s=sprintf('Not enough memory to run task %s on variant %s.\n Needed: %d Available %d (in double)\n', config.taskName{config.currentTask}, config.currentVariant.infoString, neededSize, availableMemory/8);
+            s=sprintf('Not enough memory to run task %s on mode %s.\n Needed: %d Available %d (in double)\n', config.taskName{config.currentTask}, config.currentMode.infoString, neededSize, availableMemory/8);
             error(s);
         end
     end

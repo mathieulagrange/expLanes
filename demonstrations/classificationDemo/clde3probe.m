@@ -1,8 +1,8 @@
-function [config, store, display] = clde3probe(config, variant, data)
+function [config, store, display] = clde3probe(config, mode, data)
 
 if nargin==0, classificationDemo('do', 3, 'mask', {{2}}); return; end
 
-switch variant.method
+switch mode.method
     case 'knn'
         % nothing to be done for the knn approach
         store=[];

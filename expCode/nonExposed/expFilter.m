@@ -5,7 +5,7 @@ data = config.evaluation.results;
 
 
 fData = data;
-variantSelector = 1:length(config.variants);
+modeSelector = 1:length(config.modes);
 
 if  parameterExpand ~= 0 % TODO allow expand with mutiple metrics
     if length(config.evaluation.metrics)==1
@@ -19,15 +19,15 @@ if  parameterExpand ~= 0 % TODO allow expand with mutiple metrics
     if length(metricSelector)==1 && parameterExpand >0
         % use one parameter to rearrange data
         pList = config.parameters.list(:, parameterExpand);
-        nExpand = length(config.variantSpecifications.values{parameterExpand});
-        variantSelector = (1:length(pList));
+        nExpand = length(config.factorSpecifications.values{parameterExpand});
+        modeSelector = (1:length(pList));
         % sort
         [null, idx] = sort(pList);
-        variantSelector = variantSelector(idx);
+        modeSelector = modeSelector(idx);
         % cut
         fData = fData(idx, :, :);
         fSize = size(fData, 1)/nExpand;
-        variantSelector = variantSelector(1:fSize);
+        modeSelector = modeSelector(1:fSize);
         % reshape
         fData = reshape(fData, fSize, nExpand, size(fData, 3));
     end
@@ -71,11 +71,11 @@ else
 end
 
 parameterSelected = {};
-for k=1:length(config.variantSpecifications.names)
-    vsk = config.variantSet(k, select);
+for k=1:length(config.factorSpecifications.names)
+    vsk = config.modeSet(k, select);
     vsk(vsk==0)=[];
     if length(unique(vsk))>1
-        parameterSelected(end+1) = config.variantSpecifications.names(k);
+        parameterSelected(end+1) = config.factorSpecifications.names(k);
     end
 end
 
@@ -100,10 +100,10 @@ dataDisplay.parameterSelector = parameterSelector;
 dataDisplay.parameterExpand = parameterExpand;
 dataDisplay.metricSelector = metricSelector;
 dataDisplay.varData = vData(select, :);
-if isempty(variantSelector)
-    dataDisplay.variantSelector = [];
+if isempty(modeSelector)
+    dataDisplay.modeSelector = [];
 else
-    dataDisplay.variantSelector = variantSelector(select);
+    dataDisplay.modeSelector = modeSelector(select);
 end
 
 

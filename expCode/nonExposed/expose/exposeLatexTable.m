@@ -5,7 +5,7 @@ if p.highlight
     numCell(data.highlights==1) = strcat('\textbf{', numCell(data.highlights==1), '}');
 end
 
-dataCell = [strrep(config.parameters.list(data.variantSelector, data.parameterSelector), '_', '\_') numCell];
+dataCell = [strrep(config.parameters.list(data.modeSelector, data.parameterSelector), '_', '\_') numCell];
 
 dataCell = expSortData(dataCell, p.sort, data.parameterSelector, config);
 

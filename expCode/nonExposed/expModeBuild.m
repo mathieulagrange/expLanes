@@ -1,4 +1,4 @@
-function v = expVariantBuild(vSpec, vSet)
+function v = expModeBuild(vSpec, vSet)
 
 mask=[];
 for k=1:size(vSet, 1)
@@ -98,7 +98,7 @@ for k=1:size(vSet, 2)
     v(k).infoStringMask = maskInfo(1:end-2);
 %          v(k).infoCellMasked = cm{k}';
 %          v(k).infoCell = cmm{k}';
-    v(k).infoVariantNames = vSpec.names(invFilterMask);
+    v(k).infoModeNames = vSpec.names(invFilterMask);
     v(k).infoShortNames = vSpec.shortNames(invFilterMask);
     v(k).infoId = vSet(:, k)';
 end

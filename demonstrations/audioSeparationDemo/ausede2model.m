@@ -1,12 +1,12 @@
-function [config, store, display] = ausede2model(config, variant, data)
+function [config, store, display] = ausede2model(config, mode, data)
 
 if nargin==0, audioSeparationDemo('do', 2, 'mask', {{2, 5, 1, 1, 5}}, 'display', '>'); return; end
 
-disp([config.currentStepName ' ' variant.infoString]);
+disp([config.currentStepName ' ' mode.infoString]);
 
 % propagate source, noise and mix for the next step
 store=data;
-switch variant.method
+switch mode.method
     % Ideal Binary Mask (IBM)
     case 'ibm' % compute the magnitude spectrogram of the source
         SS = abs(computeSpectrogram(data.source, config.fftlen, config.samplingFrequency));
@@ -25,13 +25,13 @@ switch variant.method
         [n,m]=size(SM);
         if isempty(config.sequentialData)
             % first step of the sequential run
-            nbIterations = variant.nbIterations;
+            nbIterations = mode.nbIterations;
             % initialize dictionary and activation matrices
-            W=rand(n,variant.dictionarySize);
-            H=rand(variant.dictionarySize,m);
+            W=rand(n,mode.dictionarySize);
+            H=rand(mode.dictionarySize,m);
         else
             % continuing step of the sequential run
-            nbIterations = variant.nbIterations-config.sequentialData.nbIterations;
+            nbIterations = mode.nbIterations-config.sequentialData.nbIterations;
             % get dictionary and activation matrices from the sequential
             % data of the previous run
             W = config.sequentialData.W;
@@ -55,7 +55,7 @@ switch variant.method
         store.H = H;
         % save dictionary and activation matrices and number of iterations 
         % already done for the next step of the sequential run
-        config.sequentialData.nbIterations = variant.nbIterations;
+        config.sequentialData.nbIterations = mode.nbIterations;
         config.sequentialData.W = W;
         config.sequentialData.H = H;        
         % record likelihood

@@ -7,7 +7,7 @@ if nargin<3, dest=0; end
 oriConfig = expConfig('host', ori);
 destConfig = expConfig('host', dest);
 
-% TODO path could be parameter of variants for selecting database
+% TODO path could be parameter of modes for selecting database
 
 % build path
 if isnumeric(list)

@@ -1,8 +1,8 @@
-function [config, store, display] = clde2train(config, variant, data)
+function [config, store, display] = clde2train(config, mode, data)
 
 if nargin==0, classificationDemo('do', 2, 'mask', {{1}}); return; end
 
-switch variant.method
+switch mode.method
     case 'knn'
         % no display for the knn approach
         display = [];
@@ -12,18 +12,18 @@ switch variant.method
         % no output for gmm training
         options(1)=-1;
         % get training data for the actual class
-        trainingData = data(1).samples(data(1).class == variant.class, :);
+        trainingData = data(1).samples(data(1).class == mode.class, :);
         % usage of sequential mode
         if isempty(config.sequentialData)
             % first step of the sequential run
-            mix = gmm(variant.nbDimensions, variant.nbGaussians, 'diag');
+            mix = gmm(mode.nbDimensions, mode.nbGaussians, 'diag');
             options(14) = 100;
             % initialize gmm model using kmeans
             mix = gmminit(mix, trainingData, options);
-            options(14) = variant.nbIterations;
+            options(14) = mode.nbIterations;
         else
             % continuing step of the sequential run
-            options(14) = variant.nbIterations-config.sequentialData.nbIterations;
+            options(14) = mode.nbIterations-config.sequentialData.nbIterations;
             % get model from the sequential data of the previous run
             mix = config.sequentialData.gmm;
         end
@@ -35,7 +35,7 @@ switch variant.method
         store.model = model;
         % save model and number of iterations already done for the next
         % step of the sequential run
-        config.sequentialData.nbIterations = variant.nbIterations;
+        config.sequentialData.nbIterations = mode.nbIterations;
         config.sequentialData.gmm = model;       
 end
 

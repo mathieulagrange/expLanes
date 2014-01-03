@@ -1,17 +1,17 @@
-function [config, store, display] = side1generateData(config, variant, data, display)
+function [config, store, display] = side1generateData(config, mode, data, display)
 
 if nargin==0, similarityDemo('do', 1, 'mask', {{}}); return; end
 
-disp([config.currentStepName ' ' variant.infoString]);
+disp([config.currentStepName ' ' mode.infoString]);
 
 tic
 
-for k=1:variant.nbRealizations
+for k=1:mode.nbRealizations
     classData = [];
     class = [];
-    for m=1:variant.nbClasses
-        classData = [classData; repmat(m*variant.spread/20, variant.nbElementsPerClass, variant.nbDimensions)+randn(variant.nbElementsPerClass, variant.nbDimensions)];
-        class = [class; m*ones(variant.nbElementsPerClass, 1)];
+    for m=1:mode.nbClasses
+        classData = [classData; repmat(m*mode.spread/20, mode.nbElementsPerClass, mode.nbDimensions)+randn(mode.nbElementsPerClass, mode.nbDimensions)];
+        class = [class; m*ones(mode.nbElementsPerClass, 1)];
     end
     %     scatter(classData(:, 1), classData(:, 2), 50, class, 'filled');
     

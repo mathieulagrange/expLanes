@@ -2,7 +2,7 @@ function config = expHistory(projectPath, shortProjectName, commands)
 
 if length(commands)<1,
     config = expConfig(projectPath, shortProjectName, commands);
-    showVariants(config.variantFileName);
+    showModes(config.factorFileName);
     fprintf('---------------------------\nHistory: \n');
     fid = fopen([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt'], 'rt');
     if fid>0
@@ -49,7 +49,7 @@ elseif ischar(commands{1})
     switch commands{1}
         case 'v'
             config = expConfig(projectPath, shortProjectName, {});
-            showVariants(config.variantFileName);
+            showModes(config.factorFileName);
         case 'c'
             
         case 's'
@@ -99,9 +99,9 @@ if ~isempty(strfind(lastCommand, ''''))
     fclose(fid);
 end
 
-function showVariants(fileName)
+function showModes(fileName)
 
-fprintf('Variants:\n');
+fprintf('Modes:\n');
 fid=fopen(fileName);
 k=1;
 while ~feof(fid)

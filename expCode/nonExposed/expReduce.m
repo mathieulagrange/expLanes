@@ -8,7 +8,7 @@ reduceFileName = [config.dataPath config.stepName{config.currentStep} filesep 'r
 if exist(reduceFileName, 'file')
     % get vSet
     loadedData=load(reduceFileName, 'vSet');
-    if isequal(loadedData.vSet, config.variantSet)
+    if isequal(loadedData.vSet, config.modeSet)
         loadedData=load(reduceFileName, 'data');
         data = loadedData.data;
     end
@@ -20,8 +20,8 @@ if isempty(data)%
     config.loadFileInfo.date = {'', ''};
     config.loadFileInfo.dateNum = [Inf, 0];
     
-    for k=1:length(config.variants)
-        config.currentVariant = config.variants(k);
+    for k=1:length(config.modes)
+        config.currentMode = config.modes(k);
         
         config = expLoad(config, [], [], 'display');
         if ~isempty(config.load)
@@ -31,7 +31,7 @@ if isempty(data)%
     
     if config.loadFileInfo.dateNum(2)
         disp(['Loaded data files dates are in the range: | ' config.loadFileInfo.date{1} ' || ' config.loadFileInfo.date{2} ' |']);
-        vSet = config.variantSet; %#ok<NASGU>
+        vSet = config.modeSet; %#ok<NASGU>
         save(reduceFileName, 'data', 'vSet', 'config');
         if ~strcmp(config.message, 'default')
             copyfile(reduceFileName, [config.reportPath config.projectName '_' config.message '.mat']);
@@ -82,7 +82,7 @@ else
         for m=1:length(data)
             if isfield(data{m}, structMetrics{k})
                 structResults.(structMetrics{k})(n) = data{m}.(structMetrics{k});
-                %             structResults.(structMetrics{k})(n).variant = config.variants(m);
+                %             structResults.(structMetrics{k})(n).mode = config.modes(m);
                 n=n+1;
             end
         end

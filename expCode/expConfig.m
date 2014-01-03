@@ -1,7 +1,7 @@
 function config = expConfig(projectPath, shortProjectName, commands)
 
 % TODO etudier la possibilite de compiler le code pour se passer de
-% parallel : mettre toute les variantes dans un fichier proteger par un
+% parallel : mettre toute les modees dans un fichier proteger par un
 % lock
 
 % TODO command to purge server code base
@@ -22,8 +22,8 @@ if isempty(config.completeName)
     config.completeName = config.userName;
 end
 
-config.variantFileName = [projectPath '/config' filesep config.shortProjectName 'Variants.txt'];
-config.variantSpecifications = expVariantParse(config.variantFileName);
+config.factorFileName = [projectPath '/config' filesep config.shortProjectName 'Factors.txt'];
+config.factorSpecifications = expFactorParse(config.factorFileName);
 
 
 if nargin>2,

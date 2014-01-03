@@ -1,15 +1,15 @@
-function [config, store, display] = clde4test(config, variant, data)
+function [config, store, display] = clde4test(config, mode, data)
 
 if nargin==0, classificationDemo('do', 4, 'mask', {{1, 0, 0, 0, 0, 2}}); return; end
 
-disp([config.currentStepName ' ' variant.infoString]);
+disp([config.currentStepName ' ' mode.infoString]);
 
 % no storage for this step
 store=[];
 % get number of classes
 nbClasses = length(expParameterValues(config, 'class'));
 
-switch variant.method
+switch mode.method
     case 'knn'
         % load the result of step 2 (train)
         config = expLoad(config, [], 2);
@@ -24,7 +24,7 @@ switch variant.method
         % put ground truth to the netlab format
         classMatrix = netClass(class);
         % initialize the knn
-        net = knn(size(model.samples, 2), nbClasses, variant.nbNeighbors, model.samples, classMatrix);
+        net = knn(size(model.samples, 2), nbClasses, mode.nbNeighbors, model.samples, classMatrix);
         % get the prediction from the knn over the testing data
         [nn prediction] = knnfwd(net, samples);
         prediction = prediction.';

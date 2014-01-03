@@ -34,7 +34,7 @@ config.logFile = fopen([config.reportPath 'config.txt'], 'w');
 fprintf(config.logFile, '\n%s\n', evalc('disp(config)'));
 fclose(config.logFile);
 
-config.currentVariant = [];
+config.currentMode = [];
 
 step = config.do;
 
@@ -66,12 +66,12 @@ if all(step>0)
             end
             
             if config.parallel(step(k))>0 % ~= 1 % length(config.stepName)
-                parfor l=1:length(config.variantSequence)
-                    expProcessOne(config, config.variants(config.variantSequence{l}), step(k));
+                parfor l=1:length(config.modeSequence)
+                    expProcessOne(config, config.modes(config.modeSequence{l}), step(k));
                 end
             else
-                for l=1:length(config.variantSequence)
-                    config = expProcessOne(config, config.variants(config.variantSequence{l}), step(k));
+                for l=1:length(config.modeSequence)
+                    config = expProcessOne(config, config.modes(config.modeSequence{l}), step(k));
                 end
                 
             end
@@ -88,8 +88,8 @@ if all(step>0)
             if exist(reduceDataFileName, 'file')
                 delete(reduceDataFileName);
             end
-            for l=1:length(config.variantSequence)
-                config = expProcessOne(config, config.variants(config.variantSequence{l}), step(k));
+            for l=1:length(config.modeSequence)
+                config = expProcessOne(config, config.modes(config.modeSequence{l}), step(k));
             end
         end
     end
@@ -97,16 +97,16 @@ end
 
 config.runDuration=ceil(toc/60);
 
-function config = expProcessOne(config, variant, step)
+function config = expProcessOne(config, mode, step)
 
 config.currentStepName = config.stepName{config.currentStep};
 
 config.sequentialData = [];
 
-for k=1:length(variant)
-    config.currentVariant = variant(k);
+for k=1:length(mode)
+    config.currentMode = mode(k);
     try
-        config = expProcessOneSub(config, config.currentVariant, step);
+        config = expProcessOneSub(config, config.currentMode, step);
     catch error
         if config.host == 0
             rethrow(error);
@@ -116,12 +116,12 @@ for k=1:length(variant)
     end
 end
 
-function config = expProcessOneSub(config, variant, step)
+function config = expProcessOneSub(config, mode, step)
 
 functionName = [config.shortProjectName num2str(step) config.stepName{step}];
 
 if config.redo==0 && (exist(expSave(config, [], 'store'), 'file') || exist(expSave(config, [], 'display'), 'file'))
-   disp(['skipping ' config.currentStepName ' ' config.currentVariant.infoString]);
+   disp(['skipping ' config.currentStepName ' ' config.currentMode.infoString]);
    return
 end
 
@@ -139,7 +139,7 @@ else
     loadedData = config.initStore;
 end
 
-[config storeData storeDisplay] = feval(functionName, config, variant, loadedData);
+[config storeData storeDisplay] = feval(functionName, config, mode, loadedData);
 
 if ~isempty(storeData)
     expSave(config, storeData, 'store');

@@ -39,12 +39,12 @@ else
 end
 
 if nargin<2 || isempty(name)
-    %     variant = expVariantBuild(config.variantSpecifications, config.currentVariant.infoId');
-    tv = expVariants(config.variantSpecifications, {num2cell(config.currentVariant.infoId)}, inputId); % TODO slow but useful, detect if data flow is contracting
+    %     mode = expModeBuild(config.factorSpecifications, config.currentMode.infoId');
+    tv = expModes(config.factorSpecifications, {num2cell(config.currentMode.infoId)}, inputId); % TODO slow but useful, detect if data flow is contracting
     if config.useShortNamesForFiles
-        names = {tv.variants(:).infoShortString}; % FIXME should be masked
+        names = {tv.modes(:).infoShortString}; % FIXME should be masked
     else
-        names = {tv.variants(:).infoString}; % FIXME should be masked
+        names = {tv.modes(:).infoString}; % FIXME should be masked
     end
 end
 

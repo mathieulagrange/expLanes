@@ -60,7 +60,7 @@ if iscell(config.mask)
     end
 end
 
-config.stepVariants{config.currentStep} = expVariants(config.variantSpecifications, config.mask, config.currentStep);
+config.stepModes{config.currentStep} = expModes(config.factorSpecifications, config.mask, config.currentStep);
 config = expSetStep(config);
 config = expReduce(config);
 
@@ -77,9 +77,9 @@ if ~isempty(p.order),
 end
 if p.expand,
     if ~isnumeric(p.expand)
-        p.expand = find(strcmp(config.variantSpecifications.names, p.expand));
+        p.expand = find(strcmp(config.factorSpecifications.names, p.expand));
     end
-    p.expandName = config.variantSpecifications.names{p.expand};
+    p.expandName = config.factorSpecifications.names{p.expand};
     mask = config.mask;
     for k=1:length(mask)
         if sum(size(mask{k}))<p.expand
@@ -87,8 +87,8 @@ if p.expand,
         end
         mask{k}{p.expand} = -1;
     end
-    tv = expVariants(config.variantSpecifications, mask, config.currentStep);
-    config.variants = tv.variants;
+    tv = expModes(config.factorSpecifications, mask, config.currentStep);
+    config.modes = tv.modes;
     config.sequence = tv.sequence;
     %      config.parameters = tv.parameters;
     p.expand = find(strcmp(config.parameters.names, p.expandName));
@@ -101,9 +101,9 @@ end
 
 data = expFilter(config, p.expand, p.metric);
 
-p.title = strrep(p.title, '+', config.variants(1).infoStringMask);
+p.title = strrep(p.title, '+', config.modes(1).infoStringMask);
 p.caption = strrep(p.caption, '=', p.title);
-p.caption = strrep(p.caption, '+', config.variants(1).infoStringMask);
+p.caption = strrep(p.caption, '+', config.modes(1).infoStringMask);
 p.caption = strrep(p.caption, '_', '\_');
 
 if data.parameterExpand
@@ -127,8 +127,8 @@ else
     p.xAxis='';
 end
 
-for k=1:length(config.variants)
-    p.labels{k} = strrep(config.variants(k).infoShortStringMasked, '_', ' '); % (data.variantSelector)
+for k=1:length(config.modes)
+    p.labels{k} = strrep(config.modes(k).infoShortStringMasked, '_', ' '); % (data.modeSelector)
 end
 p.axisLabels = config.evaluation.metrics(data.metricSelector);
 

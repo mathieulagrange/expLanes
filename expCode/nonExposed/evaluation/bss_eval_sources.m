@@ -4,7 +4,7 @@ function [SDR,SIR,SAR,perm]=bss_eval_sources(se,s)
 % estimated source signals in terms of filtered true source, interference
 % and artifacts.
 % 
-% The decomposition allows a time-invariant filter distortion of length
+% The decomposition allows a time-inmode filter distortion of length
 % 512, as described in Section III.B of the reference below.
 %
 % [SDR,SIR,SAR,perm]=bss_eval_sources(se,s)
@@ -72,7 +72,7 @@ function [s_true,e_spat,e_interf,e_artif]=bss_decomp_mtifilt(se,s,j,flen)
 % BSS_DECOMP_MTIFILT Decomposition of an estimated source image into four
 % components representing respectively the true source image, spatial (or
 % filtering) distortion, interference and artifacts, derived from the true
-% source images using multichannel time-invariant filters.
+% source images using multichannel time-inmode filters.
 %
 % [s_true,e_spat,e_interf,e_artif]=bss_decomp_mtifilt(se,s,j,flen)
 %
@@ -80,7 +80,7 @@ function [s_true,e_spat,e_interf,e_artif]=bss_decomp_mtifilt(se,s,j,flen)
 % se: nchan x nsampl matrix containing the estimated source image (one row per channel)
 % s: nsrc x nsampl x nchan matrix containing the true source images
 % j: source index corresponding to the estimated source image in s
-% flen: length of the multichannel time-invariant filters in samples
+% flen: length of the multichannel time-inmode filters in samples
 %
 % Outputs:
 % s_true: nchan x nsampl matrix containing the true source image (one row per channel)

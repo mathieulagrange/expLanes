@@ -1,8 +1,8 @@
 function [config, permutationVector] = expOrder(config, order)
 
-order = [order setdiff(1:length(config.variantSpecifications.names), order)];
+order = [order setdiff(1:length(config.factorSpecifications.names), order)];
 
-vSpec = config.variantSpecifications;
+vSpec = config.factorSpecifications;
 
 vSpec.names = vSpec.names(order);
 vSpec.shortNames = vSpec.shortNames(order);
@@ -18,15 +18,15 @@ for k=1:length(select)
 end
 vSpec.selectParameters = select;
 
-[config.variants s config.parameters vSet] = expVariants(vSpec, config.mask, config.currentStep);
+[config.modes s config.parameters vSet] = expModes(vSpec, config.mask, config.currentStep);
 
 for k=1:size(vSet, 2)
     for m=1:length(vSet)
-        if all(vSet(:, k)==config.variantSet(order, m))
+        if all(vSet(:, k)==config.modeSet(order, m))
             permutationVector(k) = m;
         end
     end
 end
 
-config.variantSet = vSet;
+config.modeSet = vSet;
 config.evaluation.results = config.evaluation.results(permutationVector, :, :);

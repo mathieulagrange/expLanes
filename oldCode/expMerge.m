@@ -9,7 +9,7 @@ if nargin<3, mergeMethod = 'mean'; end
 parameterId = find(strcmp(config.allParameters.name, parameterName));
 if isempty(parameterId),
     config.parameters = config.oriConfig.parameters;
-    config.variants = config.oriConfig.variants;
+    config.modes = config.oriConfig.modes;
     config.mask = config.oriConfig.mask;
     config.evaluation = config.oriconfig.evaluation;
     
@@ -33,7 +33,7 @@ end
 % merge
 % TODO what if multiple metrics ??
 nbMerge = length(config.parameters.set{parameterId});
-nbMergedResults = length(config.variants)/nbMerge;
+nbMergedResults = length(config.modes)/nbMerge;
 for k=1:nbMergedResults
     if strcmp(mergeMethod, 'stack')
         t = config.evaluation.results((k-1)*nbMerge+1:k*nbMerge, :, :);
@@ -53,14 +53,14 @@ for k=1:nbMergedResults
     mResults(k, 1, 1:length(mergedResults{k})) = mergedResults{k};
 end
 
-% generate new variant data
+% generate new mode data
 % TODO handle multiple masks
 % ov=[];
 % opp=[];
 % uMask = unionMask(config.mask);
 % uConfig = config;
 % uConfig.mask = uMask;
-% [cv p uConfig.parameters] = expVariants(uConfig);
+% [cv p uConfig.parameters] = expModes(uConfig);
 
 for k=1:length(config.mask)
     op = find(strcmp(config.allParameters.name, parameterName));
@@ -74,12 +74,12 @@ for k=1:length(config.mask)
     %     configTmp = config;
     %     configTmp.mask = mask; % FIXME multiple mask ?
     %
-    %     [cv p cp] = expVariants(configTmp);
+    %     [cv p cp] = expModes(configTmp);
     config.mask{k} = mask;
     %     names = p.name;
 end
-config = setConfigVariants(config);
-% config.variants = ov;
+config = setConfigModes(config);
+% config.modes = ov;
 % config.parameters.name = uConfig.parameters;
 
 config.evaluation.results = mResults;

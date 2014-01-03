@@ -11,4 +11,4 @@ elseif iscell(extension)
     end
 end
 
-if done, disp(['skipping ' config.currentTaskName ' ' config.currentVariant.infoString]); end
+if done, disp(['skipping ' config.currentTaskName ' ' config.currentMode.infoString]); end

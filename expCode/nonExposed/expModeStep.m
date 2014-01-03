@@ -1,4 +1,4 @@
-function mask = expVariantStep(vSpec, mask, currentStep)
+function mask = expModeStep(vSpec, mask, currentStep)
 
 % complete mask according to currentStep
 for k=1:length(vSpec.step)

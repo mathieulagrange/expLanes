@@ -93,9 +93,9 @@ for k=1:length(tokens)
             case 'c'
                 syncDirectory(config, serverConfig, 'code', delete, detach);
             case 'i'
-                dataBaseVariantIndex = find(strcmp(config.variantSpecifications.names, 'dataBase'));
-                if ~isempty(dataBaseVariantIndex)
-                    dataBases = config.variantValues{dataBaseVariantIndex};
+                dataBaseModeIndex = find(strcmp(config.factorSpecifications.names, 'dataBase'));
+                if ~isempty(dataBaseModeIndex)
+                    dataBases = config.modeValues{dataBaseModeIndex};
                     for k=1:length(dataBases)
                         syncDirectory(config, serverConfig, 'input', delete, detach, dataBases{k});
                     end

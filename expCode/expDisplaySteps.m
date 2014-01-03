@@ -12,20 +12,20 @@ end
 texFileName = [latexPath config.shortProjectName 'Steps.tex'];
 pdfFileName = [config.reportPath 'figures/' config.shortProjectName 'Steps.pdf'];
 
-copyfile([p '/private/utils/headerVariantDisplay.tex'], texFileName);
+copyfile([p '/private/utils/headerModeDisplay.tex'], texFileName);
 
 % all steps
-allIndex = cellfun(@isempty, config.variantSpecifications.step);
-allparameterIndex = config.variantSpecifications.names(allIndex);
+allIndex = cellfun(@isempty, config.factorSpecifications.step);
+allparameterIndex = config.factorSpecifications.names(allIndex);
 
 functionCell = displayNode(config, allIndex);
 
 % steps
 for k=1:length(config.stepName)
     stepIndex = allIndex == 0;
-    mask = cell(1, size(config.variantSpecifications.values, 2));
+    mask = cell(1, size(config.factorSpecifications.values, 2));
     mask(:) = {0};
-    mask = expVariantStep(config.variantSpecifications, mask, k);
+    mask = expModeStep(config.factorSpecifications, mask, k);
     stepIndex([mask{:}]==-1) = 0;
     stepCell = displayNode(config, stepIndex, k) ;
     functionCell = [functionCell; stepCell];
@@ -91,22 +91,22 @@ functionCell={...
     };
 
 for k=1:length(parameterIndex)
-    if parameterIndex(k) && length(config.variantSpecifications.values{k}) > 1
-        if strcmp(config.variantSpecifications.sequentialParameter, config.variantSpecifications.names{k})
+    if parameterIndex(k) && length(config.factorSpecifications.values{k}) > 1
+        if strcmp(config.factorSpecifications.sequentialParameter, config.factorSpecifications.names{k})
             seq = '(s)';
         else
             seq = '';
         end
             
-        functionCell{end+1} = ['\texttt{' config.variantSpecifications.names{k} '} ' seq '\\'];
+        functionCell{end+1} = ['\texttt{' config.factorSpecifications.names{k} '} ' seq '\\'];
     end
 end
 functionCell{end+1} = '\endtabular';
 functionCell{end+1} = ' ';
 functionCell{end+1} = '\nodepart{three}\tabular{@{}l}  ';
 for k=1:length(parameterIndex)
-    if parameterIndex(k) && length(config.variantSpecifications.values{k}) == 1
-        functionCell{end+1} = ['\texttt{' config.variantSpecifications.names{k} '} = ' config.variantSpecifications.stringValues{k}{1} '\\'];
+    if parameterIndex(k) && length(config.factorSpecifications.values{k}) == 1
+        functionCell{end+1} = ['\texttt{' config.factorSpecifications.names{k} '} = ' config.factorSpecifications.stringValues{k}{1} '\\'];
     end
 end
 functionCell{end+1} = '\endtabular};';

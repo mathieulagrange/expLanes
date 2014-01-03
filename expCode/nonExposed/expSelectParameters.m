@@ -1,15 +1,15 @@
-function mask = expSelectParameters(variantSpecifications, mask, mode, rec)
+function mask = expSelectParameters(factorSpecifications, mask, mode, rec)
 
 if ~exist('mode', 'var'), mode=-1; end
 if ~exist('rec', 'var'), rec=1; end
 
-if ~isempty(variantSpecifications.selectParameters)
+if ~isempty(factorSpecifications.selectParameters)
     % TODO iterate over same parameters filters ?
     k=1;
     doit=0;
     c1mask = {};
-    while ~isempty(variantSpecifications.selectParameters) && (k==1 || p == str2num(variantSpecifications.selectParameters{1}(1)))
-        c = regexp(variantSpecifications.selectParameters{1}, '/', 'split');
+    while ~isempty(factorSpecifications.selectParameters) && (k==1 || p == str2num(factorSpecifications.selectParameters{1}(1)))
+        c = regexp(factorSpecifications.selectParameters{1}, '/', 'split');
         if length(c)==3
             c{4} = '0';
         end
@@ -22,7 +22,7 @@ if ~isempty(variantSpecifications.selectParameters)
             doit=1;
         end
         
-        for m=1:length(variantSpecifications.names)
+        for m=1:length(factorSpecifications.names)
             s1mask{m} = 0;
             s2mask{m} = 0;
         end
@@ -34,20 +34,20 @@ if ~isempty(variantSpecifications.selectParameters)
         end
         s1mask{s}=ss;
         
-        myMask = mergeMask(mask, s1mask, variantSpecifications.values, mode);
+        myMask = mergeMask(mask, s1mask, factorSpecifications.values, mode);
         if ~isempty(myMask)
             c1mask = [c1mask myMask];
             
         end
         k=k+1;
-        variantSpecifications.selectParameters(1) = [];
+        factorSpecifications.selectParameters(1) = [];
     end
     
     s2mask{p} = -1;
-    s2mask{s} = setxor(ss, 1:length(variantSpecifications.values{s}));
+    s2mask{s} = setxor(ss, 1:length(factorSpecifications.values{s}));
     
     %     c2mask=c1mask;
-    c2mask = mergeMask(mask, s2mask, variantSpecifications.values, mode);
+    c2mask = mergeMask(mask, s2mask, factorSpecifications.values, mode);
     
     
     for k=1:length(c1mask)
@@ -64,7 +64,7 @@ if ~isempty(variantSpecifications.selectParameters)
     end
     
     rec=rec+1;
-    mask= expSelectParameters(variantSpecifications, mask, mode, rec);
+    mask= expSelectParameters(factorSpecifications, mask, mode, rec);
 end
 
 function v = isMyEqual(m1, m2)
