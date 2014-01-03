@@ -21,7 +21,7 @@ parallel = 0
 host = 0
 % variants Mask
 mask = {{}}
-% tasks to do: -1 none, 0 all, >0 task by numeric id
+% processing steps to do: -1 none, 0 all, >0 processing step by numeric id
 do = -1
 % set the probe flag
 probe = 0
@@ -63,7 +63,7 @@ sync = {}
 bundle = 0
 % clean mode
 clean = 0
-% step for wich to display informations: -1 none, 0 last processed task if any, >0 specific task
+% step for wich to display informations: -1 none, 0 last processed step if any, >0 specific step
 show = 0
 % complete name of user
 completeName = 

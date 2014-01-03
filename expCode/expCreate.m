@@ -1,9 +1,9 @@
-function expCreate(projectName, taskNames, codePath, dataPath)
-% expCreate(projectName, taskNames, codePath, dataPath)
+function expCreate(projectName, stepNames, codePath, dataPath)
+% expCreate(projectName, stepNames, codePath, dataPath)
 %   create an expCode project
 %
 %   projectName: the name of the project
-%   taskNames: cell array of names of the tasks  (default value set in defaultConfig.txt)
+%   stepNames: cell array of names of the steps  (default value set in defaultConfig.txt)
 %   codePath: path for code storage (default value set in defaultConfig.txt)
 %   dataPath: path for data storage (default value set in defaultConfig.txt)
 
@@ -43,10 +43,10 @@ config.userName = getUserName();
 if isempty(config.completeName)
     config.completeName = config.userName;
 end
-if ~exist('taskNames', 'var')
-    taskNames = {};
+if ~exist('stepNames', 'var')
+    stepNames = {};
 end
-% config.taskName = cell2string(taskNames);
+% config.stepName = cell2string(stepNames);
 
 if exist('codePath', 'var')
     if ~isempty(codePath)
@@ -76,8 +76,8 @@ end
 config.dependencies = [config.dependencies(1:end-1) ' ''' expCodePath '''}']; % TODO zhy (1:find(expCodePath=='/',1,'last'))
 
 % prompt
-fprintf('You are about to create an experiment called %s with short name %s and tasks: ', projectName, shortProjectName);
-disp(taskNames);
+fprintf('You are about to create an experiment called %s with short name %s and steps: ', projectName, shortProjectName);
+disp(stepNames);
 fprintf('Path to code %s\nData path %s\n', config.codePath, config.dataPath);
 fprintf('Note: you can set the default data path as well as other configuration parameters\n in the file defaultConfig.txt.\n');
 if inputQuestion(), fprintf(' Bailing out ...\n'); return; end
@@ -125,7 +125,7 @@ copyfile([configPath '/' config.shortProjectName 'ConfigDefault.txt'], [configPa
 
 % create variants file
 fid = fopen([configPath '/' config.shortProjectName 'Variants.txt'], 'w');
-fprintf(fid, 'method =1== {''methodOne'', ''methodTwo'', ''methodThree''} % method will be defined for task 1 only \nthreshold =s1:=1/[1 3]= [0:10] % threshold is defined for task 1 and the remaining tasks, will be sequenced and valid for the 1st and 3rd value of the 1st parameter (methodOne and methodThree) \n\n%% Variants file for the %s project\n%% Adapt at your convenience\n', config.shortProjectName);
+fprintf(fid, 'method =1== {''methodOne'', ''methodTwo'', ''methodThree''} % method will be defined for step 1 only \nthreshold =s1:=1/[1 3]= [0:10] % threshold is defined for step 1 and the remaining steps, will be sequenced and valid for the 1st and 3rd value of the 1st parameter (methodOne and methodThree) \n\n%% Variants file for the %s project\n%% Adapt at your convenience\n', config.shortProjectName);
 fclose(fid);
 
 
@@ -157,17 +157,17 @@ config.latex = LatexCreator([config.codePath filesep config.projectName '.tex'],
 
 % create project functions
 % TODO add some comments
-for k=1:length(taskNames)
-    functionName = [shortProjectName num2str(k) taskNames{k}];
+for k=1:length(stepNames)
+    functionName = [shortProjectName num2str(k) stepNames{k}];
     functionString = char({...
         ['function [config, store, display] = ' functionName '(config, variant, data)'];
-        ['% ' functionName ' ' upper(taskNames{k}) ' task of the expCode project ' projectName];
+        ['% ' functionName ' ' upper(stepNames{k}) ' step of the expCode project ' projectName];
         ['%    [config, store, display] = ' functionName '(config, variant, data)'];
         '%       config : expCode configuration state';
         '%       variant: current set of parameters';
-        '%       data   : processing data stored during the previous task';
+        '%       data   : processing data stored during the previous step';
         '%';
-        '%       store  : processing data to be saved for the other tasks ';
+        '%       store  : processing data to be saved for the other steps ';
         '%       display: performance measures to be saved for display';
         '';
         ['% Copyright ' config.completeName];
@@ -175,7 +175,7 @@ for k=1:length(taskNames)
         '';
         ['if nargin==0, ' , projectName '(''do'', ' num2str(k) ', ''mask'', {{}}); return; end'];
         '';
-        'disp([config.currentTaskName '' '' variant.infoString]);';
+        'disp([config.currentStepName '' '' variant.infoString]);';
         '';
         'store=[];';
         'display=[];';
@@ -193,7 +193,7 @@ functionString = char({...
     ['%    [config, store] = ' functionName 'Init(config)'];
     '%       config : expCode configuration state';
     '%';
-    '%       store  : processing data to be saved for the other tasks ';
+    '%       store  : processing data to be saved for the other steps ';
     '';
     ['% Copyright ' config.completeName];
     ['% Date ' date()];

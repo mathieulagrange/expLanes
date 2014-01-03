@@ -32,13 +32,13 @@ end
 % expPath();
 
 if config.do == 0
-    config.do = 1:length(config.taskName);
+    config.do = 1:length(config.stepName);
 end
 if config.show == 0
     if length(config.do)>1 || config.do>0
         config.show = config.do(end);
     elseif config.do == 0
-        config.show = length(config.taskName);
+        config.show = length(config.stepName);
     else
         config.show = -1;
     end
@@ -48,9 +48,9 @@ config.runInfo=[];
 if config.do>-1
     fprintf('Project %s: running on host %s: \n', config.projectName, config.hostName);
     for k=1:length(config.do)
-        [config.taskVariants{config.do(k)}] = expVariants(config.variantSpecifications, config.mask, config.do(k));
+        [config.stepVariants{config.do(k)}] = expVariants(config.variantSpecifications, config.mask, config.do(k));
         
-        config.runInfo{k} = sprintf(' - task %s with %s (%d variants)', config.taskName{config.do(k)}, config.taskVariants{config.do(k)}.variants(1).infoStringMask, length(config.taskVariants{config.do(k)}.variants));
+        config.runInfo{k} = sprintf(' - step %s with %s (%d variants)', config.stepName{config.do(k)}, config.stepVariants{config.do(k)}.variants(1).infoStringMask, length(config.stepVariants{config.do(k)}.variants));
         disp(config.runInfo{k});
     end
     if config.show>0
@@ -62,11 +62,11 @@ else
     end
 end
 for k=1:length(rem)
-    [config.taskVariants{rem(k)}] = expVariants(config.variantSpecifications, config.mask, rem(k));
+    [config.stepVariants{rem(k)}] = expVariants(config.variantSpecifications, config.mask, rem(k));
 end
 
-% if ~isfield(config, 'taskVariants') || isempty(config.taskVariants{length(config.taskName)})
-%      [config.taskVariants{length(config.taskName)}.variants config.taskVariants{length(config.taskName)}.variantSequence config.taskVariants{length(config.taskName)}.parameters config.taskVariants{length(config.taskName)}.variantSet] = expVariants(config.variantSpecifications, config.mask, length(config.taskName));
+% if ~isfield(config, 'stepVariants') || isempty(config.stepVariants{length(config.stepName)})
+%      [config.stepVariants{length(config.stepName)}.variants config.stepVariants{length(config.stepName)}.variantSequence config.stepVariants{length(config.stepName)}.parameters config.stepVariants{length(config.stepName)}.variantSet] = expVariants(config.variantSpecifications, config.mask, length(config.stepName));
 % end
 
 if isfield(config, 'serverConfig')
@@ -109,7 +109,7 @@ end
 if config.show ~= -1
     %     try
     for k=1:length(config.show)
-        config = expSetTask(config, config.show(k));
+        config = expSetStep(config, config.show(k));
         if iscell(config.display)
             config = expExpose(config, config.display{:});
         else
@@ -127,7 +127,7 @@ end
 
 if config.report>-1
     try
-        config.currentTask = length(config.taskName);
+        config.currentStep = length(config.stepName);
         config = feval([config.shortProjectName 'Report'], config);
     catch error
         config.report=-1;

@@ -52,9 +52,12 @@ elseif ischar(commands{1})
             showVariants(config.variantFileName);
         case 'c'
             
-        case 't'
+        case 's'
             config = expConfig(projectPath, shortProjectName);
-            expDisplayTasks(config);
+            expDisplaySteps(config);
+       case 'S'
+            config = expConfig(projectPath, shortProjectName);
+            expDisplaySteps(config, 0);
         otherwise
             error('Unable to handle command');
     end

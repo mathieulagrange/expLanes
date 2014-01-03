@@ -33,6 +33,6 @@ else
 end
 % generate perturbation noise
 noise = randn(length(y), 1);
-% store it for the next tasks
+% store it for the next steps
 store.noise = noise/std(noise);
 

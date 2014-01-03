@@ -1,8 +1,8 @@
-function vSet = expVariantSet(vSpec, mask, currentTask)
+function vSet = expVariantSet(vSpec, mask, currentStep)
 
 vSet=[];
 for k=1:length(mask)
-    vSet = [vSet expVariantSetMask(vSpec, mask{k}, currentTask)];
+    vSet = [vSet expVariantSetMask(vSpec, mask{k}, currentStep)];
 end
 
 % prune vSet for repetition
@@ -11,7 +11,7 @@ vSet(:, setdiff(1:size(vSet,2),index))=[];
 
 end
 
-function [vSet] = expVariantSetMask(vSpec, mask, currentTask)
+function [vSet] = expVariantSetMask(vSpec, mask, currentStep)
 % only valid for unitary mask
 
 
@@ -23,7 +23,7 @@ elseif length(mask)<length(vSpec.names)
     mask = [mask num2cell(zeros(1, length(vSpec.names)-length(mask)))];
 end
 
-mask = expVariantStep(vSpec, mask, currentTask);
+mask = expVariantStep(vSpec, mask, currentStep);
 
 mask = expSelectParameters(vSpec, {mask});
 

@@ -2,7 +2,7 @@ function [config, store, display] = side1generateData(config, variant, data, dis
 
 if nargin==0, similarityDemo('do', 1, 'mask', {{}}); return; end
 
-disp([config.currentTaskName ' ' variant.infoString]);
+disp([config.currentStepName ' ' variant.infoString]);
 
 tic
 

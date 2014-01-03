@@ -2,9 +2,9 @@ function [config, store, display] = ausede2model(config, variant, data)
 
 if nargin==0, audioSeparationDemo('do', 2, 'mask', {{2, 5, 1, 1, 5}}, 'display', '>'); return; end
 
-disp([config.currentTaskName ' ' variant.infoString]);
+disp([config.currentStepName ' ' variant.infoString]);
 
-% propagate source, noise and mix for the next task
+% propagate source, noise and mix for the next step
 store=data;
 switch variant.method
     % Ideal Binary Mask (IBM)
@@ -50,7 +50,7 @@ switch variant.method
         % sort against this measure
         W = W(:, order);
         H = H(order, :);
-        % store dictionary and activation matrices for the next task
+        % store dictionary and activation matrices for the next step
         store.W = W;
         store.H = H;
         % save dictionary and activation matrices and number of iterations 

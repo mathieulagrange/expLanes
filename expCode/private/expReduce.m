@@ -3,7 +3,7 @@ function config=expReduce(config)
 % TODO reduceData per expose Call
 
 data = {};
-reduceFileName = [config.dataPath config.taskName{config.currentTask} filesep 'reduceData.mat'];
+reduceFileName = [config.dataPath config.stepName{config.currentStep} filesep 'reduceData.mat'];
 
 if exist(reduceFileName, 'file')
     % get vSet
@@ -15,7 +15,7 @@ if exist(reduceFileName, 'file')
 end
 
 if isempty(data)%
-    config.currentTask = config.currentTask+1;
+    config.currentStep = config.currentStep+1;
     
     config.loadFileInfo.date = {'', ''};
     config.loadFileInfo.dateNum = [Inf, 0];
@@ -37,7 +37,7 @@ if isempty(data)%
             copyfile(reduceFileName, [config.reportPath config.projectName '_' config.message '.mat']);
         end
     end
-    config.currentTask = config.currentTask-1;
+    config.currentStep = config.currentStep-1;
 end
 
 % list all metrics

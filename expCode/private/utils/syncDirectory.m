@@ -5,7 +5,7 @@ if nargin<5, detach=0; end
 if nargin<6, extensionPath = ''; end
 if nargin<7, selector = []; end
 
-if any(strcmp(config.taskName, directoryName))
+if any(strcmp(config.stepName, directoryName))
     directoryPath = [config.dataPath directoryName filesep extensionPath];
     serverDirectoryPath = [serverConfig.dataPath directoryName filesep extensionPath];
 else
@@ -131,7 +131,7 @@ function excludeString=getExcludeString(config, directoryPath)
 
 % excludeString = ' --filter=''- dependencies''';
 excludeString ='';
-fieldNames=config.taskName;
+fieldNames=config.stepName;
 for k=1:length(fieldNames)
     pathName = [config.dataPath fieldNames{k} filesep];
     index = strfind(pathName, directoryPath);

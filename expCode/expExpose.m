@@ -18,7 +18,7 @@ p.multipage=0;
 p.landscape=0;
 p.sort=0;
 p.mask={};
-p.task=0;
+p.step=0;
 p.label='';
 p.put=1;
 p.save=0;
@@ -33,8 +33,8 @@ for pair = reshape(varargin(3:end),2,[]) % pair is {propName;propValue}
     p.(pair{1}) = pair{2};
 end
 
-if p.task && p.task ~= length(config.taskName)
-    config.currentTask = p.task;
+if p.step && p.step ~= length(config.stepName)
+    config.currentStep = p.step;
 end
 
 if ~isempty(p.mask) && ~isequal(p.mask, config.mask)
@@ -60,8 +60,8 @@ if iscell(config.mask)
     end
 end
 
-config.taskVariants{config.currentTask} = expVariants(config.variantSpecifications, config.mask, config.currentTask);
-config = expSetTask(config);
+config.stepVariants{config.currentStep} = expVariants(config.variantSpecifications, config.mask, config.currentStep);
+config = expSetStep(config);
 config = expReduce(config);
 
 if isempty(config.evaluation)
@@ -87,7 +87,7 @@ if p.expand,
         end
         mask{k}{p.expand} = -1;
     end
-    tv = expVariants(config.variantSpecifications, mask, config.currentTask);
+    tv = expVariants(config.variantSpecifications, mask, config.currentStep);
     config.variants = tv.variants;
     config.sequence = tv.sequence;
     %      config.parameters = tv.parameters;

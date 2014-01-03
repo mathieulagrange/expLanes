@@ -2,8 +2,8 @@ function expSync(config, syncMode, syncDestination, syncDirection, detach, delet
 % expSync(syncMode, syncDestination, syncDirection, detach, delete, config)
 %   perform code and data synchronization between host and servers
 %
-%   syncMode: ['c', 'd', 'i', task_numeric_id] aka code, dependencies, input,
-%       tasks as specified by their numeric ids optionally append with s (store) or d (display)
+%   syncMode: ['c', 'd', 'i', step_numeric_id] aka code, dependencies, input,
+%       steps as specified by their numeric ids optionally append with s (store) or d (display)
 %   syncDestination: host numeric id
 %   syncDirection: ['up', 'down'], from host to server and vice versa
 %   detach: [0,1], default 0, sync in background mode
@@ -23,11 +23,11 @@ if ~isfield(config, 'syncMode') || strcmp(config.syncMode(1), '0')
     if strcmp(config.syncMode(1), '0') && length(config.syncMode)==2
         dType = config.syncMode(2);
         config.syncMode =[];
-        for k=1:length(config.taskName)
+        for k=1:length(config.stepName)
             config.syncMode = [config.syncMode sprintf('%d%s ', k, dType)];
         end
     else
-    config.syncMode = sprintf('%d ', 1:length(config.taskName));
+    config.syncMode = sprintf('%d ', 1:length(config.stepName));
     end
 end
 
@@ -112,7 +112,7 @@ for k=1:length(tokens)
         else
             selector = [];
         end
-        syncDirectory(config, serverConfig, config.taskName{str2double(tokens{k})}, delete, detach, '', selector);
+        syncDirectory(config, serverConfig, config.stepName{str2double(tokens{k})}, delete, detach, '', selector);
     end
 end
 

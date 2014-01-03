@@ -31,7 +31,7 @@ switch variant.method
         [model options] = gmmem(mix, trainingData, options);
         % record training likelihood
         display.trainLikelihood = options(8);
-        % store model for the next task
+        % store model for the next step
         store.model = model;
         % save model and number of iterations already done for the next
         % step of the sequential run

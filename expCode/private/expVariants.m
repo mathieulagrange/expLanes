@@ -1,6 +1,6 @@
-function taskVariant = expVariants(vSpec, mask, currentTask)
+function stepVariant = expVariants(vSpec, mask, currentStep)
 
-vSet = expVariantSet(vSpec, mask, currentTask);
+vSet = expVariantSet(vSpec, mask, currentStep);
 
 variants = expVariantBuild(vSpec, vSet);
 
@@ -26,10 +26,10 @@ parameters.list = list(e, :)';
 parameters.names = vSpec.names(e);
 parameters.values = values(e);
 
-taskVariant.variants = variants;
-taskVariant.sequence = sequence;
-taskVariant.parameters = parameters;
-taskVariant.set = vSet;
-taskVariant.id = currentTask;
+stepVariant.variants = variants;
+stepVariant.sequence = sequence;
+stepVariant.parameters = parameters;
+stepVariant.set = vSet;
+stepVariant.id = currentStep;
 
 

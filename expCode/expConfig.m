@@ -79,7 +79,7 @@ config = expandPath(config, hostIndex, projectPath);
 config.configMatName = [config.codePath 'config/' config.shortProjectName 'Config' config.userName '_' num2str(config.runId) '.mat'];
 config.reportPath = [config.codePath 'report/'];
 
-config.taskName = expTaskName(config.projectPath, config.shortProjectName);
+config.stepName = expStepName(config.projectPath, config.shortProjectName);
 
 if iscell(config.parallel)
     if length(config.parallel)>=hostIndex
@@ -88,7 +88,7 @@ if iscell(config.parallel)
         config.parallel = config.parallel{end};
     end
 end
-while length(config.parallel)<length(config.taskName)
+while length(config.parallel)<length(config.stepName)
     config.parallel(end+1)=config.parallel(end);
 end
 config.parallel(end) = 0; % never for reduce
@@ -106,7 +106,7 @@ config.displayData.figure.caption = {};
 config.displayData.figure.label = {};
 config.displayData.latex = [];
 
-config.currentTask = length(config.taskName);
+config.currentstep = length(config.stepName);
 config.suggestedNumberOfCores = Inf;
 config.loadFileInfo.date = {'', ''};
 config.loadFileInfo.dateNum = [Inf, 0];

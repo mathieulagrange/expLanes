@@ -1,29 +1,29 @@
-function mask = expVariantStep(vSpec, mask, currentTask)
+function mask = expVariantStep(vSpec, mask, currentStep)
 
-% complete mask according to currentTask
+% complete mask according to currentStep
 for k=1:length(vSpec.step)
     cp = regexp(vSpec.step{k}, ',', 'split');
-    doTask=0;
+    doStep=0;
     for m=1:length(cp)
         sp = regexp(cp{m}, ':', 'split');
         if ~isempty(sp{1})
-            taskStepMin = str2double(sp{1});
-            taskStepMax = taskStepMin;
+            stepStepMin = str2double(sp{1});
+            stepStepMax = stepStepMin;
         else
-            taskStepMin = 1;
-            taskStepMax = Inf;
+            stepStepMin = 1;
+            stepStepMax = Inf;
         end
         if length(sp)>1 && ~isempty(sp{2})
-            taskStepMax = str2double(sp{2});
+            stepStepMax = str2double(sp{2});
         elseif length(sp)==2
-            taskStepMax = Inf;
+            stepStepMax = Inf;
         end
         
-        if taskStepMin<=currentTask && currentTask<=taskStepMax
-            doTask = 1;
+        if stepStepMin<=currentStep && currentStep<=stepStepMax
+            doStep = 1;
         end
     end
-    if ~doTask
+    if ~doStep
         mask{k} = -1;
     end
 end

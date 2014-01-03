@@ -9,8 +9,8 @@ end
 
 config.latexFileName = [latexPath config.projectName ]; % '.tex'
 
-for k=1:length(config.taskName)
-    copyfile([config.codePath config.shortProjectName num2str(k) config.taskName{k} '.m'], [config.reportPath 'tex/' config.shortProjectName num2str(k) config.taskName{k} '.m']);
+for k=1:length(config.stepName)
+    copyfile([config.codePath config.shortProjectName num2str(k) config.stepName{k} '.m'], [config.reportPath 'tex/' config.shortProjectName num2str(k) config.stepName{k} '.m']);
 end
 copyfile([config.codePath config.shortProjectName 'Init.m'], [config.reportPath 'tex/' config.shortProjectName 'Init.m']);
 copyfile([config.codePath config.shortProjectName 'Report.m'], [config.reportPath 'tex/' config.shortProjectName 'Report.m']);

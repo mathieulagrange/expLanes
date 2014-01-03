@@ -8,7 +8,7 @@ switch variant.method
         store=[];
         display=[];
     case'gmm'
-        % load the output of the first task (generate data)
+        % load the output of the first step (generate data)
         config = expLoad(config, [], 1);
         % get testing samples
         samples = config.load.samples;

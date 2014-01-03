@@ -35,7 +35,7 @@ display = >
 displayDigitPrecision = 2
 % font size for display
 displayFontSize = 16
-% tasks to do: -1 none, 0 all, >0 task by numeric id
+% steps to do: -1 none, 0 all, >0 step by numeric id
 do = -1
 % dummy mode
 dummy = 0
@@ -65,7 +65,7 @@ resume = 0
 retrieve = 0
 % set the random seed for replicability
 setRandomSeed = 0
-% step for wich to display informations: -1 none, 0 last processed task if any, >0 specific task
+% step for wich to display informations: -1 none, 0 last processed step if any, >0 specific step
 show = 0
 % sync mode
 sync = {}

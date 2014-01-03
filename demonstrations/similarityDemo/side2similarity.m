@@ -2,7 +2,7 @@ function [config, store, display] = side2similarity(config, variant, data, displ
 
 if nargin==0, similarityDemo('do', 2, 'mask', {{}}); return; end
 
-disp([config.currentTaskName ' ' variant.infoString]);
+disp([config.currentStepName ' ' variant.infoString]);
 
 store=[];
 

@@ -1,7 +1,7 @@
 function config = expLoad(config, name, inputId, extension, selector)
 
 if nargin<2 || isempty(name), name = ''; end
-if nargin<3 || isempty(inputId), inputId=config.currentTask-1; end
+if nargin<3 || isempty(inputId), inputId=config.currentStep-1; end
 if nargin<4 || isempty(extension),
     extension = '_store';
 else
@@ -30,7 +30,7 @@ end
 
 if isempty(p) || ~any(strcmp(p(1), {'/', '\', '~'}))
     if inputId
-        path = [config.dataPath config.taskName{inputId} filesep];
+        path = [config.dataPath config.stepName{inputId} filesep];
     else
         path = config.inputPath;
     end
@@ -82,7 +82,7 @@ if isempty(config.load) && config.retrieve
         sourceConfig = expConfig(config.codePath, {'host', source});
         
         if inputId
-            sourcePath = sourceConfig.([config.taskName{inputId} 'Path']);
+            sourcePath = sourceConfig.([config.stepName{inputId} 'Path']);
         else
             sourcePath = sourceConfig.inputPath;
         end
@@ -125,13 +125,13 @@ try
         end
         %         if isempty(config.load)
         %             if inputId
-        %                 config.load.(loadData.taskName)=[];
+        %                 config.load.(loadData.stepName)=[];
         %             else
         %                 config.load.('input'){end+1} = [];
         %             end
         %         end
         %         if inputId
-        %             config.load.(loadData.taskName) = [config.load.(loadData.taskName) loadData.data];
+        %             config.load.(loadData.stepName) = [config.load.(loadData.stepName) loadData.data];
         %         else
         %             config.load.('input') = [config.load.('input') loadData];
         %         end

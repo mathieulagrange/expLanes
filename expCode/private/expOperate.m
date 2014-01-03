@@ -8,10 +8,10 @@ if ~exist(config.inputPath, 'dir')
 end
 
 %create needed directories
-for k=1:length(config.taskName)
-    taskPath = [config.dataPath config.taskName{k} filesep];
-    if ~exist(taskPath, 'dir')
-        mkdir(taskPath);
+for k=1:length(config.stepName)
+    stepPath = [config.dataPath config.stepName{k} filesep];
+    if ~exist(stepPath, 'dir')
+        mkdir(stepPath);
     end
 end
 if ~exist(config.reportPath, 'dir')
@@ -36,7 +36,7 @@ fclose(config.logFile);
 
 config.currentVariant = [];
 
-task = config.do;
+step = config.do;
 
 tic
 try
@@ -49,7 +49,7 @@ catch error
     end
 end
 
-if all(task>0)
+if all(step>0)
     if sum(abs(config.parallel))
         if any(config.parallel>1)
             matlabpool('open', 'local', max(config.parallel));
@@ -57,21 +57,21 @@ if all(task>0)
             matlabpool('open', 'local');
         end
         
-        for k=1:length(task)
-            config = expSetTask(config, task(k));
+        for k=1:length(step)
+            config = expSetStep(config, step(k));
             % remove reduceData
-            reduceDataFileName = [config.dataPath config.taskName{config.currentTask} filesep 'reduceData.mat'];
+            reduceDataFileName = [config.dataPath config.stepName{config.currentStep} filesep 'reduceData.mat'];
             if exist(reduceDataFileName, 'file')
                 delete(reduceDataFileName);
             end
             
-            if config.parallel(task(k))>0 % ~= 1 % length(config.taskName)
+            if config.parallel(step(k))>0 % ~= 1 % length(config.stepName)
                 parfor l=1:length(config.variantSequence)
-                    expProcessOne(config, config.variants(config.variantSequence{l}), task(k));
+                    expProcessOne(config, config.variants(config.variantSequence{l}), step(k));
                 end
             else
                 for l=1:length(config.variantSequence)
-                    config = expProcessOne(config, config.variants(config.variantSequence{l}), task(k));
+                    config = expProcessOne(config, config.variants(config.variantSequence{l}), step(k));
                 end
                 
             end
@@ -81,15 +81,15 @@ if all(task>0)
            % matlabpool('close');
         end
     else
-        for k=1:length(task)
-            config = expSetTask(config, task(k));
+        for k=1:length(step)
+            config = expSetStep(config, step(k));
             % remove reduceData
-            reduceDataFileName = [config.dataPath config.taskName{config.currentTask} filesep 'reduceData.mat'];
+            reduceDataFileName = [config.dataPath config.stepName{config.currentStep} filesep 'reduceData.mat'];
             if exist(reduceDataFileName, 'file')
                 delete(reduceDataFileName);
             end
             for l=1:length(config.variantSequence)
-                config = expProcessOne(config, config.variants(config.variantSequence{l}), task(k));
+                config = expProcessOne(config, config.variants(config.variantSequence{l}), step(k));
             end
         end
     end
@@ -97,16 +97,16 @@ end
 
 config.runDuration=ceil(toc/60);
 
-function config = expProcessOne(config, variant, task)
+function config = expProcessOne(config, variant, step)
 
-config.currentTaskName = config.taskName{config.currentTask};
+config.currentStepName = config.stepName{config.currentStep};
 
 config.sequentialData = [];
 
 for k=1:length(variant)
     config.currentVariant = variant(k);
     try
-        config = expProcessOneSub(config, config.currentVariant, task);
+        config = expProcessOneSub(config, config.currentVariant, step);
     catch error
         if config.host == 0
             rethrow(error);
@@ -116,17 +116,17 @@ for k=1:length(variant)
     end
 end
 
-function config = expProcessOneSub(config, variant, task)
+function config = expProcessOneSub(config, variant, step)
 
-functionName = [config.shortProjectName num2str(task) config.taskName{task}];
+functionName = [config.shortProjectName num2str(step) config.stepName{step}];
 
 if config.redo==0 && (exist(expSave(config, [], 'store'), 'file') || exist(expSave(config, [], 'display'), 'file'))
-   disp(['skipping ' config.currentTaskName ' ' config.currentVariant.infoString]);
+   disp(['skipping ' config.currentStepName ' ' config.currentVariant.infoString]);
    return
 end
 
 loadedData = [];
-if config.currentTask>1
+if config.currentStep>1
     config = expLoad(config, [], [], 'store');
     if ~isempty(config.load)
         loadedData = config.load;

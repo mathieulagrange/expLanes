@@ -30,9 +30,9 @@ if nargin<6, level = 1; end
 if config.log >= level
     switch expInfo
         case 1
-            expInfoString = ['performing ' config.taskName{config.currentTask} ' task with variant ' config.currentVariant.infoString '.\n'];
+            expInfoString = ['performing ' config.stepName{config.currentStep} ' step with variant ' config.currentVariant.infoString '.\n'];
         case 2
-            expInfoString = ['performing ' config.taskName{config.currentTask} ' task ' mat2str(config.currentVariant.infoId) ': ' config.currentVariant.infoString];
+            expInfoString = ['performing ' config.stepName{config.currentStep} ' step ' mat2str(config.currentVariant.infoId) ': ' config.currentVariant.infoString];
         otherwise
             expInfoString = '';
     end

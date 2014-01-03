@@ -8,9 +8,9 @@ else
     extension = ['_' n '.mat'];
 end
 
-taskName = config.taskName{config.currentTask};
+stepName = config.stepName{config.currentStep};
 
-path = [config.dataPath taskName filesep];
+path = [config.dataPath stepName filesep];
 
 if config.useShortNamesForFiles
     name = config.currentVariant.infoShortString;
@@ -24,7 +24,7 @@ end
 
 if exist('data', 'var') && ~isempty(data)
     runId = config.runId;
-    save([path name  extension ], 'data', 'taskName', 'runId');
+    save([path name  extension ], 'data', 'stepName', 'runId');
 end
 
 fileName = [path name  extension];

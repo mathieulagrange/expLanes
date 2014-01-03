@@ -2,8 +2,8 @@ function [config, store, display] = ausede3separate(config, variant, data)
 
 if nargin==0, audioSeparationDemo('do', 3, 'mask', {{1}}, 'display', '>'); return; end
 
-disp([config.currentTaskName ' ' variant.infoString]);
-% no storage for this task
+disp([config.currentStepName ' ' variant.infoString]);
+% no storage for this step
 store = [];
 % compute spectrograms
 sm = computeSpectrogram(data.mixture, config.fftlen, config.samplingFrequency);

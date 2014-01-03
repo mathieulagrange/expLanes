@@ -18,7 +18,7 @@ for k=1:length(select)
 end
 vSpec.selectParameters = select;
 
-[config.variants s config.parameters vSet] = expVariants(vSpec, config.mask, config.currentTask);
+[config.variants s config.parameters vSet] = expVariants(vSpec, config.mask, config.currentStep);
 
 for k=1:size(vSet, 2)
     for m=1:length(vSet)

@@ -2,9 +2,9 @@ function [config, store, display] = clde1generateData(config, variant, data)
 
 if nargin==0, classificationDemo('do', 1, 'mask', {{}}); return; end
 
-disp([config.currentTaskName ' ' variant.infoString]);
+disp([config.currentStepName ' ' variant.infoString]);
 
-% no display for this task
+% no display for this step
 display = [];
 % get number of classes
 nbClasses = length(expParameterValues(config, 'class'));
@@ -25,7 +25,7 @@ for k=1:nbClasses
 end
 % display for better spread control
 scatter(samples(:, 1), samples(:, 2), [], class);
-% store samples and ground truth for the next task
+% store samples and ground truth for the next step
 store.samples = samples;
 store.class = class;
 

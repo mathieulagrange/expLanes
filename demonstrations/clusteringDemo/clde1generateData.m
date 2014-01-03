@@ -1,11 +1,11 @@
 function [config, store, display] = clde1generateData(config, variant, data)
-% clde1generateData GENERATEDATA task of the expCode project clusteringDemo
+% clde1generateData GENERATEDATA step of the expCode project clusteringDemo
 %    [config, store, display] = clde1generateData(config, variant, data)
 %       config : expCode configuration state
 %       variant: current set of parameters
-%       data   : processing data stored during the previous task
+%       data   : processing data stored during the previous step
 %
-%       store  : processing data to be saved for the other tasks
+%       store  : processing data to be saved for the other steps
 %       display: performance measures to be saved for display
 
 % Copyright lagrange
@@ -13,7 +13,7 @@ function [config, store, display] = clde1generateData(config, variant, data)
 
 if nargin==0, clusteringDemo('do', 1, 'mask', {{0 0 0 3}}); return; end
 
-disp([config.currentTaskName ' ' variant.infoString]);
+disp([config.currentStepName ' ' variant.infoString]);
 
 store=[];
 display=[];

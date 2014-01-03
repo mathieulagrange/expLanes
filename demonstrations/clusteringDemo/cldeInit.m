@@ -3,7 +3,7 @@ function [config, store] = cldeInit(config)
 %    [config, store] = clde1clusterInit(config)                  
 %       config : expCode configuration state                     
 %                                                                
-%       store  : processing data to be saved for the other tasks 
+%       store  : processing data to be saved for the other steps 
                                                                  
 % Copyright lagrange                                             
 % Date 22-Nov-2013                                               

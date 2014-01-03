@@ -1,4 +1,6 @@
-function expDisplayTasks(config)
+function expDisplaySteps(config, silent)
+
+if ~exist('silent', 'var'), silent=1; end
 
 p = fileparts(mfilename('fullpath'));
 
@@ -7,30 +9,30 @@ if ~exist(latexPath, 'dir')
     mkdir(latexPath);
 end
 
-texFileName = [latexPath config.shortProjectName 'Tasks.tex'];
-pdfFileName = [config.reportPath 'figures/' config.shortProjectName 'Tasks.pdf'];
+texFileName = [latexPath config.shortProjectName 'Steps.tex'];
+pdfFileName = [config.reportPath 'figures/' config.shortProjectName 'Steps.pdf'];
 
 copyfile([p '/private/utils/headerVariantDisplay.tex'], texFileName);
 
-% all tasks
+% all steps
 allIndex = cellfun(@isempty, config.variantSpecifications.step);
 allparameterIndex = config.variantSpecifications.names(allIndex);
 
 functionCell = displayNode(config, allIndex);
 
-% tasks
-for k=1:length(config.taskName)
-    taskIndex = allIndex == 0;
+% steps
+for k=1:length(config.stepName)
+    stepIndex = allIndex == 0;
     mask = cell(1, size(config.variantSpecifications.values, 2));
     mask(:) = {0};
     mask = expVariantStep(config.variantSpecifications, mask, k);
-    taskIndex([mask{:}]==-1) = 0;
-    taskCell = displayNode(config, taskIndex, k) ;
-    functionCell = [functionCell; taskCell];
+    stepIndex([mask{:}]==-1) = 0;
+    stepCell = displayNode(config, stepIndex, k) ;
+    functionCell = [functionCell; stepCell];
 end
 % arrows
-for k=1:length(config.taskName)-1
-    functionCell{end+1} = ['\draw[taskArrow] (' num2str(k) '.east) -- (' num2str(k+1) '.west);'];
+for k=1:length(config.stepName)-1
+    functionCell{end+1} = ['\draw[stepArrow] (' num2str(k) '.east) -- (' num2str(k+1) '.west);'];
 end
 
 % footer
@@ -40,6 +42,10 @@ functionCell = [functionCell;...
     '\end{document}]'; ...
     ];
 
+silentString = '';
+if silent
+    silentString = ' >/dev/null';
+end
 
 functionString = char(functionCell);
 
@@ -47,7 +53,7 @@ dlmwrite(texFileName, functionString,'delimiter','', '-append');
 
 oldFolder = cd(latexPath);
 disp('generating latex figure. Press x enter if locked for too long');
-res = system(['pdflatex ' texFileName ' >/dev/null']);
+res = system(['pdflatex ' texFileName silentString]); % 
 cd(oldFolder);
 if ~res
     copyfile([texFileName(1:end-4) '.pdf'], pdfFileName);
@@ -67,20 +73,20 @@ else
 end
 system(cmd);
 
-function functionCell = displayNode(config, parameterIndex, taskId)
+function functionCell = displayNode(config, parameterIndex, stepId)
 
-if ~exist('taskId', 'var')
-    taskId = 0;
+if ~exist('stepId', 'var')
+    stepId = 0;
     location = '';
-    taskName = 'All tasks';
+    stepName = 'All steps';
 else
-    location = [', right=of ' num2str(taskId-1)];
-    taskName = config.taskName{taskId};
+    location = [', right=of ' num2str(stepId-1)];
+    stepName = config.stepName{stepId};
 end
 
 functionCell={...
-    ['\node (' num2str(taskId) ') [task' location ']'];...
-    ['{\textbf{' taskName '}'];...
+    ['\node (' num2str(stepId) ') [stepBlock' location ']'];...
+    ['{\textbf{' stepName '}'];...
     '\nodepart{two}\tabular{@{}l}  ', ...
     };
 

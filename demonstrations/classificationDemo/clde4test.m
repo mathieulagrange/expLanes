@@ -2,20 +2,20 @@ function [config, store, display] = clde4test(config, variant, data)
 
 if nargin==0, classificationDemo('do', 4, 'mask', {{1, 0, 0, 0, 0, 2}}); return; end
 
-disp([config.currentTaskName ' ' variant.infoString]);
+disp([config.currentStepName ' ' variant.infoString]);
 
-% no storage for this task
+% no storage for this step
 store=[];
 % get number of classes
 nbClasses = length(expParameterValues(config, 'class'));
 
 switch variant.method
     case 'knn'
-        % load the result of task 2 (train)
+        % load the result of step 2 (train)
         config = expLoad(config, [], 2);
         % get model for the knn approach (the training dataset)
         model = config.load.model;
-        % load the result of task 1 (generateData)
+        % load the result of step 1 (generateData)
         config = expLoad(config, [], 1);
         % get testing samples
         samples = config.load.samples;
