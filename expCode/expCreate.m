@@ -145,10 +145,10 @@ rootString = char({...
     'expDependencies(config);';
     'config = expRun(p, shortProjectName, varargin);';
     '';
-    fileread([expCodePath '/private/utils/getUserFileName.m'])
-    fileread([expCodePath '/private/expConfigParse.m'])
-    fileread([expCodePath '/private/utils/getUserName.m'])
-    fileread([expCodePath '/private/utils/expDependencies.m'])
+    fileread([expCodePath '/nonExposed/utils/getUserFileName.m'])
+    fileread([expCodePath '/nonExposed/expConfigParse.m'])
+    fileread([expCodePath '/nonExposed/utils/getUserName.m'])
+    fileread([expCodePath '/nonExposed/utils/expDependencies.m'])
     });
 
 dlmwrite([config.codePath '/' projectName '.m'], rootString,'delimiter','');
@@ -226,7 +226,7 @@ dlmwrite([config.codePath '/' shortProjectName 'Report.m'], functionString,'deli
 readmeString = char({['% This is the README for the experiment ' config.projectName]; ''; ['% Created on ' date() ' by ' config.userName]; ''; '% Purpose: '; ''; '% Reference: '; ''; '% Licence: '; ''; ''});
 dlmwrite([config.codePath '/README.txt'], readmeString, 'delimiter', '')
 % append remaining of the file
-dlmwrite([config.codePath '/README.txt'], fileread([expCodePath '/private/README.txt']), '-append', 'delimiter', '')
+dlmwrite([config.codePath '/README.txt'], fileread([expCodePath '/nonExposed/README.txt']), '-append', 'delimiter', '')
 
 runId=1;
 save([configPath config.shortProjectName], 'runId');

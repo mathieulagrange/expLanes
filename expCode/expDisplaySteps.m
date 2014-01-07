@@ -12,7 +12,7 @@ end
 texFileName = [latexPath config.shortProjectName 'Steps.tex'];
 pdfFileName = [config.reportPath 'figures/' config.shortProjectName 'Steps.pdf'];
 
-copyfile([p '/private/utils/headerModeDisplay.tex'], texFileName);
+copyfile([p '/nonExposed/utils/headerModeDisplay.tex'], texFileName);
 
 % all steps
 allIndex = cellfun(@isempty, config.factorSpecifications.step);
