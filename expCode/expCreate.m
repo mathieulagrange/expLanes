@@ -148,7 +148,7 @@ rootString = char({...
     fileread([expCodePath '/nonExposed/utils/getUserFileName.m'])
     fileread([expCodePath '/nonExposed/expConfigParse.m'])
     fileread([expCodePath '/nonExposed/utils/getUserName.m'])
-    fileread([expCodePath '/nonExposed/utils/expDependencies.m'])
+    fileread([expCodePath '/nonExposed/expDependencies.m'])
     });
 
 dlmwrite([config.codePath '/' projectName '.m'], rootString,'delimiter','');
