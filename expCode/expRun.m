@@ -34,13 +34,13 @@ end
 if config.do == 0
     config.do = 1:length(config.stepName);
 end
-if config.show == 0
+if config.obs == 0
     if length(config.do)>1 || config.do>0
-        config.show = config.do(end);
+        config.obs = config.do(end);
     elseif config.do == 0
-        config.show = length(config.stepName);
+        config.obs = length(config.stepName);
     else
-        config.show = -1;
+        config.obs = -1;
     end
 end
 rem=[];
@@ -53,12 +53,12 @@ if config.do>-1
         config.runInfo{k} = sprintf(' - step %s with %s (%d modes)', config.stepName{config.do(k)}, config.stepModes{config.do(k)}.modes(1).infoStringMask, length(config.stepModes{config.do(k)}.modes));
         disp(config.runInfo{k});
     end
-    if config.show>0
-        rem = setdiff(config.show, config.do);
+    if config.obs>0
+        rem = setdiff(config.obs, config.do);
     end
 else
-    if config.show>0
-        rem = config.show;
+    if config.obs>0
+        rem = config.obs;
     end
 end
 for k=1:length(rem)
@@ -76,7 +76,7 @@ if isfield(config, 'serverConfig')
     matConfig.host = -1;
     matConfig.runInfo = config.runInfo;
     matConfig.sync = [];
-    matConfig.show = -1;
+    matConfig.obs = -1;
     %     if matConfig.report==1
     %     matConfig.report = 0; % output tex
     %     end
@@ -106,10 +106,10 @@ else
     config = expOperate(config);
 end
 
-if config.show ~= -1
+if config.obs ~= -1
     %     try
-    for k=1:length(config.show)
-        config = expSetStep(config, config.show(k));
+    for k=1:length(config.obs)
+        config = expSetStep(config, config.obs(k));
         if iscell(config.display)
             config = expExpose(config, config.display{:});
         else

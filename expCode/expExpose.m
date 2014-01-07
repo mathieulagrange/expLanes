@@ -125,6 +125,7 @@ else
     p.columnNames = [config.parameters.names(data.parameterSelector)' config.evaluation.metrics(data.metricSelector)];
     p.methodLabel = '';
     p.xAxis='';
+    p.rowNames = config.parameters.list(data.modeSelector, data.parameterSelector);
 end
 
 for k=1:length(config.modes)
@@ -157,6 +158,10 @@ if length(exposeType)==1
             exposeType = 'exposeScatter';
         case 'x'
             exposeType = 'exposeBoxPlot';
+        case 'a'
+            exposeType = 'exposeAnova';
+        otherwise
+            error(['unknown display type: ' exposeType]);
     end
 else
     if any(strcmp(exposeType, config.evaluation.structMetrics))

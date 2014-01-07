@@ -123,8 +123,8 @@ end
 fclose(fid);
 copyfile([configPath '/' config.shortProjectName 'ConfigDefault.txt'], [configPath '/' config.shortProjectName 'Config' [upper(config.userName(1)) config.userName(2:end)] '.txt']);
 
-% create modes file
-fid = fopen([configPath '/' config.shortProjectName 'Modes.txt'], 'w');
+% create factors file
+fid = fopen([configPath '/' config.shortProjectName 'Factors.txt'], 'w');
 fprintf(fid, 'method =1== {''methodOne'', ''methodTwo'', ''methodThree''} % method will be defined for step 1 only \nthreshold =s1:=1/[1 3]= [0:10] % threshold is defined for step 1 and the remaining steps, will be sequenced and valid for the 1st and 3rd value of the 1st parameter (methodOne and methodThree) \n\n%% Modes file for the %s project\n%% Adapt at your convenience\n', config.shortProjectName);
 fclose(fid);
 
@@ -153,22 +153,22 @@ rootString = char({...
 
 dlmwrite([config.codePath '/' projectName '.m'], rootString,'delimiter','');
 
-config.latex = LatexCreator([config.codePath filesep config.projectName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], projectName, 1, 0);
+config.latex = LatexCreator([config.codePath filesep config.projectName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], projectName, 1, 1);
 
 % create project functions
 % TODO add some comments
 for k=1:length(stepNames)
     functionName = [shortProjectName num2str(k) stepNames{k}];
     functionString = char({...
-        ['function [config, store, display] = ' functionName '(config, mode, data)'];
+        ['function [config, store, obs] = ' functionName '(config, mode, data)'];
         ['% ' functionName ' ' upper(stepNames{k}) ' step of the expCode project ' projectName];
         ['%    [config, store, display] = ' functionName '(config, mode, data)'];
         '%       config : expCode configuration state';
-        '%       mode: current set of parameters';
+        '%       mode   : set of factors to be evaluated';
         '%       data   : processing data stored during the previous step';
         '%';
         '%       store  : processing data to be saved for the other steps ';
-        '%       display: performance measures to be saved for display';
+        '%       obs    : observations to be saved for analysis';
         '';
         ['% Copyright ' config.completeName];
         ['% Date ' date()];
@@ -206,7 +206,7 @@ dlmwrite([config.codePath '/' shortProjectName 'Init.m'], functionString,'delimi
 
 functionName = [shortProjectName 'Report'];
 fid=fopen([config.codePath '/' functionName '.m'], 'w');
-fprintf(fid, 'function config = %s(config)\n\nif nargin==0, %s(''show'', -1); return; end', functionName, projectName);
+fprintf(fid, 'function config = %s(config)\n\nif nargin==0, %s(''report'', 2); return; end', functionName, projectName);
 fclose(fid);
 
 functionString = char({...

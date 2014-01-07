@@ -48,7 +48,7 @@ net = mlpinit(net, 10);
 
 % Set up vector of options for the optimiser.
 options = foptions;
-options(1) = 1;			% This provides display of error values.
+options(1) = 1;			% This provides obs of error values.
 options(14) = 20;		% Number of training cycles. 
 options(18) = 0.1;		% Learning rate
 %options(17) = 0.4;		% Momentum
@@ -60,7 +60,7 @@ disp(['In the first phase of training, which lasts for ',...
     num2str(options(14)), ' cycles,'])
 disp(['the learning rate is ', num2str(options(18)), ...
     ' and the momentum is ', num2str(options(17)), '.'])
-disp('The error values are displayed at the end of each pass through the')
+disp('The error values are obsed at the end of each pass through the')
 disp('entire pattern set.')
 disp(' ')
 disp('Press any key to continue.')

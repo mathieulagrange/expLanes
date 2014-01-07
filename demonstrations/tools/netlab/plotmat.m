@@ -2,7 +2,7 @@ function plotmat(matrix, textcolour, gridcolour, fontsize)
 %PLOTMAT Display a matrix.
 %
 %	Description
-%	PLOTMAT(MATRIX, TEXTCOLOUR, GRIDCOLOUR, FONTSIZE) displays the matrix
+%	PLOTMAT(MATRIX, TEXTCOLOUR, GRIDCOLOUR, FONTSIZE) obss the matrix
 %	MATRIX on the current figure.  The TEXTCOLOUR and GRIDCOLOUR
 %	arguments control the colours of the numbers and grid labels
 %	respectively and should follow the usual Matlab specification. The

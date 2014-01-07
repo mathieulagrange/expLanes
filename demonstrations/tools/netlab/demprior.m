@@ -160,7 +160,7 @@ if strcmp(action,'initialize')
     'Units', 'normalized', ...
     'Visible', 'on');
   
-  % Text display of hyper-parameter values
+  % Text obs of hyper-parameter values
   
   format = '%8f';
   

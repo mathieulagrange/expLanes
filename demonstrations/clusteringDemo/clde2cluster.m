@@ -1,12 +1,12 @@
-function [config, store, display] = clde2cluster(config, mode, data)
+function [config, store, obs] = clde2cluster(config, mode, data)
 % clde2cluster CLUSTER step of the expCode project clusteringDemo
-%    [config, store, display] = clde2cluster(config, mode, data)
+%    [config, store, obs] = clde2cluster(config, mode, data)
 %       config : expCode configuration state
 %       mode: current set of parameters
 %       data   : processing data stored during the previous step
 %
 %       store  : processing data to be saved for the other steps
-%       display: performance measures to be saved for display
+%       obs: performance measures to be saved for obs
 
 % Copyright lagrange
 % Date 22-Nov-2013
@@ -16,7 +16,7 @@ if nargin==0, clusteringDemo('do', 2, 'mask', {{1, 3, 0, 3, 0, 0, 0, 0, 10}}); r
 disp([config.currentStepName ' ' mode.infoString]);
 
 store=[];
-display=[];
+obs=[];
 
 if ~isnan(mode.kernel)
     x = data.samples;
@@ -74,7 +74,7 @@ end
 
 
 
-display.nmi = nmi(clusters, data.class);
+obs.nmi = nmi(clusters, data.class);
 
 % figure();
 scatter(data.samples(:, 1), data.samples(:, 2), 20, clusters, 'filled')

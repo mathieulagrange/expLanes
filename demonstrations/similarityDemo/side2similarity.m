@@ -1,4 +1,4 @@
-function [config, store, display] = side2similarity(config, mode, data, display)
+function [config, store, obs] = side2similarity(config, mode, data, obs)
 
 if nargin==0, similarityDemo('do', 2, 'mask', {{}}); return; end
 
@@ -28,7 +28,7 @@ for k=1:mode.nbRealizations
         end
     end
     p = rankingMetrics(d, data.class{k});
-    display.map(k) = p.meanAveragePrecision;
+    obs.map(k) = p.meanAveragePrecision;
 end
 
-display.similarityTime = toc;
+obs.similarityTime = toc;

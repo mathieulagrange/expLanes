@@ -44,7 +44,7 @@ net = mlp(nin, nhidden, nout, 'linear', alpha);
 % Set up vector of options for the optimiser.
 
 options = zeros(1,18);
-options(1) = 1;			% This provides display of error values.
+options(1) = 1;			% This provides obs of error values.
 options(14) = 100;		% Number of training cycles. 
 
 clc

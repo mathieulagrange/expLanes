@@ -11,9 +11,9 @@ function net = somtrain(net, options, x)
 %
 %	The optional parameters have the following interpretations.
 %
-%	OPTIONS(1) is set to 1 to display error values; also logs learning
+%	OPTIONS(1) is set to 1 to obs error values; also logs learning
 %	rate ALPHA and neighbourhood size NSIZE. Otherwise nothing is
-%	displayed.
+%	obsed.
 %
 %	OPTIONS(5) determines whether the patterns are sampled randomly with
 %	replacement. If it is 0 (the default), then patterns are sampled in

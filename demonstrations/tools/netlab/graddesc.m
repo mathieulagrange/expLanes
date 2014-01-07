@@ -18,11 +18,11 @@ function [x, options, flog, pointlog] = graddesc(f, x, options, gradf, ...
 %
 %	The optional parameters have the following interpretations.
 %
-%	OPTIONS(1) is set to 1 to display error values; also logs error
+%	OPTIONS(1) is set to 1 to obs error values; also logs error
 %	values in the return argument ERRLOG, and the points visited in the
 %	return argument POINTSLOG. If OPTIONS(1) is set to 0, then only
-%	warning messages are displayed.  If OPTIONS(1) is -1, then nothing is
-%	displayed.
+%	warning messages are obsed.  If OPTIONS(1) is -1, then nothing is
+%	obsed.
 %
 %	OPTIONS(2) is the absolute precision required for the value of X at
 %	the solution.  If the absolute difference between the values of X
@@ -108,12 +108,12 @@ f = fcnchk(f, length(varargin));
 gradf = fcnchk(gradf, length(varargin));
 
 % Display information if options(1) > 0
-display = options(1) > 0;
+obs = options(1) > 0;
 
 % Work out if we need to compute f at each iteration.
-% Needed if using line search or if display results or if termination
+% Needed if using line search or if obs results or if termination
 % criterion requires it.
-fcneval = (options(7) | display | options(3));
+fcneval = (options(7) | obs | options(3));
 
 %  Check gradients
 if (options(9) > 0)
@@ -159,7 +159,7 @@ for j = 1:niters
       pointlog(j, :) = x;
     end
   end
-  if display
+  if obs
     fprintf(1, 'Cycle  %5d  Function %11.8f\n', j, fnew);
   end
   if (max(abs(x - xold)) < options(2) & abs(fnew - fold) < options(3))

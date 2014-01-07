@@ -1,6 +1,6 @@
-function [config, store, display] = ausede3separate(config, mode, data)
+function [config, store, obs] = ausede3separate(config, mode, data)
 
-if nargin==0, audioSeparationDemo('do', 3, 'mask', {{1}}, 'display', '>'); return; end
+if nargin==0, audioSeparationDemo('do', 3, 'mask', {{1}}, 'obs', '>'); return; end
 
 disp([config.currentStepName ' ' mode.infoString]);
 % no storage for this step
@@ -37,9 +37,9 @@ en = en(1:length(data.source));
 % compute signal to (distortion, interference and artefacts) ratios
 [sdr sir sar] = bss_eval_sources([e en].',[data.source data.noise].');
 % record performance metrics for the isolation of the source
-display.sdr=sdr(1);
-display.sir=sir(1);
-display.sar=sar(1);
+obs.sdr=sdr(1);
+obs.sir=sir(1);
+obs.sar=sar(1);
 
 % utility function for computing the spectrogram of a given signal
 function A = computeSpectrogram(a, fftlen, sr)

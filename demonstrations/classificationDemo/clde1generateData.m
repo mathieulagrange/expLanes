@@ -1,11 +1,11 @@
-function [config, store, display] = clde1generateData(config, mode, data)
+function [config, store, obs] = clde1generateData(config, mode, data)
 
 if nargin==0, classificationDemo('do', 1, 'mask', {{}}); return; end
 
 disp([config.currentStepName ' ' mode.infoString]);
 
-% no display for this step
-display = [];
+% no obs for this step
+obs = [];
 % get number of classes
 nbClasses = length(expParameterValues(config, 'class'));
 % initialize the gmm model
@@ -23,7 +23,7 @@ for k=1:nbClasses
     % set the ground truth
     class = [class; k*ones(mode.nbElementsPerClass, 1)];
 end
-% display for better spread control
+% obs for better spread control
 scatter(samples(:, 1), samples(:, 2), [], class);
 % store samples and ground truth for the next step
 store.samples = samples;

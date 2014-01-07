@@ -67,7 +67,7 @@ net = mdninit(net, alpha, t, init_options);
 
 % Set up vector of options for the optimiser.
 options = foptions;
-options(1) = 1;			% This provides display of error values.
+options(1) = 1;			% This provides obs of error values.
 options(14) = 200;		% Number of training cycles. 
 
 clc

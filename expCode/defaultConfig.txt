@@ -35,15 +35,15 @@ emailAddress  =
 useExpCodeSmtp = 1
 % version of the project
 versionName = 0.1
-% mantissa precision of value display
+% mantissa precision for the display of observations
 displayDigitPrecision = 2
-% font size for display
+% font size for the display of observations
 displayFontSize = 16
 % set the random seed for replicability
 setRandomSeed = 0
 % memo message
 message = default
-% generate report: <=-3 none -2 verbose tex report -1 generation of tex report, 0 show figures, 1 show figures and generation of tex report, 2 show figures and verbose tex report >=3 none
+% generate report: <=-3 none -2 verbose tex report -1 generation of tex report, 0 display figures, 1 display figures and generation of tex report, 2 display figures and verbose tex report >=3 none
 report = -3
 % resume last computation
 resume = 0
@@ -55,7 +55,7 @@ dummy = 0
 retrieve = 0
 % perform computation even if already stored
 redo = 1
-% specify default display
+% specify default display of observations
 display = >
 % sync mode
 sync = {}
@@ -63,11 +63,13 @@ sync = {}
 bundle = 0
 % clean mode
 clean = 0
-% step for wich to display informations: -1 none, 0 last processed step if any, >0 specific step
-show = 0
+% step for which to display observations: -1 none, 0 last processed step if any, >0 specific step
+obs = 0
 % complete name of user
 completeName = 
 % use abrevations for fileNames
 useShortNamesForFiles = 1
 % path to the pdf viewer (try to locate one if empty)
 pdfViewer = 
+% threshold for statistical significance testing
+significanceThreshold = 0.05

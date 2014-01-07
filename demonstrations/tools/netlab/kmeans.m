@@ -15,10 +15,10 @@ function [centres, options, post, errlog] = kmeans(centres, data, options)
 %	ERRLOG.    The optional parameters have the following
 %	interpretations.
 %
-%	OPTIONS(1) is set to 1 to display error values; also logs error
+%	OPTIONS(1) is set to 1 to obs error values; also logs error
 %	values in the return argument ERRLOG. If OPTIONS(1) is set to 0, then
-%	only warning messages are displayed.  If OPTIONS(1) is -1, then
-%	nothing is displayed.
+%	only warning messages are obsed.  If OPTIONS(1) is -1, then
+%	nothing is obsed.
 %
 %	OPTIONS(2) is a measure of the absolute precision required for the
 %	value of CENTRES at the solution.  If the absolute difference between

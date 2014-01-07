@@ -17,11 +17,11 @@ function [x, options, flog, pointlog] = conjgrad(f, x, options, gradf, ...
 %
 %	The optional parameters have the following interpretations.
 %
-%	OPTIONS(1) is set to 1 to display error values; also logs error
+%	OPTIONS(1) is set to 1 to obs error values; also logs error
 %	values in the return argument ERRLOG, and the points visited in the
 %	return argument POINTSLOG.  If OPTIONS(1) is set to 0, then only
-%	warning messages are displayed.  If OPTIONS(1) is -1, then nothing is
-%	displayed.
+%	warning messages are obsed.  If OPTIONS(1) is -1, then nothing is
+%	obsed.
 %
 %	OPTIONS(2) is a measure of the absolute precision required for the
 %	value of X at the solution.  If the absolute difference between the
@@ -72,7 +72,7 @@ else
   line_options(2) = 1e-4;
 end
 
-display = options(1);
+obs = options(1);
 
 % Next two lines allow conjgrad to work with expression strings
 f = fcnchk(f, length(varargin));
@@ -146,7 +146,7 @@ while (j <= niters)
   gamma = ((gradnew - gradold)*(gradnew)')/gg;
   d = (d .* gamma) - gradnew;
 
-  if (display > 0)
+  if (obs > 0)
     fprintf(1, 'Cycle %4d  Function %11.6f\n', j, line_options(8));
   end
 

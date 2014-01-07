@@ -213,7 +213,7 @@ if strcmp(action,'initialize')
     'Tag', 'fpar2slider', ...
     'Enable', 'off');
   
-  % Text display of hyper-parameter values
+  % Text obs of hyper-parameter values
   
   format = '%8f';
 

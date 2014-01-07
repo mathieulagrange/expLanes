@@ -95,11 +95,11 @@ selectorString = '';
 if ~isempty(selector)
     switch selector
         case 's'
-            selectorString = '_store.mat';
-            excludeString = [excludeString '--include ''*_store.mat'' --exclude ''*'''];
+            selectorString = '_data.mat';
+            excludeString = [excludeString '--include ''*_data.mat'' --exclude ''*'''];
         case 'd'
-            selectorString = '_display.mat';
-            excludeString = [excludeString '--include ''*_display.mat'' --exclude ''*'''];
+            selectorString = '_observations.mat';
+            excludeString = [excludeString '--include ''*_obs.mat'' --exclude ''*'''];
     end
 end
 

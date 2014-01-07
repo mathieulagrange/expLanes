@@ -31,9 +31,9 @@ function [samples, energies, diagn] = metrop(f, x, options, gradf, varargin)
 %	The optional parameters in the OPTIONS vector have the following
 %	interpretations.
 %
-%	OPTIONS(1) is set to 1 to display the energy values and rejection
+%	OPTIONS(1) is set to 1 to obs the energy values and rejection
 %	threshold at each step of the Markov chain. If the value is 2, then
-%	the position vectors at each step are also displayed.
+%	the position vectors at each step are also obsed.
 %
 %	OPTIONS(14) is the number of samples retained from the Markov chain;
 %	default 100.
@@ -65,7 +65,7 @@ if nargin <= 2
   end
 end
 
-display = options(1);
+obs = options(1);
 if options(14) > 0
   nsamples = options(14);
 else
@@ -118,14 +118,14 @@ while n <= nsamples
     diagn_pos(n,:) = x;
     diagn_acc(n,:) = a;
   end
-  if (display > 1)
+  if (obs > 1)
     fprintf(1, 'New position is\n');
     disp(x);
   end
 
   if a > rand(1)	% Accept the new state.
     Eold = Enew;
-    if (display > 0)
+    if (obs > 0)
       fprintf(1, 'Finished step %4d  Threshold: %g\n', n, a);
     end
   else			% Reject the new state
@@ -133,7 +133,7 @@ while n <= nsamples
       nreject = nreject + 1;
     end
     x = xold;	% Reset position 
-    if (display > 0)
+    if (obs > 0)
       fprintf(1, '  Sample rejected %4d.  Threshold: %g\n', n, a);
     end
   end
@@ -146,7 +146,7 @@ while n <= nsamples
   n = n + 1;
 end
 
-if (display > 0)
+if (obs > 0)
   fprintf(1, '\nFraction of samples rejected:  %g\n', ...
           nreject/(nsamples));
 end

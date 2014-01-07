@@ -10,10 +10,10 @@ function [net, options, errlog] = gtmem(net, t, options)
 %	call to GTMINIT, for example.    The optional parameters have the
 %	following interpretations.
 %
-%	OPTIONS(1) is set to 1 to display error values; also logs error
+%	OPTIONS(1) is set to 1 to obs error values; also logs error
 %	values in the return argument ERRLOG. If OPTIONS(1) is set to 0, then
-%	only warning messages are displayed.  If OPTIONS(1) is -1, then
-%	nothing is displayed.
+%	only warning messages are obsed.  If OPTIONS(1) is -1, then
+%	nothing is obsed.
 %
 %	OPTIONS(3) is a measure of the absolute precision required of the
 %	error function at the solution. If the change in log likelihood
@@ -44,7 +44,7 @@ else
   niters = 100;
 end
 
-display = options(1);
+obs = options(1);
 store = 0;
 if (nargout > 2)
   store = 1;	% Store the error values to return them
@@ -75,14 +75,14 @@ for n = 1:niters
    % Calculate responsibilities
    [R, act] = gtmpost(net, t);
      % Calculate error value if needed
-   if (display | store | test)
+   if (obs | store | test)
       prob = act*(net.gmmnet.priors)';
       % Error value is negative log likelihood of data
       e = - sum(log(max(prob,eps)));
       if store
          errlog(n) = e;
       end
-      if display > 0
+      if obs > 0
          fprintf(1, 'Cycle %4d  Error %11.6f\n', n, e);
       end
       if test
@@ -110,7 +110,7 @@ for n = 1:niters
    % and t are normally (much) larger than PhiT.
    [cholDcmp singular] = chol(A);
    if (singular)
-      if (display)
+      if (obs)
          fprintf(1, ...
             'gtmem: Warning -- M-Step matrix singular, using pinv.\n');
       end
@@ -130,6 +130,6 @@ for n = 1:niters
 end
 
 options(8) = -sum(log(gtmprob(net, t)));
-if (display >= 0)
+if (obs >= 0)
   disp(maxitmess);
 end

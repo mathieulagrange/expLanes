@@ -25,7 +25,7 @@ function [net, options] = rbftrain(net, options, x, t)
 %	different number iterations for RBF and GMM training. The optional
 %	parameters to RBFTRAIN have the following interpretations.
 %
-%	OPTIONS(1) is set to 1 to display error values during EM training.
+%	OPTIONS(1) is set to 1 to obs error values during EM training.
 %
 %	OPTIONS(2) is a measure of the precision required for the value of
 %	the weights W at the solution.

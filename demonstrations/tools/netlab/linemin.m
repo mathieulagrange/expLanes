@@ -14,7 +14,7 @@ function [x, options] = linemin(f, pt, dir, fpt, options, ...
 %
 %	The optional parameters have the following interpretations.
 %
-%	OPTIONS(1) is set to 1 to display error values.
+%	OPTIONS(1) is set to 1 to obs error values.
 %
 %	OPTIONS(2) is a measure of the absolute precision required for the
 %	value of X at the solution.
@@ -39,7 +39,7 @@ else
 end
 options(10) = 0; % Initialise count of function evaluations
 
-display = options(1);
+obs = options(1);
 
 % Check function string
 f = fcnchk(f, length(varargin));
@@ -145,7 +145,7 @@ for n = 1:niters
       fv = fu;
     end
   end
-  if (display == 1)
+  if (obs == 1)
     fprintf(1, 'Cycle %4d  Error %11.6f\n', n, fx);
   end
 end

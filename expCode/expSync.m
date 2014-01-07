@@ -3,7 +3,7 @@ function expSync(config, syncMode, syncDestination, syncDirection, detach, delet
 %   perform code and data synchronization between host and servers
 %
 %   syncMode: ['c', 'd', 'i', step_numeric_id] aka code, dependencies, input,
-%       steps as specified by their numeric ids optionally append with s (store) or d (display)
+%       steps as specified by their numeric ids optionally append with d (data) or o (observations)
 %   syncDestination: host numeric id
 %   syncDirection: ['up', 'down'], from host to server and vice versa
 %   detach: [0,1], default 0, sync in background mode

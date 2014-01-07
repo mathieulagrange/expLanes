@@ -23,9 +23,9 @@ function [net, options] = glmtrain(net, options, x, t)
 %
 %	The optional parameters have the following interpretations.
 %
-%	OPTIONS(1) is set to 1 to display error values during training. If
-%	OPTIONS(1) is set to 0, then only warning messages are displayed.  If
-%	OPTIONS(1) is -1, then nothing is displayed.
+%	OPTIONS(1) is set to 1 to obs error values during training. If
+%	OPTIONS(1) is set to 0, then only warning messages are obsed.  If
+%	OPTIONS(1) is -1, then nothing is obsed.
 %
 %	OPTIONS(2) is a measure of the precision required for the value of
 %	the weights W at the solution.
@@ -58,7 +58,7 @@ if(~options(14))
   options(14) = 100;
 end
 
-display = options(1);
+obs = options(1);
 % Do we need to test for termination?
 test = (options(2) | options(3));
 

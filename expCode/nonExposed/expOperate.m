@@ -142,10 +142,10 @@ end
 [config storeData storeDisplay] = feval(functionName, config, mode, loadedData);
 
 if ~isempty(storeData)
-    expSave(config, storeData, 'store');
+    expSave(config, storeData, 'data');
 end
 if ~isempty(storeDisplay)
-    expSave(config, storeDisplay, 'display');
+    expSave(config, storeDisplay, 'obs');
 end
 
 

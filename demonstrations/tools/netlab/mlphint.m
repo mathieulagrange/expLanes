@@ -4,8 +4,8 @@ function [h1, h2] = mlphint(net);
 %	Description
 %
 %	MLPHINT(NET) takes a network structure NET and plots the Hinton
-%	diagram comprised of two figure windows, one displaying the first-
-%	layer weights and biases, and one displaying the second-layer weights
+%	diagram comprised of two figure windows, one obsing the first-
+%	layer weights and biases, and one obsing the second-layer weights
 %	and biases.
 %
 %	[H1, H2] = MLPHINT(NET) also returns handles H1 and  H2 to the

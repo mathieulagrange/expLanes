@@ -42,7 +42,7 @@ pause; clc;
 
 disp('We next create and initialize a mixture model consisting of a mixture')
 disp('of 2 Gaussians having ''spherical'' covariance matrices, using the')
-disp('function GMM. The Gaussian components can be displayed on the same')
+disp('function GMM. The Gaussian components can be obsed on the same')
 disp('plot as the data by drawing a contour of constant probability density')
 disp('for each component having radius equal to the corresponding standard')
 disp('deviation. Component 1 is coloured red and component 2 is coloured')

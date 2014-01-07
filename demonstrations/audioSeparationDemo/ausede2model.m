@@ -1,6 +1,6 @@
-function [config, store, display] = ausede2model(config, mode, data)
+function [config, store, obs] = ausede2model(config, mode, data)
 
-if nargin==0, audioSeparationDemo('do', 2, 'mask', {{2, 5, 1, 1, 5}}, 'display', '>'); return; end
+if nargin==0, audioSeparationDemo('do', 2, 'mask', {{2, 5, 1, 1, 5}}, 'obs', '>'); return; end
 
 disp([config.currentStepName ' ' mode.infoString]);
 
@@ -14,8 +14,8 @@ switch mode.method
         SN = abs(computeSpectrogram(data.noise, config.fftlen, config.samplingFrequency));
         % record where the source is dominant in the spectrogram
         store.mask = SN<SS;
-        % no display for this method
-        display = [];
+        % no obs for this method
+        obs = [];
     % Non Negative Matrix Approximation (NNMA)
     case 'nnma'
         % compute the spectrogram of the mixture
@@ -59,7 +59,7 @@ switch mode.method
         config.sequentialData.W = W;
         config.sequentialData.H = H;        
         % record likelihood
-        display.likelihood = sum(sum((SM-W*H).^2));
+        obs.likelihood = sum(sum((SM-W*H).^2));
 end
 
 

@@ -1,11 +1,11 @@
-function [config, store, display] = clde2train(config, mode, data)
+function [config, store, obs] = clde2train(config, mode, data)
 
 if nargin==0, classificationDemo('do', 2, 'mask', {{1}}); return; end
 
 switch mode.method
     case 'knn'
-        % no display for the knn approach
-        display = [];
+        % no obs for the knn approach
+        obs = [];
         % the model for the knn approach is the training dataset
         store.model = data(1);
     case'gmm'
@@ -30,7 +30,7 @@ switch mode.method
         % EM training of the model
         [model options] = gmmem(mix, trainingData, options);
         % record training likelihood
-        display.trainLikelihood = options(8);
+        obs.trainLikelihood = options(8);
         % store model for the next step
         store.model = model;
         % save model and number of iterations already done for the next

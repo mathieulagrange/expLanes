@@ -1,12 +1,12 @@
-function [config, store, display] = clde1generateData(config, mode, data)
+function [config, store, obs] = clde1generateData(config, mode, data)
 % clde1generateData GENERATEDATA step of the expCode project clusteringDemo
-%    [config, store, display] = clde1generateData(config, mode, data)
+%    [config, store, obs] = clde1generateData(config, mode, data)
 %       config : expCode configuration state
 %       mode: current set of parameters
 %       data   : processing data stored during the previous step
 %
 %       store  : processing data to be saved for the other steps
-%       display: performance measures to be saved for display
+%       obs: performance measures to be saved for obs
 
 % Copyright lagrange
 % Date 22-Nov-2013
@@ -16,7 +16,7 @@ if nargin==0, clusteringDemo('do', 1, 'mask', {{0 0 0 3}}); return; end
 disp([config.currentStepName ' ' mode.infoString]);
 
 store=[];
-display=[];
+obs=[];
 
 switch mode.dataType
     case 'spherical'

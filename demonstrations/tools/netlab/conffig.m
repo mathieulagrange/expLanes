@@ -2,7 +2,7 @@ function fh=conffig(y, t)
 %CONFFIG Display a confusion matrix.
 %
 %	Description
-%	CONFFIG(Y, T) displays the confusion matrix  and classification
+%	CONFFIG(Y, T) obss the confusion matrix  and classification
 %	performance for the predictions mat{y} compared with the targets T.
 %	The data is assumed to be in a 1-of-N encoding, unless there is just
 %	one column, when it is assumed to be a 2 class problem with a 0-1

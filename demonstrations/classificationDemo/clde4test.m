@@ -1,4 +1,4 @@
-function [config, store, display] = clde4test(config, mode, data)
+function [config, store, obs] = clde4test(config, mode, data)
 
 if nargin==0, classificationDemo('do', 4, 'mask', {{1, 0, 0, 0, 0, 2}}); return; end
 
@@ -41,14 +41,14 @@ end
 agreement = prediction==class;
 % record average accuracy per class
 for k=1:nbClasses
-    display.(['accuracy' num2str(k)]) = mean(agreement(class==k));
+    obs.(['accuracy' num2str(k)]) = mean(agreement(class==k));
 end
 % record average accuracy
-display.accuracy = mean(agreement);
-% record information for the display of the confusion matrix
-display.confusionMatrix.prediction = prediction;
-display.confusionMatrix.class = class;
-display.confusionMatrix.classNames = expParameterValues(config, 'class');
+obs.accuracy = mean(agreement);
+% record information for the obs of the confusion matrix
+obs.confusionMatrix.prediction = prediction;
+obs.confusionMatrix.class = class;
+obs.confusionMatrix.classNames = expParameterValues(config, 'class');
 
 function classMatrix = netClass(class)
 

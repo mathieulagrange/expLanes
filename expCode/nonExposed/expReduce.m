@@ -23,7 +23,7 @@ if isempty(data)%
     for k=1:length(config.modes)
         config.currentMode = config.modes(k);
         
-        config = expLoad(config, [], [], 'display');
+        config = expLoad(config, [], [], 'obs');
         if ~isempty(config.load)
             data{k} = config.load;
         end

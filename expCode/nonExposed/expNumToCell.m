@@ -28,7 +28,7 @@ for k=1:size(dataMean, 2)
     resultCell(:, k) = regexprep(col, 'NaN', '-');
 end
 
-if any(highlight)
+if any(highlight(:))
     if latexStyle
         resultCell(highlight==1) = strcat('\textbf{', resultCell(highlight==1), '}');
     else

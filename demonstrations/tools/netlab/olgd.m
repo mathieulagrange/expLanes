@@ -15,11 +15,11 @@ function [net, options, errlog, pointlog] = olgd(net, options, x, t)
 %
 %	The optional parameters have the following interpretations.
 %
-%	OPTIONS(1) is set to 1 to display error values; also logs error
+%	OPTIONS(1) is set to 1 to obs error values; also logs error
 %	values in the return argument ERRLOG, and the points visited in the
 %	return argument POINTSLOG.  If OPTIONS(1) is set to 0, then only
-%	warning messages are displayed.  If OPTIONS(1) is -1, then nothing is
-%	displayed.
+%	warning messages are obsed.  If OPTIONS(1) is -1, then nothing is
+%	obsed.
 %
 %	OPTIONS(2) is the precision required for the value of X at the
 %	solution. If the absolute difference between the values of X between
@@ -94,12 +94,12 @@ unpakstr = [net.type, 'unpak'];
 % Extract initial weights from the network
 w = feval(pakstr, net);
 
-display = options(1);
+obs = options(1);
 
 % Work out if we need to compute f at each iteration.
-% Needed if display results or if termination
+% Needed if obs results or if termination
 % criterion requires it.
-fcneval = (display | options(3));
+fcneval = (obs | options(3));
 
 %  Check gradients
 if (options(9))
@@ -149,7 +149,7 @@ while j <= niters
     fnew = neterr(w, net, x, t);
     options(10) = options(10) + 1;
   end
-  if display
+  if obs
     fprintf(1, 'Iteration  %5d  Error %11.8f\n', j, fnew);
   end
   j = j + 1;

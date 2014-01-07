@@ -3,7 +3,7 @@ function config = exposeTable(config, data, p)
 switch p.put
     case 0
         numCell = expNumToCell(data.meanData, data.varData, config.displayDigitPrecision);
-        dataCell = [config.parameters.list(data.modeSelector, data.parameterSelector) numCell];
+        dataCell = [p.rowNames numCell]; % config.parameters.list(data.modeSelector, data.parameterSelector)
         dataCell = expSortData(dataCell, p.sort, data.parameterSelector, config);
         el = cell(1, length(p.columnNames));
         [el{:}] = deal('---');
@@ -12,7 +12,7 @@ switch p.put
         p.report=0;
         config = expDisplay(config, p);
         numCell = expNumToCell(data.meanData, data.varData, config.displayDigitPrecision, 0, data.highlights);
-         dataCell = [config.parameters.list(data.modeSelector, data.parameterSelector) numCell];
+        dataCell = [p.rowNames numCell];
         dataCell = expSortData(dataCell, p.sort, data.parameterSelector, config);
         
         
@@ -46,10 +46,8 @@ switch p.put
             end
         end
     case 2
-        numCell = expNumToCell(data.meanData, data.varData, config.displayDigitPrecision, 1, data.highlights); % TODO being able to remove variance
-        
-        
-        dataCell = [strrep(config.parameters.list(data.modeSelector, data.parameterSelector), '_', '\_') numCell];
-        
+        numCell = expNumToCell(data.meanData, data.varData, config.displayDigitPrecision, 1, data.highlights); % TODO being able to remove variance       
+        dataCell = [strrep(p.rowNames, '_', '\_') numCell];
+        dataCell = expSortData(dataCell, p.sort, data.parameterSelector, config);      
         config.displayData.data = [p.columnNames; expSortData(dataCell, p.sort, data.parameterSelector, config)];
 end

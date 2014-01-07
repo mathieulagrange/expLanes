@@ -9,10 +9,10 @@ function [mix, options, errlog] = gmmem(mix, x, options)
 %	each row corresponding to a vector.    The optional parameters have
 %	the following interpretations.
 %
-%	OPTIONS(1) is set to 1 to display error values; also logs error
+%	OPTIONS(1) is set to 1 to obs error values; also logs error
 %	values in the return argument ERRLOG. If OPTIONS(1) is set to 0, then
-%	only warning messages are displayed.  If OPTIONS(1) is -1, then
-%	nothing is displayed.
+%	only warning messages are obsed.  If OPTIONS(1) is -1, then
+%	nothing is obsed.
 %
 %	OPTIONS(3) is a measure of the absolute precision required of the
 %	error function at the solution. If the change in log likelihood
@@ -50,7 +50,7 @@ else
   niters = 100;
 end
 
-display = options(1);
+obs = options(1);
 store = 0;
 if (nargout > 2)
   store = 1;	% Store the error values to return them
@@ -63,7 +63,7 @@ end
 
 check_covars = 0;
 if options(5) >= 1
-  if display >= 0
+  if obs >= 0
     disp('check_covars is on');
   end
   check_covars = 1;	% Ensure that covariances don't collapse
@@ -78,14 +78,14 @@ for n = 1:niters
   [post, act] = gmmpost(mix, x);
   
   % Calculate error value if needed
-  if (display | store | test)
+  if (obs | store | test)
     prob = act*(mix.priors)';
     % Error value is negative log likelihood of data
     e = - sum(log(prob));
     if store
       errlog(n) = e;
     end
-    if display > 0
+    if obs > 0
       fprintf(1, 'Cycle %4d  Error %11.6f\n', n, e);
     end
     if test
@@ -175,7 +175,7 @@ for n = 1:niters
 end
 
 options(8) = -sum(log(gmmprob(mix, x)));
-if (display >= 0)
+if (obs >= 0)
   disp(maxitmess);
 end
   

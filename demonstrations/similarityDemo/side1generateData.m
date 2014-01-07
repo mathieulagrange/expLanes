@@ -1,4 +1,4 @@
-function [config, store, display] = side1generateData(config, mode, data, display)
+function [config, store, obs] = side1generateData(config, mode, data, obs)
 
 if nargin==0, similarityDemo('do', 1, 'mask', {{}}); return; end
 
@@ -19,4 +19,4 @@ for k=1:mode.nbRealizations
     store.class{k} = class;
 end
 
-display.generationTime = toc*1000;
+obs.generationTime = toc*1000;

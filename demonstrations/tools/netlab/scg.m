@@ -18,11 +18,11 @@ function [x, options, flog, pointlog, scalelog] = scg(f, x, options, gradf, vara
 %	be passed to F() and GRADF().     The optional parameters have the
 %	following interpretations.
 %
-%	OPTIONS(1) is set to 1 to display error values; also logs error
+%	OPTIONS(1) is set to 1 to obs error values; also logs error
 %	values in the return argument ERRLOG, and the points visited in the
 %	return argument POINTSLOG.  If OPTIONS(1) is set to 0, then only
-%	warning messages are displayed.  If OPTIONS(1) is -1, then nothing is
-%	displayed.
+%	warning messages are obsed.  If OPTIONS(1) is -1, then nothing is
+%	obsed.
 %
 %	OPTIONS(2) is a measure of the absolute precision required for the
 %	value of X at the solution.  If the absolute difference between the
@@ -61,7 +61,7 @@ else
   niters = 100;
 end
 
-display = options(1);
+obs = options(1);
 gradcheck = options(9);
 
 % Set up strings for evaluating function and gradient
@@ -151,7 +151,7 @@ while (j <= niters)
       end
     end
   end    
-  if display > 0
+  if obs > 0
     fprintf(1, 'Cycle %4d  Error %11.6f  Scale %e\n', j, fnow, beta);
   end
 
