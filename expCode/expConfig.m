@@ -174,7 +174,7 @@ for k=1:length(fieldNames)
     if ~isempty(strfind(fieldNames{k}, 'Path'))
         field = config.(fieldNames{k});
         % if relative add projectPath
-        if ~strcmp(fieldNames{k}, 'matlabPath')  && (isempty(field) || ~isempty(field) && ~any(strcmp(field(1), {'~', '/', '\'})))
+        if ~strcmp(fieldNames{k}, 'matlabPath')  && (isempty(field) || ~isempty(field) && ((length(field)>1 && strcmp(field(2), ':')) || ~any(strcmp(field(1), {'~', '/', '\'}))))
             config.(fieldNames{k}) = [projectPath filesep field];
         end
     end
