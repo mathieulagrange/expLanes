@@ -1,0 +1,42 @@
+% Config file for the similarityDemo project
+% Adapt at your convenience
+
+backupPath = /tmp/expCodeBackup/similarityDemo
+bundlePath = /tmp/similarityDemo
+codePath = {'', '~/projects/similarityDemo'}
+displayPath = display
+inputPath = ~/data/databases
+matlabPath = {'', '/net/moncol/data/usr_local/MATLAB/R2010b/bin'}
+dataPath = data
+machineNames = {'', 'pc-adtsi-sunda.irccyn.ec-nantes.fr'}
+projectName = similarityDemo
+shortProjectName = side
+stepName = {'process', 'evaluate'}
+userName = lagrange
+versionName = 0.1
+bundle = 0
+dependencies = {'../../expCode'}
+display = >
+displayDigitPrecision = 2
+displayFontSize = 16
+do = -1
+dummy = 0
+emailAddress = {'lagrange@ircam.fr', 'lagrange.mathieu@gmail.com'}
+host = 0
+localDependencies = 0
+log = 1
+mask = {{}}
+message = default
+parallel = 0
+probe = 0
+redo = 1
+report = 0
+resume = 0
+retrieve = 0
+setRandomSeed = 0
+obs = 0
+sync = {}
+useExpCodeSmtp = 1
+completeName = Mathieu
+clean = 0
+useShortNamesForFiles = 1
