@@ -52,7 +52,13 @@ else
 end
 
 % type of plan
-switch plan{3}
+if length(plan)<3
+    type = 'f';
+else
+    type = plan{3};
+end
+
+switch type
     case {'f', 'factorial'}
         seed(:) = {0};
         mask = seed;

@@ -73,3 +73,5 @@ useShortNamesForFiles = 1
 pdfViewer = 
 % threshold for statistical significance testing
 significanceThreshold = 0.05
+% planification capability: assume cell array of {[factors as numericIds], quantificationStep, type of plan as string 'f' (factorial) or 'o' (one parameter at a time), seed}
+plan =

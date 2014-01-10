@@ -1,18 +1,28 @@
 function config = expConfig(projectPath, shortProjectName, commands)
 
-% TODO etudier la possibilite de compiler le code pour se passer de
-% parallel : mettre toute les modees dans un fichier proteger par un
-% lock
-
 % TODO command to purge server code base
 
 % FIXME store dependency string and force localDep = 2 if different
 
 configFileName = getUserFileName(shortProjectName, projectPath);
+config = expConfigParse(configFileName);
+
+expCodePath = fileparts(mfilename('fullpath'));  
+defaultConfig = expConfigParse([expCodePath filesep 'defaultConfig.txt']);
+
+namesDefault = fieldnames(defaultConfig);
+namesConfig = fieldnames(config);
+for k=1:length(namesDefault)
+    if ~strcmp(namesConfig, namesDefault{k})
+        disp(['Missing config field ' namesDefault{k} ' in your config file (see defaultConfig.txt in expCode rootPath for default setting).']);
+        config.(namesDefault{k}) = defaultConfig.(namesDefault{k});
+    end
+end
+
+
 staticData = load([projectPath '/config' filesep shortProjectName]);
 
 [p projectName] = fileparts(projectPath);
-config = expConfigParse(configFileName);
 
 config.projectPath = projectPath;
 config.configFileName = configFileName;
