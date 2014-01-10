@@ -1,15 +1,15 @@
-function mask = expSelectParameters(factorSpecifications, mask, mode, rec)
+function mask = expSelectParameters(factors, mask, mode, rec)
 
 if ~exist('mode', 'var'), mode=-1; end
 if ~exist('rec', 'var'), rec=1; end
 
-if ~isempty(factorSpecifications.selectParameters)
+if ~isempty(factors.selectParameters)
     % TODO iterate over same parameters filters ?
     k=1;
     doit=0;
     c1mask = {};
-    while ~isempty(factorSpecifications.selectParameters) && (k==1 || p == str2num(factorSpecifications.selectParameters{1}(1)))
-        c = regexp(factorSpecifications.selectParameters{1}, '/', 'split');
+    while ~isempty(factors.selectParameters) && (k==1 || p == str2num(factors.selectParameters{1}(1)))
+        c = regexp(factors.selectParameters{1}, '/', 'split');
         if length(c)==3
             c{4} = '0';
         end
@@ -22,7 +22,7 @@ if ~isempty(factorSpecifications.selectParameters)
             doit=1;
         end
         
-        for m=1:length(factorSpecifications.names)
+        for m=1:length(factors.names)
             s1mask{m} = 0;
             s2mask{m} = 0;
         end
@@ -34,20 +34,20 @@ if ~isempty(factorSpecifications.selectParameters)
         end
         s1mask{s}=ss;
         
-        myMask = mergeMask(mask, s1mask, factorSpecifications.values, mode);
+        myMask = expMergeMask(mask, s1mask, factors.values, mode);
         if ~isempty(myMask)
             c1mask = [c1mask myMask];
             
         end
         k=k+1;
-        factorSpecifications.selectParameters(1) = [];
+        factors.selectParameters(1) = [];
     end
     
     s2mask{p} = -1;
-    s2mask{s} = setxor(ss, 1:length(factorSpecifications.values{s}));
+    s2mask{s} = setxor(ss, 1:length(factors.values{s}));
     
     %     c2mask=c1mask;
-    c2mask = mergeMask(mask, s2mask, factorSpecifications.values, mode);
+    c2mask = expMergeMask(mask, s2mask, factors.values, mode);
     
     
     for k=1:length(c1mask)
@@ -64,7 +64,7 @@ if ~isempty(factorSpecifications.selectParameters)
     end
     
     rec=rec+1;
-    mask= expSelectParameters(factorSpecifications, mask, mode, rec);
+    mask= expSelectParameters(factors, mask, mode, rec);
 end
 
 function v = isMyEqual(m1, m2)
@@ -87,50 +87,3 @@ for k=1:length(m1)
     end
 end
 
-
-function mask = mergeMask(m, s, values, mode)
-
-if ~isempty(m) && all(cellfun(@iscell, m))
-    mask={};
-    for k=1:length(m)
-        mm = mergeMask(m{k}, s, values, mode);
-        if ~isempty(mm)
-            mask{end+1} = mm;
-        end
-    end
-else
-    if length(m)>length(s)
-        s = [s num2cell(zeros(1, length(m)-length(s)))];
-    elseif length(m)<length(s)
-        m = [m num2cell(zeros(1, length(s)-length(m)))];
-    end
-    
-    for k=1:length(m)
-        if  s{k}(1) == -1 || m{k}(1) == -1
-            m{k} = mode;
-        else
-            %             if 0 %% TODO does it do the same thing ? SEEM SO
-            if m{k}(1) ~= 0 && s{k}(1) ~= 0
-                m{k} = intersect(m{k}, s{k});
-            elseif m{k}(1) == 0 && s{k}(1) ~= 0
-                m{k} = s{k};
-            elseif m{k}(1) == 0
-                m{k} = 1:length(values{k});
-            end
-            %             else
-            %                 if s{k}(1) == 0
-            %                     s{k} = 1:length(values{k});
-            %                 end
-            %                 if m{k}(1) == 0
-            %                     m{k} = 1:length(values{k});
-            %                 end
-            %                 m{k} = intersect(m{k}, s{k});
-            %             end
-            if isempty(m{k})
-                mask=[];
-                return
-            end
-        end
-        mask = m;
-    end
-end

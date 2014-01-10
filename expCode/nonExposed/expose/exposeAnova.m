@@ -18,7 +18,7 @@ for k=1:nbFactors
 end
 
 p.columnNames = [{''}; config.parameters.names]';
-p.rowNames = config.parameters.names;
+p.rowNames = config.parameters.names(data.parameterSelector);
 data.highlights = m<config.significanceThreshold;
 data.meanData = m;
 data.varData = [];

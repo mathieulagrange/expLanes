@@ -1,8 +1,8 @@
 function [config, permutationVector] = expOrder(config, order)
 
-order = [order setdiff(1:length(config.factorSpecifications.names), order)];
+order = [order setdiff(1:length(config.factors.names), order)];
 
-vSpec = config.factorSpecifications;
+vSpec = config.factors;
 
 vSpec.names = vSpec.names(order);
 vSpec.shortNames = vSpec.shortNames(order);

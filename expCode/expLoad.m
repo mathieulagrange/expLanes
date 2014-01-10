@@ -39,8 +39,8 @@ else
 end
 
 if nargin<2 || isempty(name)
-    %     mode = expModeBuild(config.factorSpecifications, config.currentMode.infoId');
-    tv = expModes(config.factorSpecifications, {num2cell(config.currentMode.infoId)}, inputId); % TODO slow but useful, detect if data flow is contracting
+    %     mode = expModeBuild(config.factors, config.currentMode.infoId');
+    tv = expModes(config.factors, {num2cell(config.currentMode.infoId)}, inputId); % TODO slow but useful, detect if data flow is contracting
     if config.useShortNamesForFiles
         names = {tv.modes(:).infoShortString}; % FIXME should be masked
     else

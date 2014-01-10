@@ -60,7 +60,7 @@ if iscell(config.mask)
     end
 end
 
-config.stepModes{config.currentStep} = expModes(config.factorSpecifications, config.mask, config.currentStep);
+config.stepModes{config.currentStep} = expModes(config.factors, config.mask, config.currentStep);
 config = expSetStep(config);
 config = expReduce(config);
 
@@ -77,9 +77,9 @@ if ~isempty(p.order),
 end
 if p.expand,
     if ~isnumeric(p.expand)
-        p.expand = find(strcmp(config.factorSpecifications.names, p.expand));
+        p.expand = find(strcmp(config.factors.names, p.expand));
     end
-    p.expandName = config.factorSpecifications.names{p.expand};
+    p.expandName = config.factors.names{p.expand};
     mask = config.mask;
     for k=1:length(mask)
         if sum(size(mask{k}))<p.expand
@@ -87,7 +87,7 @@ if p.expand,
         end
         mask{k}{p.expand} = -1;
     end
-    tv = expModes(config.factorSpecifications, mask, config.currentStep);
+    tv = expModes(config.factors, mask, config.currentStep);
     config.modes = tv.modes;
     config.sequence = tv.sequence;
     %      config.parameters = tv.parameters;

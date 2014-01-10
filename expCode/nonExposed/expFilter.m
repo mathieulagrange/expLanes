@@ -19,7 +19,7 @@ if  parameterExpand ~= 0 % TODO allow expand with mutiple metrics
     if length(metricSelector)==1 && parameterExpand >0
         % use one parameter to rearrange data
         pList = config.parameters.list(:, parameterExpand);
-        nExpand = length(config.factorSpecifications.values{parameterExpand});
+        nExpand = length(config.factors.values{parameterExpand});
         modeSelector = (1:length(pList));
         % sort
         [null, idx] = sort(pList);
@@ -71,11 +71,11 @@ else
 end
 
 parameterSelected = {};
-for k=1:length(config.factorSpecifications.names)
+for k=1:length(config.factors.names)
     vsk = config.modeSet(k, select);
     vsk(vsk==0)=[];
     if length(unique(vsk))>1
-        parameterSelected(end+1) = config.factorSpecifications.names(k);
+        parameterSelected(end+1) = config.factors.names(k);
     end
 end
 

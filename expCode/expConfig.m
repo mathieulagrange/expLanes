@@ -23,7 +23,7 @@ if isempty(config.completeName)
 end
 
 config.factorFileName = [projectPath '/config' filesep config.shortProjectName 'Factors.txt'];
-config.factorSpecifications = expFactorParse(config.factorFileName);
+config.factors = expFactorParse(config.factorFileName);
 
 
 if nargin>2,
@@ -47,6 +47,8 @@ if iscell(config.mask)
         config.mask = {config.mask};
     end
 end
+
+config = expPlan(config);
 
 if nargin<1 || config.host < 1
     hostIndex = find(strcmp(config.machineNames, config.hostName));

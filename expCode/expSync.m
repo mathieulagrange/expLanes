@@ -93,7 +93,7 @@ for k=1:length(tokens)
             case 'c'
                 syncDirectory(config, serverConfig, 'code', delete, detach);
             case 'i'
-                dataBaseModeIndex = find(strcmp(config.factorSpecifications.names, 'dataBase'));
+                dataBaseModeIndex = find(strcmp(config.factors.names, 'dataBase'));
                 if ~isempty(dataBaseModeIndex)
                     dataBases = config.modeValues{dataBaseModeIndex};
                     for k=1:length(dataBases)
