@@ -162,7 +162,7 @@ for k=1:length(stepNames)
     functionString = char({...
         ['function [config, store, obs] = ' functionName '(config, mode, data)'];
         ['% ' functionName ' ' upper(stepNames{k}) ' step of the expCode project ' projectName];
-        ['%    [config, store, display] = ' functionName '(config, mode, data)'];
+        ['%    [config, store, obs] = ' functionName '(config, mode, data)'];
         '%       config : expCode configuration state';
         '%       mode   : set of factors to be evaluated';
         '%       data   : processing data stored during the previous step';
@@ -178,7 +178,7 @@ for k=1:length(stepNames)
         'disp([config.currentStepName '' '' mode.infoString]);';
         '';
         'store=[];';
-        'display=[];';
+        'obs=[];';
         });
     dlmwrite([config.codePath '/' functionName '.m'], functionString,'delimiter','');
     

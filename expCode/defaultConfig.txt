@@ -6,7 +6,7 @@ dataPath = ~/data/projects/<>
 % path to the code repository of the project 
 codePath = ~/projects/research/experiments/active/<>
 % path to static input data (read only access)
-inputPath = ~/data/databases
+inputPath = 
 % path to backup of transfered data
 backupPath = /tmp/expCodeBackup/<> 
 % path to store code bundles
@@ -73,5 +73,5 @@ useShortNamesForFiles = 1
 pdfViewer = 
 % threshold for statistical significance testing
 significanceThreshold = 0.05
-% planification capability: assume cell array of {[factors as numericIds], quantificationStep, type of plan as string 'f' (factorial) or 'o' (one parameter at a time), seed}
+% planification capability: assume cell array of {[factors as numericIds], number of values per factor (0 complete set of values), type of plan as string 'f' (factorial) or 'o' (one parameter at a time), seed as a vector of index of factor}
 plan =
