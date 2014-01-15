@@ -2,6 +2,14 @@ function config = expConfig(projectPath, shortProjectName, commands)
 
 % TODO command to purge server code base
 
+% TODO move fqctor file to root
+% TODO do <- step
+% TODO seed index after resampling ?
+% TODO expCreate diamond ??
+% TODO 'host' 1 on  linux
+% TODO anova create new figure
+% TODO anova p1*p2+p3 fails
+
 % FIXME store dependency string and force localDep = 2 if different
 
 configFileName = getUserFileName(shortProjectName, projectPath);
@@ -32,7 +40,7 @@ if isempty(config.completeName)
     config.completeName = config.userName;
 end
 
-config.factorFileName = [projectPath '/config' filesep config.shortProjectName 'Factors.txt'];
+config.factorFileName = [projectPath filesep config.shortProjectName 'Factors.txt'];
 config.factors = expFactorParse(config.factorFileName);
 
 

@@ -108,7 +108,7 @@ configCell=textscan(configFile,'%s', 'delimiter', '\n');
 fclose(configFile);
 
 % create config file
-fid = fopen([configPath '/' config.shortProjectName 'ConfigDefault.txt'], 'w');
+fid = fopen([config.codePath filesep config.shortProjectName 'ConfigDefault.txt'], 'w');
 fprintf(fid, '%% Config file for the %s project\n%% Adapt at your convenience\n\n', config.shortProjectName);
 configFields = fieldnames(config);
 for k=1:length(configFields)
