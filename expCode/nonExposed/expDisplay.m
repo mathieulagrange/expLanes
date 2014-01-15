@@ -13,7 +13,7 @@ switch p.put
                 config.displayData.figure(k).caption = p.caption;
                 config.displayData.figure(k).label = p.label;
                 config.displayData.figure(k).report = p.report;
-                figure(config.displayData.figure(k).handles);
+                figure(config.displayData.figure(k).handle);
                 set(gcf,'name', p.title);
                 set(gcf,'number','off');
                 clf
@@ -21,7 +21,7 @@ switch p.put
             end
         end
         
-        config.displayData.figure(end+1).handles = figure();
+        config.displayData.figure(end+1).handle = figure();
         config.displayData.figure(end).taken = 1;
         config.displayData.figure(end).caption = p.caption;
         config.displayData.figure(end).label = p.label;

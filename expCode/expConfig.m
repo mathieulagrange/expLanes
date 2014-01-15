@@ -120,11 +120,16 @@ if config.setRandomSeed
     %     expRandomSeed(config);
 end
 
-% config.displayData.figure.handles = findobj('Type','figure');
-% config.displayData.figure.taken = zeros(1, length(config.displayData.figure.handles)) ;
-% config.displayData.figure.caption = {};
-% config.displayData.figure.label = {};
+figureHandles = findobj('Type','figure');
 config.displayData.figure = [];
+for k=1:length(figureHandles)
+   config.displayData.figure(k).handle = figureHandles(k);  
+   config.displayData.figure(k).taken = 0;
+   config.displayData.figure(k).caption = 0;
+   config.displayData.figure(k).report = 0;
+   config.displayData.figure(k).label = 0;
+   
+end
 config.displayData.latex = [];
 
 config.currentstep = length(config.stepName);

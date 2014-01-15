@@ -29,7 +29,7 @@ end
 % add figure
 for k=1:length(config.displayData.figure)
     if config.displayData.figure(k).taken && config.displayData.figure(k).report
-        config.latex.addFigure(config.displayData.figure(k).handles, 'caption', config.displayData.figure(k).caption, 'label', config.displayData.figure(k).label);
+        config.latex.addFigure(config.displayData.figure(k).handle, 'caption', config.displayData.figure(k).caption, 'label', config.displayData.figure(k).label);
     end
 end
 
