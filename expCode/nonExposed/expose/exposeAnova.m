@@ -7,7 +7,7 @@ group{k} = config.parameters.list(data.modeSelector, data.parameterSelector(k));
 end
 
 an = anovan(data.meanData, group,'model','interaction', 'display', 'off');
-m = diag(an(1:3));
+m = diag(an(1:nbFactors));
 s=nbFactors+1;
 for k=1:nbFactors
    for n=k+1:nbFactors

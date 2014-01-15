@@ -42,6 +42,9 @@ for k=1:length(factors)
     else
         steps{k}(1) = [];
     end
+    if steps{k}(end) ~= length(config.factors.values{factors(k)})
+        steps{k}(end) = length(config.factors.values{factors(k)});
+    end
 end
 
 %define seed
