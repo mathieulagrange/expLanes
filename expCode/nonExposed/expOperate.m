@@ -36,7 +36,7 @@ fclose(config.logFile);
 
 config.currentMode = [];
 
-step = config.do;
+step = config.step;
 
 tic
 try

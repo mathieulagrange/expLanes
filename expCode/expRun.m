@@ -31,13 +31,13 @@ end
 
 % expPath();
 
-if config.do == 0
-    config.do = 1:length(config.stepName);
+if config.step == 0
+    config.step = 1:length(config.stepName);
 end
 if config.obs == 0
-    if length(config.do)>1 || config.do>0
-        config.obs = config.do(end);
-    elseif config.do == 0
+    if length(config.step)>1 || config.step>0
+        config.obs = config.step(end);
+    elseif config.step == 0
         config.obs = length(config.stepName);
     else
         config.obs = -1;
@@ -45,16 +45,16 @@ if config.obs == 0
 end
 rem=[];
 config.runInfo=[];
-if config.do>-1
+if config.step>-1
     fprintf('Project %s: running on host %s: \n', config.projectName, config.hostName);
-    for k=1:length(config.do)
-        [config.stepModes{config.do(k)}] = expModes(config.factors, config.mask, config.do(k));
+    for k=1:length(config.step)
+        [config.stepModes{config.step(k)}] = expModes(config.factors, config.mask, config.step(k));
         
-        config.runInfo{k} = sprintf(' - step %s with %s (%d modes)', config.stepName{config.do(k)}, config.stepModes{config.do(k)}.modes(1).infoStringMask, length(config.stepModes{config.do(k)}.modes));
+        config.runInfo{k} = sprintf(' - step %s with %s (%d modes)', config.stepName{config.step(k)}, config.stepModes{config.step(k)}.modes(1).infoStringMask, length(config.stepModes{config.step(k)}.modes));
         disp(config.runInfo{k});
     end
     if config.obs>0
-        rem = setdiff(config.obs, config.do);
+        rem = setdiff(config.obs, config.step);
     end
 else
     if config.obs>0
