@@ -7,8 +7,10 @@ reduceFileName = [config.dataPath config.stepName{config.currentStep} filesep 'r
 
 if exist(reduceFileName, 'file')
     % get vSet
+    modReduce = dir(reduceFileName);
+    modFactors = dir(config.factorFileName);
     loadedData=load(reduceFileName, 'vSet');
-    if isequal(loadedData.vSet, config.modeSet)
+    if isequal(loadedData.vSet, config.modeSet) && modReduce.datenum > modFactors.datenum
         loadedData=load(reduceFileName, 'data');
         data = loadedData.data;
     end

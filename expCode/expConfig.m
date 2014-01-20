@@ -116,8 +116,7 @@ config.parallel(end) = 0; % never for reduce
 
 % config.randState = staticData.randState;
 if config.setRandomSeed
-    rng(0, 'twister');
-    %     expRandomSeed(config);
+    expRandom();
 end
 
 figureHandles = findobj('Type','figure');

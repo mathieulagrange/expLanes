@@ -19,7 +19,7 @@ if  parameterExpand ~= 0 % TODO allow expand with mutiple metrics
     if length(metricSelector)==1 && parameterExpand >0
         % use one parameter to rearrange data
         pList = config.parameters.list(:, parameterExpand);
-        nExpand = length(config.factors.values{parameterExpand});
+        nExpand = length(config.parameters.values{parameterExpand});
         modeSelector = (1:length(pList));
         % sort
         [null, idx] = sort(pList);
