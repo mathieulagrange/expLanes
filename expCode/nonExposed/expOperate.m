@@ -127,7 +127,7 @@ end
 
 loadedData = [];
 if config.currentStep>1
-    config = expLoad(config, [], [], 'store');
+    config = expLoad(config, [], [], 'data');
     if ~isempty(config.load)
         loadedData = config.load;
     end

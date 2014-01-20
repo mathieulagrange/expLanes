@@ -108,7 +108,7 @@ configCell=textscan(configFile,'%s', 'delimiter', '\n');
 fclose(configFile);
 
 % create config file
-fid = fopen([config.codePath filesep config.shortProjectName 'ConfigDefault.txt'], 'w');
+fid = fopen([configPath filesep config.shortProjectName 'ConfigDefault.txt'], 'w');
 fprintf(fid, '%% Config file for the %s project\n%% Adapt at your convenience\n\n', config.shortProjectName);
 configFields = fieldnames(config);
 for k=1:length(configFields)
@@ -124,7 +124,7 @@ fclose(fid);
 copyfile([configPath '/' config.shortProjectName 'ConfigDefault.txt'], [configPath '/' config.shortProjectName 'Config' [upper(config.userName(1)) config.userName(2:end)] '.txt']);
 
 % create factors file
-fid = fopen([configPath '/' config.shortProjectName 'Factors.txt'], 'w');
+fid = fopen([config.codePath '/' config.shortProjectName 'Factors.txt'], 'w');
 fprintf(fid, 'method =1== {''methodOne'', ''methodTwo'', ''methodThree''} % method will be defined for step 1 only \nthreshold =s1:=1/[1 3]= [0:10] % threshold is defined for step 1 and the remaining steps, will be sequenced and valid for the 1st and 3rd value of the 1st parameter (methodOne and methodThree) \n\n%% Modes file for the %s project\n%% Adapt at your convenience\n', config.shortProjectName);
 fclose(fid);
 
