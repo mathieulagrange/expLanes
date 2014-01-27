@@ -11,7 +11,7 @@ if  parameterExpand ~= 0 % TODO allow expand with mutiple metrics
     if length(config.evaluation.metrics)==1
         metricSelector=1;
     end
-    if isempty(metricSelector)
+    if ~metricSelector
         error('Please select the metric you want to expand.');
     end
     % select one metric

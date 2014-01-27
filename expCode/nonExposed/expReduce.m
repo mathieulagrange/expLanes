@@ -53,8 +53,7 @@ for k=1:length(data)
             if ~isstruct(data{k}.(names{m}))
                 metrics = [metrics names{m}];
             else
-                 structMetrics = [structMetrics names{m}];
-               
+                 structMetrics = [structMetrics names{m}];               
             end
         end
         for m=1:length(names)
@@ -71,7 +70,7 @@ results = zeros(length(data), length(metrics), maxLength)*NaN;
 for k=1:length(metrics)
     for m=1:length(data)
         if isfield(data{m}, metrics{k})
-            results(m, k, :) = data{m}.(metrics{k});
+            results(m, k, (1:length(data{m}.(metrics{k})))) = data{m}.(metrics{k});
         end
     end
 end

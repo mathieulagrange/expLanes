@@ -46,7 +46,7 @@ if serverConfig.host < 2
     end
 else
     syncString = [syncString  ' -e ssh '];
-    if system(['ssh ' serverConfig.hostName ' '' ls ' serverDirectoryPath ' 2>/dev/null ''']) % TODO remove output when it fails put & ?
+    if system(['ssh ' serverConfig.hostName ' '' ls ' serverDirectoryPath ' 2>/dev/null >/dev/null ''']) % TODO remove output when it fails put & ?
         system(['ssh ' serverConfig.hostName ' ''mkdir -p ' serverDirectoryPath '''']);
     end
 end
@@ -94,11 +94,11 @@ end
 selectorString = '';
 if ~isempty(selector)
     switch selector
-        case 's'
+        case 'd'
             selectorString = '_data.mat';
             excludeString = [excludeString '--include ''*_data.mat'' --exclude ''*'''];
-        case 'd'
-            selectorString = '_observations.mat';
+        case 'o'
+            selectorString = '_obs.mat';
             excludeString = [excludeString '--include ''*_obs.mat'' --exclude ''*'''];
     end
 end

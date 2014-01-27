@@ -3,6 +3,7 @@ function v = expModeBuild(vSpec, vSet)
 mask=[];
 for k=1:size(vSet, 1)
     value = unique(vSet(k, :));
+    value(value==0)=[];
     if length(value)==1
         if value==0
             mask(end+1) =  -1;

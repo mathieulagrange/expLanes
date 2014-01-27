@@ -173,7 +173,7 @@ for k=1:length(stepNames)
         ['% Copyright ' config.completeName];
         ['% Date ' date()];
         '';
-        ['if nargin==0, ' , projectName '(''do'', ' num2str(k) ', ''mask'', {{}}); return; end'];
+        ['if nargin==0, ' , projectName '(''step'', ' num2str(k) ', ''mask'', {}); return; end'];
         '';
         'disp([config.currentStepName '' '' mode.infoString]);';
         '';

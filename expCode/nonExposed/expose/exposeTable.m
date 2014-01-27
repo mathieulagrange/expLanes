@@ -46,8 +46,10 @@ switch p.put
             end
         end
     case 2
-        numCell = expNumToCell(data.meanData, data.varData, config.displayDigitPrecision, 1, data.highlights); % TODO being able to remove variance       
-        dataCell = [strrep(p.rowNames, '_', '\_') numCell];
-        dataCell = expSortData(dataCell, p.sort, data.parameterSelector, config);      
-        config.displayData.data = [p.columnNames; expSortData(dataCell, p.sort, data.parameterSelector, config)];
+        numCell = expNumToCell(data.meanData, data.varData, config.displayDigitPrecision, 1, data.highlights); % TODO being able to remove variance
+        dataCell = [p.rowNames numCell];
+        allCell = [p.columnNames; expSortData(dataCell, p.sort, data.parameterSelector, config)];
+        allCell = strrep(allCell, '_', '\_');
+        allCell = strrep(allCell, '%', '\%');
+        config.displayData.data = allCell;
 end

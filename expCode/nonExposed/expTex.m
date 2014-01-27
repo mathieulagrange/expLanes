@@ -24,12 +24,18 @@ config.latex = LatexCreator([config.latexFileName '.tex'], 1, config.completeNam
 % add table
 for k=1:length(config.displayData.latex)
     config.latex.addTable(config.displayData.latex(k).data, 'caption', config.displayData.latex(k).caption, 'multipage', config.displayData.latex(k).multipage, 'landscape', config.displayData.latex(k).landscape, 'label', config.displayData.latex(k).label);
+if ~mod(k, 10)
+        config.latex.addLine('\clearpage');
+end
 end
 
 % add figure
 for k=1:length(config.displayData.figure)
     if config.displayData.figure(k).taken && config.displayData.figure(k).report
         config.latex.addFigure(config.displayData.figure(k).handle, 'caption', config.displayData.figure(k).caption, 'label', config.displayData.figure(k).label);
+    if ~mod(k, 10)
+        config.latex.addLine('\clearpage');
+    end
     end
 end
 

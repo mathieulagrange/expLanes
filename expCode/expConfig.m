@@ -2,13 +2,20 @@ function config = expConfig(projectPath, shortProjectName, commands)
 
 % TODO command to purge server code base
 
-% TODO move fqctor file to root
-% TODO do <- step
+
 % TODO seed index after resampling ?
 % TODO expCreate diamond ??
-% TODO 'host' 1 on  linux
-% TODO anova create new figure
-% TODO anova p1*p2+p3 fails
+% TODO 'host' 1 on  linux -> matlab path ?
+% TODO config copy managment
+% TODO symbolic link to data, issue with rsync ?
+% TODO display obs in mail
+% TODO have a default config within user folder
+% TODO end in fqctor selector
+% TODO fix fqctor selector (too much NaNs)
+% TODO display plan of experiment
+% TODO keep latex data for next run
+% TODO s at beginning
+% TODO build GUI
 
 % FIXME store dependency string and force localDep = 2 if different
 
@@ -111,7 +118,7 @@ end
 while length(config.parallel)<length(config.stepName)
     config.parallel(end+1)=config.parallel(end);
 end
-config.parallel(end) = 0; % never for reduce
+% config.parallel(end) = 0; % never for reduce
 
 
 % config.randState = staticData.randState;

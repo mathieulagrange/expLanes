@@ -99,6 +99,11 @@ if isfield(config, 'serverConfig')
         command = ['screen -m -d ' config.matlabPath 'matlab -nodesktop -nosplash -r  "cd ' config.serverConfig.codePath ' ; load ' config.serverConfig.configMatName '; ' config.projectName '(config);"']; % replace -d by -t in ssh for verbosity
     end
     
+    % if runnning with issues with ssh connection run ssh with -v and check
+    % that the LC_MESSAGES and LANG encoding are available on the server
+    % if not edit /var/lib/locales/supported.d/local to put the needed ones
+    % and run sudo dpkg-reconfigure locales
+  
     system(command);
     fprintf('\nExperiment launched.\n');
     return;

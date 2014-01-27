@@ -120,7 +120,7 @@ function config = expProcessOneSub(config, mode, step)
 
 functionName = [config.shortProjectName num2str(step) config.stepName{step}];
 
-if config.redo==0 && (exist(expSave(config, [], 'store'), 'file') || exist(expSave(config, [], 'display'), 'file'))
+if config.redo==0 && (exist(expSave(config, [], 'data'), 'file') || exist(expSave(config, [], 'display'), 'file'))
    disp(['skipping ' config.currentStepName ' ' config.currentMode.infoString]);
    return
 end

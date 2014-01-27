@@ -1,9 +1,9 @@
-function config = expLoad(config, name, inputId, extension, selector)
+function [config data] = expLoad(config, name, inputId, extension, selector)
 
 if nargin<2 || isempty(name), name = ''; end
 if nargin<3 || isempty(inputId), inputId=config.currentStep-1; end
 if nargin<4 || isempty(extension),
-    extension = '_store';
+    extension = '_data';
 else
     [p n] = fileparts(extension); % FIXME may be fragile
     extension = ['_' n];
@@ -62,6 +62,8 @@ if isempty(config.load)
     end
 end
 
+data = config.load;
+
 % end
 
 
@@ -79,10 +81,11 @@ if isempty(config.load) && config.retrieve
             continue;
         end
         disp(['Attempting to fetch it from ' config.machineNames{source}]);
-        sourceConfig = expConfig(config.codePath, {'host', source});
+        sourceConfig = expConfig(config.codePath, config.shortProjectName, {'host', source});
         
         if inputId
-            sourcePath = sourceConfig.([config.stepName{inputId} 'Path']);
+            sourcePath = [sourceConfig.dataPath sourceConfig.stepName{inputId} filesep];
+%             sourcePath = sourceConfig.([config.stepName{inputId} 'Path']);
         else
             sourcePath = sourceConfig.inputPath;
         end

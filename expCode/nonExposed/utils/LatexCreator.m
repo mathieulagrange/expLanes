@@ -105,6 +105,7 @@ LatexObj_s = struct('disp',@disp_, ...
                     'addTable',@addTable,...
                     'addTextFile',@addTextFile,...
                     'newPage',@newPage,...
+                    'addLine',@addLine,...
                     'set_CONFIG',@set_CONFIG,...
                     'get_CONFIG',@get_CONFIG,...
                     'deleteLastFig',@deleteLastFig,...
@@ -447,6 +448,7 @@ CONSTRUCTOR(varargin{:});
             Data.tex{end+1}='\usepackage[latin1]{inputenc}';
             Data.tex{end+1}='\usepackage[french]{babel}';
             Data.tex{end+1}='\usepackage{graphicx}';
+            Data.tex{end+1}='\usepackage{morefloats}';
             Data.tex{end+1}='\usepackage[colorlinks=true,urlcolor=blue,citecolor=blue]{hyperref} ';
             Data.tex{end+1}='\usepackage{amsmath}';
             Data.tex{end+1}='\usepackage{amssymb}';
@@ -694,9 +696,9 @@ CONSTRUCTOR(varargin{:});
         Data.tex=[];
         Data.tex{end+1}=' ';
         if landscape
-         Data.tex{end+1}='\begin{sidewaystable}[h]';
+         Data.tex{end+1}='\begin{sidewaystable}';
         else
-        Data.tex{end+1}='\begin{table}[h]';
+        Data.tex{end+1}='\begin{table}';
         end
         Data.tex{end+1}='\begin{center}';
         tmp_line='\begin{tabular}{|';
@@ -754,7 +756,7 @@ CONSTRUCTOR(varargin{:});
         else
         Data.tex{end+1}='\end{table}';
         end
-       Data.tex{end+1}='';
+
         Data.tex{end+1}='';
 
         writeLatexFile();
@@ -808,6 +810,14 @@ CONSTRUCTOR(varargin{:});
         Data.tex=[];
         Data.tex{end+1}=' ';
         Data.tex{end+1}='\newpage';
+        Data.tex{end+1}=' ';
+        writeLatexFile();
+    end
+
+    function addLine(line)
+        Data.tex=[];
+        Data.tex{end+1}=' ';
+        Data.tex{end+1}=line;
         Data.tex{end+1}=' ';
         writeLatexFile();
     end

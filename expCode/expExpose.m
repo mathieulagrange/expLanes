@@ -23,6 +23,7 @@ p.label='';
 p.put=1;
 p.save=0;
 p.report=1;
+p.percent=0;
 
 pNames = fieldnames(p);
 % overwrite default parameters with command line ones
@@ -70,6 +71,17 @@ end
 if ischar(p.metric)
     p.metric = find(strcmp(config.evaluation.metrics, p.metric));
     if isempty(p.metric), disp(['Unable to find parameter with name' p.metric]); end
+    
+elseif ~p.metric
+    evaluationMetrics = config.evaluation.metrics;
+else
+evaluationMetrics = config.evaluation.metrics(p.metric);
+end
+
+if p.percent
+    for k=1:length(p.percent)
+        evaluationMetrics{p.percent(k)} =  [evaluationMetrics{p.percent(k)} ' (%)'];
+    end
 end
 
 if ~isempty(p.order),
@@ -78,6 +90,9 @@ end
 if p.expand,
     if ~isnumeric(p.expand)
         p.expand = find(strcmp(config.factors.names, p.expand));
+        if isempty(p.expand)
+            error('Unable to find expand parameter.');
+        end
     end
     p.expandName = config.factors.names{p.expand};
     mask = config.mask;
@@ -101,6 +116,13 @@ end
 
 data = expFilter(config, p.expand, p.metric);
 
+if any(p.percent) % TODO submit vector
+    for k=1:length(p.percent)
+        data.meanData(:, k) =  data.meanData(:, k)*100;
+        data.varData(:, k) =  data.varData(:, k)*100;
+    end
+end
+
 p.title = strrep(p.title, '+', config.modes(1).infoStringMask);
 p.caption = strrep(p.caption, '=', p.title);
 p.caption = strrep(p.caption, '+', config.modes(1).infoStringMask);
@@ -119,10 +141,11 @@ if data.parameterExpand
     p.columnNames = [config.parameters.names(data.parameterSelector); p.legendNames]'; % (data.parameterSelector)
     p.methodLabel = config.evaluation.metrics{data.metricSelector};
     p.xName = p.expandName;
+    p.rowNames = config.parameters.list(data.modeSelector, data.parameterSelector);
 else
-    p.legendNames = config.evaluation.metrics(data.metricSelector);
+    p.legendNames = evaluationMetrics;
     p.xName='';
-    p.columnNames = [config.parameters.names(data.parameterSelector)' config.evaluation.metrics(data.metricSelector)];
+    p.columnNames = [config.parameters.names(data.parameterSelector)' evaluationMetrics];
     p.methodLabel = '';
     p.xAxis='';
     p.rowNames = config.parameters.list(data.modeSelector, data.parameterSelector);
@@ -131,7 +154,7 @@ end
 for k=1:length(config.modes)
     p.labels{k} = strrep(config.modes(k).infoShortStringMasked, '_', ' '); % (data.modeSelector)
 end
-p.axisLabels = config.evaluation.metrics(data.metricSelector);
+p.axisLabels = evaluationMetrics;
 
 % displayData = config.displayData;
 

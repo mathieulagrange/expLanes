@@ -17,7 +17,7 @@ if ~isempty(factors.selectParameters)
         ps = eval(c{4});
         s = eval(c{2});
         ss = eval(c{3});
-        
+        doit=0; % FIXME maybe
         if ss==0
             doit=1;
         end
