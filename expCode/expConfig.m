@@ -16,6 +16,7 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % TODO keep latex data for next run
 % TODO s at beginning
 % TODO build GUI
+% TODO renaming .mat function when adding factor
 
 % FIXME store dependency string and force localDep = 2 if different
 
@@ -209,3 +210,4 @@ for k=1:length(fieldNames)
     end
 end
 
+config.waitBar = [];
