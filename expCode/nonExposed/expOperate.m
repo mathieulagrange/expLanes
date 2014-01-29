@@ -141,6 +141,8 @@ end
 
 [config storeData storeDisplay] = feval(functionName, config, mode, loadedData);
 
+config = expProgress(config);
+
 if ~isempty(storeData)
     expSave(config, storeData, 'data');
 end

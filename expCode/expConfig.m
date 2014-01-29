@@ -10,13 +10,14 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % TODO symbolic link to data, issue with rsync ?
 % TODO display obs in mail
 % TODO have a default config within user folder
-% TODO end in fqctor selector
-% TODO fix fqctor selector (too much NaNs)
+% TODO end in factor selector
+% TODO fix factor selector (too much NaNs)
 % TODO display plan of experiment
 % TODO keep latex data for next run
 % TODO s at beginning
 % TODO build GUI
 % TODO renaming .mat function when adding factor
+% TODO finnish expProgress
 
 % FIXME store dependency string and force localDep = 2 if different
 

@@ -131,15 +131,19 @@ if config.obs ~= -1
 end
 
 if config.report>-1
-    try
-        config.currentStep = length(config.stepName);
+    config.currentStep = length(config.stepName);
+    if config.host == 0
         config = feval([config.shortProjectName 'Report'], config);
-    catch error
-        config.report=-1;
-        if config.host == 0
-            rethrow(error);
-        else
-            expLog(config, error, 3, 1);
+    else
+        try
+            config = feval([config.shortProjectName 'Report'], config);
+        catch error
+            config.report=-1;
+            if config.host == 0
+                rethrow(error);
+            else
+                expLog(config, error, 3, 1);
+            end
         end
     end
 end

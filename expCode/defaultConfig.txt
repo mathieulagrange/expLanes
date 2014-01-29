@@ -75,3 +75,5 @@ pdfViewer =
 significanceThreshold = 0.05
 % planification capability: assume cell array of {[factors as numericIds], number of values per factor (0 complete set of values), type of plan as string 'f' (factorial) or 'o' (one parameter at a time), seed as a vector of index of factor}
 plan =
+% show processing progress 0: none, 1: bar if on local host, 2: verbose output, 3: liminar output
+progress = 1

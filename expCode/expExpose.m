@@ -13,7 +13,7 @@ p.parameter = [];
 p.variance = 1;
 p.highlight=1;
 p.title='+';
-p.caption='=';
+p.caption='+';
 p.multipage=0;
 p.landscape=0;
 p.sort=0;
@@ -24,6 +24,7 @@ p.put=1;
 p.save=0;
 p.report=1;
 p.percent=0;
+p.legend=1;
 
 pNames = fieldnames(p);
 % overwrite default parameters with command line ones
@@ -65,7 +66,8 @@ config.stepModes{config.currentStep} = expModes(config.factors, config.mask, con
 config = expSetStep(config);
 config = expReduce(config);
 
-if isempty(config.evaluation)
+if isempty(config.evaluation) || isempty(config.evaluation.data)
+    disp('No observations to display.');
     return
 end
 if ischar(p.metric)
@@ -75,7 +77,7 @@ if ischar(p.metric)
 elseif ~p.metric
     evaluationMetrics = config.evaluation.metrics;
 else
-evaluationMetrics = config.evaluation.metrics(p.metric);
+    evaluationMetrics = config.evaluation.metrics(p.metric);
 end
 
 if p.percent
