@@ -2,12 +2,12 @@ function config = expConfig(projectPath, shortProjectName, commands)
 
 % TODO command to purge server code base
 
-
+% TODO default still in title
 % TODO seed index after resampling ?
 % TODO expCreate diamond ??
 % TODO 'host' 1 on  linux -> matlab path ?
 % TODO config copy managment
-% TODO symbolic link to data, issue with rsync ?
+% TODO symbolic link to data, issue with rsync and issues with path generation ?
 % TODO display obs in mail
 % TODO have a default config within user folder
 % TODO end in factor selector
@@ -17,7 +17,15 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % TODO s at beginning
 % TODO build GUI
 % TODO renaming .mat function when adding factor
-% TODO finnish expProgress
+% TODO put default timing observations (show average duration per mode)
+% TODO convert disp by expLog
+% TODO clusteringMetrics
+% TODO split expModesBuild into a helper function that is called to build
+% one mode
+
+% FIXME expProgress ctrl C opened figure
+
+% TODO fix potential issues with short naming (issues with too long file names, hashing ?)
 
 % FIXME store dependency string and force localDep = 2 if different
 

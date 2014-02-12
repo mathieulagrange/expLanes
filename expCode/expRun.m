@@ -2,6 +2,16 @@ function config = expRun(projectPath, shortProjectName, commands)
 
 config = expHistory(projectPath, shortProjectName, commands);
 
+config.logFileName = [config.reportPath 'log_' num2str(config.runId) '.txt'];
+config.errorDataFileName = {};
+if exist(config.logFileName, 'file')
+    delete(config.logFileName);
+end
+
+config.logFile = fopen([config.reportPath 'config.txt'], 'w');
+fprintf(config.logFile, '\n%s\n', evalc('disp(config)'));
+fclose(config.logFile);
+
 if config.bundle ~= 0
     expSync(config, config.bundle, -1);
     return
@@ -46,12 +56,15 @@ end
 rem=[];
 config.runInfo=[];
 if config.step>-1
-    fprintf('Project %s: running on host %s: \n', config.projectName, config.hostName);
+    fprintf('Project %s: running on host %s \n', config.projectName, config.hostName);
     for k=1:length(config.step)
         [config.stepModes{config.step(k)}] = expModes(config.factors, config.mask, config.step(k));
-        
-        config.runInfo{k} = sprintf(' - step %s with %s (%d modes)', config.stepName{config.step(k)}, config.stepModes{config.step(k)}.modes(1).infoStringMask, length(config.stepModes{config.step(k)}.modes));
-        disp(config.runInfo{k});
+       if  length(config.stepModes{config.step(k)}.modes)>1
+        config.runInfo{k} = sprintf(' - step %s with constant factors %s \n     %d modes with variable factors: %s', config.stepName{config.step(k)}, config.stepModes{config.step(k)}.modes(1).infoStringMask, length(config.stepModes{config.step(k)}.modes), config.stepModes{config.step(k)}.modes(1).infoStringFactors);
+        else
+            config.runInfo{k} = sprintf(' - step %s with constant factors %s', config.stepName{config.step(k)}, config.stepModes{config.step(k)}.modes(1).infoStringMask);
+    end
+    config = expLog(config, [config.runInfo{k} '\n']);
     end
     if config.obs>0
         rem = setdiff(config.obs, config.step);
@@ -175,10 +188,10 @@ switch config.host
         
         
         if ~isempty(regexp(config.emailAddress, '[a-z_]+@[a-z]+\.[a-z]+', 'match'))
-            message = sprintf('duration: %s \nnumber of cores used: %d\n\n', expTimeString(config.runDuration), max([1 config.parallel]));
-            if ~isempty(config.runInfo)
-                message = [message sprintf('%s\n', config.runInfo{:})];
-            end
+            message = sprintf('duration: %s \n average duration per mode %s \nnumber of cores used: %d\n\n', expTimeString(config.runDuration), expTimeString(config.runDuration/length(config.modes)), max([1 config.parallel]));
+%             if ~isempty(config.runInfo)
+%                 message = [message sprintf('%s\n', config.runInfo{:})];
+%             end
             
             fid = fopen(config.logFileName);
             if fid>0

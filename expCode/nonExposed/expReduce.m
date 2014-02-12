@@ -28,6 +28,8 @@ if isempty(data)%
         config = expLoad(config, [], [], 'obs');
         if ~isempty(config.load)
             data{k} = config.load;
+        else
+            data{k} = [];
         end
     end
     
@@ -66,10 +68,11 @@ structMetrics = unique(structMetrics);
 
 % build results matrix
 % TODO remove usage of NaN by using cell arrays
+%results = zeros(length(data), length(metrics), maxLength)*NaN;
 results = zeros(length(data), length(metrics), maxLength)*NaN;
-for k=1:length(metrics)
-    for m=1:length(data)
-        if isfield(data{m}, metrics{k})
+for k=1:size(results, 2)
+    for m=1:size(results, 1)
+        if isfield(data{m}, metrics{k}) && ~isempty((data{m}.(metrics{k})))
             results(m, k, (1:length(data{m}.(metrics{k})))) = data{m}.(metrics{k});
         end
     end

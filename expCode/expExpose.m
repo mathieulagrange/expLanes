@@ -74,7 +74,8 @@ if ischar(p.metric)
     p.metric = find(strcmp(config.evaluation.metrics, p.metric));
     if isempty(p.metric), disp(['Unable to find parameter with name' p.metric]); end
     
-elseif ~p.metric
+end
+if ~p.metric
     evaluationMetrics = config.evaluation.metrics;
 else
     evaluationMetrics = config.evaluation.metrics(p.metric);
@@ -116,7 +117,7 @@ if ~p.sort && isfield(config, 'sortDisplay')
     p.sort = config.sortDisplay;
 end
 
-data = expFilter(config, p.expand, p.metric);
+data = expFilter(config, p);
 
 if any(p.percent) % TODO submit vector
     for k=1:length(p.percent)
@@ -130,18 +131,18 @@ p.caption = strrep(p.caption, '=', p.title);
 p.caption = strrep(p.caption, '+', config.modes(1).infoStringMask);
 p.caption = strrep(p.caption, '_', '\_');
 
-if data.parameterExpand
-    p.legendNames = config.parameters.values{data.parameterExpand};
+if p.expand
+    p.legendNames = config.parameters.values{p.expand};
     if ~ischar(p.legendNames)
         if isnumeric(p.legendNames{1})
-            p.xAxis = cell2mat(config.parameters.set{data.parameterExpand});
+            p.xAxis = cell2mat(config.parameters.set{p.expand});
         else
             p.xAxis = 1:length(p.legendNames);
         end
         p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
     end
     p.columnNames = [config.parameters.names(data.parameterSelector); p.legendNames]'; % (data.parameterSelector)
-    p.methodLabel = config.evaluation.metrics{data.metricSelector};
+    p.methodLabel = config.evaluation.metrics{p.metric};
     p.xName = p.expandName;
     p.rowNames = config.parameters.list(data.modeSelector, data.parameterSelector);
 else

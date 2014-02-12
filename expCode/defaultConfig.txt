@@ -77,3 +77,7 @@ significanceThreshold = 0.05
 plan =
 % show processing progress 0: none, 1: bar if on local host, 2: verbose output, 3: liminar output
 progress = 1
+% cell array of couple of string and array, if the string is parsed in a mask definition it gets replaced by the definition array
+maskPatch = {}
+% show timing observations
+showTiming = 1

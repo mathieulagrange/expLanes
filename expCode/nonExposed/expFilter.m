@@ -1,4 +1,4 @@
-function dataDisplay = expFilter(config, parameterExpand, metricSelector)
+function dataDisplay = expFilter(config, p)
 % filter data in various ways
 
 data = config.evaluation.results;
@@ -7,19 +7,19 @@ data = config.evaluation.results;
 fData = data;
 modeSelector = 1:length(config.modes);
 
-if  parameterExpand ~= 0 % TODO allow expand with mutiple metrics
+if  p.expand ~= 0 % TODO allow expand with mutiple metrics
     if length(config.evaluation.metrics)==1
-        metricSelector=1;
+        p.metric=1;
     end
-    if ~metricSelector
+    if ~p.metric
         error('Please select the metric you want to expand.');
     end
     % select one metric
-    fData = (data(:, metricSelector, :));
-    if length(metricSelector)==1 && parameterExpand >0
+    fData = (data(:, p.metric, :));
+    if length(p.metric)==1 && p.expand >0
         % use one parameter to rearrange data
-        pList = config.parameters.list(:, parameterExpand);
-        nExpand = length(config.parameters.values{parameterExpand});
+        pList = config.parameters.list(:, p.expand);
+        nExpand = length(config.parameters.values{p.expand});
         modeSelector = (1:length(pList));
         % sort
         [null, idx] = sort(pList);
@@ -31,11 +31,11 @@ if  parameterExpand ~= 0 % TODO allow expand with mutiple metrics
         % reshape
         fData = reshape(fData, fSize, nExpand, size(fData, 3));
     end
-elseif metricSelector>0
-    fData = data(:, metricSelector, :);
+elseif p.metric>0
+    fData = data(:, p.metric, :);
 else
-    metricSelector = 1:length(config.evaluation.metrics);
-    fData = data(:, metricSelector, :);
+    p.metric = 1:length(config.evaluation.metrics);
+    fData = data(:, p.metric, :);
 end
 
 if ndims(data) == 3
@@ -43,24 +43,28 @@ if ndims(data) == 3
     vData = squeeze(nanstd(fData, 0, 3));
     highlights = zeros(size(sData));
     % FIXME move this at display time
-    for k=1:size(fData, 2)
-        [null, maxIndex] = max(sData(:, k));
-        maxIndex = maxIndex(1);
-        tData = squeeze(fData(:, k, :));
-        tData = bsxfun(@minus, tData, tData(maxIndex, :));
-        tRes = ttest(tData')';
-        tRes(maxIndex) = 0;
-        tRes(isnan(tRes)) = 0; % handle special case of identity
-        highlights(:, k) = tRes==0;
+    if p.highlight
+        for k=1:size(fData, 2)
+            [null, maxIndex] = max(sData(:, k));
+            maxIndex = maxIndex(1);
+            tData = squeeze(fData(:, k, :));
+            tData = bsxfun(@minus, tData, tData(maxIndex, :));
+            tRes = ttest(tData')';
+            tRes(maxIndex) = 0;
+            tRes(isnan(tRes)) = 0; % handle special case of identity
+            highlights(:, k) = tRes==0;
+        end
     end
 else
     sData = fData;
     vData = zeros(size(sData));
     highlights = zeros(size(fData));
-    for k=1:size(fData, 2)
-        col = round(fData(:, k)*10^config.displayDigitPrecision);
-        maxValue = max(col);
-        highlights(:, k) =  col==maxValue;
+    if p.highlight
+        for k=1:size(fData, 2)
+            col = round(fData(:, k)*10^config.displayDigitPrecision);
+            maxValue = max(col);
+            highlights(:, k) =  col==maxValue;
+        end
     end
 end
 
@@ -85,8 +89,8 @@ for k=1:length(config.parameters.names)
         parameterSelector(end+1) = k;
     end
 end
-if  parameterExpand ~= 0;
-    parameterSelector(parameterSelector==parameterExpand)=[];
+if  p.expand ~= 0;
+    parameterSelector(parameterSelector==p.expand)=[];
 end
 
 dataDisplay.rawData = data;
@@ -97,8 +101,8 @@ end
 dataDisplay.meanData = sData(select, :);
 dataDisplay.highlights = highlights(select, :);
 dataDisplay.parameterSelector = parameterSelector;
-dataDisplay.parameterExpand = parameterExpand;
-dataDisplay.metricSelector = metricSelector;
+% dataDisplay.p.expand = p.expand;
+dataDisplay.p.metric = p.metric;
 dataDisplay.varData = vData(select, :);
 if isempty(modeSelector)
     dataDisplay.modeSelector = [];

@@ -1,4 +1,4 @@
-function res = rankingMetrics(prediction, labels, rank, filter)
+function res = rankingMetrics(prediction, labels, rank, filter, short)
 
 % prediction is supposed to be small for components that are close
 % rank is the maximal rank for computing the metrics, e.g. for 5-precision,
@@ -15,15 +15,16 @@ if nargin<1
     labels=labels(:);
     filter = repmat((1:6), (rank+1)/2, 1);
     filter=filter(:);
-
+    
     prediction = (repmat(labels, 1, length(labels))==repmat(labels', length(labels), 1));
-     prediction = 1-prediction;
+    prediction = 1-prediction;
     prediction = prediction+eps;
-%   prediction = squareform(rand(length(labels)*(length(labels)-1)/2, 1));
-prediction = prediction .* abs(1-diag(ones(1, size(prediction, 1))));
-imagesc(prediction); 
+    %   prediction = squareform(rand(length(labels)*(length(labels)-1)/2, 1));
+    prediction = prediction .* abs(1-diag(ones(1, size(prediction, 1))));
+    imagesc(prediction);
 end
-if ~exist('filter', 'var'), filter=1:length(labels); end
+if ~exist('filter', 'var') || isempty(filter), filter=1:length(labels); end
+if ~exist('short', 'var'), short = 0; end
 
 labels=labels(:);
 nbElts = size(prediction, 1);
@@ -52,20 +53,20 @@ for k=1:nbElts
             v(l, 1) = sum(pk.*ind)/sum(ind);
             rr = find(ind==1);
             v(l, 2) = 1./rr(1);
-            v(l, 3) = sum(ind(1:iRank))/sum(ind);            
+            v(l, 3) = sum(ind(1:iRank))/sum(ind);
             l=l+1;
         end
     end
 end
 % average number of correct answers at rank
-res.precisionAtRank = mean(n, 2);
+res.(['precisionAt' num2str(rank)]) = mean(n, 2);
 %
 res.meanAveragePrecision = mean(v(:, 1));
 % inverse of the rank of the first correct answer
 res.meanReciprocalRank = mean(v(:, 2));
 % ratio between the number of correct answer at rank and the number of
 % correct answers
-res.recallAtRank = mean(v(:, 3)); 
+res.(['recallAt' num2str(rank)]) = mean(v(:, 3));
 
 m=zeros(1, nbElts);
 for k=1:nbElts
@@ -75,7 +76,7 @@ for k=1:nbElts
     nbk = find((labels(si(:, k))==labels(k)), 1, 'last');
     m(k) =  nbc / nbk;
 end
-% number of elements of the shortest ranked list that contains every 
+% number of elements of the shortest ranked list that contains every
 % elements of the class of the query
 res.precisionAtCompleteRecall = mean(m);
 
@@ -96,7 +97,7 @@ res.hubRatio = max(v)/nbElts;
 %     nbk = sum(labels(si(1:nbc, k))==labels(k));
 %     m(k) =  nbk / nbc;
 % end
-% 
+%
 % e(8) = mean(m);
 
 % reversibility rate: for each query, count the number of neighbors which
@@ -114,6 +115,16 @@ end
 res.reversibilityRate=rev/(nbElts*rank);
 res.rank = rank;
 
-
+if short
+    r.(['pAt' num2str(rank)]) = res.(['precisionAt' num2str(rank)]);
+    r.pAtR = res.precisionAtCompleteRecall;
+    r.map = res.meanAveragePrecision;
+    r.mrr = res.meanReciprocalRank;
+    r.(['rAt' num2str(rank)]) = res.(['recallAt' num2str(rank)]);
+    r.o = res.orpheanRatio;
+    r.hub = res.hubRatio;
+    r.rev = res.reversibilityRate;
+    res = r ;
+end
 
 

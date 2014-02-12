@@ -452,6 +452,7 @@ CONSTRUCTOR(varargin{:});
             Data.tex{end+1}='\usepackage[colorlinks=true,urlcolor=blue,citecolor=blue]{hyperref} ';
             Data.tex{end+1}='\usepackage{amsmath}';
             Data.tex{end+1}='\usepackage{amssymb}';
+            Data.tex{end+1}='\usepackage[margin=0.5in]{geometry} % wide margin (remove if needed)';
             Data.tex{end+1}='\usepackage{rotating}';
             Data.tex{end+1}='% mcode options for matlab code insertion bw (for printing), numbered (line numbers), framed (frame around code blocks), useliterate (convert Matlab expressions to Latex ones), autolinebreaks (automatic code wraping, use it with caution';
             Data.tex{end+1}='\usepackage[literate]{mcode}';

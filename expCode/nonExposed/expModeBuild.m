@@ -15,11 +15,14 @@ for k=1:size(vSet, 1)
     end
 end
 
+
+
 m={};
 invFilter=[];
 invFilterMask=[];
+filterMask = [];
 for k=1:length(mask)
-    invFilter = [invFilter k];
+    invFilter(end+1) = k;
     if size(vSpec.values{k}, 2)~=1
         if length(mask(k))==1 && mask(k) >0
             if isnumeric(vSpec.values{k}{1})
@@ -27,8 +30,9 @@ for k=1:length(mask)
             else
                 m{k} = sprintf('%s: %s, ', vSpec.names{k}, vSpec.values{k}{mask(k)});
             end
+            filterMask(end+1) = k;
         else
-            invFilterMask = [invFilterMask k];
+            invFilterMask(end+1) = k;
         end
     end
 end
@@ -39,12 +43,14 @@ else
     maskInfo = sprintf('%s', m{:});
 end
 
+skipIndex = [];
 for k=1:size(vSet, 2)
     t={};
     st={};
     mNames={};
     filter=[];
     filterMask=[];
+    prunedFilterMask=[];
     nbPruned = 0;
     for m=1:size(vSet, 1)
         if vSet(m, k)
@@ -53,36 +59,32 @@ for k=1:size(vSet, 2)
             if isnumeric(value)
                 t{end+1} = strrep(sprintf('%s: %g', vSpec.names{m}, value), '.', '-');
                 st{end+1} = strrep(sprintf('%s%g', vSpec.shortNames{m}, value), '.', '-');
+                if ~value
+                    skipIndex(end+1) = length(mNames);
+                end
             else
                 t{end+1} = sprintf('%s: %s', vSpec.names{m}, value);
-                sn = vSpec.shortValues{m}{vSet(m, k)};
+                sn = vSpec.shortValues{m}{vSet(m, k)}; % TODO put shortValues as unsafe option
                 sn = [upper(sn(1)) sn(2:end)];
                 st{end+1} = sprintf('%s%s', vSpec.shortNames{m},  sn);
+                if strcmp(value, 'none')
+                    skipIndex(end+1) = length(mNames);
+                end
+                
             end
             if any(invFilter==m) % TODO wrong
-               filter(end+1) = length(filter)+1; 
+                filter(end+1) = length(filter)+1;
             end
             fm = find(invFilterMask==m);
             if any(fm)
-               filterMask = [filterMask invFilterMask(fm)-nbPruned]; 
+                prunedFilterMask = [prunedFilterMask invFilterMask(fm)-nbPruned];
+                filterMask = [filterMask invFilterMask(fm)];
             end
         else
             nbPruned = nbPruned+1;
         end
     end
     
-    [null, parameterOrder] = sort(mNames);
-    vn{k} = sprintf('%s, ', t{parameterOrder(filter)}); 
-    svn{k} = sprintf('%s_', st{parameterOrder(filter)}); 
-    vnm{k} = sprintf('%s, ', t{filterMask}); 
-    svnm{k} = sprintf('%s_', st{filterMask}); 
-%     
-%          cmTmp = v(end:-1:1, k);
-%          cmm{k} = cmTmp;
-%          cm{k} = cmTmp(invFilterMask);
-end
-
-for k=1:size(vSet, 2)
     for m=1:size(vSet, 1)
         if vSet(m, k)
             v(k).(vSpec.names{m})  = vSpec.values{m}{vSet(m, k)};
@@ -91,15 +93,34 @@ for k=1:size(vSet, 2)
         end
     end
     
+    
+    [null, parameterOrder] = sort(mNames);
     v(k).id = k;
-    v(k).infoString = vn{k}(1:end-2) ;
-    v(k).infoShortString = svn{k}(1:end-1);
-    v(k).infoStringMasked = vnm{k}(1:end-2);
-    v(k).infoShortStringMasked = svnm{k}(1:end-1);
+    f = t(parameterOrder(filter));
+    f(2, :) = {', '}; f(2, end) = {''};
+    v(k).infoString = [f{:}];
+    
+    f = st(parameterOrder(filter));
+    if ~isempty(skipIndex)
+        [~, id] = sort(parameterOrder);
+        f(id(skipIndex)) = [];
+    end
+    f(2, :) = {'_'}; f(2, end) = {''};
+    v(k).infoShortString = [f{:}];
+    
+    f = t(prunedFilterMask);
+    v(k).infoStringMasked = [f{:}];
+    
+    f = st(prunedFilterMask);
+    f(2, :) = {'_'}; f(2, end) = {''};
+    v(k).infoShortStringMasked = [f{:}];
+    
+    
     v(k).infoStringMask = maskInfo(1:end-2);
-%          v(k).infoCellMasked = cm{k}';
-%          v(k).infoCell = cmm{k}';
-    v(k).infoModeNames = vSpec.names(invFilterMask);
+    
+    f = vSpec.names(filterMask).';
+    f(2, :) = {', '}; f(2, end) = {''};
+    v(k).infoStringFactors = [f{:}];
     v(k).infoShortNames = vSpec.shortNames(invFilterMask);
     v(k).infoId = vSet(:, k)';
 end

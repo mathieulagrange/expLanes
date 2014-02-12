@@ -1,6 +1,5 @@
 function fileName = expSave(config, data, extension)
 
-
 if ~exist('extension', 'var')
     extension = '.mat';
 else
@@ -24,7 +23,8 @@ end
 
 if exist('data', 'var') && ~isempty(data)
     runId = config.runId;
-    save([path name  extension ], 'data', 'stepName', 'runId');
+    mode = config.currentMode;
+    save([path name  extension ], 'data', 'stepName', 'runId', 'mode');
 end
 
 fileName = [path name  extension];

@@ -24,15 +24,7 @@ end
 
 % expDependencies(config);
 
-config.logFileName = [config.reportPath 'log_' num2str(config.runId) '.txt'];
-config.errorDataFileName = {};
-if exist(config.logFileName, 'file')
-    delete(config.logFileName);
-end
 
-config.logFile = fopen([config.reportPath 'config.txt'], 'w');
-fprintf(config.logFile, '\n%s\n', evalc('disp(config)'));
-fclose(config.logFile);
 
 config.currentMode = [];
 
@@ -139,15 +131,21 @@ else
     loadedData = config.initStore;
 end
 
-[config storeData storeDisplay] = feval(functionName, config, mode, loadedData);
+ticId = tic;
+
+[config storeData storeObs] = feval(functionName, config, mode, loadedData);
+
+if config.showTiming && ~isfield(storeObs, 'time')
+    storeObs.time = toc(ticId);
+end
 
 config = expProgress(config);
 
 if ~isempty(storeData)
     expSave(config, storeData, 'data');
 end
-if ~isempty(storeDisplay)
-    expSave(config, storeDisplay, 'obs');
+if ~isempty(storeObs)
+    expSave(config, storeObs, 'obs');
 end
 
 

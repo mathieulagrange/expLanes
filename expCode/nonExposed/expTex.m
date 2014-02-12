@@ -14,6 +14,10 @@ for k=1:length(config.stepName)
 end
 copyfile([config.codePath config.shortProjectName 'Init.m'], [config.reportPath 'tex/' config.shortProjectName 'Init.m']);
 copyfile([config.codePath config.shortProjectName 'Report.m'], [config.reportPath 'tex/' config.shortProjectName 'Report.m']);
+
+if ~exist([config.codePath config.projectName '.tex'], 'file')
+    config.latex = LatexCreator([config.codePath filesep config.projectName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName, 1, 1);
+end
 copyfile([config.codePath config.projectName '.tex'], [config.latexFileName '.tex']);
 copyfile([fileparts(mfilename('fullpath')) filesep 'utils/mcode.sty'], [config.reportPath 'tex/']);
 
