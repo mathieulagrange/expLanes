@@ -43,7 +43,7 @@ else
     maskInfo = sprintf('%s', m{:});
 end
 
-skipIndex = [];
+
 for k=1:size(vSet, 2)
     t={};
     st={};
@@ -52,6 +52,7 @@ for k=1:size(vSet, 2)
     filterMask=[];
     prunedFilterMask=[];
     nbPruned = 0;
+    skipIndex = [];
     for m=1:size(vSet, 1)
         if vSet(m, k)
             value = vSpec.values{m}{vSet(m, k)};
@@ -103,7 +104,7 @@ for k=1:size(vSet, 2)
     f = st(parameterOrder(filter));
     if ~isempty(skipIndex)
         [~, id] = sort(parameterOrder);
-        f(id(skipIndex)) = [];
+         f(id(skipIndex)) = [];
     end
     f(2, :) = {'_'}; f(2, end) = {''};
     v(k).infoShortString = [f{:}];

@@ -21,6 +21,9 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % TODO convert disp by expLog
 % TODO clusteringMetrics
 % TODO split expModesBuild into a helper function that is called to build
+% FIXME expMex recompile everytime on server side
+% TODO dump obs data as .mat attached to report
+
 % one mode
 
 % FIXME expProgress ctrl C opened figure

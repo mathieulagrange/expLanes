@@ -121,8 +121,8 @@ data = expFilter(config, p);
 
 if any(p.percent) % TODO submit vector
     for k=1:length(p.percent)
-        data.meanData(:, k) =  data.meanData(:, k)*100;
-        data.varData(:, k) =  data.varData(:, k)*100;
+        data.meanData(:, p.percent(k)) =  data.meanData(:, p.percent(k))*100;
+        data.varData(:, p.percent(k)) =  data.varData(:, p.percent(k))*100;
     end
 end
 
