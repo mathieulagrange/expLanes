@@ -10,7 +10,7 @@ p.order = [];
 p.expand = 0;
 p.metric = 0;
 p.parameter = [];
-p.variance = 1;
+p.variance = 0;
 p.highlight=1;
 p.title='+';
 p.caption='+';
@@ -83,7 +83,9 @@ end
 
 if p.percent
     for k=1:length(p.percent)
-        evaluationMetrics{p.percent(k)} =  [evaluationMetrics{p.percent(k)} ' (%)'];
+        if p.percent(k) <= length(evaluationMetrics)
+            evaluationMetrics{p.percent(k)} =  [evaluationMetrics{p.percent(k)} ' (%)'];
+        end
     end
 end
 
@@ -121,8 +123,10 @@ data = expFilter(config, p);
 
 if any(p.percent) % TODO submit vector
     for k=1:length(p.percent)
-        data.meanData(:, p.percent(k)) =  data.meanData(:, p.percent(k))*100;
-        data.varData(:, p.percent(k)) =  data.varData(:, p.percent(k))*100;
+        if p.percent(k) <= size(data.meanData, 2)
+            data.meanData(:, p.percent(k)) =  data.meanData(:, p.percent(k))*100;
+            data.varData(:, p.percent(k)) =  data.varData(:, p.percent(k))*100;
+        end
     end
 end
 
@@ -160,9 +164,13 @@ end
 p.axisLabels = evaluationMetrics;
 
 % displayData = config.displayData;
-
-if p.variance==0
-    data.varData = 0;
+if p.variance == 0
+    p.variance = 1:size(data.varData, 2);
+end
+for k=1:size(data.varData, 2)
+    if ~any(p.variance==k)
+        data.varData(:, k) = 0;
+    end
 end
 
 config.displayData.data=[];
@@ -209,15 +217,15 @@ if p.save ~= 0
         if p.put==1
             expSaveFig([config.reportPath 'figures/' p.save], gcf);
         elseif p.put==2
-           expSaveTable([config.reportPath 'tables/' p.save '.tex'], config.displayData.latex(end)); 
+            expSaveTable([config.reportPath 'tables/' p.save '.tex'], config.displayData.latex(end));
         end
     else
         if p.put==1
             expSaveFig(strrep([config.reportPath 'figures/' p.title], ' ', '_'), gcf);
         elseif p.put==2
-              expSaveTable([config.reportPath 'tables/' p.save '.tex'], config.displayData.latex(end));          
+            expSaveTable([config.reportPath 'tables/' p.save '.tex'], config.displayData.latex(end));
         end
-    end 
+    end
 end
 
 displayData = config.displayData;

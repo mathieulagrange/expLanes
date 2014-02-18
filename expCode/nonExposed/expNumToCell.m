@@ -17,15 +17,16 @@ resultCell = cell(size(dataMean));
 for k=1:size(dataMean, 2)
     col=[];
     if  ~isempty(dataVar)
-        dec = sum(abs(dataVar(:, k)));
-        if abs(dec) > eps*1000000 && ~isnan(dec)
+        dec = nansum(abs(dataVar(:, k)));
+        if abs(dec) > eps*1000000 % && ~isnan(dec)
             col = cellstr(num2str([dataMean(:, k), dataVar(:, k)], ['%0.' num2str(displayDigitPrecision) 'f' og '%0.' num2str(displayDigitPrecision) 'f' fg ' \n']));
         end
     end
     if isempty(col)
         col = cellstr(num2str(dataMean(:, k), ['%10.' num2str(displayDigitPrecision) 'f\n']));
     end
-    resultCell(:, k) = regexprep(col, 'NaN', '-');
+    col = regexprep(col, 'NaN', '-');
+     resultCell(:, k) = regexprep(col, ' \(-\)', '');
 end
 
 if any(highlight(:))
