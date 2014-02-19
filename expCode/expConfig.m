@@ -8,7 +8,6 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % TODO 'host' 1 on  linux -> matlab path ?
 % TODO config copy managment
 % TODO symbolic link to data, issue with rsync and issues with path generation ?
-% TODO display obs in mail
 % TODO have a default config within user folder
 % TODO end in factor selector
 % TODO fix factor selector (too much NaNs)
@@ -17,11 +16,10 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % TODO s at beginning
 % TODO build GUI
 % TODO renaming .mat function when adding factor
-% TODO put default timing observations (show average duration per mode)
 % TODO convert disp by expLog
 % TODO clusteringMetrics
 % TODO split expModesBuild into a helper function that is called to build
-% FIXME expMex recompile everytime on server side
+% FIXME expMex recompile everytime on server side (due to rsync options, check if 2 matlab porocess can share code)
 % TODO dump obs data as .mat attached to report
 
 % one mode
@@ -223,3 +221,5 @@ for k=1:length(fieldNames)
 end
 
 config.waitBar = [];
+config.modeStatus.success = 0;
+config.modeStatus.failed = 0;

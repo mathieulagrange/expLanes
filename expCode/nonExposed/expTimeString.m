@@ -22,10 +22,21 @@ if duration > 60
     duration = rem(duration, 60);
 end
 
-if duration > 0
-    if duration == 1
-        time = [time num2str(duration) ' minute'];
+if duration >= 1
+    nbMinutes = floor(duration);
+    if nbMinutes == 1
+        time = [time num2str(nbMinutes) ' minute'];
     else
-        time = [time num2str(duration) ' minutes'];
+        time = [time num2str(nbMinutes) ' minutes'];
+    end
+    duration = rem(duration, 1);
+end
+
+if duration > 0
+    nbSeconds = floor(duration*60);
+    if nbSeconds == 1
+        time = [time num2str(nbSeconds) ' second'];
+    else
+        time = [time num2str(nbSeconds) ' seconds'];
     end
 end

@@ -4,6 +4,7 @@ switch p.put
     case 0
         if ~isempty(config.displayData.data)
             disp(config.displayData.data);
+            config.displayData.prompt = config.displayData.data;
             config.displayData.data = [];
         end
     case 1

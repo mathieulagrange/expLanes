@@ -59,12 +59,12 @@ if config.step>-1
     fprintf('Project %s: running on host %s \n', config.projectName, config.hostName);
     for k=1:length(config.step)
         [config.stepModes{config.step(k)}] = expModes(config.factors, config.mask, config.step(k));
-       if  length(config.stepModes{config.step(k)}.modes)>1
-        config.runInfo{k} = sprintf(' - step %s with constant factors %s \n     %d modes with variable factors: %s', config.stepName{config.step(k)}, config.stepModes{config.step(k)}.modes(1).infoStringMask, length(config.stepModes{config.step(k)}.modes), config.stepModes{config.step(k)}.modes(1).infoStringFactors);
+        if  length(config.stepModes{config.step(k)}.modes)>1
+            config.runInfo{k} = sprintf(' - step %s with constant factors %s \n     %d modes with variable factors: %s', config.stepName{config.step(k)}, config.stepModes{config.step(k)}.modes(1).infoStringMask, length(config.stepModes{config.step(k)}.modes), config.stepModes{config.step(k)}.modes(1).infoStringFactors);
         else
             config.runInfo{k} = sprintf(' - step %s with constant factors %s', config.stepName{config.step(k)}, config.stepModes{config.step(k)}.modes(1).infoStringMask);
-    end
-    config = expLog(config, [config.runInfo{k} '\n']);
+        end
+        config = expLog(config, [config.runInfo{k} '\n']);
     end
     if config.obs>0
         rem = setdiff(config.obs, config.step);
@@ -116,7 +116,7 @@ if isfield(config, 'serverConfig')
     % that the LC_MESSAGES and LANG encoding are available on the server
     % if not edit /var/lib/locales/supported.d/local to put the needed ones
     % and run sudo dpkg-reconfigure locales
-  
+    
     system(command);
     fprintf('\nExperiment launched.\n');
     return;
@@ -188,10 +188,21 @@ switch config.host
         
         
         if ~isempty(regexp(config.emailAddress, '[a-z_]+@[a-z]+\.[a-z]+', 'match'))
-            message = sprintf('duration: %s \n average duration per mode %s \nnumber of cores used: %d\n\n', expTimeString(config.runDuration), expTimeString(config.runDuration/length(config.modes)), max([1 config.parallel]));
-%             if ~isempty(config.runInfo)
-%                 message = [message sprintf('%s\n', config.runInfo{:})];
-%             end
+            message = config.runInfo;
+            message{end+1} = '';
+            
+            message{end+1} = ['total duration: ' expTimeString(config.runDuration)];
+            message{end+1} = ['average duration per mode: ' expTimeString(config.runDuration/(config.modeStatus.failed+config.modeStatus.success))];
+            message{end+1} = '';
+            message{end+1} = ['number of cores used: ' num2str(max([1 config.parallel]))];
+            message{end+1} = ['number of successful modes: ' num2str(config.modeStatus.success)];
+            message{end+1} = ['number of failed modes: ' num2str(config.modeStatus.failed)];
+            message{end+1} = '';
+            if ~isempty(config.displayData.prompt)
+                prompt = evalc('disp(config.displayData.prompt)');
+                prompt = regexp(prompt, '\n', 'split');
+                message = [message prompt];
+            end
             
             fid = fopen(config.logFileName);
             if fid>0
