@@ -43,8 +43,11 @@ if ndims(data) == 3
     vData = squeeze(nanstd(fData, 0, 3));
     highlights = zeros(size(sData));
     % FIXME move this at display time
-    if p.highlight
-        for k=1:size(fData, 2)
+    if p.highlight ~= -1
+        if ~p.highlight
+            p.highlight = 1:size(sData, 2);
+        end
+        for k=p.highlight
             [null, maxIndex] = max(sData(:, k));
             maxIndex = maxIndex(1);
             tData = squeeze(fData(:, k, :));

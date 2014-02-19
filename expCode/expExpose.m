@@ -11,7 +11,7 @@ p.expand = 0;
 p.metric = 0;
 p.parameter = [];
 p.variance = 0;
-p.highlight=1;
+p.highlight=0;
 p.title='+';
 p.caption='+';
 p.multipage=0;
@@ -117,6 +117,10 @@ end
 
 if ~p.sort && isfield(config, 'sortDisplay')
     p.sort = config.sortDisplay;
+end
+
+if ~p.highlight
+   p.highlight = 1:size(data.meanData, 2) ; 
 end
 
 data = expFilter(config, p);
