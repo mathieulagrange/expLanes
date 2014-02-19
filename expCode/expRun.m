@@ -89,7 +89,7 @@ if isfield(config, 'serverConfig')
     matConfig.host = -1;
     matConfig.runInfo = config.runInfo;
     matConfig.sync = [];
-    matConfig.obs = -1;
+%     matConfig.obs = -1;
     %     if matConfig.report==1
     %     matConfig.report = 0; % output tex
     %     end
@@ -216,9 +216,9 @@ switch config.host
             end
             message = [message sprintf('\n\n -------------------------------------- \n')];
             config.mailAttachment = {[config.reportPath 'config.txt']};
-            if exist(config.configMatName, 'file')
-                config.mailAttachment{end+1} = config.configMatName;
-            end
+%             if exist(config.configMatName, 'file') % FIXME
+%                 config.mailAttachment{end+1} = config.configMatName;
+%             end
             if exist(config.logFileName, 'file')
                 config.mailAttachment{end+1} = config.logFileName;
             end

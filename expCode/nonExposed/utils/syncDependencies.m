@@ -38,7 +38,7 @@ for k=1:length(config.dependencies)
         syncString = 'rsync -arC --delete-after --exclude=.git ';
         command = [syncString strrep(dependency, ' ', '\ ') ' '  serverConfig.codePath 'dependencies'];
     else
-        syncString = 'rsync -arC   -e ssh --delete-after --exclude=.git ';
+        syncString = 'rsync -arC   -e ssh --delete-after --exclude=.git --exclude=*.mex* ';
         command = [syncString strrep(dependency, ' ', '\ ') ' ' serverConfig.hostName ':' serverConfig.codePath 'dependencies'];
     end
     system(command);

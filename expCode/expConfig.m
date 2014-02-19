@@ -19,13 +19,12 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % TODO convert disp by expLog
 % TODO clusteringMetrics
 % TODO split expModesBuild into a helper function that is called to build
-% FIXME expMex recompile everytime on server side (due to rsync options, check if 2 matlab porocess can share code)
 % TODO dump obs data as .mat attached to report
 
 % one mode
 
 % FIXME expProgress ctrl C opened figure
-
+% FIXME fails to atttach config file
 % TODO fix potential issues with short naming (issues with too long file names, hashing ?)
 
 % FIXME store dependency string and force localDep = 2 if different

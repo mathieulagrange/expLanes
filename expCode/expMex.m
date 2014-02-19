@@ -7,7 +7,7 @@ end
 if ~exist('force', 'var'), force=0; end
 
 [p f] = fileparts(fileName);
-toolName = [toolPath filesep f '.' mexext];
+toolName = [f '.' mexext];
 
 initPath = cd([config.codePath toolPath]);
 
@@ -15,7 +15,7 @@ if  ~exist(toolName, 'file')
     force=1;
 else
     toolFile = dir(toolName);
-    toolModeDate = toolFile.datenum;
+    toolModeDate = toolFile(1).datenum;
     codeFiles = [dir('*h'); dir('*.cpp'); dir('*.c'); dir('*.c++')];
     if isempty(codeFiles)
         codeModDate = 0;
