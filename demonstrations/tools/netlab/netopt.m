@@ -1,5 +1,5 @@
 function [net, options, varargout] = netopt(net, options, x, t, alg);
-%NETOPT	Optimize the weights in a network model. 
+%NETOPT	Optimize the weights in a network designl. 
 %
 %	Description
 %

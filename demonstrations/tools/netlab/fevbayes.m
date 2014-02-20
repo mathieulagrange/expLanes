@@ -6,7 +6,7 @@ function [extra, invhess] = fevbayes(net, y, a, x, t, x_test, invhess)
 %	structure  NET together with a set of hidden unit activations A from
 %	test inputs X_TEST, training data inputs X and T and outputs a matrix
 %	of extra information EXTRA that consists of error bars (variance) for
-%	a regression problem or moderated outputs for a classification
+%	a regression problem or designrated outputs for a classification
 %	problem. The optional argument (and return value)  INVHESS is the
 %	inverse of the network Hessian computed on the training data inputs
 %	and targets.  Passing it in avoids recomputing it, which can be a
@@ -45,7 +45,7 @@ switch net.outfn
 	% extra is variance
 	extra = ones(size(var))./net.beta + var;
     case 'logistic'
-	% extra is moderated output
+	% extra is designrated output
 	kappa = 1./(sqrt(ones(size(var)) + (pi.*var)./8));
 	extra = 1./(1 + exp(-kappa.*a));
     case 'softmax'

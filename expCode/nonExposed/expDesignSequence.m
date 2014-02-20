@@ -1,4 +1,4 @@
-function sequence = expModeSequence(vSpec, vSet)
+function sequence = expDesignSequence(vSpec, vSet)
 
 if size(vSet, 2)>1
     if ~isempty(vSpec.sequentialParameter)

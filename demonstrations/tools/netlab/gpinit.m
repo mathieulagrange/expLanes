@@ -1,5 +1,5 @@
 function net = gpinit(net, tr_in, tr_targets, prior)
-%GPINIT	Initialise Gaussian Process model.
+%GPINIT	Initialise Gaussian Process designl.
 %
 %	Description
 %	NET = GPINIT(NET, TRIN, TRTARGETS) takes a Gaussian Process data

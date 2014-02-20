@@ -1,12 +1,12 @@
-function [config, store, obs] = ausede2model(config, mode, data)
+function [config, store, obs] = ausede2designl(config, design, data)
 
 if nargin==0, audioSeparationDemo('do', 2, 'mask', {{2, 5, 1, 1, 5}}, 'obs', '>'); return; end
 
-disp([config.currentStepName ' ' mode.infoString]);
+disp([config.currentStepName ' ' design.infoString]);
 
 % propagate source, noise and mix for the next step
 store=data;
-switch mode.method
+switch design.method
     % Ideal Binary Mask (IBM)
     case 'ibm' % compute the magnitude spectrogram of the source
         SS = abs(computeSpectrogram(data.source, config.fftlen, config.samplingFrequency));
@@ -21,17 +21,17 @@ switch mode.method
         % compute the spectrogram of the mixture
         sm = computeSpectrogram(data.mixture, config.fftlen, config.samplingFrequency);
         SM = abs(sm);
-        % perform model computation
+        % perform designl computation
         [n,m]=size(SM);
         if isempty(config.sequentialData)
             % first step of the sequential run
-            nbIterations = mode.nbIterations;
+            nbIterations = design.nbIterations;
             % initialize dictionary and activation matrices
-            W=rand(n,mode.dictionarySize);
-            H=rand(mode.dictionarySize,m);
+            W=rand(n,design.dictionarySize);
+            H=rand(design.dictionarySize,m);
         else
             % continuing step of the sequential run
-            nbIterations = mode.nbIterations-config.sequentialData.nbIterations;
+            nbIterations = design.nbIterations-config.sequentialData.nbIterations;
             % get dictionary and activation matrices from the sequential
             % data of the previous run
             W = config.sequentialData.W;
@@ -55,7 +55,7 @@ switch mode.method
         store.H = H;
         % save dictionary and activation matrices and number of iterations 
         % already done for the next step of the sequential run
-        config.sequentialData.nbIterations = mode.nbIterations;
+        config.sequentialData.nbIterations = design.nbIterations;
         config.sequentialData.W = W;
         config.sequentialData.H = H;        
         % record likelihood

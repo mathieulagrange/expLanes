@@ -2,7 +2,7 @@ function net = knn(nin, nout, k, tr_in, tr_targets)
 %KNN	Creates a K-nearest-neighbour classifier.
 %
 %	Description
-%	NET = KNN(NIN, NOUT, K, TR_IN, TR_TARGETS) creates a KNN model NET
+%	NET = KNN(NIN, NOUT, K, TR_IN, TR_TARGETS) creates a KNN designl NET
 %	with input dimension NIN, output dimension NOUT and K neighbours.
 %	The training data is also stored in the data structure and the
 %	targets are assumed to be using a 1-of-N coding.

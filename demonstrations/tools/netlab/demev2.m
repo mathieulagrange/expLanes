@@ -10,7 +10,7 @@
 %	the scaled conjugate gradient optimizer. The hyperparameter vectors
 %	ALPHA and BETA are re-estimated using the function EVIDENCE. A graph
 %	is plotted of the optimal, regularised, and unregularised decision
-%	boundaries.  A further plot of the moderated versus unmoderated
+%	boundaries.  A further plot of the designrated versus undesignrated
 %	contours is generated.
 %
 %	See also
@@ -24,7 +24,7 @@ clc;
 
 disp('This program demonstrates the use of the evidence procedure on')
 disp('a two-class problem.  It also shows the improved generalisation')
-disp('performance that can be achieved with moderated outputs; that is')
+disp('performance that can be achieved with designrated outputs; that is')
 disp('predictions where an approximate integration over the true')
 disp('posterior distribution is carried out.')
 disp(' ')
@@ -55,7 +55,7 @@ whitebg(fh1, 'k');
 % 
 n=200;
 
-% Set up mixture model: 2d data with four centres
+% Set up mixture designl: 2d data with four centres
 % Class 1 is first two centres, class 2 from the other two
 mix = gmm(2, 4, 'full');
 mix.priors = [0.25 0.25 0.25 0.25];
@@ -181,7 +181,7 @@ disp(' ')
 disp('We can now plot the function represented by the trained networks.')
 disp('We show the decision boundaries (output = 0.5) and the optimal')
 disp('decision boundary given by applying Bayes'' theorem to the true')
-disp('data model.')
+disp('data designl.')
 disp(' ')
 disp('Press any key to add the boundaries to the plot.')
 pause;
@@ -208,18 +208,18 @@ disp('optimal decision boundary, while the unregularised network is')
 disp('overtrained.')
 
 disp(' ')
-disp('We will now compare moderated and unmoderated outputs for the');
+disp('We will now compare designrated and undesignrated outputs for the');
 disp('regularised network by showing the contour plot of the posterior')
 disp('probability estimates.')
 disp(' ')
-disp('The first plot shows the regularised (moderated) predictions')
+disp('The first plot shows the regularised (designrated) predictions')
 disp('and the second shows the standard predictions from the same network.')
 disp('These agree at the level 0.5.')
 disp('Press any key to continue')
 pause
 levels = 0:0.1:1;
 fh4 = figure;
-set(fh4, 'Name', 'Moderated outputs');
+set(fh4, 'Name', 'Designrated outputs');
 hold on
 plot(data((label<=2),1),data(label<=2,2),'r.', 'MarkerSize', PointSize)
 plot(data((label>2),1),data(label>2,2),'y.', 'MarkerSize', PointSize)
@@ -228,7 +228,7 @@ plot(data((label>2),1),data(label>2,2),'y.', 'MarkerSize', PointSize)
 set(hNby, 'LineWidth', 1);
 
 fh5 = figure;
-set(fh5, 'Name', 'Unmoderated outputs');
+set(fh5, 'Name', 'Undesignrated outputs');
 hold on
 plot(data((label<=2),1),data(label<=2,2),'r.', 'MarkerSize', PointSize)
 plot(data((label>2),1),data(label>2,2),'y.', 'MarkerSize', PointSize)
@@ -237,7 +237,7 @@ plot(data((label>2),1),data(label>2,2),'y.', 'MarkerSize', PointSize)
 set(hNbm, 'LineWidth', 1);
 
 disp(' ')
-disp('Note how the moderated contours are more widely spaced.  This shows')
+disp('Note how the designrated contours are more widely spaced.  This shows')
 disp('that there is a larger region where the outputs are close to 0.5')
 disp('and a smaller region where the outputs are close to 0 or 1.')
 disp(' ')

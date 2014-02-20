@@ -1,8 +1,8 @@
-function [config, store, obs] = clde3probe(config, mode, data)
+function [config, store, obs] = clde3probe(config, design, data)
 
 if nargin==0, classificationDemo('do', 3, 'mask', {{2}}); return; end
 
-switch mode.method
+switch design.method
     case 'knn'
         % nothing to be done for the knn approach
         store=[];
@@ -15,7 +15,7 @@ switch mode.method
         % get ground truth for testing samples
         class = config.load.class;
         % conpute and store likelihood
-        store.likelihood = gmmprob(data.model, samples).';
+        store.likelihood = gmmprob(data.designl, samples).';
         % store ground truth
         store.class = class;
         % record likelihood

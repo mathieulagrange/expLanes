@@ -1,24 +1,24 @@
-function [config, store, obs] = side2similarity(config, mode, data, obs)
+function [config, store, obs] = side2similarity(config, design, data, obs)
 
 if nargin==0, similarityDemo('do', 2, 'mask', {{}}); return; end
 
-disp([config.currentStepName ' ' mode.infoString]);
+disp([config.currentStepName ' ' design.infoString]);
 
 store=[];
 
 tic
 
-for k=1:mode.nbRealizations
+for k=1:design.nbRealizations
     obs = data.observations{k};
-    if strcmp(mode.similarity, 'seuclidean')
+    if strcmp(design.similarity, 'seuclidean')
         obs = bsxfun(@rdivide, obs, std(obs));
     end
-    if strcmp(mode.similarity, 'cosine')
+    if strcmp(design.similarity, 'cosine')
         obs = bsxfun(@rdivide, obs, sqrt(sum(obs.^2, 2)));
     end
     for m=1:size(obs, 1)
         for n=m:size(obs, 1)
-            switch mode.similarity
+            switch design.similarity
                 case {'euclidean', 'seuclidean'}
                     d(m, n) =  norm(obs(m, :)-obs(n, :));          
                 case 'cosine'

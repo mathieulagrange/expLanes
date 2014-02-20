@@ -3,11 +3,11 @@ function [net, options] = rbftrain(net, options, x, t)
 %
 %	Description
 %	NET = RBFTRAIN(NET, OPTIONS, X, T) uses a  two stage training
-%	algorithm to set the weights in the RBF model structure NET. Each row
+%	algorithm to set the weights in the RBF designl structure NET. Each row
 %	of X corresponds to one input vector and each row of T contains the
 %	corresponding target vector. The centres are determined by fitting a
-%	Gaussian mixture model with circular covariances using the EM
-%	algorithm through a call to RBFSETBF.  (The mixture model is
+%	Gaussian mixture designl with circular covariances using the EM
+%	algorithm through a call to RBFSETBF.  (The mixture designl is
 %	initialised using a small number of iterations of the K-means
 %	algorithm.) If the activation functions are Gaussians, then the basis
 %	function widths are then set to the maximum inter-centre squared
@@ -78,7 +78,7 @@ end
 % Do we need to test for termination?
 test = (options(2) | options(3));
 
-% Set up the basis function parameters to model the input data density
+% Set up the basis function parameters to designl the input data density
 % unless options(5) is set.
 if ~(logical(options(5)))
   net = rbfsetbf(net, setbfoptions, x);
@@ -103,7 +103,7 @@ end
 
 switch net.outfn
 case 'linear'
-  % Sum of squares error function in regression model
+  % Sum of squares error function in regression designl
   % Solve for the weights and biases using pseudo-inverse from activations
   Phi = [act ones(ndata, 1)];
   if ~isfield(net, 'alpha')

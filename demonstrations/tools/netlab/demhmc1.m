@@ -3,7 +3,7 @@
 %	Description
 %	The problem consists of generating data from a mixture of two
 %	Gaussians in two dimensions using a hybrid Monte Carlo algorithm with
-%	persistence. A mixture model is then fitted to the sample to compare
+%	persistence. A mixture designl is then fitted to the sample to compare
 %	it with the  true underlying generator.
 %
 %	See also
@@ -14,7 +14,7 @@
 
 
 dim = 2;            	% Data dimension
-ncentres = 2;		% Number of centres in mixture model
+ncentres = 2;		% Number of centres in mixture designl
 
 seed = 42;              % Seed for random weight initialization.
 randn('state', seed);
@@ -25,13 +25,13 @@ disp('This demonstration illustrates the use of the hybrid Monte Carlo')
 disp('algorithm to sample from a mixture of two Gaussians.')
 disp('The means of the two components are [0 0] and [2 2].')
 disp(' ')
-disp('First we set up the parameters of the mixture model we are sampling')
+disp('First we set up the parameters of the mixture designl we are sampling')
 disp('from.')
 disp(' ')
 disp('Press any key to continue.')
 pause
 
-% Set up mixture model to sample from
+% Set up mixture designl to sample from
 mix = gmm(dim, ncentres, 'spherical');
 mix.centres(1, :) = [0 0];
 mix.centres(2, :) = [2 2];
@@ -101,18 +101,18 @@ p4 = plot(samples(g3end+1:nsamples,1), samples(g3end+1:nsamples,2), ...
 legend([p1 p2 p3 p4], lstrings, 2);
 
 clc
-disp('We now fit a Gaussian mixture model to the sampled data.')
-disp('The model has spherical covariance structure and the correct')
+disp('We now fit a Gaussian mixture designl to the sampled data.')
+disp('The designl has spherical covariance structure and the correct')
 disp('number of components.')
 disp(' ')
 disp('Press any key to continue.')
 pause
-% Fit a mixture model to the sample
+% Fit a mixture designl to the sample
 newmix = gmm(dim, ncentres, 'spherical');
 options = foptions;
 options(1) = -1;	% Switch off all diagnostics
 options(14) = 5;	% Just use 5 iterations of k-means in initialisation
-% Initialise the model parameters from the samples
+% Initialise the designl parameters from the samples
 newmix = gmminit(newmix, samples, options);
 
 % Set up vector of options for EM trainer
@@ -120,15 +120,15 @@ options = zeros(1, 18);
 options(1)  = 1;		% Prints out error values.
 options(14) = 15;		% Max. Number of iterations.
 
-disp('We now train the model using the EM algorithm for 15 iterations')
+disp('We now train the designl using the EM algorithm for 15 iterations')
 disp(' ')
 disp('Press any key to continue')
 pause
 [newmix, options, errlog] = gmmem(newmix, samples, options);
 
-% Print out model
+% Print out designl
 disp(' ')
-disp('The trained model has parameters ')
+disp('The trained designl has parameters ')
 disp('    Priors        Centres         Variances')
 disp([newmix.priors' newmix.centres newmix.covars'])
 disp('Note the close correspondence between these parameters and those')

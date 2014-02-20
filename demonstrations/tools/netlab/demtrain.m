@@ -273,15 +273,15 @@ elseif strcmp(action, 'start'),
 	iold = 0;
 	errold = error;
 	% Plot circle to show error of last iteration
-	% Setting erase mode to none prevents screen flashing during 
+	% Setting erase design to none prevents screen flashing during 
 	% training
-	plot(0, error, 'ro', 'EraseMode', 'none');
+	plot(0, error, 'ro', 'EraseDesign', 'none');
 	hold on
 	drawnow; % Force redraw
 	for i = step-1:step:iterations,
 	  [net, error] = mlptrain(net, x, t, step);
 	  % Plot line from last point to new point.
-	  line([iold i], [errold error], 'Color', 'r', 'EraseMode', 'none');
+	  line([iold i], [errold error], 'Color', 'r', 'EraseDesign', 'none');
 	  iold = i;
 	  errold = error;
 	  
@@ -295,7 +295,7 @@ elseif strcmp(action, 'start'),
 	    axis([0 iterations min max+1]);
 	  end
 	  % Plot circle to show error of last iteration
-	  plot(i, error, 'ro', 'EraseMode', 'none');
+	  plot(i, error, 'ro', 'EraseDesign', 'none');
 	  drawnow; % Force redraw
 	end;
 	save mlptrain.net net

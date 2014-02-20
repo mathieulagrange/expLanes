@@ -19,7 +19,7 @@
 clc;
 disp('This demonstration illustrates the application of Bayesian')
 disp('re-estimation to determine the hyperparameters in a simple regression')
-disp('problem. It is based on a local quadratic approximation to a mode of')
+disp('problem. It is based on a local quadratic approximation to a design of')
 disp('the posterior distribution and the evidence maximization framework of')
 disp('MacKay.')
 disp(' ')
@@ -55,7 +55,7 @@ disp('Press any key to continue')
 pause; clc;
 
 disp('Next we create a two-layer MLP network having 3 hidden units and one')
-disp('linear output. The model assumes Gaussian target noise governed by an')
+disp('linear output. The designl assumes Gaussian target noise governed by an')
 disp('inverse variance hyperparmeter beta, and uses a simple Gaussian prior')
 disp('distribution governed by an inverse variance hyperparameter alpha.')
 disp(' ');

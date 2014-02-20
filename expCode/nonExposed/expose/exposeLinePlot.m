@@ -14,7 +14,7 @@ if p.legend ~= 0
         legend(p.labels);
     end
 end
-title(p.title);
+% title(p.title);
 xlabel(p.xName);
 ylabel(p.methodLabel);
 axis tight

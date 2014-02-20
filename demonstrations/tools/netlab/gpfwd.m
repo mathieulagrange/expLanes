@@ -4,7 +4,7 @@ function [y, sigsq] = gpfwd(net, x, cninv)
 %	Description
 %	Y = GPFWD(NET, X) takes a Gaussian Process data structure NET
 %	together  with a matrix X of input vectors, and forward propagates
-%	the inputs through the model to generate a matrix Y of output
+%	the inputs through the designl to generate a matrix Y of output
 %	vectors.  Each row of X corresponds to one input vector and each row
 %	of Y corresponds to one output vector.  This assumes that the
 %	training data (both inputs and targets) has been stored in NET by a

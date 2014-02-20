@@ -16,7 +16,7 @@
 %
 %		This script generates a simple data set in 2 dimensions, 
 %		with an intrinsic dimensionality of 1, and trains a GTM 
-%		with a 1-dimensional latent variable to model this data 
+%		with a 1-dimensional latent variable to designl this data 
 %		set, visually illustrating the training process
 %
 % Synopsis:	gtm_demo
@@ -44,7 +44,7 @@ pause;
 src = [0:(2*pi)/(20-1):2*pi]';
 unitC = [sin(src) cos(src)];
 
-% Generate and plot (along with the data) an initial GTM model
+% Generate and plot (along with the data) an initial GTM designl
 
 clc;
 num_latent_points = 20;

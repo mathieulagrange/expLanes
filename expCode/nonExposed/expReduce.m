@@ -10,7 +10,7 @@ if exist(reduceFileName, 'file')
     modReduce = dir(reduceFileName);
     modFactors = dir(config.factorFileName);
     loadedData=load(reduceFileName, 'vSet');
-    if isequal(loadedData.vSet, config.modeSet) && modReduce.datenum > modFactors.datenum
+    if isequal(loadedData.vSet, config.designSet) && modReduce.datenum > modFactors.datenum
         loadedData=load(reduceFileName, 'data');
         data = loadedData.data;
     end
@@ -22,8 +22,8 @@ if isempty(data)%
     config.loadFileInfo.date = {'', ''};
     config.loadFileInfo.dateNum = [Inf, 0];
     
-    for k=1:length(config.modes)
-        config.currentMode = config.modes(k);
+    for k=1:length(config.designs)
+        config.currentDesign = config.designs(k);
         
         config = expLoad(config, [], [], 'obs');
         if ~isempty(config.load)
@@ -35,7 +35,7 @@ if isempty(data)%
     
     if config.loadFileInfo.dateNum(2)
         disp(['Loaded data files dates are in the range: | ' config.loadFileInfo.date{1} ' || ' config.loadFileInfo.date{2} ' |']);
-        vSet = config.modeSet; %#ok<NASGU>
+        vSet = config.designSet; %#ok<NASGU>
         save(reduceFileName, 'data', 'vSet', 'config');
         if ~strcmp(config.message, 'default')
             copyfile(reduceFileName, [config.reportPath config.projectName '_' config.message '.mat']);
@@ -86,7 +86,7 @@ else
         for m=1:length(data)
             if isfield(data{m}, structMetrics{k})
                 structResults.(structMetrics{k})(n) = data{m}.(structMetrics{k});
-                %             structResults.(structMetrics{k})(n).mode = config.modes(m);
+                %             structResults.(structMetrics{k})(n).design = config.designs(m);
                 n=n+1;
             end
         end

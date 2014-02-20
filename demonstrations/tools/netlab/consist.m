@@ -1,4 +1,4 @@
-function errstring = consist(model, type, inputs, outputs)
+function errstring = consist(designl, type, inputs, outputs)
 %CONSIST Check that arguments are consistent.
 %
 %	Description
@@ -34,15 +34,15 @@ errstring = '';
 
 % If type string is not empty
 if ~isempty(type)
-  % First check that model has type field
-  if ~isfield(model, 'type')
+  % First check that designl has type field
+  if ~isfield(designl, 'type')
     errstring = 'Data structure does not contain type field';
     return
   end
-  % Check that model has the correct type
-  s = model.type;
+  % Check that designl has the correct type
+  s = designl.type;
   if ~strcmp(s, type)
-    errstring = ['Model type ''', s, ''' does not match expected type ''',...
+    errstring = ['Designl type ''', s, ''' does not match expected type ''',...
 	type, ''''];
     return
   end
@@ -50,29 +50,29 @@ end
 
 % If inputs are present, check that they have correct dimension
 if nargin > 2
-  if ~isfield(model, 'nin')
+  if ~isfield(designl, 'nin')
     errstring = 'Data structure does not contain nin field';
     return
   end
 
   data_nin = size(inputs, 2);
-  if model.nin ~= data_nin
+  if designl.nin ~= data_nin
     errstring = ['Dimension of inputs ', num2str(data_nin), ...
-	' does not match number of model inputs ', num2str(model.nin)];
+	' does not match number of designl inputs ', num2str(designl.nin)];
     return
   end
 end
 
 % If outputs are present, check that they have correct dimension
 if nargin > 3
-  if ~isfield(model, 'nout')
+  if ~isfield(designl, 'nout')
     errstring = 'Data structure does not conatin nout field';
     return
   end
   data_nout = size(outputs, 2);
-  if model.nout ~= data_nout
+  if designl.nout ~= data_nout
     errstring = ['Dimension of outputs ', num2str(data_nout), ...
-	' does not match number of model outputs ', num2str(model.nout)];
+	' does not match number of designl outputs ', num2str(designl.nout)];
     return
   end
 

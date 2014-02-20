@@ -1,4 +1,4 @@
-function [modeSpec] = expModeParse(fileName)
+function [designSpec] = expDesignParse(fileName)
 
 fid =fopen(fileName);
 C = textscan(fid,'%s%s%s%s', 'commentstyle', '%', 'delimiter', '=');
@@ -9,7 +9,7 @@ select=C{3};
 values=C{4};
 
 if length(unique(names)) < length(names)
-    error('Duplicate parameter name in mode file');
+    error('Duplicate parameter name in design file');
 end
 
 selectAll = {};
@@ -25,15 +25,15 @@ for k=1:length(names)
     if iscellstr(values{k})
         shortValues{k} = names2shortNames(values{k});
        if ~all(cellfun(@isempty, strfind(values{k}, '/'))) || ~all(cellfun(@isempty, strfind(values{k}, '\'))) || ~all(cellfun(@isempty, strfind(values{k}, '.')))
-          error(['Invalid set of modes for ' names{k} ' parameter in ' fileName '. the modes shall not include any path-like characters like: ''/'', ''\'', or ''.''.']); 
+          error(['Invalid set of designs for ' names{k} ' parameter in ' fileName '. the designs shall not include any path-like characters like: ''/'', ''\'', or ''.''.']); 
        end
         if length(unique(values{k})) < length(values{k})
-            error(['Duplicate values of parameter ' names{k} ' in mode file']);
+            error(['Duplicate values of parameter ' names{k} ' in design file']);
         end
     elseif isnumeric(values{k})
         shortValues{k} = values{k};
     else
-        error(['Invalid set of modes for ' names{k} ' parameter in ' fileName '. Shall be numeric or cell array of strings.']);
+        error(['Invalid set of designs for ' names{k} ' parameter in ' fileName '. Shall be numeric or cell array of strings.']);
     end
 end
 
@@ -78,11 +78,11 @@ for k=1:size(values, 2)
     end
 end
 
-modeSpec.values = values;
-modeSpec.stringValues = stringValues;
-modeSpec.names = names;
-modeSpec.shortNames = shortNames;
-modeSpec.shortValues = shortValues;
-modeSpec.step = step;
-modeSpec.selectParameters = selectAll;
-modeSpec.sequentialParameter = sequentialParameter;
+designSpec.values = values;
+designSpec.stringValues = stringValues;
+designSpec.names = names;
+designSpec.shortNames = shortNames;
+designSpec.shortValues = shortValues;
+designSpec.step = step;
+designSpec.selectParameters = selectAll;
+designSpec.sequentialParameter = sequentialParameter;

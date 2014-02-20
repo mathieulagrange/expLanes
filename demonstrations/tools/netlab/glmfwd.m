@@ -1,8 +1,8 @@
 function [y, a] = glmfwd(net, x)
-%GLMFWD	Forward propagation through generalized linear model.
+%GLMFWD	Forward propagation through generalized linear designl.
 %
 %	Description
-%	Y = GLMFWD(NET, X) takes a generalized linear model data structure
+%	Y = GLMFWD(NET, X) takes a generalized linear designl data structure
 %	NET together with a matrix X of input vectors, and forward propagates
 %	the inputs through the network to generate a matrix Y of output
 %	vectors. Each row of X corresponds to one input vector and each row

@@ -1,4 +1,4 @@
-function v = expModeBuild(vSpec, vSet)
+function v = expDesignBuild(vSpec, vSet)
 
 mask=[];
 for k=1:size(vSet, 1)

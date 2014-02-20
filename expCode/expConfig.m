@@ -18,10 +18,10 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % TODO renaming .mat function when adding factor
 % TODO convert disp by expLog
 % TODO clusteringMetrics
-% TODO split expModesBuild into a helper function that is called to build
+% TODO split expDesignsBuild into a helper function that is called to build
 % TODO dump obs data as .mat attached to report
 
-% one mode
+% one design
 
 % FIXME expProgress ctrl C opened figure
 % FIXME fails to atttach config file
@@ -220,5 +220,5 @@ for k=1:length(fieldNames)
 end
 
 config.waitBar = [];
-config.modeStatus.success = 0;
-config.modeStatus.failed = 0;
+config.designStatus.success = 0;
+config.designStatus.failed = 0;

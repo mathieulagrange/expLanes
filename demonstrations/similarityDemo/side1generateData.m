@@ -1,17 +1,17 @@
-function [config, store, obs] = side1generateData(config, mode, data, obs)
+function [config, store, obs] = side1generateData(config, design, data, obs)
 
 if nargin==0, similarityDemo('do', 1, 'mask', {{}}); return; end
 
-disp([config.currentStepName ' ' mode.infoString]);
+disp([config.currentStepName ' ' design.infoString]);
 
 tic
 
-for k=1:mode.nbRealizations
+for k=1:design.nbRealizations
     classData = [];
     class = [];
-    for m=1:mode.nbClasses
-        classData = [classData; repmat(m*mode.spread/20, mode.nbElementsPerClass, mode.nbDimensions)+randn(mode.nbElementsPerClass, mode.nbDimensions)];
-        class = [class; m*ones(mode.nbElementsPerClass, 1)];
+    for m=1:design.nbClasses
+        classData = [classData; repmat(m*design.spread/20, design.nbElementsPerClass, design.nbDimensions)+randn(design.nbElementsPerClass, design.nbDimensions)];
+        class = [class; m*ones(design.nbElementsPerClass, 1)];
     end
     %     scatter(classData(:, 1), classData(:, 2), 50, class, 'filled');
     

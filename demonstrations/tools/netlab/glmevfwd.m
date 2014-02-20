@@ -6,7 +6,7 @@ function [y, extra, invhess] = glmevfwd(net, x, t, x_test, invhess)
 %	together with the input X and target T training data and input test
 %	data X_TEST. It returns the normal forward propagation through the
 %	network Y together with a matrix EXTRA which consists of error bars
-%	(variance) for a regression problem or moderated outputs for a
+%	(variance) for a regression problem or designrated outputs for a
 %	classification problem.
 %
 %	The optional argument (and return value)  INVHESS is the inverse of

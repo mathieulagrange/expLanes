@@ -1,5 +1,5 @@
 function [h, hdata] = glmhess(net, x, t, hdata)
-%GLMHESS Evaluate the Hessian matrix for a generalised linear model.
+%GLMHESS Evaluate the Hessian matrix for a generalised linear designl.
 %
 %	Description
 %	H = GLMHESS(NET, X, T) takes a GLM network data structure NET,   a

@@ -18,15 +18,15 @@ for k=1:length(select)
 end
 vSpec.selectParameters = select;
 
-[config.modes s config.parameters vSet] = expModes(vSpec, config.mask, config.currentStep);
+[config.designs s config.parameters vSet] = expDesigns(vSpec, config.mask, config.currentStep);
 
 for k=1:size(vSet, 2)
     for m=1:length(vSet)
-        if all(vSet(:, k)==config.modeSet(order, m))
+        if all(vSet(:, k)==config.designSet(order, m))
             permutationVector(k) = m;
         end
     end
 end
 
-config.modeSet = vSet;
+config.designSet = vSet;
 config.evaluation.results = config.evaluation.results(permutationVector, :, :);

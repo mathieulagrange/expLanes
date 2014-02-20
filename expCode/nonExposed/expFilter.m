@@ -5,7 +5,7 @@ data = config.evaluation.results;
 
 
 fData = data;
-modeSelector = 1:length(config.modes);
+designSelector = 1:length(config.designs);
 
 if  p.expand ~= 0 % TODO allow expand with mutiple metrics
     if length(config.evaluation.metrics)==1
@@ -20,14 +20,14 @@ if  p.expand ~= 0 % TODO allow expand with mutiple metrics
         % use one parameter to rearrange data
         pList = config.parameters.list(:, p.expand);
         nExpand = length(config.parameters.values{p.expand});
-        modeSelector = (1:length(pList));
+        designSelector = (1:length(pList));
         % sort
         [null, idx] = sort(pList);
-        modeSelector = modeSelector(idx);
+        designSelector = designSelector(idx);
         % cut
         fData = fData(idx, :, :);
         fSize = size(fData, 1)/nExpand;
-        modeSelector = modeSelector(1:fSize);
+        designSelector = designSelector(1:fSize);
         % reshape
         fData = reshape(fData, fSize, nExpand, size(fData, 3));
     end
@@ -79,7 +79,7 @@ end
 
 parameterSelected = {};
 for k=1:length(config.factors.names)
-    vsk = config.modeSet(k, select);
+    vsk = config.designSet(k, select);
     vsk(vsk==0)=[];
     if length(unique(vsk))>1
         parameterSelected(end+1) = config.factors.names(k);
@@ -107,10 +107,10 @@ dataDisplay.parameterSelector = parameterSelector;
 % dataDisplay.p.expand = p.expand;
 dataDisplay.p.metric = p.metric;
 dataDisplay.varData = vData(select, :);
-if isempty(modeSelector)
-    dataDisplay.modeSelector = [];
+if isempty(designSelector)
+    dataDisplay.designSelector = [];
 else
-    dataDisplay.modeSelector = modeSelector(select);
+    dataDisplay.designSelector = designSelector(select);
 end
 
 

@@ -12,9 +12,9 @@ stepName = config.stepName{config.currentStep};
 path = [config.dataPath stepName filesep];
 
 if config.useShortNamesForFiles
-    name = config.currentMode.infoShortString;
+    name = config.currentDesign.infoShortString;
 else
-    name = config.currentMode.infoString;
+    name = config.currentDesign.infoString;
 end
 
 if config.dummy
@@ -23,8 +23,8 @@ end
 
 if exist('data', 'var') && ~isempty(data)
     runId = config.runId;
-    mode = config.currentMode;
-    save([path name  extension ], 'data', 'stepName', 'runId', 'mode');
+    design = config.currentDesign;
+    save([path name  extension ], 'data', 'stepName', 'runId', 'design');
 end
 
 fileName = [path name  extension];

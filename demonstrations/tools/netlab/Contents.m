@@ -14,22 +14,22 @@
 % demev2   -  Demonstrate Bayesian classification for the MLP. 
 % demev3   -  Demonstrate Bayesian regression for the RBF. 
 % demgauss -  Demonstrate sampling from Gaussian distributions. 
-% demglm1  -  Demonstrate simple classification using a generalized linear model. 
-% demglm2  -  Demonstrate simple classification using a generalized linear model. 
-% demgmm1  -  Demonstrate density modelling with a Gaussian mixture model. 
-% demgmm3  -  Demonstrate density modelling with a Gaussian mixture model. 
-% demgmm4  -  Demonstrate density modelling with a Gaussian mixture model. 
-% demgmm5  -  Demonstrate density modelling with a PPCA mixture model. 
+% demglm1  -  Demonstrate simple classification using a generalized linear designl. 
+% demglm2  -  Demonstrate simple classification using a generalized linear designl. 
+% demgmm1  -  Demonstrate density designlling with a Gaussian mixture designl. 
+% demgmm3  -  Demonstrate density designlling with a Gaussian mixture designl. 
+% demgmm4  -  Demonstrate density designlling with a Gaussian mixture designl. 
+% demgmm5  -  Demonstrate density designlling with a PPCA mixture designl. 
 % demgp    -  Demonstrate simple regression using a Gaussian Process. 
 % demgpard -  Demonstrate ARD using a Gaussian Process. 
-% demgpot  -  Computes the gradient of the negative log likelihood for a mixture model. 
+% demgpot  -  Computes the gradient of the negative log likelihood for a mixture designl. 
 % demgtm1  -  Demonstrate EM for GTM. 
 % demgtm2  -  Demonstrate GTM for visualisation. 
 % demhint  -  Demonstration of Hinton diagram for 2-layer feed-forward network. 
 % demhmc1  -  Demonstrate Hybrid Monte Carlo sampling on mixture of two Gaussians. 
 % demhmc2  -  Demonstrate Bayesian regression with Hybrid Monte Carlo sampling. 
 % demhmc3  -  Demonstrate Bayesian regression with Hybrid Monte Carlo sampling. 
-% demkmean -  Demonstrate simple clustering model trained with K-means. 
+% demkmean -  Demonstrate simple clustering designl trained with K-means. 
 % demknn1  -  Demonstrate nearest neighbour classifier. 
 % demmdn1  -  Demonstrate fitting a multi-valued function using a Mixture Density Network. 
 % demmet1  -  Demonstrate Markov Chain Monte Carlo sampling on a Gaussian. 
@@ -39,7 +39,7 @@
 % demns1   -  Demonstrate Neuroscale for visualisation. 
 % demolgd1 -  Demonstrate simple MLP optimisation with on-line gradient descent 
 % demopt1  -  Demonstrate different optimisers on Rosenbrock's function. 
-% dempot   -  Computes the negative log likelihood for a mixture model. 
+% dempot   -  Computes the negative log likelihood for a mixture designl. 
 % demprgp  -  Demonstrate sampling from a Gaussian Process prior. 
 % demprior -  Demonstrate sampling from a multi-parameter Gaussian prior. 
 % demrbf1  -  Demonstrate simple regression using a radial basis function network. 
@@ -52,26 +52,26 @@
 % fevbayes -  Evaluate Bayesian regularisation for network forward propagation. 
 % gauss    -  Evaluate a Gaussian distribution. 
 % gbayes   -  Evaluate gradient of Bayesian error function for network. 
-% glm      -  Create a generalized linear model. 
+% glm      -  Create a generalized linear designl. 
 % glmderiv -  Evaluate derivatives of GLM outputs with respect to weights. 
-% glmerr   -  Evaluate error function for generalized linear model. 
+% glmerr   -  Evaluate error function for generalized linear designl. 
 % glmevfwd -  Forward propagation with evidence for GLM 
-% glmfwd   -  Forward propagation through generalized linear model. 
-% glmgrad  -  Evaluate gradient of error function for generalized linear model. 
-% glmhess  -  Evaluate the Hessian matrix for a generalised linear model. 
-% glminit  -  Initialise the weights in a generalized linear model. 
+% glmfwd   -  Forward propagation through generalized linear designl. 
+% glmgrad  -  Evaluate gradient of error function for generalized linear designl. 
+% glmhess  -  Evaluate the Hessian matrix for a generalised linear designl. 
+% glminit  -  Initialise the weights in a generalized linear designl. 
 % glmpak   -  Combines weights and biases into one weights vector. 
-% glmtrain -  Specialised training of generalized linear model 
+% glmtrain -  Specialised training of generalized linear designl 
 % glmunpak -  Separates weights vector into weight and bias matrices. 
-% gmm      -  Creates a Gaussian mixture model with specified architecture. 
-% gmmactiv -  Computes the activations of a Gaussian mixture model. 
-% gmmem    -  EM algorithm for Gaussian mixture model. 
-% gmminit  -  Initialises Gaussian mixture model from data 
-% gmmpak   -  Combines all the parameters in a Gaussian mixture model into one vector. 
-% gmmpost  -  Computes the class posterior probabilities of a Gaussian mixture model. 
-% gmmprob  -  Computes the data probability for a Gaussian mixture model. 
+% gmm      -  Creates a Gaussian mixture designl with specified architecture. 
+% gmmactiv -  Computes the activations of a Gaussian mixture designl. 
+% gmmem    -  EM algorithm for Gaussian mixture designl. 
+% gmminit  -  Initialises Gaussian mixture designl from data 
+% gmmpak   -  Combines all the parameters in a Gaussian mixture designl into one vector. 
+% gmmpost  -  Computes the class posterior probabilities of a Gaussian mixture designl. 
+% gmmprob  -  Computes the data probability for a Gaussian mixture designl. 
 % gmmsamp  -  Sample from a Gaussian mixture distribution. 
-% gmmunpak -  Separates a vector of Gaussian mixture model parameters into its components. 
+% gmmunpak -  Separates a vector of Gaussian mixture designl parameters into its components. 
 % gp       -  Create a Gaussian Process. 
 % gpcovar  -  Calculate the covariance for a Gaussian Process. 
 % gpcovarf -  Calculate the covariance function for a Gaussian Process. 
@@ -79,7 +79,7 @@
 % gperr    -  Evaluate error function for Gaussian Process. 
 % gpfwd    -  Forward propagation through Gaussian Process. 
 % gpgrad   -  Evaluate error gradient for Gaussian Process. 
-% gpinit   -  Initialise Gaussian Process model. 
+% gpinit   -  Initialise Gaussian Process designl. 
 % gppak    -  Combines GP hyperparameters into one vector. 
 % gpunpak  -  Separates hyperparameter vector into components. 
 % gradchek -  Checks a user-defined gradient function using finite differences. 
@@ -90,7 +90,7 @@
 % gtmfwd   -  Forward propagation through GTM. 
 % gtminit  -  Initialise the weights and latent sample in a GTM. 
 % gtmlmean -  Mean responsibility for data in a GTM. 
-% gtmlmode -  Mode responsibility for data in a GTM. 
+% gtmldesign -  Design responsibility for data in a GTM. 
 % gtmmag   -  Magnification factors for a GTM 
 % gtmpost  -  Latent space responsibility for data in a GTM. 
 % gtmprob  -  Probability for data under a GTM. 
@@ -100,7 +100,7 @@
 % hinton   -  Plot Hinton diagram for a weight matrix. 
 % histp    -  Histogram estimate of 1-dimensional probability distribution. 
 % hmc      -  Hybrid Monte Carlo sampling. 
-% kmeans   -  Trains a k means cluster model. 
+% kmeans   -  Trains a k means cluster designl. 
 % knn      -  Creates a K-nearest-neighbour classifier. 
 % knnfwd   -  Forward propagation through a K-nearest-neighbour classifier. 
 % linef    -  Calculate function value along a line. 
@@ -140,7 +140,7 @@
 % netgrad  -  Evaluate network error gradient for generic optimizers 
 % nethess  -  Evaluate network Hessian 
 % netinit  -  Initialise the weights in a network. 
-% netopt   -  Optimize the weights in a network model. 
+% netopt   -  Optimize the weights in a network designl. 
 % netpak   -  Combines weights and biases into one weights vector. 
 % netunpak -  Separates weights vector into weight and bias matrices. 
 % olgd     -  On-line gradient descent optimization. 

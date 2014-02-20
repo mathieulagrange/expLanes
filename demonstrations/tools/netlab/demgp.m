@@ -33,7 +33,7 @@ xtest = linspace(0, 1, 50)';
 
 clc
 disp('This demonstration illustrates the use of a Gaussian Process')
-disp('model for regression problems.  The data is generated from a noisy')
+disp('designl for regression problems.  The data is generated from a noisy')
 disp('sine function.')
 disp(' ')
 disp('Press any key to continue.')
@@ -113,7 +113,7 @@ disp('Press any key to continue')
 pause
 
 disp(' ')
-disp('Now we plot the data, underlying function, model outputs and two')
+disp('Now we plot the data, underlying function, designl outputs and two')
 disp('standard deviation error bars on a single graph to compare the results.')
 disp(' ')
 disp('Press any key to continue.')

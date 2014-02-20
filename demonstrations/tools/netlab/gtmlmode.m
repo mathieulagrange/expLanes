@@ -1,9 +1,9 @@
-function modes = gtmlmode(net, data)
-%GTMLMODE Mode responsibility for data in a GTM.
+function designs = gtmldesign(net, data)
+%GTMLMODE Design responsibility for data in a GTM.
 %
 %	Description
 %	 MODES = GTMLMODE(NET, DATA) takes a GTM structure NET, and computes
-%	the modes of the responsibility  distributions for each data point in
+%	the designs of the responsibility  distributions for each data point in
 %	DATA.  These will always lie at one of the latent space sample points
 %	NET.X.
 %
@@ -20,6 +20,6 @@ if ~isempty(errstring)
 end
 
 R = gtmpost(net, data);
-% Mode is maximum responsibility
+% Design is maximum responsibility
 [max_resp, max_index] = max(R, [], 2);
-modes = net.X(max_index, :);
+designs = net.X(max_index, :);

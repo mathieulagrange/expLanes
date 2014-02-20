@@ -7,8 +7,8 @@
 %	noise. This data is the same as that used in demmlp1.
 %
 %	Three different RBF networks (with different activation functions)
-%	are trained in two stages. First, a Gaussian mixture model is trained
-%	using the EM algorithm, and the centres of this model are used to set
+%	are trained in two stages. First, a Gaussian mixture designl is trained
+%	using the EM algorithm, and the centres of this designl are used to set
 %	the centres of the RBF.  Second, the output weights (and biases) are
 %	determined using the pseudo-inverse of the design matrix.
 %

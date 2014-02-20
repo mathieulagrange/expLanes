@@ -19,7 +19,7 @@ if nargin == 0 | plot_wait < 0
   plot_wait = 0; % No wait if not specified or incorrect
 end
 dim = 2;            	% Data dimension
-ncentres = 1;		% Number of centres in mixture model
+ncentres = 1;		% Number of centres in mixture designl
 
 seed = 42;              % Seed for random weight initialization.
 randn('state', seed);
@@ -30,13 +30,13 @@ disp('This demonstration illustrates the use of the Markov chain Monte Carlo')
 disp('algorithm to sample from a Gaussian distribution.')
 disp('The mean is at [0 0].')
 disp(' ')
-disp('First we set up the parameters of the mixture model we are sampling')
+disp('First we set up the parameters of the mixture designl we are sampling')
 disp('from.')
 disp(' ')
 disp('Press any key to continue.')
 pause
 
-% Set up mixture model to sample from
+% Set up mixture designl to sample from
 mix = gmm(dim, ncentres, 'spherical');
 mix.centres(1, :) = [0 0];
 x = [0 4];  % Start vector
@@ -78,14 +78,14 @@ for n = 1:nsamples
   if n < g1end
     Marker = 'k.';
     p1 = plot(samples(n,1), samples(n,2), Marker, ...
-      'EraseMode', 'none', 'MarkerSize', 12);
+      'EraseDesign', 'none', 'MarkerSize', 12);
     if n == 1
       axis([-3 5 -2 5])
     end
   else
     Marker = 'r.';
     p2 = plot(samples(n,1), samples(n,2), Marker, ...
-      'EraseMode', 'none', 'MarkerSize', 12);
+      'EraseDesign', 'none', 'MarkerSize', 12);
   end
   hold on
   drawnow;  % Force drawing immediately

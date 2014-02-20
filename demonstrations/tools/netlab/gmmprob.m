@@ -1,10 +1,10 @@
 function prob = gmmprob(mix, x)
-%GMMPROB Computes the data probability for a Gaussian mixture model.
+%GMMPROB Computes the data probability for a Gaussian mixture designl.
 %
 %	Description
 %	 This function computes the unconditional data density P(X) for a
-%	Gaussian mixture model.  The data structure MIX defines the mixture
-%	model, while the matrix X contains the data vectors.  Each row of X
+%	Gaussian mixture designl.  The data structure MIX defines the mixture
+%	designl, while the matrix X contains the data vectors.  Each row of X
 %	represents a single vector.
 %
 %	See also

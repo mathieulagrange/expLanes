@@ -1,8 +1,8 @@
-function vSet = expModeSet(vSpec, mask, currentStep)
+function vSet = expDesignSet(vSpec, mask, currentStep)
 
 vSet=[];
 for k=1:length(mask)
-    vSet = [vSet expModeSetMask(vSpec, mask{k}, currentStep)];
+    vSet = [vSet expDesignSetMask(vSpec, mask{k}, currentStep)];
 end
 
 % prune vSet for repetition
@@ -11,7 +11,7 @@ vSet(:, setdiff(1:size(vSet,2),index))=[];
 
 end
 
-function [vSet] = expModeSetMask(vSpec, mask, currentStep)
+function [vSet] = expDesignSetMask(vSpec, mask, currentStep)
 % only valid for unitary mask
 
 
@@ -23,13 +23,13 @@ elseif length(mask)<length(vSpec.names)
     mask = [mask num2cell(zeros(1, length(vSpec.names)-length(mask)))];
 end
 
-mask = expModeStep(vSpec, mask, currentStep);
+mask = expDesignStep(vSpec, mask, currentStep);
 
 mask = expSelectParameters(vSpec, {mask});
 
 vSet=[];
 for k=1:length(mask)
-    vSet = [vSet buildModeSet([], vSpec.values, mask{k})];
+    vSet = [vSet buildDesignSet([], vSpec.values, mask{k})];
 end
 
 % reorder vSet
@@ -37,10 +37,10 @@ vSet = flipud(vSet);
 
 end
 
-function set = buildModeSet(set, values, mask)
+function set = buildDesignSet(set, values, mask)
 
 if length(values)>1
-    pvs = buildModeSet(set, values(2:end), mask(2:end));
+    pvs = buildDesignSet(set, values(2:end), mask(2:end));
     if mask{1}>0
         it = mask{1};
     elseif mask{1}==-1

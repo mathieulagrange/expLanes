@@ -1,10 +1,10 @@
 function [post, a] = gmmpost(mix, x)
-%GMMPOST Computes the class posterior probabilities of a Gaussian mixture model.
+%GMMPOST Computes the class posterior probabilities of a Gaussian mixture designl.
 %
 %	Description
 %	This function computes the posteriors POST (i.e. the probability of
 %	each component conditioned on the data P(J|X)) for a Gaussian mixture
-%	model.   The data structure MIX defines the mixture model, while the
+%	designl.   The data structure MIX defines the mixture designl, while the
 %	matrix X contains the data vectors.  Each row of X represents a
 %	single vector.
 %

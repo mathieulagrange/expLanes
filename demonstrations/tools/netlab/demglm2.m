@@ -1,9 +1,9 @@
-%DEMGLM2 Demonstrate simple classification using a generalized linear model.
+%DEMGLM2 Demonstrate simple classification using a generalized linear designl.
 %
 %	Description
 %	 The problem consists of a two dimensional input matrix DATA and a
 %	vector of classifications T.  The data is  generated from three
-%	Gaussian clusters, and a generalized linear model with softmax output
+%	Gaussian clusters, and a generalized linear designl with softmax output
 %	is trained using iterative reweighted least squares. A plot of the
 %	data together with regions shaded by the classification given by the
 %	network is generated.
@@ -36,7 +36,7 @@ targets = id(label,:);
 % Plot the result
 
 clc
-disp('This demonstration illustrates the use of a generalized linear model')
+disp('This demonstration illustrates the use of a generalized linear designl')
 disp('to classify data from three classes in a two-dimensional space. We')
 disp('begin by generating and plotting the data.')
 disp(' ')
@@ -53,10 +53,10 @@ plot(data(label==3, 1), data(label==3, 2), 'go')
 title('Data')
 
 clc
-disp('Now we fit a model consisting of a softmax function of')
+disp('Now we fit a designl consisting of a softmax function of')
 disp('a linear combination of the input variables.')
 disp(' ')
-disp('The model is trained using the IRLS algorithm for up to 10 iterations')
+disp('The designl is trained using the IRLS algorithm for up to 10 iterations')
 disp(' ')
 disp('Press any key to continue.')
 pause
@@ -68,7 +68,7 @@ options(14) = 10;
 net = glmtrain(net, options, data, targets);
 
 disp(' ')
-disp('We now plot the decision regions given by this model.')
+disp('We now plot the decision regions given by this designl.')
 disp(' ')
 disp('Press any key to continue.')
 pause

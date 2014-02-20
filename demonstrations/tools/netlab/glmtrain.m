@@ -1,10 +1,10 @@
 function [net, options] = glmtrain(net, options, x, t)
-%GLMTRAIN Specialised training of generalized linear model
+%GLMTRAIN Specialised training of generalized linear designl
 %
 %	Description
 %	NET = GLMTRAIN(NET, OPTIONS, X, T) uses the iterative reweighted
 %	least squares (IRLS) algorithm to set the weights in the generalized
-%	linear model structure NET.  This is a more efficient alternative to
+%	linear designl structure NET.  This is a more efficient alternative to
 %	using GLMERR and GLMGRAD and a non-linear optimisation routine
 %	through NETOPT. Note that for linear outputs, a single pass through
 %	the  algorithm is all that is required, since the error function is
@@ -97,7 +97,7 @@ for n = 1:options(14)
   switch net.outfn
     case 'logistic'
       if n == 1
-        % Initialise model
+        % Initialise designl
         p = (t+0.5)/2;
 	act = log(p./(1-p));
         wold = glmpak(net);
@@ -134,7 +134,7 @@ for n = 1:options(14)
       end
     case 'softmax'
       if n == 1
-        % Initialise model: ensure that row sum of p is one no matter
+        % Initialise designl: ensure that row sum of p is one no matter
 	% how many classes there are
         p = (t + (1/size(t, 2)))/2;
 	act = log(p./(1-p));

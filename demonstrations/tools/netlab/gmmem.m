@@ -1,10 +1,10 @@
 function [mix, options, errlog] = gmmem(mix, x, options)
-%GMMEM	EM algorithm for Gaussian mixture model.
+%GMMEM	EM algorithm for Gaussian mixture designl.
 %
 %	Description
 %	[MIX, OPTIONS, ERRLOG] = GMMEM(MIX, X, OPTIONS) uses the Expectation
 %	Maximization algorithm of Dempster et al. to estimate the parameters
-%	of a Gaussian mixture model defined by a data structure MIX. The
+%	of a Gaussian mixture designl defined by a data structure MIX. The
 %	matrix X represents the data whose expectation is maximized, with
 %	each row corresponding to a vector.    The optional parameters have
 %	the following interpretations.

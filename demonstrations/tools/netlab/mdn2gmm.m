@@ -5,9 +5,9 @@ function gmmmixes = mdn2gmm(mdnmixes)
 %	GMMMIXES = MDN2GMM(MDNMIXES) takes an MDN mixture data structure
 %	MDNMIXES containing three matrices (for priors, centres and
 %	variances) where each row represents the corresponding parameter
-%	values for a different mixture model  and creates an array of GMMs.
+%	values for a different mixture designl  and creates an array of GMMs.
 %	These can then be used with the standard Netlab Gaussian mixture
-%	model functions.
+%	designl functions.
 %
 %	See also
 %	GMM, MDN, MDNFWD
@@ -23,7 +23,7 @@ if ~isempty(errstring)
 end
 
 nmixes = size(mdnmixes.centres, 1);
-% Construct ndata structures containing the mixture model information.
+% Construct ndata structures containing the mixture designl information.
 % First allocate the memory.
 tempmix = gmm(mdnmixes.dim_target, mdnmixes.ncentres, 'spherical');
 f = fieldnames(tempmix);

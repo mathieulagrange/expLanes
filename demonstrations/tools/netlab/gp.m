@@ -4,7 +4,7 @@ function net = gp(nin, covar_fn, prior)
 %	Description
 %
 %	NET = GP(NIN, COVARFN) takes the number of inputs NIN  for a Gaussian
-%	Process model with a single output, together with a string COVARFN
+%	Process designl with a single output, together with a string COVARFN
 %	which specifies the type of the covariance function, and returns a
 %	data structure NET. The parameters are set to zero.
 %
@@ -25,7 +25,7 @@ function net = gp(nin, covar_fn, prior)
 %	  trtargets = training target data (initially empty)
 %
 %	NET = GP(NIN, COVARFN, PRIOR) sets a Gaussian prior on the parameters
-%	of the model. PRIOR must contain the fields PR_MEAN and PR_VARIANCE.
+%	of the designl. PRIOR must contain the fields PR_MEAN and PR_VARIANCE.
 %	If PR_MEAN is a scalar, then the Gaussian is assumed to be isotropic
 %	and the additional fields NET.PR_MEAN and PR_VARIANCE are set.
 %	Otherwise,  the Gaussian prior has a mean defined by a column vector

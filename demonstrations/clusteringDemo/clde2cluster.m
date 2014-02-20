@@ -1,8 +1,8 @@
-function [config, store, obs] = clde2cluster(config, mode, data)
+function [config, store, obs] = clde2cluster(config, design, data)
 % clde2cluster CLUSTER step of the expCode project clusteringDemo
-%    [config, store, obs] = clde2cluster(config, mode, data)
+%    [config, store, obs] = clde2cluster(config, design, data)
 %       config : expCode configuration state
-%       mode: current set of parameters
+%       design: current set of parameters
 %       data   : processing data stored during the previous step
 %
 %       store  : processing data to be saved for the other steps
@@ -13,14 +13,14 @@ function [config, store, obs] = clde2cluster(config, mode, data)
 
 if nargin==0, clusteringDemo('do', 2, 'mask', {{1, 3, 0, 3, 0, 0, 0, 0, 10}}); return; end
 
-disp([config.currentStepName ' ' mode.infoString]);
+disp([config.currentStepName ' ' design.infoString]);
 
 store=[];
 obs=[];
 
-if ~isnan(mode.kernel)
+if ~isnan(design.kernel)
     x = data.samples;
-    switch mode.kernel
+    switch design.kernel
         case 'linear'
             K = x*x';
         case 'polynomial'
@@ -29,26 +29,26 @@ if ~isnan(mode.kernel)
 %             sigma = .1;
             S1S2 = -2 * (x * x');
             SS = sum(x.^2,2);
-            K = exp(- (S1S2 + repmat(SS, 1, length(SS)) + repmat(SS', length(SS), 1)) / (2 * mode.sigma^2));
+            K = exp(- (S1S2 + repmat(SS, 1, length(SS)) + repmat(SS', length(SS), 1)) / (2 * design.sigma^2));
         otherwise
             error('Unknown kernel.');
     end
 end
 
-switch mode.method
+switch design.method
     case 'kMeans'
-        opts = statset('MaxIter', mode.nbIterations);
-        clusters = kmeans(data.samples, mode.nbClasses, 'replicates', mode.nbRuns, 'options', opts);
+        opts = statset('MaxIter', design.nbIterations);
+        clusters = kmeans(data.samples, design.nbClasses, 'replicates', design.nbRuns, 'options', opts);
     case 'kernelKmeans'
         
-        for k=1:mode.nbRuns
-            [clusters(k, :) energy(k)] = knkmeans(K, mode.nbClasses, mode.nbIterations);
+        for k=1:design.nbRuns
+            [clusters(k, :) energy(k)] = knkmeans(K, design.nbClasses, design.nbIterations);
         end
         [m, ind] = min(sum(energy));
         clusters = clusters(ind, :);
     case 'kMedoids'
-        S = squareform(pdist(data.samples, mode.similarity));
-        [clusters energy] = kmedoids(S, mode.nbClasses, mode.nbRuns, mode.nbIterations);
+        S = squareform(pdist(data.samples, design.similarity));
+        [clusters energy] = kmedoids(S, design.nbClasses, design.nbRuns, design.nbIterations);
         [m, ind] = max(sum(energy));
         clusters = clusters(:, ind);
     case 'spectral'
@@ -56,17 +56,17 @@ switch mode.method
         D = diag(1 ./ sqrt(sum(K, 2)));
         L = D * K * D;
         
-        if strcmp(mode.dataType, 'gaussian')
+        if strcmp(design.dataType, 'gaussian')
             opts.tol = 1e-3;
         else
             opts.tol = eps;
         end
         warning('off');
-        [X, D] = eigs(L, mode.nbClasses, 'lm', opts);
+        [X, D] = eigs(L, design.nbClasses, 'lm', opts);
         warning('on');
-        Y = X ./ repmat(sqrt(sum(X.^2, 2)), 1, mode.nbClasses);
-        opts = statset('MaxIter', mode.nbIterations);
-        clusters = kmeans(Y, mode.nbClasses, 'replicates', mode.nbRuns, 'options', opts);
+        Y = X ./ repmat(sqrt(sum(X.^2, 2)), 1, design.nbClasses);
+        opts = statset('MaxIter', design.nbIterations);
+        clusters = kmeans(Y, design.nbClasses, 'replicates', design.nbRuns, 'options', opts);
         
     otherwise
         error('Unknown method.');

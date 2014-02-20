@@ -1,9 +1,9 @@
 function net = glminit(net, prior)
-%GLMINIT Initialise the weights in a generalized linear model.
+%GLMINIT Initialise the weights in a generalized linear designl.
 %
 %	Description
 %
-%	NET = GLMINIT(NET, PRIOR) takes a generalized linear model NET and
+%	NET = GLMINIT(NET, PRIOR) takes a generalized linear designl NET and
 %	sets the weights and biases by sampling from a Gaussian distribution.
 %	If PRIOR is a scalar, then all of the parameters (weights and biases)
 %	are sampled from a single isotropic Gaussian with inverse variance

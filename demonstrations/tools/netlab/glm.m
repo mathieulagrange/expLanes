@@ -1,10 +1,10 @@
 function net = glm(nin, nout, outfunc, prior, beta)
-%GLM	Create a generalized linear model.
+%GLM	Create a generalized linear designl.
 %
 %	Description
 %
 %	NET = GLM(NIN, NOUT, FUNC) takes the number of inputs and outputs for
-%	a generalized linear model, together with a string FUNC which
+%	a generalized linear designl, together with a string FUNC which
 %	specifies the output unit activation function, and returns a data
 %	structure NET. The weights are drawn from a zero mean, isotropic
 %	Gaussian, with variance scaled by the fan-in of the output units.

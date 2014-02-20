@@ -13,7 +13,7 @@ function g = rbfbkp(net, x, z, n2, deltas)
 %	input vector.
 %
 %	This function is provided so that the common backpropagation
-%	algorithm can be used by RBF network models to compute gradients for
+%	algorithm can be used by RBF network designls to compute gradients for
 %	the output values (in RBFDERIV) as well as standard error functions.
 %
 %	See also
@@ -56,14 +56,14 @@ case 'tps'	% Thin plate spline activation function
    for i = 1:net.nhidden
       gc(i,:) = sum(2.*((t1*(net.c(i,:)) - x)).*(delhid(:,i)*t2), 1);
    end
-   % widths are not adjustable in this model
+   % widths are not adjustable in this designl
    gwi = [];
 case 'r4logr' % r^4 log r activation function
    delhid = delhid.*(n2.*(1+2.*log(n2+(n2==0))));
    for i = 1:net.nhidden
       gc(i,:) = sum(2.*((t1*(net.c(i,:)) - x)).*(delhid(:,i)*t2), 1);
    end
-   % widths are not adjustable in this model
+   % widths are not adjustable in this designl
    gwi = [];
 otherwise
    error('Unknown activation function in rbfgrad')

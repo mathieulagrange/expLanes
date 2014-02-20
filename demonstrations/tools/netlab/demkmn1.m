@@ -1,4 +1,4 @@
-%DEMKMEAN Demonstrate simple clustering model trained with K-means.
+%DEMKMEAN Demonstrate simple clustering designl trained with K-means.
 %
 %	Description
 %	The problem consists of data in a two-dimensional space.  The data is
@@ -7,7 +7,7 @@
 %	deviations 0.2, 0.5 and 1.0. The first figure contains a scatter plot
 %	of the data.  The data is the same as in DEMGMM1.
 %
-%	A cluster model with three components is trained using the batch K-
+%	A cluster designl with three components is trained using the batch K-
 %	means algorithm. The matrix of centres is printed after training. The
 %	second figure shows the data labelled with a colour derived from the
 %	corresponding  cluster
@@ -28,7 +28,7 @@ data = dem2ddat(ndata);
 data = data(randperm(ndata),:);
 
 clc 
-disp('This demonstration illustrates the use of a cluster model to')
+disp('This demonstration illustrates the use of a cluster designl to')
 disp('find centres that reflect the distribution of data points.')
 disp('We begin by generating the data from a mixture of three Gaussians')
 disp('in two-dimensional space and plotting it.')
@@ -41,7 +41,7 @@ plot(data(:, 1), data(:, 2), 'o')
 set(gca, 'Box', 'on')
 title('Data')
 
-% Set up cluster model
+% Set up cluster designl
 ncentres = 3;
 centres = zeros(ncentres, 2);
 
@@ -52,8 +52,8 @@ options(5) = 1;
 options(14) = 10;		% Number of iterations.
 
 clc
-disp('The model is chosen to have three centres, which are initialised')
-disp('at randomly selected data points.  We now train the model using')
+disp('The designl is chosen to have three centres, which are initialised')
+disp('at randomly selected data points.  We now train the designl using')
 disp('the batch K-means algorithm with a maximum of 10 iterations and')
 disp('stopping tolerance of 1e-4.')
 disp(' ')
@@ -63,12 +63,12 @@ pause
 % Train the centres from the data
 [centres, options, post] = kmeans(centres, data, options);
 
-% Print out model
+% Print out designl
 disp(' ')
 disp('Note that training has terminated before 10 iterations as there')
 disp('has been no change in the centres or error function.')
 disp(' ')
-disp('The trained model has centres:')
+disp('The trained designl has centres:')
 disp(centres);
 disp('Press any key to continue.')
 pause

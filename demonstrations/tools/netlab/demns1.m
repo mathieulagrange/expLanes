@@ -29,7 +29,7 @@ ndata = 60;
 [data, labels] = gmmsamp(mix, ndata);
 
 clc
-disp('This demonstration illustrates the use of the Neuroscale model')
+disp('This demonstration illustrates the use of the Neuroscale designl')
 disp('to perform a topographic projection of data.  We begin by generating')
 disp('60 data points from a mixture of two Gaussians in 4 dimensional space.')
 disp(' ')
@@ -38,10 +38,10 @@ pause
 
 ncentres = 10;
 net = rbf(input_dim, ncentres, output_dim, 'tps', 'neuroscale');
-dstring = ['the Sammon mapping.  The model has ', num2str(ncentres), ...
+dstring = ['the Sammon mapping.  The designl has ', num2str(ncentres), ...
     ' centres, two outputs, and uses'];
 clc
-disp('The Neuroscale model is an RBF with a Stress error measure as used in')
+disp('The Neuroscale designl is an RBF with a Stress error measure as used in')
 disp(dstring)
 disp('thin plate spline basis functions.')
 disp(' ')
@@ -64,7 +64,7 @@ options(2, 14) = 10;
 net2 = rbftrain(net, options, data);
 
 disp(' ')
-disp('After training the model, we project the training data by a normal')
+disp('After training the designl, we project the training data by a normal')
 disp('forward propagation through the RBF network.  Because there are two')
 disp('outputs, the results can be plotted and visualised.')
 disp(' ')

@@ -1,33 +1,33 @@
-function expSync(config, syncMode, syncDestination, syncDirection, detach, delete)
-% expSync(syncMode, syncDestination, syncDirection, detach, delete, config)
+function expSync(config, syncDesign, syncDestination, syncDirection, detach, delete)
+% expSync(syncDesign, syncDestination, syncDirection, detach, delete, config)
 %   perform code and data synchronization between host and servers
 %
-%   syncMode: ['c', 'd', 'i', step_numeric_id] aka code, dependencies, input,
+%   syncDesign: ['c', 'd', 'i', step_numeric_id] aka code, dependencies, input,
 %       steps as specified by their numeric ids optionally append with d (data) or o (observations)
 %   syncDestination: host numeric id
 %   syncDirection: ['up', 'down'], from host to server and vice versa
-%   detach: [0,1], default 0, sync in background mode
+%   detach: [0,1], default 0, sync in background design
 %   delete: [0,1], default 0, delete non existing files (with backup)
 %
 % if ~exist('config', 'var'), config = expConfig(); end
 
-if exist('syncMode', 'var')
-    if isnumeric(syncMode)
-    config.syncMode = sprintf('%d', syncMode);
+if exist('syncDesign', 'var')
+    if isnumeric(syncDesign)
+    config.syncDesign = sprintf('%d', syncDesign);
     else
-        config.syncMode = syncMode; 
+        config.syncDesign = syncDesign; 
     end
 end
 
-if ~isfield(config, 'syncMode') || strcmp(config.syncMode(1), '0')
-    if strcmp(config.syncMode(1), '0') && length(config.syncMode)==2
-        dType = config.syncMode(2);
-        config.syncMode =[];
+if ~isfield(config, 'syncDesign') || strcmp(config.syncDesign(1), '0')
+    if strcmp(config.syncDesign(1), '0') && length(config.syncDesign)==2
+        dType = config.syncDesign(2);
+        config.syncDesign =[];
         for k=1:length(config.stepName)
-            config.syncMode = [config.syncMode sprintf('%d%s ', k, dType)];
+            config.syncDesign = [config.syncDesign sprintf('%d%s ', k, dType)];
         end
     else
-    config.syncMode = sprintf('%d ', 1:length(config.stepName));
+    config.syncDesign = sprintf('%d ', 1:length(config.stepName));
     end
 end
 
@@ -45,7 +45,7 @@ else
 end
 
 if syncDestination==-1
-    % bundle mode
+    % bundle design
     config.syncDirection = 'up';
     if ~exist([config.bundlePath config.projectName], 'dir')
         mkdir([config.bundlePath config.projectName]);
@@ -62,7 +62,7 @@ end
 % TODO what if some directories are unset ?
 % TODO put options for detach verbosity, update...
 
-tokens = regexp(config.syncMode, ' ', 'split');
+tokens = regexp(config.syncDesign, ' ', 'split');
 
 for k=1:length(tokens)
     if exist('syncDirection', 'var'),
@@ -93,9 +93,9 @@ for k=1:length(tokens)
             case 'c'
                 syncDirectory(config, serverConfig, 'code', delete, detach);
             case 'i'
-                dataBaseModeIndex = find(strcmp(config.factors.names, 'dataBase'));
-                if ~isempty(dataBaseModeIndex)
-                    dataBases = config.modeValues{dataBaseModeIndex};
+                dataBaseDesignIndex = find(strcmp(config.factors.names, 'dataBase'));
+                if ~isempty(dataBaseDesignIndex)
+                    dataBases = config.designValues{dataBaseDesignIndex};
                     for k=1:length(dataBases)
                         syncDirectory(config, serverConfig, 'input', delete, detach, dataBases{k});
                     end

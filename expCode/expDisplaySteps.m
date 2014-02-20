@@ -12,7 +12,7 @@ end
 texFileName = [latexPath config.shortProjectName 'Steps.tex'];
 pdfFileName = [config.reportPath 'figures/' config.shortProjectName 'Steps.pdf'];
 
-copyfile([p '/nonExposed/utils/headerModeDisplay.tex'], texFileName);
+copyfile([p '/nonExposed/utils/headerDesignDisplay.tex'], texFileName);
 
 % all steps
 allIndex = cellfun(@isempty, config.factors.step);
@@ -25,7 +25,7 @@ for k=1:length(config.stepName)
     stepIndex = allIndex == 0;
     mask = cell(1, size(config.factors.values, 2));
     mask(:) = {0};
-    mask = expModeStep(config.factors, mask, k);
+    mask = expDesignStep(config.factors, mask, k);
     stepIndex([mask{:}]==-1) = 0;
     stepCell = displayNode(config, stepIndex, k) ;
     functionCell = [functionCell; stepCell];

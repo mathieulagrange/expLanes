@@ -58,11 +58,11 @@ config.runInfo=[];
 if config.step>-1
     fprintf('Project %s: running on host %s \n', config.projectName, config.hostName);
     for k=1:length(config.step)
-        [config.stepModes{config.step(k)}] = expModes(config.factors, config.mask, config.step(k));
-        if  length(config.stepModes{config.step(k)}.modes)>1
-            config.runInfo{k} = sprintf(' - step %s with constant factors %s \n     %d modes with variable factors: %s', config.stepName{config.step(k)}, config.stepModes{config.step(k)}.modes(1).infoStringMask, length(config.stepModes{config.step(k)}.modes), config.stepModes{config.step(k)}.modes(1).infoStringFactors);
+        [config.stepDesigns{config.step(k)}] = expDesigns(config.factors, config.mask, config.step(k));
+        if  length(config.stepDesigns{config.step(k)}.designs)>1
+            config.runInfo{k} = sprintf(' - step %s with constant factors %s \n     %d designs with variable factors: %s', config.stepName{config.step(k)}, config.stepDesigns{config.step(k)}.designs(1).infoStringMask, length(config.stepDesigns{config.step(k)}.designs), config.stepDesigns{config.step(k)}.designs(1).infoStringFactors);
         else
-            config.runInfo{k} = sprintf(' - step %s with constant factors %s', config.stepName{config.step(k)}, config.stepModes{config.step(k)}.modes(1).infoStringMask);
+            config.runInfo{k} = sprintf(' - step %s with constant factors %s', config.stepName{config.step(k)}, config.stepDesigns{config.step(k)}.designs(1).infoStringMask);
         end
         config = expLog(config, [config.runInfo{k} '\n']);
     end
@@ -75,11 +75,11 @@ else
     end
 end
 for k=1:length(rem)
-    [config.stepModes{rem(k)}] = expModes(config.factors, config.mask, rem(k));
+    [config.stepDesigns{rem(k)}] = expDesigns(config.factors, config.mask, rem(k));
 end
 
-% if ~isfield(config, 'stepModes') || isempty(config.stepModes{length(config.stepName)})
-%      [config.stepModes{length(config.stepName)}.modes config.stepModes{length(config.stepName)}.modeSequence config.stepModes{length(config.stepName)}.parameters config.stepModes{length(config.stepName)}.modeSet] = expModes(config.factors, config.mask, length(config.stepName));
+% if ~isfield(config, 'stepDesigns') || isempty(config.stepDesigns{length(config.stepName)})
+%      [config.stepDesigns{length(config.stepName)}.designs config.stepDesigns{length(config.stepName)}.designSequence config.stepDesigns{length(config.stepName)}.parameters config.stepDesigns{length(config.stepName)}.designSet] = expDesigns(config.factors, config.mask, length(config.stepName));
 % end
 
 if isfield(config, 'serverConfig')
@@ -93,7 +93,7 @@ if isfield(config, 'serverConfig')
     %     if matConfig.report==1
     %     matConfig.report = 0; % output tex
     %     end
-    matConfig.retrieve = 0; % do not retrieve on server mode
+    matConfig.retrieve = 0; % do not retrieve on server design
     if config.serverConfig.host>1
         matConfig.localDependencies = 1;
         expConfigMatSave(config.configMatName, matConfig);
@@ -192,11 +192,11 @@ switch config.host
             message{end+1} = '';
             
             message{end+1} = ['total duration: ' expTimeString(config.runDuration)];
-            message{end+1} = ['average duration per mode: ' expTimeString(config.runDuration/(config.modeStatus.failed+config.modeStatus.success))];
+            message{end+1} = ['average duration per design: ' expTimeString(config.runDuration/(config.designStatus.failed+config.designStatus.success))];
             message{end+1} = '';
             message{end+1} = ['number of cores used: ' num2str(max([1 config.parallel]))];
-            message{end+1} = ['number of successful modes: ' num2str(config.modeStatus.success)];
-            message{end+1} = ['number of failed modes: ' num2str(config.modeStatus.failed)];
+            message{end+1} = ['number of successful designs: ' num2str(config.designStatus.success)];
+            message{end+1} = ['number of failed designs: ' num2str(config.designStatus.failed)];
             message{end+1} = '';
             if ~isempty(config.displayData.prompt)
                 prompt = evalc('disp(config.displayData.prompt)');

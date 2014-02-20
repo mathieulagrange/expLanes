@@ -1,5 +1,5 @@
 function mix = gmmunpak(mix, p)
-%GMMUNPAK Separates a vector of Gaussian mixture model parameters into its components.
+%GMMUNPAK Separates a vector of Gaussian mixture designl parameters into its components.
 %
 %	Description
 %	MIX = GMMUNPAK(MIX, P) takes a GMM data structure MIX and  a single

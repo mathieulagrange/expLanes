@@ -26,7 +26,7 @@ end
 
 
 
-config.currentMode = [];
+config.currentDesign = [];
 
 step = config.step;
 
@@ -58,17 +58,17 @@ if all(step>0)
             end
             
             if config.parallel(step(k))>0 % ~= 1 % length(config.stepName)
-                modeStatus = config.modeStatus;
-                parfor l=1:length(config.modeSequence)
-                   [~, modeStatus(l)] =  expProcessOne(config, config.modes(config.modeSequence{l}), step(k));
+                designStatus = config.designStatus;
+                parfor l=1:length(config.designSequence)
+                   [~, designStatus(l)] =  expProcessOne(config, config.designs(config.designSequence{l}), step(k));
                 end
-                for l=1:length(config.modeSequence)
-                config.modeStatus.success = config.modeStatus.success+modeStatus(l).success;
-                config.modeStatus.failed = config.modeStatus.failed+modeStatus(l).failed;
+                for l=1:length(config.designSequence)
+                config.designStatus.success = config.designStatus.success+designStatus(l).success;
+                config.designStatus.failed = config.designStatus.failed+designStatus(l).failed;
                 end
             else
-                for l=1:length(config.modeSequence)
-                    config = expProcessOne(config, config.modes(config.modeSequence{l}), step(k));
+                for l=1:length(config.designSequence)
+                    config = expProcessOne(config, config.designs(config.designSequence{l}), step(k));
                 end
                 
             end
@@ -85,8 +85,8 @@ if all(step>0)
             if exist(reduceDataFileName, 'file')
                 delete(reduceDataFileName);
             end
-            for l=1:length(config.modeSequence)
-                config = expProcessOne(config, config.modes(config.modeSequence{l}), step(k));
+            for l=1:length(config.designSequence)
+                config = expProcessOne(config, config.designs(config.designSequence{l}), step(k));
             end
         end
     end
@@ -94,39 +94,39 @@ end
 
 config.runDuration=ceil(toc/60);
 
-function [config modeStatus] = expProcessOne(config, mode, step)
+function [config designStatus] = expProcessOne(config, design, step)
 
 config.currentStepName = config.stepName{config.currentStep};
 
 config.sequentialData = [];
 
-for k=1:length(mode)
-    config.currentMode = mode(k);
+for k=1:length(design)
+    config.currentDesign = design(k);
     success=1;
     try
-        config = expProcessOneSub(config, config.currentMode, step);
+        config = expProcessOneSub(config, config.currentDesign, step);
     catch error
         if config.host == 0
             rethrow(error);
         else
-            config.modeStatus.failed = config.modeStatus.failed+1;
+            config.designStatus.failed = config.designStatus.failed+1;
             config = expLog(config, error, 2, 1);
             success = 0;
         end
     end
     if success
-        config.modeStatus.success = config.modeStatus.success+1;
+        config.designStatus.success = config.designStatus.success+1;
     end
 end
 
-modeStatus = config.modeStatus;
+designStatus = config.designStatus;
 
-function config = expProcessOneSub(config, mode, step)
+function config = expProcessOneSub(config, design, step)
 
 functionName = [config.shortProjectName num2str(step) config.stepName{step}];
 
 if config.redo==0 && (exist(expSave(config, [], 'data'), 'file') || exist(expSave(config, [], 'display'), 'file'))
-   disp(['skipping ' config.currentStepName ' ' config.currentMode.infoString]);
+   disp(['skipping ' config.currentStepName ' ' config.currentDesign.infoString]);
    return
 end
 
@@ -146,7 +146,7 @@ end
 
 ticId = tic;
 
-[config storeData storeObs] = feval(functionName, config, mode, loadedData);
+[config storeData storeObs] = feval(functionName, config, design, loadedData);
 
 if config.showTiming && ~isfield(storeObs, 'time')
     storeObs.time = toc(ticId);

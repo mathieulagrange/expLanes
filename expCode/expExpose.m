@@ -62,7 +62,7 @@ if iscell(config.mask)
     end
 end
 
-config.stepModes{config.currentStep} = expModes(config.factors, config.mask, config.currentStep);
+config.stepDesigns{config.currentStep} = expDesigns(config.factors, config.mask, config.currentStep);
 config = expSetStep(config);
 config = expReduce(config);
 
@@ -107,8 +107,8 @@ if p.expand,
         end
         mask{k}{p.expand} = -1;
     end
-    tv = expModes(config.factors, mask, config.currentStep);
-    config.modes = tv.modes;
+    tv = expDesigns(config.factors, mask, config.currentStep);
+    config.designs = tv.designs;
     config.sequence = tv.sequence;
     %      config.parameters = tv.parameters;
     p.expand = find(strcmp(config.parameters.names, p.expandName));
@@ -119,9 +119,6 @@ if ~p.sort && isfield(config, 'sortDisplay')
     p.sort = config.sortDisplay;
 end
 
-if ~p.highlight
-   p.highlight = 1:size(data.meanData, 2) ; 
-end
 
 data = expFilter(config, p);
 
@@ -134,9 +131,9 @@ if any(p.percent) % TODO submit vector
     end
 end
 
-p.title = strrep(p.title, '+', config.modes(1).infoStringMask);
+p.title = strrep(p.title, '+', config.designs(1).infoStringMask);
 p.caption = strrep(p.caption, '=', p.title);
-p.caption = strrep(p.caption, '+', config.modes(1).infoStringMask);
+p.caption = strrep(p.caption, '+', config.designs(1).infoStringMask);
 p.caption = strrep(p.caption, '_', '\_');
 
 if p.expand
@@ -152,18 +149,18 @@ if p.expand
     p.columnNames = [config.parameters.names(data.parameterSelector); p.legendNames]'; % (data.parameterSelector)
     p.methodLabel = config.evaluation.metrics{p.metric};
     p.xName = p.expandName;
-    p.rowNames = config.parameters.list(data.modeSelector, data.parameterSelector);
+    p.rowNames = config.parameters.list(data.designSelector, data.parameterSelector);
 else
     p.legendNames = evaluationMetrics;
     p.xName='';
     p.columnNames = [config.parameters.names(data.parameterSelector)' evaluationMetrics];
     p.methodLabel = '';
     p.xAxis='';
-    p.rowNames = config.parameters.list(data.modeSelector, data.parameterSelector);
+    p.rowNames = config.parameters.list(data.designSelector, data.parameterSelector);
 end
 
-for k=1:length(config.modes)
-    p.labels{k} = strrep(config.modes(k).infoShortStringMasked, '_', ' '); % (data.modeSelector)
+for k=1:length(config.designs)
+    p.labels{k} = strrep(config.designs(k).infoShortStringMasked, '_', ' '); % (data.designSelector)
 end
 p.axisLabels = evaluationMetrics;
 
