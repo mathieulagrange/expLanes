@@ -3,7 +3,7 @@ function config = exposeAnova(config, data, p)
 nbFactors = length(data.parameterSelector);
 
 for k=1:nbFactors
-group{k} = config.parameters.list(data.modeSelector, data.parameterSelector(k));
+group{k} = config.step.parameters.list(data.modeSelector, data.parameterSelector(k));
 end
 
 an = anovan(data.meanData, group,'model','interaction', 'display', 'off');
@@ -17,8 +17,8 @@ for k=1:nbFactors
    end
 end
 
-p.columnNames = [{''}; config.parameters.names]';
-p.rowNames = config.parameters.names(data.parameterSelector);
+p.columnNames = [{''}; config.step.parameters.names]';
+p.rowNames = config.step.parameters.names(data.parameterSelector);
 data.highlights = m<config.significanceThreshold;
 data.meanData = m;
 data.varData = [];

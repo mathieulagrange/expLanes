@@ -3,7 +3,7 @@ function config = exposeTable(config, data, p)
 switch p.put
     case 0
         numCell = expNumToCell(data.meanData, data.varData, config.displayDigitPrecision);
-        dataCell = [p.rowNames numCell]; % config.parameters.list(data.modeSelector, data.parameterSelector)
+        dataCell = [p.rowNames numCell]; % config.step.parameters.list(data.modeSelector, data.parameterSelector)
         dataCell = expSortData(dataCell, p.sort, data.parameterSelector, config);
         el = cell(1, length(p.columnNames));
         [el{:}] = deal('---');

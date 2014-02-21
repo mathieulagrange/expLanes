@@ -1,7 +1,7 @@
 function [config data] = expLoad(config, name, inputId, extension, selector)
 
 if nargin<2 || isempty(name), name = ''; end
-if nargin<3 || isempty(inputId), inputId=config.currentStep-1; end
+if nargin<3 || isempty(inputId), inputId=config.step.id-1; end
 if nargin<4 || isempty(extension),
     extension = '_data';
 else
@@ -40,11 +40,14 @@ end
 
 if nargin<2 || isempty(name)
     %     design = expDesignBuild(config.factors, config.currentDesign.infoId');
-    tv = expDesigns(config.factors, {num2cell(config.currentDesign.infoId)}, inputId); % TODO slow but useful, detect if data flow is contracting
-    if config.useShortNamesForFiles
-        names = {tv.designs(:).infoShortString}; % FIXME should be masked
-    else
-        names = {tv.designs(:).infoString}; % FIXME should be masked
+    tv = expStepDesign(config.factors, {num2cell(config.currentDesign.infoId)}, inputId); % TODO slow but useful, detect if data flow is contracting
+    for k=1:length(tv.nbDesigns)
+        d = expDesign(tv, k);
+        if config.useShortNamesForFiles
+            names{k} = d.infoShortString; % FIXME should be masked
+        else
+            names{k} = d.infoString; % FIXME should be masked
+        end
     end
 end
 

@@ -175,7 +175,7 @@ for k=1:length(stepNames)
         '';
         ['if nargin==0, ' , projectName '(''step'', ' num2str(k) ', ''mask'', {}); return; end'];
         '';
-        'disp([config.currentStepName '' '' design.infoString]);';
+        'disp([config.step.idName '' '' design.infoString]);';
         '';
         'store=[];';
         'obs=[];';

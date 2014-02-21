@@ -7,7 +7,7 @@ else
     extension = ['_' n '.mat'];
 end
 
-stepName = config.stepName{config.currentStep};
+stepName = config.stepName{config.step.id};
 
 path = [config.dataPath stepName filesep];
 

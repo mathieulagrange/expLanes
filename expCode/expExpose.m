@@ -36,7 +36,7 @@ for pair = reshape(varargin(3:end),2,[]) % pair is {propName;propValue}
 end
 
 if p.step && p.step ~= length(config.stepName)
-    config.currentStep = p.step;
+    config.step.id = p.step;
 end
 
 if ~isempty(p.mask) && ~isequal(p.mask, config.mask)
@@ -62,8 +62,8 @@ if iscell(config.mask)
     end
 end
 
-config.stepDesigns{config.currentStep} = expDesigns(config.factors, config.mask, config.currentStep);
-config = expSetStep(config);
+config.step = expStepDesign(config.factors, config.mask, config.step.id); % Designs{config.step.id}
+% config = expSetStep(config);
 config = expReduce(config);
 
 if isempty(config.evaluation) || isempty(config.evaluation.data)
@@ -107,11 +107,11 @@ if p.expand,
         end
         mask{k}{p.expand} = -1;
     end
-    tv = expDesigns(config.factors, mask, config.currentStep);
+    tv = expStepDesign(config.factors, mask, config.step.id);
     config.designs = tv.designs;
     config.sequence = tv.sequence;
-    %      config.parameters = tv.parameters;
-    p.expand = find(strcmp(config.parameters.names, p.expandName));
+    %      config.step.parameters = tv.parameters;
+    p.expand = find(strcmp(config.step.parameters.names, p.expandName));
 end
 
 
@@ -131,36 +131,37 @@ if any(p.percent) % TODO submit vector
     end
 end
 
-p.title = strrep(p.title, '+', config.designs(1).infoStringMask);
+p.title = strrep(p.title, '+', config.step.design.infoStringMask);
 p.caption = strrep(p.caption, '=', p.title);
-p.caption = strrep(p.caption, '+', config.designs(1).infoStringMask);
+p.caption = strrep(p.caption, '+', config.step.design.infoStringMask);
 p.caption = strrep(p.caption, '_', '\_');
 
 if p.expand
-    p.legendNames = config.parameters.values{p.expand};
+    p.legendNames = config.step.parameters.values{p.expand};
     if ~ischar(p.legendNames)
         if isnumeric(p.legendNames{1})
-            p.xAxis = cell2mat(config.parameters.set{p.expand});
+            p.xAxis = cell2mat(config.step.parameters.set{p.expand});
         else
             p.xAxis = 1:length(p.legendNames);
         end
         p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
     end
-    p.columnNames = [config.parameters.names(data.parameterSelector); p.legendNames]'; % (data.parameterSelector)
+    p.columnNames = [config.step.parameters.names(data.parameterSelector); p.legendNames]'; % (data.parameterSelector)
     p.methodLabel = config.evaluation.metrics{p.metric};
     p.xName = p.expandName;
-    p.rowNames = config.parameters.list(data.designSelector, data.parameterSelector);
+    p.rowNames = config.step.parameters.list(data.designSelector, data.parameterSelector);
 else
     p.legendNames = evaluationMetrics;
     p.xName='';
-    p.columnNames = [config.parameters.names(data.parameterSelector)' evaluationMetrics];
+    p.columnNames = [config.step.parameters.names(data.parameterSelector)' evaluationMetrics];
     p.methodLabel = '';
     p.xAxis='';
-    p.rowNames = config.parameters.list(data.designSelector, data.parameterSelector);
+    p.rowNames = config.step.parameters.list(data.designSelector, data.parameterSelector);
 end
 
-for k=1:length(config.designs)
-    p.labels{k} = strrep(config.designs(k).infoShortStringMasked, '_', ' '); % (data.designSelector)
+for k=1:config.step.nbDesigns
+    d = expDesign(config.step, k);
+    p.labels{k} = strrep(d.infoShortStringMasked, '_', ' '); % (data.designSelector)
 end
 p.axisLabels = evaluationMetrics;
 

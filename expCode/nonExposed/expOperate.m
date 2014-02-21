@@ -52,23 +52,23 @@ if all(step>0)
         for k=1:length(step)
             config = expSetStep(config, step(k));
             % remove reduceData
-            reduceDataFileName = [config.dataPath config.stepName{config.currentStep} filesep 'reduceData.mat'];
+            reduceDataFileName = [config.dataPath config.stepName{config.step.id} filesep 'reduceData.mat'];
             if exist(reduceDataFileName, 'file')
                 delete(reduceDataFileName);
             end
             
             if config.parallel(step(k))>0 % ~= 1 % length(config.stepName)
                 designStatus = config.designStatus;
-                parfor l=1:length(config.designSequence)
-                   [~, designStatus(l)] =  expProcessOne(config, config.designs(config.designSequence{l}), step(k));
+                parfor l=1:length(config.step.sequence)
+                   [~, designStatus(l)] =  expProcessOne(config, l);
                 end
-                for l=1:length(config.designSequence)
+                for l=1:length(config.step.sequence)
                 config.designStatus.success = config.designStatus.success+designStatus(l).success;
                 config.designStatus.failed = config.designStatus.failed+designStatus(l).failed;
                 end
             else
-                for l=1:length(config.designSequence)
-                    config = expProcessOne(config, config.designs(config.designSequence{l}), step(k));
+                for l=1:length(config.step.sequence)
+                    config = expProcessOne(config, l);
                 end
                 
             end
@@ -81,12 +81,12 @@ if all(step>0)
         for k=1:length(step)
             config = expSetStep(config, step(k));
             % remove reduceData
-            reduceDataFileName = [config.dataPath config.stepName{config.currentStep} filesep 'reduceData.mat'];
+            reduceDataFileName = [config.dataPath config.stepName{config.step.id} filesep 'reduceData.mat'];
             if exist(reduceDataFileName, 'file')
                 delete(reduceDataFileName);
             end
-            for l=1:length(config.designSequence)
-                config = expProcessOne(config, config.designs(config.designSequence{l}), step(k));
+            for l=1:length(config.step.sequence)
+                config = expProcessOne(config, l);
             end
         end
     end
@@ -94,17 +94,17 @@ end
 
 config.runDuration=ceil(toc/60);
 
-function [config designStatus] = expProcessOne(config, design, step)
+function [config designStatus] = expProcessOne(config, sequence)
 
-config.currentStepName = config.stepName{config.currentStep};
+config.step.idName = config.stepName{config.step.id};
 
 config.sequentialData = [];
 
-for k=1:length(design)
-    config.currentDesign = design(k);
+for k=1:length(config.step.sequence{sequence})
+    config.currentDesign = expDesign(config.step, config.step.sequence{sequence}(k));
     success=1;
     try
-        config = expProcessOneSub(config, config.currentDesign, step);
+        config = expProcessOneSub(config);
     catch error
         if config.host == 0
             rethrow(error);
@@ -121,17 +121,17 @@ end
 
 designStatus = config.designStatus;
 
-function config = expProcessOneSub(config, design, step)
+function config = expProcessOneSub(config)
 
-functionName = [config.shortProjectName num2str(step) config.stepName{step}];
+functionName = [config.shortProjectName num2str(config.step.id) config.stepName{config.step.id}];
 
 if config.redo==0 && (exist(expSave(config, [], 'data'), 'file') || exist(expSave(config, [], 'display'), 'file'))
-   disp(['skipping ' config.currentStepName ' ' config.currentDesign.infoString]);
+   disp(['skipping ' config.step.idName ' ' config.currentDesign.infoString]);
    return
 end
 
 loadedData = [];
-if config.currentStep>1
+if config.step.id>1
     config = expLoad(config, [], [], 'data');
     if ~isempty(config.load)
         loadedData = config.load;
@@ -146,7 +146,7 @@ end
 
 ticId = tic;
 
-[config storeData storeObs] = feval(functionName, config, design, loadedData);
+[config storeData storeObs] = feval(functionName, config, config.currentDesign, loadedData);
 
 if config.showTiming && ~isfield(storeObs, 'time')
     storeObs.time = toc(ticId);

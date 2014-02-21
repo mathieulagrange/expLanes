@@ -1,6 +1,6 @@
 function [config, permutationVector] = expOrder(config, order)
 
-order = [order setdiff(1:length(config.factors.names), order)];
+order = [order setdiff(1:length(config.factors.names), order)]; % TODO test should fail
 
 vSpec = config.factors;
 
@@ -18,15 +18,15 @@ for k=1:length(select)
 end
 vSpec.selectParameters = select;
 
-[config.designs s config.parameters vSet] = expDesigns(vSpec, config.mask, config.currentStep);
+config.step = expStepDesign(vSpec, config.mask, config.step.id);
 
 for k=1:size(vSet, 2)
     for m=1:length(vSet)
-        if all(vSet(:, k)==config.designSet(order, m))
+        if all(vSet(:, k)==config.step.set(order, m))
             permutationVector(k) = m;
         end
     end
 end
 
-config.designSet = vSet;
+config.step.set = vSet;
 config.evaluation.results = config.evaluation.results(permutationVector, :, :);

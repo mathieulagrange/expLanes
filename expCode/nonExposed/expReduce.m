@@ -3,29 +3,29 @@ function config=expReduce(config)
 % TODO reduceData per expose Call
 
 data = {};
-reduceFileName = [config.dataPath config.stepName{config.currentStep} filesep 'reduceData.mat'];
+reduceFileName = [config.dataPath config.stepName{config.step.id} filesep 'reduceData.mat'];
 
 if exist(reduceFileName, 'file')
     % get vSet
     modReduce = dir(reduceFileName);
     modFactors = dir(config.factorFileName);
     loadedData=load(reduceFileName, 'vSet');
-    if isequal(loadedData.vSet, config.designSet) && modReduce.datenum > modFactors.datenum
+    if isequal(loadedData.vSet, config.step.set) && modReduce.datenum > modFactors.datenum
         loadedData=load(reduceFileName, 'data');
         data = loadedData.data;
     end
 end
 
 if isempty(data)%
-    config.currentStep = config.currentStep+1;
+%     config.step.id = config.step.id+1; % FIX ME fragile
     
     config.loadFileInfo.date = {'', ''};
     config.loadFileInfo.dateNum = [Inf, 0];
     
-    for k=1:length(config.designs)
-        config.currentDesign = config.designs(k);
+    for k=1:config.step.nbDesigns
+        config.currentDesign = expDesign(config.step, k);
         
-        config = expLoad(config, [], [], 'obs');
+        config = expLoad(config, [], config.step.id, 'obs');
         if ~isempty(config.load)
             data{k} = config.load;
         else
@@ -35,13 +35,13 @@ if isempty(data)%
     
     if config.loadFileInfo.dateNum(2)
         disp(['Loaded data files dates are in the range: | ' config.loadFileInfo.date{1} ' || ' config.loadFileInfo.date{2} ' |']);
-        vSet = config.designSet; %#ok<NASGU>
+        vSet = config.step.set; %#ok<NASGU>
         save(reduceFileName, 'data', 'vSet', 'config');
         if ~strcmp(config.message, 'default')
             copyfile(reduceFileName, [config.reportPath config.projectName '_' config.message '.mat']);
         end
     end
-    config.currentStep = config.currentStep-1;
+%     config.step.id = config.step.id-1;
 end
 
 % list all metrics

@@ -1,5 +1,7 @@
 function config = expRun(projectPath, shortProjectName, commands)
 
+beep off
+
 config = expHistory(projectPath, shortProjectName, commands);
 
 config.logFileName = [config.reportPath 'log_' num2str(config.runId) '.txt'];
@@ -58,11 +60,11 @@ config.runInfo=[];
 if config.step>-1
     fprintf('Project %s: running on host %s \n', config.projectName, config.hostName);
     for k=1:length(config.step)
-        [config.stepDesigns{config.step(k)}] = expDesigns(config.factors, config.mask, config.step(k));
-        if  length(config.stepDesigns{config.step(k)}.designs)>1
-            config.runInfo{k} = sprintf(' - step %s with constant factors %s \n     %d designs with variable factors: %s', config.stepName{config.step(k)}, config.stepDesigns{config.step(k)}.designs(1).infoStringMask, length(config.stepDesigns{config.step(k)}.designs), config.stepDesigns{config.step(k)}.designs(1).infoStringFactors);
+        [config.stepDesigns{config.step(k)}] = expStepDesign(config.factors, config.mask, config.step(k));
+        if config.stepDesigns{config.step(k)}.nbDesigns>1
+            config.runInfo{k} = sprintf(' - step %s, factors with fixed modality: %s \n     %d designs, factors: %s', config.stepName{config.step(k)}, config.stepDesigns{config.step(k)}.design.infoStringMask, config.stepDesigns{config.step(k)}.nbDesigns, config.stepDesigns{config.step(k)}.design.infoStringFactors);
         else
-            config.runInfo{k} = sprintf(' - step %s with constant factors %s', config.stepName{config.step(k)}, config.stepDesigns{config.step(k)}.designs(1).infoStringMask);
+            config.runInfo{k} = sprintf(' - step %s, factors with fixed modality: %s', config.stepName{config.step(k)}, config.stepDesigns{config.step(k)}.design.infoStringMask);
         end
         config = expLog(config, [config.runInfo{k} '\n']);
     end
@@ -75,7 +77,7 @@ else
     end
 end
 for k=1:length(rem)
-    [config.stepDesigns{rem(k)}] = expDesigns(config.factors, config.mask, rem(k));
+    [config.stepDesigns{rem(k)}] = expStepDesign(config.factors, config.mask, rem(k));
 end
 
 % if ~isfield(config, 'stepDesigns') || isempty(config.stepDesigns{length(config.stepName)})
@@ -144,7 +146,7 @@ if config.obs ~= -1
 end
 
 if config.report>-1
-    config.currentStep = length(config.stepName);
+    config.step.id = length(config.stepName);
     if config.host == 0
         config = feval([config.shortProjectName 'Report'], config);
     else

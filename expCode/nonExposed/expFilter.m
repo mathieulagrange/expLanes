@@ -5,7 +5,7 @@ data = config.evaluation.results;
 
 
 fData = data;
-designSelector = 1:length(config.designs);
+designSelector = 1:config.step.nbDesigns;
 
 if  p.expand ~= 0 % TODO allow expand with mutiple metrics
     if length(config.evaluation.metrics)==1
@@ -18,8 +18,8 @@ if  p.expand ~= 0 % TODO allow expand with mutiple metrics
     fData = (data(:, p.metric, :));
     if length(p.metric)==1 && p.expand >0
         % use one parameter to rearrange data
-        pList = config.parameters.list(:, p.expand);
-        nExpand = length(config.parameters.values{p.expand});
+        pList = config.step.parameters.list(:, p.expand);
+        nExpand = length(config.step.parameters.values{p.expand});
         designSelector = (1:length(pList));
         % sort
         [null, idx] = sort(pList);
@@ -79,7 +79,7 @@ end
 
 parameterSelected = {};
 for k=1:length(config.factors.names)
-    vsk = config.designSet(k, select);
+    vsk = config.step.set(k, select);
     vsk(vsk==0)=[];
     if length(unique(vsk))>1
         parameterSelected(end+1) = config.factors.names(k);
@@ -87,8 +87,8 @@ for k=1:length(config.factors.names)
 end
 
 parameterSelector = [];
-for k=1:length(config.parameters.names)
-    if any(strcmp(parameterSelected, config.parameters.names{k}))
+for k=1:length(config.step.parameters.names)
+    if any(strcmp(parameterSelected, config.step.parameters.names{k}))
         parameterSelector(end+1) = k;
     end
 end
