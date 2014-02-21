@@ -4,7 +4,7 @@ function dataDisplay = expFilter(config, p)
 data = config.evaluation.results;
 
 
-fData = data;
+% fData = data;
 designSelector = 1:config.step.nbDesigns;
 
 if  p.expand ~= 0 % TODO allow expand with mutiple metrics
@@ -18,8 +18,8 @@ if  p.expand ~= 0 % TODO allow expand with mutiple metrics
     fData = (data(:, p.metric, :));
     if length(p.metric)==1 && p.expand >0
         % use one parameter to rearrange data
-        pList = config.step.parameters.list(:, p.expand);
-        nExpand = length(config.step.parameters.values{p.expand});
+        pList = config.step.oriParameters.list(:, p.expand);
+        nExpand = length(config.step.oriParameters.values{p.expand});
         designSelector = (1:length(pList));
         % sort
         [null, idx] = sort(pList);
@@ -107,6 +107,7 @@ dataDisplay.parameterSelector = parameterSelector;
 % dataDisplay.p.expand = p.expand;
 dataDisplay.p.metric = p.metric;
 dataDisplay.varData = vData(select, :);
+dataDisplay.selector = select;
 if isempty(designSelector)
     dataDisplay.designSelector = [];
 else

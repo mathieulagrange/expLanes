@@ -106,11 +106,12 @@ if p.expand,
         end
         mask{k}{p.expand} = -1;
     end
-    tv = expStepDesign(config.factors, mask, config.step.id);
-    config.designs = tv.designs;
-    config.sequence = tv.sequence;
-    %      config.step.parameters = tv.parameters;
     p.expand = find(strcmp(config.step.parameters.names, p.expandName));
+    oriStep = config.step;
+    config.step = expStepDesign(config.factors, mask, config.step.id);
+%     config.designs = tv.designs;
+%     config.sequence = tv.sequence;
+          config.step.oriParameters = oriStep.parameters;
 end
 
 
@@ -148,7 +149,7 @@ if p.expand
     p.columnNames = [config.step.parameters.names(data.parameterSelector); p.legendNames]'; % (data.parameterSelector)
     p.methodLabel = config.evaluation.metrics{p.metric};
     p.xName = p.expandName;
-    p.rowNames = config.step.parameters.list(data.designSelector, data.parameterSelector);
+    p.rowNames = config.step.oriParameters.list(data.designSelector, data.parameterSelector);
 else
     p.legendNames = evaluationMetrics;
     p.xName='';
