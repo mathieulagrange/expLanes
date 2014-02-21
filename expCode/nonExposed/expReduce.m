@@ -23,7 +23,7 @@ if isempty(data)%
     config.loadFileInfo.dateNum = [Inf, 0];
     
     for k=1:config.step.nbDesigns
-        config.currentDesign = expDesign(config.step, k);
+        config.step.design = expDesign(config.step, k);
         
         config = expLoad(config, [], config.step.id, 'obs');
         if ~isempty(config.load)

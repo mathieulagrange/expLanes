@@ -7,7 +7,7 @@ switch p.put
         dataCell = expSortData(dataCell, p.sort, data.parameterSelector, config);
         el = cell(1, length(p.columnNames));
         [el{:}] = deal('---');
-        config.displayData.data = [p.columnNames; el; dataCell];
+        config.displayData.cellData = [p.columnNames; el; dataCell];
     case 1
         p.report=0;
         config = expDisplay(config, p);
@@ -51,5 +51,5 @@ switch p.put
         allCell = [p.columnNames; expSortData(dataCell, p.sort, data.parameterSelector, config)];
         allCell = strrep(allCell, '_', '\_');
         allCell = strrep(allCell, '%', '\%');
-        config.displayData.data = allCell;
+        config.displayData.cellData = allCell;
 end

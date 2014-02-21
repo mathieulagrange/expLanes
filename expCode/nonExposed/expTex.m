@@ -26,8 +26,8 @@ config.pdfFileName = [config.reportPath config.projectName '_v' num2str(config.v
 config.latex = LatexCreator([config.latexFileName '.tex'], 1, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName);
 
 % add table
-for k=1:length(config.displayData.latex)
-    config.latex.addTable(config.displayData.latex(k).data, 'caption', config.displayData.latex(k).caption, 'multipage', config.displayData.latex(k).multipage, 'landscape', config.displayData.latex(k).landscape, 'label', config.displayData.latex(k).label);
+for k=1:length(config.displayData.table)
+    config.latex.addTable(config.displayData.table(k).table, 'caption', config.displayData.table(k).caption, 'multipage', config.displayData.table(k).multipage, 'landscape', config.displayData.table(k).landscape, 'label', config.displayData.table(k).label);
 if ~mod(k, 10)
         config.latex.addLine('\clearpage');
 end
@@ -42,6 +42,9 @@ for k=1:length(config.displayData.figure)
     end
     end
 end
+
+data = config.displayData;
+save(strrep(config.pdfFileName, '.pdf', '.mat'), 'data');
 
 for k=1:length(command)
     switch command(k)
@@ -74,3 +77,5 @@ warning off
 rmdir(latexPath, 's');
 mkdir(latexPath);
 warning on
+
+

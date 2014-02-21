@@ -22,7 +22,7 @@ host = 0
 % factor Mask
 mask = {{}}
 % processing steps to execute: -1 none, 0 all, >0 processing step by numeric id
-step = -1
+do = -1
 % set the probe flag
 probe = 0
 % dependencies to load and export

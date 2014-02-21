@@ -14,21 +14,20 @@ for k=1:length(config.stepName)
         mkdir(stepPath);
     end
 end
-if ~exist(config.reportPath, 'dir')
-    mkdir(config.reportPath);
-    mkdir([config.reportPath 'figures']);
-    mkdir([config.reportPath 'tables']);
-    mkdir([config.reportPath 'tex/']);
+if ~exist(config.reportPath, 'dir'), mkdir(config.reportPath); end
+if ~exist([config.reportPath 'figures'], 'dir'), mkdir([config.reportPath 'figures']); end
+if ~exist([config.reportPath 'tables'], 'dir'), mkdir([config.reportPath 'tables']); end
+if ~exist([config.reportPath 'tex'], 'dir'), mkdir([config.reportPath 'tex']); end
+if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']); end
     %     copyfile([fileparts(mfilename('fullpath')) filesep 'utils/mcode.sty'], [config.reportPath 'tex/']);
-end
 
 % expDependencies(config);
 
 
 
-config.currentDesign = [];
+config.step.design = [];
 
-step = config.step;
+% step = config.step;
 
 tic
 try
@@ -41,7 +40,7 @@ catch error
     end
 end
 
-if all(step>0)
+if all(config.do>0)
     if sum(abs(config.parallel))
         if any(config.parallel>1)
             matlabpool('open', 'local', max(config.parallel));
@@ -49,15 +48,15 @@ if all(step>0)
             matlabpool('open', 'local');
         end
         
-        for k=1:length(step)
-            config = expSetStep(config, step(k));
+        for k=1:length(config.do)
+            config.step = config.stepDesigns{config.do(k)};
             % remove reduceData
             reduceDataFileName = [config.dataPath config.stepName{config.step.id} filesep 'reduceData.mat'];
             if exist(reduceDataFileName, 'file')
                 delete(reduceDataFileName);
             end
             
-            if config.parallel(step(k))>0 % ~= 1 % length(config.stepName)
+            if config.parallel(config.do(k))>0 % ~= 1 % length(config.stepName)
                 designStatus = config.designStatus;
                 parfor l=1:length(config.step.sequence)
                    [~, designStatus(l)] =  expProcessOne(config, l);
@@ -78,9 +77,8 @@ if all(step>0)
            % matlabpool('close');
         end
     else
-        for k=1:length(step)
-            config = expSetStep(config, step(k));
-            % remove reduceData
+        for k=1:length(config.do)
+           config.step = config.stepDesigns{config.do(k)}; % remove reduceData
             reduceDataFileName = [config.dataPath config.stepName{config.step.id} filesep 'reduceData.mat'];
             if exist(reduceDataFileName, 'file')
                 delete(reduceDataFileName);
@@ -101,7 +99,7 @@ config.step.idName = config.stepName{config.step.id};
 config.sequentialData = [];
 
 for k=1:length(config.step.sequence{sequence})
-    config.currentDesign = expDesign(config.step, config.step.sequence{sequence}(k));
+    config.step.design = expDesign(config.step, config.step.sequence{sequence}(k));
     success=1;
     try
         config = expProcessOneSub(config);
@@ -126,7 +124,7 @@ function config = expProcessOneSub(config)
 functionName = [config.shortProjectName num2str(config.step.id) config.stepName{config.step.id}];
 
 if config.redo==0 && (exist(expSave(config, [], 'data'), 'file') || exist(expSave(config, [], 'display'), 'file'))
-   disp(['skipping ' config.step.idName ' ' config.currentDesign.infoString]);
+   disp(['skipping ' config.step.idName ' ' config.step.design.infoString]);
    return
 end
 
@@ -146,7 +144,7 @@ end
 
 ticId = tic;
 
-[config storeData storeObs] = feval(functionName, config, config.currentDesign, loadedData);
+[config storeData storeObs] = feval(functionName, config, config.step.design, loadedData);
 
 if config.showTiming && ~isfield(storeObs, 'time')
     storeObs.time = toc(ticId);

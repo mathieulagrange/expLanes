@@ -9,8 +9,8 @@ dataCell = [strrep(config.step.parameters.list(data.modeSelector, data.parameter
 
 dataCell = expSortData(dataCell, p.sort, data.parameterSelector, config);
 
-displayData.latex(end+1).caption = p.caption;
-displayData.latex(end).multipage = p.multipage;
-displayData.latex(end).landscape = p.landscape;
-displayData.latex(end).data = [p.columnNames; dataCell];
-displayData.latex(end).label = p.label;
+displayData.table(end+1).caption = p.caption;
+displayData.table(end).multipage = p.multipage;
+displayData.table(end).landscape = p.landscape;
+displayData.table(end).data = [p.columnNames; dataCell];
+displayData.table(end).label = p.label;

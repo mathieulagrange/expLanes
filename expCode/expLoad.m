@@ -39,8 +39,8 @@ else
 end
 
 if nargin<2 || isempty(name)
-    %     design = expDesignBuild(config.factors, config.currentDesign.infoId');
-    tv = expStepDesign(config.factors, {num2cell(config.currentDesign.infoId)}, inputId); % TODO slow but useful, detect if data flow is contracting
+    %     design = expDesignBuild(config.factors, config.step.design.infoId');
+    tv = expStepDesign(config.factors, {num2cell(config.step.design.infoId)}, inputId); % TODO slow but useful, detect if data flow is contracting
     for k=1:length(tv.nbDesigns)
         d = expDesign(tv, k);
         if config.useShortNamesForFiles

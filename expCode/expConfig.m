@@ -18,10 +18,8 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % TODO renaming .mat function when adding factor
 % TODO convert disp by expLog
 % TODO clusteringMetrics
-% TODO split expDesignsBuild into a helper function that is called to build
-% TODO dump obs data as .mat attached to report
 
-% one design
+% TODO short names for pdf report ?
 
 % FIXME expProgress ctrl C opened figure
 % FIXME fails to atttach config file
@@ -146,7 +144,7 @@ for k=1:length(figureHandles)
    config.displayData.figure(k).label = 0;
    
 end
-config.displayData.latex = [];
+config.displayData.table = [];
 
 config.currentstep = length(config.stepName);
 config.suggestedNumberOfCores = Inf;

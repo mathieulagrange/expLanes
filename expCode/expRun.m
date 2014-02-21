@@ -43,33 +43,31 @@ end
 
 % expPath();
 
-if config.step == 0
-    config.step = 1:length(config.stepName);
+if config.do == 0
+    config.do = 1:length(config.stepName);
 end
 if config.obs == 0
-    if length(config.step)>1 || config.step>0
-        config.obs = config.step(end);
-    elseif config.step == 0
-        config.obs = length(config.stepName);
+    if length(config.do)>1 || config.do>0
+        config.obs = config.do(end);
     else
         config.obs = -1;
     end
 end
 rem=[];
 config.runInfo=[];
-if config.step>-1
+if config.do>-1
     fprintf('Project %s: running on host %s \n', config.projectName, config.hostName);
-    for k=1:length(config.step)
-        [config.stepDesigns{config.step(k)}] = expStepDesign(config.factors, config.mask, config.step(k));
-        if config.stepDesigns{config.step(k)}.nbDesigns>1
-            config.runInfo{k} = sprintf(' - step %s, factors with fixed modality: %s \n     %d designs, factors: %s', config.stepName{config.step(k)}, config.stepDesigns{config.step(k)}.design.infoStringMask, config.stepDesigns{config.step(k)}.nbDesigns, config.stepDesigns{config.step(k)}.design.infoStringFactors);
+    for k=1:length(config.do)
+        [config.stepDesigns{config.do(k)}] = expStepDesign(config.factors, config.mask, config.do(k));
+        if config.stepDesigns{config.do(k)}.nbDesigns>1
+            config.runInfo{k} = sprintf(' - step %s, factors with fixed modality: %s \n     %d designs, factors: %s', config.stepName{config.do(k)}, config.stepDesigns{config.do(k)}.design.infoStringMask, config.stepDesigns{config.do(k)}.nbDesigns, config.stepDesigns{config.do(k)}.design.infoStringFactors);
         else
-            config.runInfo{k} = sprintf(' - step %s, factors with fixed modality: %s', config.stepName{config.step(k)}, config.stepDesigns{config.step(k)}.design.infoStringMask);
+            config.runInfo{k} = sprintf(' - step %s, factors with fixed modality: %s', config.stepName{config.do(k)}, config.stepDesigns{config.do(k)}.design.infoStringMask);
         end
         config = expLog(config, [config.runInfo{k} '\n']);
     end
     if config.obs>0
-        rem = setdiff(config.obs, config.step);
+        rem = setdiff(config.obs, config.do);
     end
 else
     if config.obs>0
@@ -129,7 +127,7 @@ end
 if config.obs ~= -1
     %     try
     for k=1:length(config.obs)
-        config = expSetStep(config, config.obs(k));
+        config.step = config.stepDesigns{config.obs(k)};
         if iscell(config.display)
             config = expExpose(config, config.display{:});
         else
@@ -245,3 +243,6 @@ switch config.host
         end
 end
 
+if config.waitBar
+    delete(config.waitBar);
+end

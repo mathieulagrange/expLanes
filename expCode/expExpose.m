@@ -62,8 +62,7 @@ if iscell(config.mask)
     end
 end
 
-config.step = expStepDesign(config.factors, config.mask, config.step.id); % Designs{config.step.id}
-% config = expSetStep(config);
+config.step = expStepDesign(config.factors, config.mask, config.step.id);
 config = expReduce(config);
 
 if isempty(config.evaluation) || isempty(config.evaluation.data)
@@ -175,7 +174,9 @@ for k=1:size(data.varData, 2)
     end
 end
 
-config.displayData.data=[];
+config.data = data;
+
+config.displayData.cellData=[];
 if length(exposeType)==1
     switch exposeType
         case '>'
@@ -216,18 +217,17 @@ if any(p.put==[0 2])
 end
 if p.save ~= 0
     if ischar(p.save)
-        if p.put==1
-            expSaveFig([config.reportPath 'figures/' p.save], gcf);
-        elseif p.put==2
-            expSaveTable([config.reportPath 'tables/' p.save '.tex'], config.displayData.latex(end));
-        end
+        name = p.save;
     else
-        if p.put==1
-            expSaveFig(strrep([config.reportPath 'figures/' p.title], ' ', '_'), gcf);
-        elseif p.put==2
-            expSaveTable([config.reportPath 'tables/' p.save '.tex'], config.displayData.latex(end));
-        end
+        name = strrep(p.title, ' ', '_');
     end
+    switch(p.put)
+        case 1
+            expSaveFig(strrep([config.reportPath 'figures/' name], ' ', '_'), gcf);
+        case 2
+            expSaveTable([config.reportPath 'tables/' name '.tex'], config.displayData.table(end));
+    end
+    save([config.reportPath 'data/' name '.mat'], 'data');
 end
 
 displayData = config.displayData;
