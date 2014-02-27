@@ -89,7 +89,7 @@ if isfield(config, 'serverConfig')
     matConfig.host = -1;
     matConfig.runInfo = config.runInfo;
     matConfig.sync = [];
-%     matConfig.obs = -1;
+    %     matConfig.obs = -1;
     %     if matConfig.report==1
     %     matConfig.report = 0; % output tex
     %     end
@@ -159,6 +159,11 @@ if config.report>-1
             end
         end
     end
+    displayData = config.displayData; %#ok<NASGU>
+    save(config.staticDataFileName, 'displayData', '-append');
+else
+    data = load(config.staticDataFileName, 'displayData');
+    config.displayData = data.displayData;
 end
 
 
@@ -216,9 +221,9 @@ switch config.host
             end
             message = [message sprintf('\n\n -------------------------------------- \n')];
             config.mailAttachment = {[config.reportPath 'config.txt']};
-%             if exist(config.configMatName, 'file') % FIXME
-%                 config.mailAttachment{end+1} = config.configMatName;
-%             end
+            %             if exist(config.configMatName, 'file') % FIXME
+            %                 config.mailAttachment{end+1} = config.configMatName;
+            %             end
             if exist(config.logFileName, 'file')
                 config.mailAttachment{end+1} = config.logFileName;
             end

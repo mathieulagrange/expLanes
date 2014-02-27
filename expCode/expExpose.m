@@ -137,7 +137,7 @@ p.caption = strrep(p.caption, '+', config.step.design.infoStringMask);
 p.caption = strrep(p.caption, '_', '\_');
 
 if p.expand
-    p.legendNames = config.step.parameters.values{p.expand};
+    p.legendNames = config.step.oriParameters.values{p.expand};
     if ~ischar(p.legendNames)
         if isnumeric(p.legendNames{1})
             p.xAxis = cell2mat(config.step.parameters.set{p.expand});

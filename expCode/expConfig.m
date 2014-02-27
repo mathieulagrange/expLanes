@@ -19,10 +19,8 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % TODO convert disp by expLog
 % TODO clusteringMetrics
 
-% TODO short names for pdf report ?
-
 % FIXME expProgress ctrl C opened figure
-% FIXME fails to atttach config file
+% FIXME fails to attach config file
 % TODO fix potential issues with short naming (issues with too long file names, hashing ?)
 
 % FIXME store dependency string and force localDep = 2 if different
@@ -42,8 +40,8 @@ for k=1:length(namesDefault)
     end
 end
 
-
-staticData = load([projectPath '/config' filesep shortProjectName]);
+config.staticDataFileName = [projectPath '/config' filesep shortProjectName];
+staticData = load(config.staticDataFileName);
 
 [p projectName] = fileparts(projectPath); % TODO may be unused
 
@@ -146,10 +144,14 @@ for k=1:length(figureHandles)
 end
 config.displayData.table = [];
 
-config.currentstep = length(config.stepName);
+% config.currentStep = length(config.stepName);
 config.suggestedNumberOfCores = Inf;
 config.loadFileInfo.date = {'', ''};
 config.loadFileInfo.dateNum = [Inf, 0];
+
+config.waitBar = [];
+config.designStatus.success = 0;
+config.designStatus.failed = 0;
 
 function config = commandLine(config, v)
 
@@ -217,6 +219,4 @@ for k=1:length(fieldNames)
     end
 end
 
-config.waitBar = [];
-config.designStatus.success = 0;
-config.designStatus.failed = 0;
+
