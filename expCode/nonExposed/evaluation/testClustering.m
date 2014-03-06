@@ -19,8 +19,7 @@ for k=1:length(nbClusters)
         d(k, 3, j) = m.unadjustedRandIndex;
         d(k, 4, j) = m.mirkinIndex;
         d(k, 5, j) = m.hubertsIndex;
-        d(k, 6, j) = m.accuracy;
-        
+        d(k, 6, j) = m.accuracy;        
     end
     toc
 end

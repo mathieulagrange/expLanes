@@ -11,13 +11,10 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % TODO have a default config within user folder
 % TODO end in factor selector
 % TODO fix factor selector (too much NaNs)
-% TODO display plan of experiment
-% TODO keep latex data for next run
 % TODO s at beginning
 % TODO build GUI
 % TODO renaming .mat function when adding factor
 % TODO convert disp by expLog
-% TODO clusteringMetrics
 
 % FIXME expProgress ctrl C opened figure
 % FIXME fails to attach config file
