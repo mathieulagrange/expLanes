@@ -83,7 +83,7 @@ end
 % end
 
 if isfield(config, 'serverConfig')
-    if inputQuestion(), fprintf(' Bailing out ...\n'); return; end
+    if ~inputQuestion(), fprintf(' Bailing out ...\n'); return; end
     
     matConfig = config.serverConfig;
     matConfig.host = -1;
@@ -163,7 +163,9 @@ if config.report>-1
     save(config.staticDataFileName, 'displayData', '-append');
 else
     data = load(config.staticDataFileName, 'displayData');
-    config.displayData = data.displayData;
+    if isfield(data, 'displayData')
+        config.displayData = data.displayData;
+    end
 end
 
 

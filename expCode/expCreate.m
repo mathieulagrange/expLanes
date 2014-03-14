@@ -3,9 +3,9 @@ function expCreate(projectName, stepNames, codePath, dataPath)
 %   create an expCode project
 %
 %   projectName: the name of the project
-%   stepNames: cell array of names of the steps  (default value set in defaultConfig.txt)
-%   codePath: path for code storage (default value set in defaultConfig.txt)
-%   dataPath: path for data storage (default value set in defaultConfig.txt)
+%   stepNames: cell array of names of the steps  (default value set in expCodeConfig.txt)
+%   codePath: path for code storage (default value set in expCodeConfig.txt)
+%   dataPath: path for data storage (default value set in expCodeConfig.txt)
 
 % TODO remove expPath
 
@@ -22,7 +22,7 @@ shortProjectName = names2shortNames(projectName);
 shortProjectName = shortProjectName{1};
 
 % load default config
-configFile=fopen([expCodePath '/defaultConfig.txt']);
+configFile=fopen([expCodePath '/expCodeConfig.txt']);
 configCell=textscan(configFile,'%s%s', 'CommentStyle', '%', 'delimiter', '=');
 fclose(configFile);
 names = strtrim(configCell{1});
@@ -79,12 +79,12 @@ config.dependencies = [config.dependencies(1:end-1) ' ''' expCodePath '''}']; % 
 fprintf('You are about to create an experiment called %s with short name %s and steps: ', projectName, shortProjectName);
 disp(stepNames);
 fprintf('Path to code %s\nData path %s\n', config.codePath, config.dataPath);
-fprintf('Note: you can set the default data path as well as other configuration parameters\n in the file defaultConfig.txt.\n');
-if inputQuestion(), fprintf(' Bailing out ...\n'); return; end
+fprintf('Note: you can set the default data path as well as other configuration parameters\n in the file expCodeConfig.txt.\n');
+if ~inputQuestion(), fprintf(' Bailing out ...\n'); return; end
 
 % create code repository
 if exist(config.codePath, 'dir'),
-    if inputQuestion('Warning: you are about to reinitialize an existing project.\n');
+    if ~inputQuestion('Warning: you are about to reinitialize an existing project.\n');
         fprintf('Bailing out \n');
         return;
     else
@@ -103,7 +103,7 @@ p = [p; find(~cellfun(@isempty, strfind(n, 'Name')))];
 p = [p; setdiff(1:length(n), p)'];
 config = orderfields(config, p);
 
-configFile=fopen([expCodePath '/defaultConfig.txt']);
+configFile=fopen([expCodePath '/expCodeConfig.txt']);
 configCell=textscan(configFile,'%s', 'delimiter', '\n');
 fclose(configFile);
 

@@ -26,14 +26,27 @@ configFileName = getUserFileName(shortProjectName, projectPath);
 config = expConfigParse(configFileName);
 
 expCodePath = fileparts(mfilename('fullpath'));  
-defaultConfig = expConfigParse([expCodePath filesep 'defaultConfig.txt']);
+defaultConfig = expConfigParse([expCodePath filesep 'expCodeConfig.txt']);
 
 namesDefault = fieldnames(defaultConfig);
 namesConfig = fieldnames(config);
-for k=1:length(namesDefault)
-    if ~strcmp(namesConfig, namesDefault{k})
-        disp(['Missing config field ' namesDefault{k} ' in your config file (see defaultConfig.txt in expCode rootPath for default setting).']);
-        config.(namesDefault{k}) = defaultConfig.(namesDefault{k});
+
+newNames = setdiff(namesDefault, namesConfig);
+
+if ~isempty(newNames)
+    for k=1:length(newNames)
+        disp(['Missing config field ' newNames{k} ' in your config file.']);
+        config.(newNames{k}) = defaultConfig.(newNames{k});
+    end
+    disp('');
+    layout = 0;
+    if inputQuestion('Do you want to update your config with your original layout ?')
+        layout = 1;
+    elseif inputQuestion('Do you want to update your config with your expCode layout ?')
+        layout = 2;
+    end
+    if layout
+        expConfigMerge(configFileName, [expCodePath filesep 'expCodeConfig.txt'], layout);
     end
 end
 
