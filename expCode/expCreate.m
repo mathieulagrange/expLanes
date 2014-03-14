@@ -22,7 +22,24 @@ shortProjectName = names2shortNames(projectName);
 shortProjectName = shortProjectName{1};
 
 % load default config
-configFile=fopen([expCodePath '/expCodeConfig.txt']);
+
+if ispc, userDir= getenv('USERPROFILE');
+else userDir= getenv('HOME');
+end
+
+if ~exist([userDir filesep '.expCode'], 'dir')
+    mkdir([userDir filesep '.expCode']);
+end
+
+userDefaultConfigFileName = [userDir filesep '.expCode' filesep getUserName() 'Config.txt'];
+if ~exist(userDefaultConfigFileName, 'file')
+    disp(['Creating default config in ' userDir filesep '.expCode' filesep]);
+    copyfile([expCodePath '/expCodeConfig.txt'], userDefaultConfigFileName);
+else
+    expUpdateConfig(userDefaultConfigFileName);
+end
+
+configFile=fopen(userDefaultConfigFileName);
 configCell=textscan(configFile,'%s%s', 'CommentStyle', '%', 'delimiter', '=');
 fclose(configFile);
 names = strtrim(configCell{1});
@@ -79,7 +96,7 @@ config.dependencies = [config.dependencies(1:end-1) ' ''' expCodePath '''}']; % 
 fprintf('You are about to create an experiment called %s with short name %s and steps: ', projectName, shortProjectName);
 disp(stepNames);
 fprintf('Path to code %s\nData path %s\n', config.codePath, config.dataPath);
-fprintf('Note: you can set the default data path as well as other configuration parameters\n in the file expCodeConfig.txt.\n');
+disp(['Note: you can set the default values to all configuration parameters in your config file: ' userDir filesep '.expCode' filesep 'defaultConfig.txt.']);
 if ~inputQuestion(), fprintf(' Bailing out ...\n'); return; end
 
 % create code repository
@@ -112,15 +129,17 @@ fid = fopen([configPath filesep config.shortProjectName 'ConfigDefault.txt'], 'w
 fprintf(fid, '%% Config file for the %s project\n%% Adapt at your convenience\n\n', config.shortProjectName);
 configFields = fieldnames(config);
 for k=1:length(configFields)
-    comment='%';
-    fieldIndex = find(~cellfun('isempty',regexp(configCell{1}, ['^' configFields{k} '* ='])));
-%     fieldIndex  = fieldIndex(end);
-    if ~isempty(fieldIndex) && ~isempty(configCell{1}{fieldIndex-1}) && configCell{1}{fieldIndex-1}(1) == '%'
-        comment = configCell{1}{fieldIndex-1};
-    end
-    fprintf(fid, '%s\n%s = %s\n', comment, configFields{k}, char(config.(configFields{k})));
+%     comment='%';
+%     fieldIndex = find(~cellfun('isempty',regexp(configCell{1}, ['^' configFields{k} '* ='])));
+%     %     fieldIndex  = fieldIndex(end);
+%     if ~isempty(fieldIndex) && ~isempty(configCell{1}{fieldIndex-1}) && configCell{1}{fieldIndex-1}(1) == '%'
+%         comment = configCell{1}{fieldIndex-1};
+%     end
+    fprintf(fid, '%s = %s\n', configFields{k}, char(config.(configFields{k})));
 end
 fclose(fid);
+
+expConfigMerge([configPath '/' config.shortProjectName 'ConfigDefault.txt'], [expCodePath '/expCodeConfig.txt'], 2, 0);
 copyfile([configPath '/' config.shortProjectName 'ConfigDefault.txt'], [configPath '/' config.shortProjectName 'Config' [upper(config.userName(1)) config.userName(2:end)] '.txt']);
 
 % create factors file
@@ -187,10 +206,12 @@ for k=1:length(stepNames)
     %     fclose(fid);
 end
 
+
+functionName = [shortProjectName 'Init'];
 functionString = char({...
     ['function [config, store] = ' shortProjectName 'Init(config)'];
     ['% ' shortProjectName 'Init INITIALIZATION of the expCode project ' projectName];
-    ['%    [config, store] = ' functionName 'Init(config)'];
+    ['%    [config, store] = ' functionName '(config)'];
     '%       config : expCode configuration state';
     '%';
     '%       store  : processing data to be saved for the other steps ';
@@ -201,7 +222,7 @@ functionString = char({...
     ['if nargin==0, ' , projectName '(); return; end'];
     'store=[];';
     });
-dlmwrite([config.codePath '/' shortProjectName 'Init.m'], functionString,'delimiter','');
+dlmwrite([config.codePath '/' functionName '.m'], functionString,'delimiter','');
 
 
 functionName = [shortProjectName 'Report'];

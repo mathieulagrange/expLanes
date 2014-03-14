@@ -2,7 +2,7 @@ function doit=inputQuestion(q)
 
 if nargin<1, q=''; end
 
-if ~strfind(q, '?')
+if isempty(strfind(q, '?'))
     q = [q '\n Do you want to continue ?'];
 end
 
