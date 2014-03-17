@@ -128,7 +128,6 @@ audioSeparationDemo('show', 1, 'report', -2, 'host', 0);
 audioSeparationDemo('show', 1, 'report', -3, 'host', 0);
 audioSeparationDemo('do', 1, 'host', 2);
 audioSeparationDemo('do', 1, 'host', 1);
-audioSeparationDemo('do', 1);
 audioSeparationDemo('show', 1, 'report', 1);
 audioSeparationDemo('show', 1, 'report', 2);
 audioSeparationDemo('show', 1, 'report', 0);
@@ -155,4 +154,8 @@ audioSeparationDemo('do', 1, 'mask', {1, 1}, 'redo', 1);
 audioSeparationDemo('do', 1, 'mask', {1, 1}, 'redo', 0);
 audioSeparationDemo('do', 1, 'mask', {1, 1:3}, 'redo', 0);
 audioSeparationDemo('obs', 2)
+audioSeparationDemo('step', 2);
+audioSeparationDemo('do', 2);
+audioSeparationDemo('do', 1);
 audioSeparationDemo('obs', 2);
+audioSeparationDemo('obs', 1);

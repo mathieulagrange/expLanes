@@ -58,7 +58,9 @@ end
 [null, parameterOrder] = sort(mNames);
 design.id = k;
 f = t(parameterOrder(filter));
-f(2, :) = {', '}; f(2, end) = {''};
+if ~isempty(f)
+    f(2, :) = {', '}; f(2, end) = {''};
+end
 design.infoString = [f{:}];
 
 f = st(parameterOrder(filter));
@@ -66,14 +68,18 @@ if ~isempty(skipIndex)
     [~, id] = sort(parameterOrder);
     f(id(skipIndex)) = [];
 end
-f(2, :) = {'_'}; f(2, end) = {''};
+if ~isempty(f)
+    f(2, :) = {'_'}; f(2, end) = {''};
+end
 design.infoShortString = [f{:}];
 
 f = t(prunedFilterMask);
 design.infoStringMasked = [f{:}];
 
 f = st(prunedFilterMask);
-f(2, :) = {'_'}; f(2, end) = {''};
+if ~isempty(f)
+    f(2, :) = {'_'}; f(2, end) = {''};
+end
 design.infoShortStringMasked = [f{:}];
 
 

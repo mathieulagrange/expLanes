@@ -13,7 +13,6 @@ function [config, store, obs] = ausede1mix(config, design, data)
 
 if nargin==0, audioSeparationDemo('do', 1, 'mask', {{}}); return; end
 
-disp([config.currentStepName ' ' design.infoString]);
 % no obs for this step
 obs=[];
 % propagate source and and noise for the next step

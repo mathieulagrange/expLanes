@@ -16,7 +16,6 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % TODO renaming .mat function when adding factor
 % TODO convert disp by expLog
 
-% FIXME expProgress ctrl C opened figure
 % FIXME fails to attach config file
 % TODO fix potential issues with short naming (issues with too long file names, hashing ?)
 
@@ -24,12 +23,16 @@ function config = expConfig(projectPath, shortProjectName, commands)
 
 configFileName = getUserFileName(shortProjectName, projectPath);
 config = expUpdateConfig(configFileName);
-
+config.shortProjectName = shortProjectName;
+config.userName = getUserName();
 config.staticDataFileName = [projectPath '/config' filesep shortProjectName];
+
 staticData = load(config.staticDataFileName);
+
 
 [p projectName] = fileparts(projectPath); % TODO may be unused
 
+config.projectName = projectName;
 config.projectPath = projectPath;
 config.configFileName = configFileName;
 config.hostName = char(getHostName(java.net.InetAddress.getLocalHost));
@@ -81,16 +84,21 @@ else
     config.hostName = config.machineNames{1};
 end
 
-if config.resume
-    config.runId = config.resume;
-else
-    config.runId = staticData.runId;
-    if config.host>0
-        runId = config.runId+1; %#ok<NASGU>
-        save([projectPath '/config' filesep config.shortProjectName], 'runId', '-append');
-        config.runId = runId;
-    end
+% if config.resume
+%     config.runId = config.resume;
+% else
+config.runId = staticData.runId;
+if config.host>0
+    runId = config.runId+1; %#ok<NASGU>
+    save(config.staticMatName, 'runId', '-append');
+    config.runId = runId;
 end
+% end
+if isfield(staticData, 'waitbarId')
+    delete(staticData.waitbarId);
+end
+config.waitBar = [];
+
 
 config = expandPath(config, hostIndex, projectPath);
 
@@ -134,7 +142,6 @@ config.suggestedNumberOfCores = Inf;
 config.loadFileInfo.date = {'', ''};
 config.loadFileInfo.dateNum = [Inf, 0];
 
-config.waitBar = [];
 config.designStatus.success = 0;
 config.designStatus.failed = 0;
 

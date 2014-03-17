@@ -192,6 +192,7 @@ for k=1:length(stepNames)
         ['% Copyright ' config.completeName];
         ['% Date ' date()];
         '';
+        '% Set behavior for debug mode.';
         ['if nargin==0, ' , projectName '(''step'', ' num2str(k) ', ''mask'', {}); return; end'];
         '';
         'disp([config.step.idName '' '' design.infoString]);';
@@ -265,14 +266,14 @@ end
 fprintf('Done.\nMoving to project directory.\n')
 cd(config.codePath);
 
-function s=cell2string(c)
-
-if isempty(c)
-    s='{}';
-else
-    s='{';
-    for k=1:length(c)
-        s = [s '''' c{k} ''' '];
-    end
-    s = [s(1:end-1) '}'];
-end
+% function s=cell2string(c)
+% 
+% if isempty(c)
+%     s='{}';
+% else
+%     s='{';
+%     for k=1:length(c)
+%         s = [s '''' c{k} ''' '];
+%     end
+%     s = [s(1:end-1) '}'];
+% end

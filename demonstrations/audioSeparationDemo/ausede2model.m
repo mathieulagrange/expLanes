@@ -1,8 +1,6 @@
-function [config, store, obs] = ausede2designl(config, design, data)
+function [config, store, obs] = ausede2model(config, design, data)
 
-if nargin==0, audioSeparationDemo('do', 2, 'mask', {{2, 5, 1, 1, 5}}, 'obs', '>'); return; end
-
-disp([config.currentStepName ' ' design.infoString]);
+if nargin==0, audioSeparationDemo('do', 2, 'mask', {{2, 5, 1, 1, 4:5}}, 'obs', '>'); return; end
 
 % propagate source, noise and mix for the next step
 store=data;
@@ -17,7 +15,7 @@ switch design.method
         % no obs for this method
         obs = [];
     % Non Negative Matrix Approximation (NNMA)
-    case 'nnma'
+    case 'nmf'
         % compute the spectrogram of the mixture
         sm = computeSpectrogram(data.mixture, config.fftlen, config.samplingFrequency);
         SM = abs(sm);

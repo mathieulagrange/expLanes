@@ -2,7 +2,6 @@ function [config, store, obs] = ausede3separate(config, design, data)
 
 if nargin==0, audioSeparationDemo('do', 3, 'mask', {{1}}, 'obs', '>'); return; end
 
-disp([config.currentStepName ' ' design.infoString]);
 % no storage for this step
 store = [];
 % compute spectrograms

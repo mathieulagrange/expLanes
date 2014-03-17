@@ -162,8 +162,9 @@ if config.report>-1
     displayData = config.displayData; %#ok<NASGU>
     save(config.staticDataFileName, 'displayData', '-append');
 else
-    data = load(config.staticDataFileName, 'displayData');
-    if isfield(data, 'displayData')
+    vars = whos('-file', config.staticDataFileName);
+    if ismember('displayData', {vars.name})
+        data = load(config.staticDataFileName, 'displayData');
         config.displayData = data.displayData;
     end
 end
