@@ -11,10 +11,13 @@ stepName = config.stepName{config.step.id};
 
 path = [config.dataPath stepName filesep];
 
-if config.useShortNamesForFiles
-    name = config.step.design.infoShortString;
-else
-    name = config.step.design.infoString;
+switch config.namingConventionForFiles
+    case 'short'
+        name = config.step.design.infoShortString; % FIXME should be masked
+    case 'long'
+        name = config.step.design.infoString; % FIXME should be masked
+    case 'hash'
+        name = DataHash(config.step.design.infoString); % FIXME should be masked
 end
 
 if config.dummy

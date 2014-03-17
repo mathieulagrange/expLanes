@@ -69,8 +69,8 @@ progress = 1
 
 % attempt to retrieve needed data server side
 retrieve = 0
-% use abrevations for fileNames 
-useShortNamesForFiles = 1 
+% naming convention for files: long (long naming as default), short (short naming), hash (hash based naming)
+namingConventionForFiles = hash 
 % sync data across machines: 
 sync = {} 
 % generate bundle of code and/or data

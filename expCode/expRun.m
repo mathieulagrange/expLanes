@@ -59,11 +59,14 @@ if config.do>-1
     fprintf('Project %s: running on host %s \n', config.projectName, config.hostName);
     for k=1:length(config.do)
         [config.stepDesigns{config.do(k)}] = expStepDesign(config.factors, config.mask, config.do(k));
-        if config.stepDesigns{config.do(k)}.nbDesigns>1
-            config.runInfo{k} = sprintf(' - step %s, factors with fixed modality: %s \n     %d designs, factors: %s', config.stepName{config.do(k)}, config.stepDesigns{config.do(k)}.design.infoStringMask, config.stepDesigns{config.do(k)}.nbDesigns, config.stepDesigns{config.do(k)}.design.infoStringFactors);
-        else
-            config.runInfo{k} = sprintf(' - step %s, factors with fixed modality: %s', config.stepName{config.do(k)}, config.stepDesigns{config.do(k)}.design.infoStringMask);
+        runInfo = sprintf(' - step %s, ', config.stepName{config.do(k)});
+        if ~strcmp(config.stepDesigns{config.do(k)}.design.infoStringMask, 'all')
+            runInfo = [runInfo sprintf('factors with fixed modalities: %s', config.stepDesigns{config.do(k)}.design.infoStringMask)];
         end
+        if config.stepDesigns{config.do(k)}.nbDesigns>1
+            runInfo = [runInfo sprintf('\n     %d designs with the factors: %s', config.stepDesigns{config.do(k)}.nbDesigns, config.stepDesigns{config.do(k)}.design.infoStringFactors)];
+        end        
+        config.runInfo{k} = runInfo;
         config = expLog(config, [config.runInfo{k} '\n']);
     end
     if config.obs>0

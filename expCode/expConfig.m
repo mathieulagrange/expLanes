@@ -8,16 +8,12 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % TODO 'host' 1 on  linux -> matlab path ?
 % TODO config copy managment
 % TODO symbolic link to data, issue with rsync and issues with path generation ?
-% TODO have a default config within user folder
 % TODO end in factor selector
 % TODO fix factor selector (too much NaNs)
-% TODO s at beginning
-% TODO build GUI
 % TODO renaming .mat function when adding factor
 % TODO convert disp by expLog
 
 % FIXME fails to attach config file
-% TODO fix potential issues with short naming (issues with too long file names, hashing ?)
 
 % FIXME store dependency string and force localDep = 2 if different
 

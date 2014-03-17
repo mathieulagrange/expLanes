@@ -37,8 +37,8 @@ for k=1:length(names)
     end
 end
 
+% identifying sequential factor
 sequentialParameter = [];
-
 seq=0;
 for k=1:length(step)
     step{k} = strtrim(step{k});
@@ -49,7 +49,7 @@ for k=1:length(step)
     if any(sMatch)
         sequentialParameter = names{k};
         seq=seq+1;
-        step{k}(sMatch==1) = [];
+        step{k}(sMatch) = [];
     end
 end
 

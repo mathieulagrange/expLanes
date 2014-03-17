@@ -43,10 +43,13 @@ if nargin<2 || isempty(name)
     tv = expStepDesign(config.factors, {num2cell(config.step.design.infoId)}, inputId); % TODO slow but useful, detect if data flow is contracting
     for k=1:length(tv.nbDesigns)
         d = expDesign(tv, k);
-        if config.useShortNamesForFiles
-            names{k} = d.infoShortString; % FIXME should be masked
-        else
-            names{k} = d.infoString; % FIXME should be masked
+        switch config.namingConventionForFiles
+            case 'short'
+                names{k} = d.infoShortString; % FIXME should be masked
+            case 'long'
+                names{k} = d.infoString; % FIXME should be masked
+            case 'hash'
+                names{k} = DataHash(d.infoString); % FIXME should be masked
         end
     end
 end

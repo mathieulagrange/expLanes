@@ -2,8 +2,8 @@ function config = expUpdateConfig(configFileName)
 
 config = expConfigParse(configFileName);
 
-expCodePath = fileparts(mfilename('fullpath'));  
-defaultConfig = expConfigParse([expCodePath filesep '..' filesep 'expCodeConfig.txt']);
+expCodePath = [fileparts(mfilename('fullpath')) filesep '..'];  
+defaultConfig = expConfigParse([expCodePath filesep 'expCodeConfig.txt']);
 
 namesDefault = fieldnames(defaultConfig);
 namesConfig = fieldnames(config);
