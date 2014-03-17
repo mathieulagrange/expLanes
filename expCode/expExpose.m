@@ -122,7 +122,7 @@ end
 
 data = expFilter(config, p);
 
-if any(p.percent) % TODO submit vector
+if any(p.percent)
     for k=1:length(p.percent)
         if p.percent(k) <= size(data.meanData, 2)
             data.meanData(:, p.percent(k)) =  data.meanData(:, p.percent(k))*100;

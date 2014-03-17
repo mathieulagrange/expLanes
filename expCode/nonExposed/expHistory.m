@@ -52,10 +52,10 @@ elseif ischar(commands{1})
             showDesigns(config.factorFileName);
         case 'c'
             
-        case 's'
+        case 'f'
             config = expConfig(projectPath, shortProjectName);
             expDisplaySteps(config);
-       case 'S'
+       case 'F'
             config = expConfig(projectPath, shortProjectName);
             expDisplaySteps(config, 0);
         otherwise

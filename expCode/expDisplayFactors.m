@@ -1,4 +1,4 @@
-function expDisplaySteps(config, silent)
+function expDisplayFactors(config, silent)
 
 if ~exist('silent', 'var'), silent=1; end
 
@@ -9,10 +9,10 @@ if ~exist(latexPath, 'dir')
     mkdir(latexPath);
 end
 
-texFileName = [latexPath config.shortProjectName 'Steps.tex'];
-pdfFileName = [config.reportPath 'figures/' config.shortProjectName 'Steps.pdf'];
+texFileName = [latexPath config.shortProjectName 'Factors.tex'];
+pdfFileName = [config.reportPath 'figures/' config.shortProjectName 'Factors.pdf'];
 
-copyfile([p '/nonExposed/utils/headerDesignDisplay.tex'], texFileName);
+copyfile([p '/nonExposed/utils/headerFactorDisplay.tex'], texFileName);
 
 % all steps
 allIndex = cellfun(@isempty, config.factors.step);

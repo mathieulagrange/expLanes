@@ -1,76 +1,112 @@
-% Config file for the clde project
-% Adapt at your convenience
+%% PROJECT
 
+% version of the experiment
+versionName  = 0.1
+
+
+%% USER
+
+% email address ticked when processing is done server side (leave empty for no mailing service), can be a cell array of email adresses
+emailAddress  = 
+% complete name of user
+completeName  = lagrange
+
+
+%% PATHS
+
+% path to input data
+inputPath  = ~/data/databases
+% path to the code repository of the project
+codePath  = {'', '~/projects/clusteringDemo'}
+% path to the data repository of the project
+dataPath  = {'data', '~/projects/clusteringDemo/data'}
 % path to backup of transfered data
-backupPath = /tmp/expCodeBackup/clusteringDemo
-% path to store code bundles
-bundlePath = /tmp/clusteringDemo
-% path to the code repository of the project 
-codePath = {'', '~/projects/clusteringDemo'}
-%
-dataPath = {'data', '~/projects/clusteringDemo/data'}
-% path to static input data (read only access)
-inputPath = ~/data/databases
+backupPath  = /tmp/expCodeBackup/clusteringDemo
+% path to export bundles
+bundlePath  = /tmp/clusteringDemo
 % path to matlab
-matlabPath = {'', '/net/moncol/data/usr_local/MATLAB/R2010b/bin'}
-% complete name
-completeName = lagrange
-% names of the machines
-machineNames = {'mo-lagrange.irccyn.ec-nantes.fr', 'pc-adtsi-sunda.irccyn.ec-nantes.fr'}
-%
-projectName = clusteringDemo
-%
-shortProjectName = clde
-%
-userName = lagrange
-% version of the project
-versionName = 0.1
-% bundle mode
-bundle = 0
-% dependencies to load and export
-dependencies = {'../../expCode'}
-% specify default display
-display = >
-% mantissa precision of value display
-displayDigitPrecision = 2
-% font size for display
-displayFontSize = 16
-% steps to do: -1 none, 0 all, >0 step by numeric id
-do = -1
-% dummy mode
-dummy = 0
-%
-emailAddress = 
-% host index
-host = 0
+matlabPath  = {'', '/net/moncol/data/usr_local/MATLAB/R2010b/bin'}
+
+
+%% CODE
+
+% code dependencies to load and export
+dependencies  = {'../../expCode'}
 % dependencies (including expCode) can be part of the project: 0 do not use local versions, 1 use local versions, 2 update local versions
-localDependencies = 0
+localDependencies  = 0
+
+
+%% COMPUTING
+
+% processing steps to execute: -1 none, 0 all, >0 processing step by numeric id
+do  = -1
+% perform computation even if the result is already available
+redo  = 1
+% use parallel processing, if |parallel|>1 specify the number of cores, if array set at step level, if >0 parallelize designs, if <0 parallelize within each design, can be a value for all processing steps or an array of config per step
+parallel  = 0
+% factor mask: cell array defining the modalities to be set for the factors (0 do all, 1 first modality, [1 3] first and third modality), can be a cell array of cell array
+mask  = {{}}
+% cell array of couples of string and array, if the string is parsed in a mask definition it gets replaced by the specified array
+maskPatch = {}
+% set a experiment plan: assume cell array of {[factors as numericIds], number of values per factor (0 complete set of values), type of plan as string 'f' (factorial) or 'o' (one parameter at a time), [seed as a vector of index of factor]}
+plan =
+% dummy mode
+dummy  = 0
+% set the random seed at init for replicability
+setRandomSeed  = 0
+
+% names of the machines
+machineNames  = {'mo-lagrange.irccyn.ec-nantes.fr', 'pc-adtsi-sunda.irccyn.ec-nantes.fr'}
+% host index for running the experiment
+host  = 0
 % log level (set to 0 for no log)
-log = 1
-% modes Mask
-mask = {{}}
-% memo message
-message = default
-% use parallel processing or not, if >1 specify the number of cores
-parallel = 0
-% set the probe flag
-probe = 0
-% perform computation even if already stored
-redo = 1
-% generate report: -1 none, 0 obs figures, 1 generation of tex report, 2 verbose tex report
-report = 0
-% resume last computation
-resume = 0
-% retrieve mode
-retrieve = 0
-% set the random seed for replicability
-setRandomSeed = 0
-% step for wich to display informations: -1 none, 0 last processed step if any, >0 specific step
-obs = 0
-% sync mode
-sync = {}
-% usage of default expCode smtp
-useExpCodeSmtp = 1
-clean = 0
-useShortNamesForFiles = 1
-pdfViewer = 
+log  = 1
+% show processing progress 0: none, 1: bar if on local host, 2: verbose output, 3: liminar output
+progress = 1
+
+
+%% DATA
+
+% attempt to retrieve needed data server side
+retrieve  = 0
+% naming convention for files: long (long naming as default), short (short naming), hash (hash based naming)
+namingConventionForFiles = hash
+% sync data across machines:
+sync  = {}
+% generate bundle of code and/or data
+bundle  = 0
+% clean data repositories
+clean  = 0
+
+
+%% DISPLAY
+
+% step for which to display observations: -1 none, 0 last processed step if any, >0 specific step
+obs  = 0
+% specify default display of observations (>: prompt, t: table, p:plot)
+display  = >
+% mantissa precision for the display of observations
+displayDigitPrecision  = 2
+% font size for the display of observations
+displayFontSize  = 16
+% show timing observations
+showTiming = 1
+
+
+%% REPORT
+
+% generate report: <=-3 none -2 verbose tex report -1 generation of tex report, 0 display figures, 1 display figures and generation of tex report, 2 display figures and verbose tex report >=3 none
+report  = 0
+% memo message for the generation of reports
+message  = default
+% path to the pdf viewer (try to locate one if left empty)
+pdfViewer  = 
+% threshold for statistical significance testing
+significanceThreshold = 0.05
+
+
+%% MISC
+
+% usage of default expcode smtp. If set to 0 assume availability of local stmp server
+useExpCodeSmtp  = 1
+

@@ -13,8 +13,6 @@ function [config, store, obs] = clde2cluster(config, design, data)
 
 if nargin==0, clusteringDemo('do', 2, 'mask', {{1, 3, 0, 3, 0, 0, 0, 0, 10}}); return; end
 
-disp([config.currentStepName ' ' design.infoString]);
-
 store=[];
 obs=[];
 

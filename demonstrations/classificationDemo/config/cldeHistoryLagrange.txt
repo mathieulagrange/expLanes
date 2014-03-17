@@ -1,8 +1,6 @@
 classificationDemo('do', 0)
-classificationDemo('do', 1);
 classificationDemo('show', 2)
 classificationDemo('show', 2);
-classificationDemo('do', 2);
 classificationDemo('do', 2, 'mask', {{2}});
 classificationDemo('do', 2, 'mask', {{1}});
 classificationDemo('do', 2, 'mask', {{}});
@@ -63,7 +61,6 @@ classificationDemo('sync', 'd', 'localDependencies', 2);
 classificationDemo('do', 0, 'host', 2);
 classificationDemo('do', 2, 'host', 2);
 classificationDemo('do', 1:2, 'host', 2);
-classificationDemo('do', 4);
 classificationDemo('do', 3, 'mask', {2});
 classificationDemo('sync', 3)
 classificationDemo('sync', 3);
@@ -71,3 +68,13 @@ classificationDemo('do', 4, 'mask', {2});
 classificationDemo('show', 4, 'mask', {2});
 classificationDemo('do', 4, 'mask', {});
 classificationDemo('do', 0, 'mask', {1});
+classificationDemo('do', 1)
+classificationDemo('do', 1);
+classificationDemo('do', 2);
+classificationDemo('do', 3);
+classificationDemo('do', 3, 'mask', {1, 0, 1});
+classificationDemo('do', 3, 'mask', {2, 0, 1});
+classificationDemo('do', 4, 'mask', {2, 0, 1});
+classificationDemo('do', 4);
+classificationDemo('do', 4, 'progress', 2);
+classificationDemo('do', 4, 'progress', 1);

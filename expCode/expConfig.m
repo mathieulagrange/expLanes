@@ -6,9 +6,7 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % TODO seed index after resampling ?
 % TODO expCreate diamond ??
 % TODO 'host' 1 on  linux -> matlab path ?
-% TODO config copy managment
 % TODO symbolic link to data, issue with rsync and issues with path generation ?
-% TODO end in factor selector
 % TODO fix factor selector (too much NaNs)
 % TODO renaming .mat function when adding factor
 % TODO convert disp by expLog
@@ -16,6 +14,8 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % FIXME fails to attach config file
 
 % FIXME store dependency string and force localDep = 2 if different
+
+setenv('PATH', [getenv('PATH') ':/usr/texbin']);
 
 configFileName = getUserFileName(shortProjectName, projectPath);
 config = expUpdateConfig(configFileName);
@@ -26,7 +26,7 @@ config.staticDataFileName = [projectPath '/config' filesep shortProjectName];
 staticData = load(config.staticDataFileName);
 
 
-[p projectName] = fileparts(projectPath); % TODO may be unused
+[p, projectName] = fileparts(projectPath);
 
 config.projectName = projectName;
 config.projectPath = projectPath;
@@ -90,10 +90,11 @@ if config.host>0
     config.runId = runId;
 end
 % end
-if isfield(staticData, 'waitbarId')
+if isfield(staticData, 'waitbarId') && isobject(staticData.waitbarId)
     delete(staticData.waitbarId);
 end
 config.waitBar = [];
+config.progressId = 0;
 
 
 config = expandPath(config, hostIndex, projectPath);

@@ -8,8 +8,6 @@ clusteringDemo('sync', '1 2', 'show', 2, 'mask', {{4, 3, 0, 0}});
 clusteringDemo('do', 0, 'host', 2, 'parallel', 1);
 clusteringDemo('show', 2, 'mask', {{4, 3, 0, 0}});
 clusteringDemo('do', 2, 'mask', {{4, 3, 0, 0}});
-clusteringDemo('do', 1)
-clusteringDemo('do', 1);
 clusteringDemo('do', 1, 'mask', {{1, 2, 0, 3, 0, 0, 0, 0, 10}});
 clusteringDemo('do', 2, 'mask', {{1, 2, 0, 3, 0, 0, 0, 0, 10}});
 clusteringDemo('do', 1, 'mask', {{}});
@@ -29,3 +27,12 @@ clusteringDemo('do', 1, 'mask', {{2}});
 clusteringDemo('do', 2, 'mask', {{2}});
 clusteringDemo('do', 2, 'mask', {{1}});
 clusteringDemo('do', 0, 'mask', {{1}});
+clusteringDemo('do', 0)
+clusteringDemo('do', 1)
+clusteringDemo('do', 1);
+clusteringDemo('do', 2);
+clusteringDemo('do', 1, 'progress', 2);
+clusteringDemo('do', 2, 'progress', 2);
+clusteringDemo('do', 2, 'progress', 2, 'mask', {2});
+clusteringDemo('do', 1:2, 'progress', 2, 'mask', {2});
+clusteringDemo('do', 1:2, 'progress', 1, 'mask', {2});

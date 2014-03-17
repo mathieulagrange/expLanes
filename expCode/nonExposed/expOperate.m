@@ -105,6 +105,7 @@ for k=1:length(config.step.sequence{sequence})
         config = expProcessOneSub(config);
     catch error
         if config.host == 0
+
             rethrow(error);
         else
             config.designStatus.failed = config.designStatus.failed+1;
@@ -144,13 +145,14 @@ end
 
 ticId = tic;
 
+config = expProgress(config);
 [config storeData storeObs] = feval(functionName, config, config.step.design, loadedData);
 
 if config.showTiming && ~isfield(storeObs, 'time')
     storeObs.time = toc(ticId);
 end
 
-config = expProgress(config);
+
 
 if ~isempty(storeData)
     expSave(config, storeData, 'data');

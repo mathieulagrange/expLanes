@@ -13,8 +13,6 @@ function [config, store, obs] = clde1generateData(config, design, data)
 
 if nargin==0, clusteringDemo('do', 1, 'mask', {{0 0 0 3}}); return; end
 
-disp([config.currentStepName ' ' design.infoString]);
-
 store=[];
 obs=[];
 

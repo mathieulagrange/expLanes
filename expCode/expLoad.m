@@ -41,7 +41,7 @@ end
 if nargin<2 || isempty(name)
     %     design = expDesignBuild(config.factors, config.step.design.infoId');
     tv = expStepDesign(config.factors, {num2cell(config.step.design.infoId)}, inputId); % TODO slow but useful, detect if data flow is contracting
-    for k=1:length(tv.nbDesigns)
+    for k=1:tv.nbDesigns
         d = expDesign(tv, k);
         switch config.namingConventionForFiles
             case 'short'

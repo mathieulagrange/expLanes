@@ -2,8 +2,6 @@ function [config, store, obs] = clde1generateData(config, design, data)
 
 if nargin==0, classificationDemo('do', 1, 'mask', {{}}); return; end
 
-disp([config.currentStepName ' ' design.infoString]);
-
 % no obs for this step
 obs = [];
 % get number of classes

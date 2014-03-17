@@ -2,8 +2,6 @@ function [config, store, obs] = clde4test(config, design, data)
 
 if nargin==0, classificationDemo('do', 4, 'mask', {{1, 0, 0, 0, 0, 2}}); return; end
 
-disp([config.currentStepName ' ' design.infoString]);
-
 % no storage for this step
 store=[];
 % get number of classes
