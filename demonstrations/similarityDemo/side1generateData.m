@@ -2,9 +2,8 @@ function [config, store, obs] = side1generateData(config, design, data, obs)
 
 if nargin==0, similarityDemo('do', 1, 'mask', {{}}); return; end
 
-disp([config.currentStepName ' ' design.infoString]);
-
-tic
+store=[];
+obs=[];
 
 for k=1:design.nbRealizations
     classData = [];
@@ -18,5 +17,3 @@ for k=1:design.nbRealizations
     store.observations{k} =  classData;
     store.class{k} = class;
 end
-
-obs.generationTime = toc*1000;

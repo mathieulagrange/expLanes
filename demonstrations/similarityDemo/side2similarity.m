@@ -2,11 +2,8 @@ function [config, store, obs] = side2similarity(config, design, data, obs)
 
 if nargin==0, similarityDemo('do', 2, 'mask', {{}}); return; end
 
-disp([config.currentStepName ' ' design.infoString]);
-
 store=[];
-
-tic
+obs=[];
 
 for k=1:design.nbRealizations
     obs = data.observations{k};
@@ -30,5 +27,3 @@ for k=1:design.nbRealizations
     p = rankingMetrics(d, data.class{k});
     obs.map(k) = p.meanAveragePrecision;
 end
-
-obs.similarityTime = toc;
