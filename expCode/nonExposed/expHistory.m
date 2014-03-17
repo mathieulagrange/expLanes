@@ -54,10 +54,10 @@ elseif ischar(commands{1})
             
         case 'f'
             config = expConfig(projectPath, shortProjectName);
-            expDisplaySteps(config);
+            expDisplayFactors(config);
        case 'F'
             config = expConfig(projectPath, shortProjectName);
-            expDisplaySteps(config, 0);
+            expDisplayFactors(config, 0);
         otherwise
             error('Unable to handle command');
     end

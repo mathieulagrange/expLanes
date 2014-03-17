@@ -25,6 +25,23 @@ config.pdfFileName = [config.reportPath config.projectName '_v' num2str(config.v
 
 config.latex = LatexCreator([config.latexFileName '.tex'], 1, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName);
 
+if config.showFactorsInReport
+    pdfFileName = [config.reportPath 'figures/' config.shortProjectName 'Factors.pdf'];
+    a=dir(pdfFileName);
+    b=dir([config.codePath config.shortProjectName 'Factors.txt']);
+    if ~exist(pdfFileName, 'file')  || a.datenum < b.datenum
+        expDisplayFactors(config, ~(abs(config.report)-1), 0);
+    end
+    config.latex.addLine('\begin{center}');
+    config.latex.addLine('\begin{figure}[ht]');
+ config.latex.addLine(['\includegraphics[width=\textwidth]{' pdfFileName '}']);
+ config.latex.addLine('\label{factorFlowGraph}');
+ config.latex.addLine('\caption{Factors flow graph for the experiment.}');
+  
+   config.latex.addLine('\end{figure}');
+   config.latex.addLine('\end{center}');
+end
+
 % add table
 for k=1:length(config.displayData.table)
     config.latex.addTable(config.displayData.table(k).table, 'caption', config.displayData.table(k).caption, 'multipage', config.displayData.table(k).multipage, 'landscape', config.displayData.table(k).landscape, 'label', config.displayData.table(k).label);

@@ -78,3 +78,5 @@ classificationDemo('do', 4, 'mask', {2, 0, 1});
 classificationDemo('do', 4);
 classificationDemo('do', 4, 'progress', 2);
 classificationDemo('do', 4, 'progress', 1);
+classificationDemo('report', 2);
+classificationDemo('report', 1);

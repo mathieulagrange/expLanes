@@ -103,6 +103,8 @@ message = default
 pdfViewer = 
 % threshold for statistical significance testing
 significanceThreshold = 0.05 
+% show the factors graph in the report
+showFactorsInReport = 1
 
 
 %% MISC

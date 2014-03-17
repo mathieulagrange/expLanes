@@ -468,7 +468,7 @@ CONSTRUCTOR(varargin{:});
             Data.tex{end+1}= '%Please use this file to document your experiment';
             Data.tex{end+1}= '%You can compile the report by setting the option ''report'' to 1 (silent mode) or 2 (verbose mode) with generation of figures and table or -1 (silent mode) or -2 (verbose mode) for latex compilation only.';
              Data.tex{end+1}=' ';
-           Data.tex{end+1}= ['This is the report to document the expCode project ' Data.projectName ' using \LaTeX'];
+           Data.tex{end+1}= ['This is the report to document the expCode project ' Data.projectName ' using \LaTeX.'];
             Data.tex{end+1}=' ';
             Data.tex{end+1}='% expDisplayInsertionFlag DO NOT CLEAR (but move it where you want the code to be inserted) ';
             Data.tex{end+1}=' ';

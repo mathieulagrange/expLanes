@@ -1,6 +1,7 @@
-function expDisplayFactors(config, silent)
+function expDisplayFactors(config, silent, show)
 
 if ~exist('silent', 'var'), silent=1; end
+if ~exist('show', 'var'), show=0; end
 
 p = fileparts(mfilename('fullpath'));
 
@@ -61,6 +62,7 @@ if ~res
 else
     return
 end
+if show
 if ~isempty(config.pdfViewer)
     cmd=[config.pdfViewer ' ', pdfFileName, ' &'];
 else
@@ -72,6 +74,7 @@ else
     end
 end
 system(cmd);
+end
 
 function functionCell = displayNode(config, parameterIndex, stepId)
 
