@@ -1,16 +1,16 @@
-function config = expPlan(config)
+function config = expDesign(config)
 
-% a plan shall be a cell array of {factors, quantization,type of plan, seed}
-% seed is useful for one factor at time type of plan
+% a design shall be a cell array of {factors, quantization,type of design, seed}
+% seed is useful for one factor at time type of design
 
-plan = cellifyPlan(config);
-if isempty(plan)
+design = cellifydesign(config);
+if isempty(design)
     mask = {};
     return;
 end
 
 % select factors
-factors = plan{1};
+factors = design{1};
 if isempty(factors)
     for k=1:length(config.factors.names)
         if isnumeric(config.factors.values{k}{1})
@@ -25,15 +25,15 @@ for k=1:length(factors)
 end
 
 % define quantification steps
-if isempty(plan{2})
-    plan{2} = 2;
+if isempty(design{2})
+    design{2} = 2;
 end
 
 for k=1:length(factors)
-    if plan{2}==0
+    if design{2}==0
         inc = 1;
     else
-        inc = floor(length(config.factors.values{factors(k)})/(plan{2}-1));
+        inc = floor(length(config.factors.values{factors(k)})/(design{2}-1));
     end
     steps{k} = 0:inc:(length(config.factors.values{factors(k)}));
     
@@ -48,17 +48,17 @@ for k=1:length(factors)
 end
 
 %define seed
-if length(plan)<4 || isempty(plan{4})
+if length(design)<4 || isempty(design{4})
     seed = cell(1, length(config.factors.names));
 else
-    seed = plan{4};
+    seed = design{4};
 end
 
-% type of plan
-if length(plan)<3
+% type of design
+if length(design)<3
     type = 'f';
 else
-    type = plan{3};
+    type = design{3};
 end
 
 switch type
@@ -77,29 +77,29 @@ switch type
             mask{k} = m;
         end
     otherwise
-        error(['Unhandled type of plan: ' plan{3}]);
+        error(['Unhandled type of design: ' design{3}]);
 end
 
 config.mask = expMergeMask(config.mask, mask, config.factors.values, -1);
 
 
-function plan = cellifyPlan(config)
+function design = cellifydesign(config)
 
-if ~isempty(config.plan)
-    if iscell(config.plan)
-        plan = config.plan;
-    elseif ischar(config.plan)
-        switch config.plan
+if ~isempty(config.design)
+    if iscell(config.design)
+        design = config.design;
+    elseif ischar(config.design)
+        switch config.design
             case 'one'
-                plan = {[], 2, 'o'};
+                design = {[], 2, 'o'};
             case 'star'
-                plan = {[], 0, 'o'};
+                design = {[], 0, 'o'};
         end
-    elseif isnumeric(config.plan)
-        plan = {[], config.plan, 'f'};
+    elseif isnumeric(config.design)
+        design = {[], config.design, 'f'};
     end
 else
-    plan = {};
+    design = {};
 end
 
 
