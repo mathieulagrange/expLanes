@@ -1,8 +1,8 @@
-function expSync(config, syncDesign, syncDestination, syncDirection, detach, delete)
-% expSync(syncDesign, syncDestination, syncDirection, detach, delete, config)
+function expSync(config, syncMode, syncDestination, syncDirection, detach, delete)
+% expSync(syncMode, syncDestination, syncDirection, detach, delete, config)
 %   perform code and data synchronization between host and servers
 %
-%   syncDesign: ['c', 'd', 'i', step_numeric_id] aka code, dependencies, input,
+%   syncMode: ['c', 'd', 'i', step_numeric_id] aka code, dependencies, input,
 %       steps as specified by their numeric ids optionally append with d (data) or o (observations)
 %   syncDestination: host numeric id
 %   syncDirection: ['up', 'down'], from host to server and vice versa
@@ -11,23 +11,23 @@ function expSync(config, syncDesign, syncDestination, syncDirection, detach, del
 %
 % if ~exist('config', 'var'), config = expConfig(); end
 
-if exist('syncDesign', 'var')
-    if isnumeric(syncDesign)
-    config.syncDesign = sprintf('%d', syncDesign);
+if exist('syncMode', 'var')
+    if isnumeric(syncMode)
+    config.syncMode = sprintf('%d', syncMode);
     else
-        config.syncDesign = syncDesign; 
+        config.syncMode = syncMode; 
     end
 end
 
-if ~isfield(config, 'syncDesign') || strcmp(config.syncDesign(1), '0')
-    if strcmp(config.syncDesign(1), '0') && length(config.syncDesign)==2
-        dType = config.syncDesign(2);
-        config.syncDesign =[];
+if ~isfield(config, 'syncMode') || strcmp(config.syncMode(1), '0')
+    if strcmp(config.syncMode(1), '0') && length(config.syncMode)==2
+        dType = config.syncMode(2);
+        config.syncMode =[];
         for k=1:length(config.stepName)
-            config.syncDesign = [config.syncDesign sprintf('%d%s ', k, dType)];
+            config.syncMode = [config.syncMode sprintf('%d%s ', k, dType)];
         end
     else
-    config.syncDesign = sprintf('%d ', 1:length(config.stepName));
+    config.syncMode = sprintf('%d ', 1:length(config.stepName));
     end
 end
 
@@ -62,7 +62,7 @@ end
 % TODO what if some directories are unset ?
 % TODO put options for detach verbosity, update...
 
-tokens = regexp(config.syncDesign, ' ', 'split');
+tokens = regexp(config.syncMode, ' ', 'split');
 
 for k=1:length(tokens)
     if exist('syncDirection', 'var'),
