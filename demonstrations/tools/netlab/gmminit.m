@@ -1,17 +1,17 @@
 function mix = gmminit(mix, x, options)
-%GMMINIT Initialises Gaussian mixture designl from data
+%GMMINIT Initialises Gaussian mixture settingl from data
 %
 %	Description
 %	MIX = GMMINIT(MIX, X, OPTIONS) uses a dataset X to initialise the
-%	parameters of a Gaussian mixture designl defined by the data structure
+%	parameters of a Gaussian mixture settingl defined by the data structure
 %	MIX.  The k-means algorithm is used to determine the centres. The
 %	priors are computed from the proportion of examples belonging to each
 %	cluster. The covariance matrices are calculated as the sample
 %	covariance of the points associated with (i.e. closest to) the
-%	corresponding centres. For a mixture of PPCA designl, the PPCA
+%	corresponding centres. For a mixture of PPCA settingl, the PPCA
 %	decomposition is calculated for the points closest to a given centre.
 %	This initialisation can be used as the starting point for training
-%	the designl using the EM algorithm.
+%	the settingl using the EM algorithm.
 %
 %	See also
 %	GMM

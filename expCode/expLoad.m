@@ -39,10 +39,10 @@ else
 end
 
 if nargin<2 || isempty(name)
-    %     design = expDesignBuild(config.factors, config.step.design.infoId');
-    tv = expStepDesign(config.factors, {num2cell(config.step.design.infoId)}, inputId); % TODO slow but useful, detect if data flow is contracting
-    for k=1:tv.nbDesigns
-        d = expDesign(tv, k);
+    %     setting = expSettingBuild(config.factors, config.step.setting.infoId');
+    tv = expStepSetting(config.factors, {num2cell(config.step.setting.infoId)}, inputId); % TODO slow but useful, detect if data flow is contracting
+    for k=1:tv.nbSettings
+        d = expSetting(tv, k);
         switch config.namingConventionForFiles
             case 'short'
                 names{k} = d.infoShortString; % FIXME should be masked

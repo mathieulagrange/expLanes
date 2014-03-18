@@ -1,11 +1,11 @@
-function stepDesign = expStepDesign(vSpec, mask, currentStep)
+function stepSetting = expStepSetting(vSpec, mask, currentStep)
 
-vSet = expDesignSet(vSpec, mask, currentStep);
+vSet = expSettingSet(vSpec, mask, currentStep);
 
 maskFilter = expMaskFilter(vSpec, vSet);
-% designs = expDesignBuild(vSpec, vSet);
+% settings = expSettingBuild(vSpec, vSet);
 
-sequence = expDesignSequence(vSpec, vSet);
+sequence = expSettingSequence(vSpec, vSet);
 
 e=[];
 for k=1:size(vSet, 1)
@@ -27,15 +27,15 @@ parameters.list = list(e, :)';
 parameters.names = vSpec.names(e);
 parameters.values = values(e);
 
-stepDesign.nbDesigns = size(vSet, 2);
-stepDesign.maskFilter = maskFilter;
-stepDesign.sequence = sequence;
-stepDesign.parameters = parameters;
-stepDesign.set = vSet;
-stepDesign.specifications = vSpec;
-stepDesign.id = currentStep;
+stepSetting.nbSettings = size(vSet, 2);
+stepSetting.maskFilter = maskFilter;
+stepSetting.sequence = sequence;
+stepSetting.parameters = parameters;
+stepSetting.set = vSet;
+stepSetting.specifications = vSpec;
+stepSetting.id = currentStep;
 
-stepDesign.design = expDesign(stepDesign, 1);
+stepSetting.setting = expSetting(stepSetting, 1);
 
 
 

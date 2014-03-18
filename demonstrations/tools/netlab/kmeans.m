@@ -1,9 +1,9 @@
 function [centres, options, post, errlog] = kmeans(centres, data, options)
-%KMEANS	Trains a k means cluster designl.
+%KMEANS	Trains a k means cluster settingl.
 %
 %	Description
 %	 CENTRES = KMEANS(CENTRES, DATA, OPTIONS) uses the batch K-means
-%	algorithm to set the centres of a cluster designl. The matrix DATA
+%	algorithm to set the centres of a cluster settingl. The matrix DATA
 %	represents the data which is being clustered, with each row
 %	corresponding to a vector. The sum of squares error function is used.
 %	The point at which a local minimum is achieved is returned as

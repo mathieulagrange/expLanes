@@ -1,4 +1,4 @@
-function [config, store, obs] = ausede3separate(config, design, data)
+function [config, store, obs] = ausede3separate(config, setting, data)
 
 if nargin==0, audioSeparationDemo('do', 3, 'mask', {{1}}, 'obs', '>'); return; end
 
@@ -7,13 +7,13 @@ store = [];
 % compute spectrograms
 sm = computeSpectrogram(data.mixture, config.fftlen, config.samplingFrequency);
 SM = abs(sm);
-switch design.method
+switch setting.method
     case 'ibm'
         % estimate the magnitude spectrogram of the source
         SE = SM.*data.mask;
     case 'nmf'
         % select the most salient components
-        nbkept = floor((100-design.pruning)/100*design.dictionarySize);
+        nbkept = floor((100-setting.pruning)/100*setting.dictionarySize);
         W = data.W(:, 1:nbkept);
         H = data.H(1:nbkept, :);
         % estimate the magnitude spectrogram of the source

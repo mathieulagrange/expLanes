@@ -5,7 +5,7 @@ data = config.evaluation.results;
 
 
 % fData = data;
-designSelector = 1:config.step.nbDesigns;
+settingSelector = 1:config.step.nbSettings;
 
 if  p.expand ~= 0 % TODO allow expand with mutiple metrics
     if length(config.evaluation.metrics)==1
@@ -20,14 +20,14 @@ if  p.expand ~= 0 % TODO allow expand with mutiple metrics
         % use one parameter to rearrange data
         pList = config.step.oriParameters.list(:, p.expand);
         nExpand = length(config.step.oriParameters.values{p.expand});
-        designSelector = (1:length(pList));
+        settingSelector = (1:length(pList));
         % sort
         [null, idx] = sort(pList);
-        designSelector = designSelector(idx);
+        settingSelector = settingSelector(idx);
         % cut
         fData = fData(idx, :, :);
         fSize = size(fData, 1)/nExpand;
-        designSelector = designSelector(1:fSize);
+        settingSelector = settingSelector(1:fSize);
         % reshape
         fData = reshape(fData, fSize, nExpand, size(fData, 3));
     end
@@ -108,10 +108,10 @@ dataDisplay.parameterSelector = parameterSelector;
 dataDisplay.p.metric = p.metric;
 dataDisplay.varData = vData(select, :);
 dataDisplay.selector = select;
-if isempty(designSelector)
-    dataDisplay.designSelector = [];
+if isempty(settingSelector)
+    dataDisplay.settingSelector = [];
 else
-    dataDisplay.designSelector = designSelector(select);
+    dataDisplay.settingSelector = settingSelector(select);
 end
 
 

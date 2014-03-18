@@ -1,9 +1,9 @@
-function mask = expMergeMask(m, s, values, design)
+function mask = expMergeMask(m, s, values, setting)
 
 if ~isempty(m) && all(cellfun(@iscell, m))
     mask={};
     for k=1:length(m)
-        mm = expMergeMask(m{k}, s, values, design);
+        mm = expMergeMask(m{k}, s, values, setting);
         if ~isempty(mm)
             mask{end+1} = mm;
         end
@@ -11,7 +11,7 @@ if ~isempty(m) && all(cellfun(@iscell, m))
 elseif ~isempty(s) && all(cellfun(@iscell, s))
     mask={};
     for k=1:length(s)
-        ss = expMergeMask(m, s{k}, values, design);
+        ss = expMergeMask(m, s{k}, values, setting);
         if ~isempty(ss)
             mask{end+1} = ss;
         end
@@ -25,7 +25,7 @@ else
     
     for k=1:length(m)
         if  s{k}(1) == -1 || m{k}(1) == -1
-            m{k} = design;
+            m{k} = setting;
         else
             %             if 0 %% TODO does it do the same thing ? SEEM SO
             if m{k}(1) ~= 0 && s{k}(1) ~= 0

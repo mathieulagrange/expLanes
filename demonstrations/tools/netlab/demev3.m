@@ -56,7 +56,7 @@ disp('Press any key to continue')
 pause; clc;
 
 disp('Next we create a two-layer MLP network having 3 hidden units and one')
-disp('linear output. The designl assumes Gaussian target noise governed by an')
+disp('linear output. The settingl assumes Gaussian target noise governed by an')
 disp('inverse variance hyperparmeter beta, and uses a simple Gaussian prior')
 disp('distribution governed by an inverse variance hyperparameter alpha.')
 disp(' ');

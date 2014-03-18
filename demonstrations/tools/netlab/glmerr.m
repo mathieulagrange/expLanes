@@ -1,8 +1,8 @@
 function [e, edata, eprior, y, a] = glmerr(net, x, t)
-%GLMERR	Evaluate error function for generalized linear designl.
+%GLMERR	Evaluate error function for generalized linear settingl.
 %
 %	Description
-%	 E = GLMERR(NET, X, T) takes a generalized linear designl data
+%	 E = GLMERR(NET, X, T) takes a generalized linear settingl data
 %	structure NET together with a matrix X of input vectors and a matrix
 %	T of target vectors, and evaluates the error function E. The choice
 %	of error function corresponds to the output unit activation function.
@@ -13,7 +13,7 @@ function [e, edata, eprior, y, a] = glmerr(net, x, t)
 %	and prior components of the total error.
 %
 %	[E, EDATA, EPRIOR, Y, A] = GLMERR(NET, X) also returns a matrix Y
-%	giving the outputs of the designls and a matrix A  giving the summed
+%	giving the outputs of the settingls and a matrix A  giving the summed
 %	inputs to each output unit, where each row corresponds to one
 %	pattern.
 %

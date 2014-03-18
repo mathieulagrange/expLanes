@@ -7,10 +7,10 @@
 %	noise. This data is the same as that used in demmlp1.
 %
 %	Three different RBF networks (with different activation functions)
-%	are trained in two stages. First, a Gaussian mixture designl is trained
-%	using the EM algorithm, and the centres of this designl are used to set
+%	are trained in two stages. First, a Gaussian mixture settingl is trained
+%	using the EM algorithm, and the centres of this settingl are used to set
 %	the centres of the RBF.  Second, the output weights (and biases) are
-%	determined using the pseudo-inverse of the design matrix.
+%	determined using the pseudo-inverse of the setting matrix.
 %
 %	See also
 %	DEMMLP1, RBF, RBFFWD, GMM, GMMEM
@@ -53,7 +53,7 @@ net = rbf(nin, nhidden, nout, 'gaussian');
 
 disp('A two-stage training algorithm is used: it uses a small number of')
 disp('iterations of EM to position the centres, and then the pseudo-inverse')
-disp('of the design matrix to find the second layer weights.')
+disp('of the setting matrix to find the second layer weights.')
 disp(' ')
 disp('Press any key to continue.')
 pause

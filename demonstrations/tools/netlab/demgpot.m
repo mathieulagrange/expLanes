@@ -1,11 +1,11 @@
 function g = demgpot(x, mix)
-%DEMGPOT Computes the gradient of the negative log likelihood for a mixture designl.
+%DEMGPOT Computes the gradient of the negative log likelihood for a mixture settingl.
 %
 %	Description
 %	This function computes the gradient of the negative log of the
 %	unconditional data density P(X) with respect to the coefficients of
-%	the data vector X for a Gaussian mixture designl.  The data structure
-%	MIX defines the mixture designl, while the matrix X contains the data
+%	the data vector X for a Gaussian mixture settingl.  The data structure
+%	MIX defines the mixture settingl, while the matrix X contains the data
 %	vector as a row vector. Note the unusual order of the arguments: this
 %	is so that the function can be used in DEMHMC1 directly for sampling
 %	from the distribution P(X).

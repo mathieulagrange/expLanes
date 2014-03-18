@@ -3,7 +3,7 @@ function net = rbfsetbf(net, options, x)
 %
 %	Description
 %	NET = RBFSETBF(NET, OPTIONS, X) sets the basis functions of the RBF
-%	network NET so that they designl the unconditional density of the
+%	network NET so that they settingl the unconditional density of the
 %	dataset X.  This is done by training a GMM with spherical covariances
 %	using GMMEM.  The OPTIONS vector is passed to GMMEM. The widths of
 %	the functions are set by a call to RBFSETFW.
@@ -19,7 +19,7 @@ if ~isempty(errstring)
   error(errstring);
 end
 
-% Create a spherical Gaussian mixture designl
+% Create a spherical Gaussian mixture settingl
 mix = gmm(net.nin, net.nhidden, 'spherical');
 
 % Initialise the parameters from the input data
@@ -29,10 +29,10 @@ kmoptions(1) = -1;	% Turn off warnings
 kmoptions(14) = 5;  % Just 5 iterations to get centres roughly right
 mix = gmminit(mix, x, kmoptions);
 
-% Train mixture designl using EM algorithm
+% Train mixture settingl using EM algorithm
 [mix, options] = gmmem(mix, x, options);
 
-% Now set the centres of the RBF from the centres of the mixture designl
+% Now set the centres of the RBF from the centres of the mixture settingl
 net.c = mix.centres;
 
 % options(7) gives scale of function widths

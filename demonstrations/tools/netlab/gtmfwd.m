@@ -4,7 +4,7 @@ function mix = gtmfwd(net)
 %	Description
 %	 MIX = GTMFWD(NET) takes a GTM structure NET, and forward propagates
 %	the latent data sample NET.X through the GTM to generate the
-%	structure MIX which represents the Gaussian mixture designl in data
+%	structure MIX which represents the Gaussian mixture settingl in data
 %	space.
 %
 %	See also

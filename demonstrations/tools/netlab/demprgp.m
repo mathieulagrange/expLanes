@@ -3,7 +3,7 @@ function demprgp(action);
 %
 %	Description
 %	This function plots the functions represented by a Gaussian Process
-%	designl. The hyperparameter values can be adjusted  on a linear scale
+%	settingl. The hyperparameter values can be adjusted  on a linear scale
 %	using the sliders (though the exponential of the parameters is used
 %	in the covariance function), or  by typing values into the text boxes
 %	and pressing the return key. Both types of covariance function are

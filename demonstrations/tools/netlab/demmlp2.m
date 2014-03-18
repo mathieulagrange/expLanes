@@ -27,7 +27,7 @@ randn('state', 423);
 
 clc
 disp('This demonstration shows how an MLP with logistic outputs and')
-disp('and cross entropy error function can be trained to designl the')
+disp('and cross entropy error function can be trained to settingl the')
 disp('posterior class probabilities in a classification problem.')
 disp('The results are compared with the optimal Bayes rule classifier,')
 disp('which can be computed exactly as we know the form of the generating')
@@ -45,7 +45,7 @@ whitebg(fh1, 'k');
 % 
 n=200;
 
-% Set up mixture designl: 2d data with three centres
+% Set up mixture settingl: 2d data with three centres
 % Class 1 is first centre, class 2 from the other two
 mix = gmm(2, 3, 'full');
 mix.priors = [0.5 0.25 0.25];

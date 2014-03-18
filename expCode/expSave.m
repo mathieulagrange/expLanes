@@ -13,11 +13,11 @@ path = [config.dataPath stepName filesep];
 
 switch config.namingConventionForFiles
     case 'short'
-        name = config.step.design.infoShortString; % FIXME should be masked
+        name = config.step.setting.infoShortString; % FIXME should be masked
     case 'long'
-        name = config.step.design.infoString; % FIXME should be masked
+        name = config.step.setting.infoString; % FIXME should be masked
     case 'hash'
-        name = DataHash(config.step.design.infoString); % FIXME should be masked
+        name = DataHash(config.step.setting.infoString); % FIXME should be masked
 end
 
 if config.dummy
@@ -26,8 +26,8 @@ end
 
 if exist('data', 'var') && ~isempty(data)
     runId = config.runId;
-    design = config.step.design;
-    save([path name  extension ], 'data', 'stepName', 'runId', 'design');
+    setting = config.step.setting;
+    save([path name  extension ], 'data', 'stepName', 'runId', 'setting');
 end
 
 fileName = [path name  extension];

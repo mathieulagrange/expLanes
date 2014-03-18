@@ -6,7 +6,7 @@ function e = mdnerr(net, x, t)
 %	NET, a matrix X of input vectors and a matrix T of target vectors,
 %	and evaluates the error function E. The error function is the
 %	negative log likelihood of the target data under the conditional
-%	density given by the mixture designl parameterised by the MLP.  Each
+%	density given by the mixture settingl parameterised by the MLP.  Each
 %	row of X corresponds to one input vector and each row of T
 %	corresponds to one target vector.
 %
@@ -23,7 +23,7 @@ if ~isempty(errstring)
   error(errstring);
 end
 
-% Get the output mixture designls
+% Get the output mixture settingls
 mixparams = mdnfwd(net, x);
 
 % Compute the probabilities of mixtures

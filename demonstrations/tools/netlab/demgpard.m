@@ -7,7 +7,7 @@
 %	higher level of added noise, and x3 is sampled randomly from a
 %	Gaussian distribution. A Gaussian Process, is trained by optimising
 %	the hyperparameters  using the scaled conjugate gradient algorithm.
-%	The final values of the hyperparameters show that the designl
+%	The final values of the hyperparameters show that the settingl
 %	successfully identifies the importance of each input.
 %
 %	See also
@@ -61,7 +61,7 @@ disp('The Gaussian Process has a separate hyperparameter for each input.')
 disp('The hyperparameters are trained by error minimisation using the scaled.')
 disp('conjugate gradient optimiser.')
 disp(' ');
-disp('Press any key to create and train the designl.')
+disp('Press any key to create and train the settingl.')
 disp(' ');
 pause;
 

@@ -1,8 +1,8 @@
-function [config, store, obs] = ausede1mix(config, design, data)
+function [config, store, obs] = ausede1mix(config, setting, data)
 % ausede1mix MIX step of the expCode project audioSeparationDemo
-%    [config, store, obs] = ausede1mix(config, design, data)
+%    [config, store, obs] = ausede1mix(config, setting, data)
 %       config : expCode configuration state
-%       design: current set of parameters
+%       setting: current set of parameters
 %       data   : processing data stored during the previous step
 %
 %       store  : processing data to be saved for the other steps     
@@ -19,7 +19,7 @@ obs=[];
 store.source = data.source;
 store.noise = data.noise;
 % mix the source and the noise at a given snr
-mixture = data.source+data.noise./10^(.05*design.snr);
+mixture = data.source+data.noise./10^(.05*setting.snr);
 % store mix for the next step
 store.mixture = mixture;
 

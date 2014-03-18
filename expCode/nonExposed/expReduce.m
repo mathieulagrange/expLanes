@@ -22,8 +22,8 @@ if 1%isempty(data)%
     config.loadFileInfo.date = {'', ''};
     config.loadFileInfo.dateNum = [Inf, 0];
     
-    for k=1:config.step.nbDesigns
-        config.step.design = expDesign(config.step, k);
+    for k=1:config.step.nbSettings
+        config.step.setting = expSetting(config.step, k);
         
         config = expLoad(config, [], config.step.id, 'obs');
         if ~isempty(config.load)
@@ -86,7 +86,7 @@ else
         for m=1:length(data)
             if isfield(data{m}, structMetrics{k})
                 structResults.(structMetrics{k})(n) = data{m}.(structMetrics{k});
-                %             structResults.(structMetrics{k})(n).design = config.designs(m);
+                %             structResults.(structMetrics{k})(n).setting = config.settings(m);
                 n=n+1;
             end
         end

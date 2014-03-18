@@ -7,7 +7,7 @@ function [mask, prior] = rbfprior(rbfunc, nin, nhidden, nout, aw2, ab2)
 %	This is because most uses of RBF networks in a Bayesian context have
 %	fixed basis functions with the output layer as the only adjustable
 %	parameters.  In particular, the Neuroscale output error function is
-%	designed to work only with this mask.
+%	settinged to work only with this mask.
 %
 %	The return value PRIOR is a data structure,  with fields PRIOR.ALPHA
 %	and PRIOR.INDEX, which specifies a Gaussian prior distribution for

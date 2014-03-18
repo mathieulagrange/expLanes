@@ -6,7 +6,7 @@ function expSync(config, syncMode, syncDestination, syncDirection, detach, delet
 %       steps as specified by their numeric ids optionally append with d (data) or o (observations)
 %   syncDestination: host numeric id
 %   syncDirection: ['up', 'down'], from host to server and vice versa
-%   detach: [0,1], default 0, sync in background design
+%   detach: [0,1], default 0, sync in background setting
 %   delete: [0,1], default 0, delete non existing files (with backup)
 %
 % if ~exist('config', 'var'), config = expConfig(); end
@@ -45,7 +45,7 @@ else
 end
 
 if syncDestination==-1
-    % bundle design
+    % bundle setting
     config.syncDirection = 'up';
     if ~exist([config.bundlePath config.projectName], 'dir')
         mkdir([config.bundlePath config.projectName]);
@@ -93,9 +93,9 @@ for k=1:length(tokens)
             case 'c'
                 syncDirectory(config, serverConfig, 'code', delete, detach);
             case 'i'
-                dataBaseDesignIndex = find(strcmp(config.factors.names, 'dataBase'));
-                if ~isempty(dataBaseDesignIndex)
-                    dataBases = config.designValues{dataBaseDesignIndex};
+                dataBaseSettingIndex = find(strcmp(config.factors.names, 'dataBase'));
+                if ~isempty(dataBaseSettingIndex)
+                    dataBases = config.settingValues{dataBaseSettingIndex};
                     for k=1:length(dataBases)
                         syncDirectory(config, serverConfig, 'input', delete, detach, dataBases{k});
                     end

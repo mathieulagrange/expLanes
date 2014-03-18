@@ -20,7 +20,7 @@ randn('state', 420);
 ndata = 300
 clc;
 disp('This demonstration shows how a Generative Topographic Mapping')
-disp('can be used to designl and visualise high dimensional data.  The')
+disp('can be used to settingl and visualise high dimensional data.  The')
 disp('data is generated from a mixture of two spherical Gaussians in')
 dstring = ['four dimensional space. ', num2str(ndata), ...
       ' data points are generated.'];
@@ -50,9 +50,9 @@ dstring = ['arranged in a square of ', num2str(latent_shape(1)), ...
       ' points on a side.  There are ', num2str(num_rbf_centres), ...
       ' centres in the'];
 disp(dstring);
-disp('RBF designl, which has Gaussian activation functions.')
+disp('RBF settingl, which has Gaussian activation functions.')
 disp(' ')
-disp('Once the designl is created, the latent data sample')
+disp('Once the settingl is created, the latent data sample')
 disp('and RBF centres are placed uniformly in the square [-1 1 -1 1].')
 disp('The output weights of the RBF are computed to map the latent');
 disp('space to the two dimensional PCA subspace of the data.');
@@ -60,7 +60,7 @@ disp(' ')
 disp('Press any key to continue.');
 pause;
 
-% Create and initialise GTM designl
+% Create and initialise GTM settingl
 net = gtm(latent_dim, nlatent, data_dim, num_rbf_centres, ...
    'gaussian', 0.1);
 
@@ -74,7 +74,7 @@ options(14) = 30;
 options(1) = 1;
 
 clc;
-dstring = ['We now train the designl with ', num2str(options(14)), ...
+dstring = ['We now train the settingl with ', num2str(options(14)), ...
       ' iterations of'];
 disp(dstring)
 disp('the EM algorithm for the GTM.')
@@ -90,7 +90,7 @@ pause;
 
 clc;
 disp('We now visualise the data by plotting, for each data point,');
-disp('the posterior mean and design (in latent space).  These give');
+disp('the posterior mean and setting (in latent space).  These give');
 disp('a summary of the entire posterior distribution in latent space.')
 disp('The corresponding values are joined by a line to aid the')
 disp('interpretation.')
@@ -99,7 +99,7 @@ disp('Press any key to continue.');
 pause;
 % Plot posterior means
 means = gtmlmean(net, data);
-designs = gtmldesign(net, data);
+settings = gtmlsetting(net, data);
 PointSize = 12;
 ClassSymbol1 = 'r.';
 ClassSymbol2 = 'b.';
@@ -113,30 +113,30 @@ plot(means((labels>1),1),means(labels>1,2),...
 
 ClassSymbol1 = 'ro';
 ClassSymbol2 = 'bo';
-plot(designs(labels==1,1), designs(labels==1,2), ...
+plot(settings(labels==1,1), settings(labels==1,2), ...
   ClassSymbol1)
-plot(designs(labels>1,1),designs(labels>1,2),...
+plot(settings(labels>1,1),settings(labels>1,2),...
    ClassSymbol2)
 
-% Join up means and designs
+% Join up means and settings
 for n = 1:ndata
-   plot([means(n,1); designs(n,1)], [means(n,2); designs(n,2)], 'g-')
+   plot([means(n,1); settings(n,1)], [means(n,2); settings(n,2)], 'g-')
 end
 % Place legend outside data plot
-legend('Mean (class 1)', 'Mean (class 2)', 'Design (class 1)',...
-   'Design (class 2)', -1);
+legend('Mean (class 1)', 'Mean (class 2)', 'Setting (class 1)',...
+   'Setting (class 2)', -1);
 
 % Display posterior for a data point
 % Choose an interesting one with a large distance between mean and
-% design
-[distance, point] = max(sum((means-designs).^2, 2));
+% setting
+[distance, point] = max(sum((means-settings).^2, 2));
 resp = gtmpost(net, data(point, :));
 
 disp(' ')
 disp('For more detailed information, the full posterior distribution')
 disp('(or responsibility) can be plotted in latent space for a')
 disp('single data point.  This point has been chosen as the one')
-disp('with the largest distance between mean and design.')
+disp('with the largest distance between mean and setting.')
 disp(' ')
 disp('Press any key to continue.');
 pause;

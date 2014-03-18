@@ -1,9 +1,9 @@
-%DEMGLM1 Demonstrate simple classification using a generalized linear designl.
+%DEMGLM1 Demonstrate simple classification using a generalized linear settingl.
 %
 %	Description
 %	 The problem consists of a two dimensional input matrix DATA and a
 %	vector of classifications T.  The data is  generated from two
-%	Gaussian clusters, and a generalized linear designl with logistic
+%	Gaussian clusters, and a generalized linear settingl with logistic
 %	output is trained using iterative reweighted least squares. A plot of
 %	the data together with the 0.1, 0.5 and 0.9 contour lines of the
 %	conditional probability is generated.
@@ -35,7 +35,7 @@ targets = label - ones(ndata, 1);
 % Plot the result
 
 clc
-disp('This demonstration illustrates the use of a generalized linear designl')
+disp('This demonstration illustrates the use of a generalized linear settingl')
 disp('to classify data from two classes in a two-dimensional space. We')
 disp('begin by generating and plotting the data.')
 disp(' ')
@@ -51,10 +51,10 @@ plot(data(label==2,1), data(label==2,2), 'rx')
 title('Data')
 
 clc
-disp('Now we fit a designl consisting of a logistic sigmoid function of')
+disp('Now we fit a settingl consisting of a logistic sigmoid function of')
 disp('a linear combination of the input variables.')
 disp(' ')
-disp('The designl is trained using the IRLS algorithm for 5 iterations')
+disp('The settingl is trained using the IRLS algorithm for 5 iterations')
 disp(' ')
 disp('Press any key to continue.')
 pause
@@ -66,7 +66,7 @@ options(14) = 5;
 net = glmtrain(net, options, data, targets);
 
 disp(' ')
-disp('We now plot some density contours given by this designl.')
+disp('We now plot some density contours given by this settingl.')
 disp('The contour labelled 0.5 is the decision boundary.')
 disp(' ')
 disp('Press any key to continue.')
@@ -81,7 +81,7 @@ Z = glmfwd(net, grid);
 Z = reshape(Z, length(x), length(y));
 v = [0.1 0.5 0.9];
 [c, h] = contour(x, y, Z, v);
-title('Generalized Linear Designl')
+title('Generalized Linear Settingl')
 set(h, 'linewidth', 3)
 clabel(c, h);
 

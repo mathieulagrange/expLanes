@@ -58,13 +58,13 @@ config.runInfo=[];
 if config.do>-1
     fprintf('Project %s: running on host %s \n', config.projectName, config.hostName);
     for k=1:length(config.do)
-        [config.stepDesigns{config.do(k)}] = expStepDesign(config.factors, config.mask, config.do(k));
+        [config.stepSettings{config.do(k)}] = expStepSetting(config.factors, config.mask, config.do(k));
         runInfo = sprintf(' - step %s, ', config.stepName{config.do(k)});
-        if ~strcmp(config.stepDesigns{config.do(k)}.design.infoStringMask, 'all')
-            runInfo = [runInfo sprintf('factors with fixed modalities: %s', config.stepDesigns{config.do(k)}.design.infoStringMask)];
+        if ~strcmp(config.stepSettings{config.do(k)}.setting.infoStringMask, 'all')
+            runInfo = [runInfo sprintf('factors with fixed modalities: %s', config.stepSettings{config.do(k)}.setting.infoStringMask)];
         end
-        if config.stepDesigns{config.do(k)}.nbDesigns>1
-            runInfo = [runInfo sprintf('\n     %d designs with the factors: %s', config.stepDesigns{config.do(k)}.nbDesigns, config.stepDesigns{config.do(k)}.design.infoStringFactors)];
+        if config.stepSettings{config.do(k)}.nbSettings>1
+            runInfo = [runInfo sprintf('\n     %d settings with the factors: %s', config.stepSettings{config.do(k)}.nbSettings, config.stepSettings{config.do(k)}.setting.infoStringFactors)];
         end        
         config.runInfo{k} = runInfo;
         config = expLog(config, [config.runInfo{k} '\n']);
@@ -78,11 +78,11 @@ else
     end
 end
 for k=1:length(rem)
-    [config.stepDesigns{rem(k)}] = expStepDesign(config.factors, config.mask, rem(k));
+    [config.stepSettings{rem(k)}] = expStepSetting(config.factors, config.mask, rem(k));
 end
 
-% if ~isfield(config, 'stepDesigns') || isempty(config.stepDesigns{length(config.stepName)})
-%      [config.stepDesigns{length(config.stepName)}.designs config.stepDesigns{length(config.stepName)}.designSequence config.stepDesigns{length(config.stepName)}.parameters config.stepDesigns{length(config.stepName)}.designSet] = expDesigns(config.factors, config.mask, length(config.stepName));
+% if ~isfield(config, 'stepSettings') || isempty(config.stepSettings{length(config.stepName)})
+%      [config.stepSettings{length(config.stepName)}.settings config.stepSettings{length(config.stepName)}.settingSequence config.stepSettings{length(config.stepName)}.parameters config.stepSettings{length(config.stepName)}.settingSet] = expSettings(config.factors, config.mask, length(config.stepName));
 % end
 
 if isfield(config, 'serverConfig')
@@ -96,7 +96,7 @@ if isfield(config, 'serverConfig')
     %     if matConfig.report==1
     %     matConfig.report = 0; % output tex
     %     end
-    matConfig.retrieve = 0; % do not retrieve on server design
+    matConfig.retrieve = 0; % do not retrieve on server setting
     if config.serverConfig.host>1
         matConfig.localDependencies = 1;
         expConfigMatSave(config.configMatName, matConfig);
@@ -130,7 +130,7 @@ end
 if config.obs ~= -1
     %     try
     for k=1:length(config.obs)
-        config.step = config.stepDesigns{config.obs(k)};
+        config.step = config.stepSettings{config.obs(k)};
         if iscell(config.display)
             config = expExpose(config, config.display{:});
         else
@@ -203,11 +203,11 @@ switch config.host
             message{end+1} = '';
             
             message{end+1} = ['total duration: ' expTimeString(config.runDuration)];
-            message{end+1} = ['average duration per design: ' expTimeString(config.runDuration/(config.designStatus.failed+config.designStatus.success))];
+            message{end+1} = ['average duration per setting: ' expTimeString(config.runDuration/(config.settingStatus.failed+config.settingStatus.success))];
             message{end+1} = '';
             message{end+1} = ['number of cores used: ' num2str(max([1 config.parallel]))];
-            message{end+1} = ['number of successful designs: ' num2str(config.designStatus.success)];
-            message{end+1} = ['number of failed designs: ' num2str(config.designStatus.failed)];
+            message{end+1} = ['number of successful settings: ' num2str(config.settingStatus.success)];
+            message{end+1} = ['number of failed settings: ' num2str(config.settingStatus.failed)];
             message{end+1} = '';
             if ~isempty(config.displayData.prompt)
                 prompt = evalc('disp(config.displayData.prompt)');

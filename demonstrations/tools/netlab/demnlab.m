@@ -103,8 +103,8 @@ if strcmp(action,'initialise'),
     'String', 'Classification');
   
   popup2str(1) = popup1str(1);
-  popup2str(2) = {'Generalised Linear Designl (2 class)'};
-  popup2str(3) = {'Generalised Linear Designl (3 class)'};
+  popup2str(2) = {'Generalised Linear Settingl (2 class)'};
+  popup2str(3) = {'Generalised Linear Settingl (3 class)'};
   popup2str(4) = {'Multi-Layer Perceptron'};
   popup2str(5) = {'K nearest neighbour'};
   % TWO popup
@@ -124,7 +124,7 @@ if strcmp(action,'initialise'),
     'Units', 'normalized', ...
     'BackgroundColor', [0.5 0.5 0.5], ...
     'Position', [0.08 group1_top - tRow2Offset 0.36 0.05], ...
-    'String', 'Density Designlling and Clustering'); 
+    'String', 'Density Settinglling and Clustering'); 
   
   popup3str(1) = popup1str(1);
   popup3str(2) = {'Gaussian Mixture (EM training)'};

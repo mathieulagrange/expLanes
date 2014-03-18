@@ -1,4 +1,4 @@
-function [config, store, obs] = clde4test(config, design, data)
+function [config, store, obs] = clde4test(config, setting, data)
 
 if nargin==0, classificationDemo('do', 4, 'mask', {{1, 0, 0, 0, 0, 2}}); return; end
 
@@ -7,12 +7,12 @@ store=[];
 % get number of classes
 nbClasses = length(expParameterValues(config, 'class'));
 
-switch design.method
+switch setting.method
     case 'knn'
         % load the result of step 2 (train)
         config = expLoad(config, [], 2);
-        % get designl for the knn approach (the training dataset)
-        designl = config.load.designl;
+        % get settingl for the knn approach (the training dataset)
+        settingl = config.load.settingl;
         % load the result of step 1 (generateData)
         config = expLoad(config, [], 1);
         % get testing samples
@@ -22,16 +22,16 @@ switch design.method
         % put ground truth to the netlab format
         classMatrix = netClass(class);
         % initialize the knn
-        net = knn(size(designl.samples, 2), nbClasses, design.nbNeighbors, designl.samples, classMatrix);
+        net = knn(size(settingl.samples, 2), nbClasses, setting.nbNeighbors, settingl.samples, classMatrix);
         % get the prediction from the knn over the testing data
         [nn prediction] = knnfwd(net, samples);
         prediction = prediction.';
     case'gmm'
-        % get the likelihhod of the different designls
+        % get the likelihhod of the different settingls
         for k=1:nbClasses
             likelihood(k, :) = data(k).likelihood;
         end
-        % select the designl with the highest likelihood
+        % select the settingl with the highest likelihood
         [mh prediction] = max(likelihood);
         class = data(1).class.';
 end

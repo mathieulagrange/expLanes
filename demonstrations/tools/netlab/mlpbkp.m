@@ -12,7 +12,7 @@ function g = mlpbkp(net, x, z, deltas)
 %	input vector.
 %
 %	This function is provided so that the common backpropagation
-%	algorithm can be used by multi-layer perceptron network designls to
+%	algorithm can be used by multi-layer perceptron network settingls to
 %	compute gradients for mixture density networks as well as standard
 %	error functions.
 %

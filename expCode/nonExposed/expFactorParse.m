@@ -1,4 +1,4 @@
-function [designSpec] = expDesignParse(fileName)
+function [settingSpec] = expSettingParse(fileName)
 
 fid =fopen(fileName);
 C = textscan(fid,'%s%s%s%s', 'commentstyle', '%', 'delimiter', '=');
@@ -9,7 +9,7 @@ select=C{3};
 values=C{4};
 
 if length(unique(names)) < length(names)
-    error('Duplicate parameter name in design file');
+    error('Duplicate parameter name in setting file');
 end
 
 selectAll = {};
@@ -25,15 +25,15 @@ for k=1:length(names)
     if iscellstr(values{k})
         shortValues{k} = names2shortNames(values{k});
        if ~all(cellfun(@isempty, strfind(values{k}, '/'))) || ~all(cellfun(@isempty, strfind(values{k}, '\'))) || ~all(cellfun(@isempty, strfind(values{k}, '.')))
-          error(['Invalid set of designs for ' names{k} ' parameter in ' fileName '. the designs shall not include any path-like characters like: ''/'', ''\'', or ''.''.']); 
+          error(['Invalid set of settings for ' names{k} ' parameter in ' fileName '. the settings shall not include any path-like characters like: ''/'', ''\'', or ''.''.']); 
        end
         if length(unique(values{k})) < length(values{k})
-            error(['Duplicate values of parameter ' names{k} ' in design file']);
+            error(['Duplicate values of parameter ' names{k} ' in setting file']);
         end
     elseif isnumeric(values{k})
         shortValues{k} = values{k};
     else
-        error(['Invalid set of designs for ' names{k} ' parameter in ' fileName '. Shall be numeric or cell array of strings.']);
+        error(['Invalid set of settings for ' names{k} ' parameter in ' fileName '. Shall be numeric or cell array of strings.']);
     end
 end
 
@@ -78,11 +78,11 @@ for k=1:size(values, 2)
     end
 end
 
-designSpec.values = values;
-designSpec.stringValues = stringValues;
-designSpec.names = names;
-designSpec.shortNames = shortNames;
-designSpec.shortValues = shortValues;
-designSpec.step = step;
-designSpec.selectParameters = selectAll;
-designSpec.sequentialParameter = sequentialParameter;
+settingSpec.values = values;
+settingSpec.stringValues = stringValues;
+settingSpec.names = names;
+settingSpec.shortNames = shortNames;
+settingSpec.shortValues = shortValues;
+settingSpec.step = step;
+settingSpec.selectParameters = selectAll;
+settingSpec.sequentialParameter = sequentialParameter;

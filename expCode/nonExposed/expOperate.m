@@ -25,7 +25,7 @@ if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']);
 
 
 
-config.step.design = [];
+config.step.setting = [];
 
 % step = config.step;
 
@@ -49,7 +49,7 @@ if all(config.do>0)
         end
         
         for k=1:length(config.do)
-            config.step = config.stepDesigns{config.do(k)};
+            config.step = config.stepSettings{config.do(k)};
             % remove reduceData
             reduceDataFileName = [config.dataPath config.stepName{config.step.id} filesep 'reduceData.mat'];
             if exist(reduceDataFileName, 'file')
@@ -57,13 +57,13 @@ if all(config.do>0)
             end
             
             if config.parallel(config.do(k))>0 % ~= 1 % length(config.stepName)
-                designStatus = config.designStatus;
+                settingStatus = config.settingStatus;
                 parfor l=1:length(config.step.sequence)
-                   [~, designStatus(l)] =  expProcessOne(config, l);
+                   [~, settingStatus(l)] =  expProcessOne(config, l);
                 end
                 for l=1:length(config.step.sequence)
-                config.designStatus.success = config.designStatus.success+designStatus(l).success;
-                config.designStatus.failed = config.designStatus.failed+designStatus(l).failed;
+                config.settingStatus.success = config.settingStatus.success+settingStatus(l).success;
+                config.settingStatus.failed = config.settingStatus.failed+settingStatus(l).failed;
                 end
             else
                 for l=1:length(config.step.sequence)
@@ -78,7 +78,7 @@ if all(config.do>0)
         end
     else
         for k=1:length(config.do)
-           config.step = config.stepDesigns{config.do(k)}; % remove reduceData
+           config.step = config.stepSettings{config.do(k)}; % remove reduceData
             reduceDataFileName = [config.dataPath config.stepName{config.step.id} filesep 'reduceData.mat'];
             if exist(reduceDataFileName, 'file')
                 delete(reduceDataFileName);
@@ -92,14 +92,14 @@ end
 
 config.runDuration=ceil(toc/60);
 
-function [config designStatus] = expProcessOne(config, sequence)
+function [config settingStatus] = expProcessOne(config, sequence)
 
 config.step.idName = config.stepName{config.step.id};
 
 config.sequentialData = [];
 
 for k=1:length(config.step.sequence{sequence})
-    config.step.design = expDesign(config.step, config.step.sequence{sequence}(k));
+    config.step.setting = expSetting(config.step, config.step.sequence{sequence}(k));
     success=1;
     try
         config = expProcessOneSub(config);
@@ -108,24 +108,24 @@ for k=1:length(config.step.sequence{sequence})
 
             rethrow(error);
         else
-            config.designStatus.failed = config.designStatus.failed+1;
+            config.settingStatus.failed = config.settingStatus.failed+1;
             config = expLog(config, error, 2, 1);
             success = 0;
         end
     end
     if success
-        config.designStatus.success = config.designStatus.success+1;
+        config.settingStatus.success = config.settingStatus.success+1;
     end
 end
 
-designStatus = config.designStatus;
+settingStatus = config.settingStatus;
 
 function config = expProcessOneSub(config)
 
 functionName = [config.shortProjectName num2str(config.step.id) config.stepName{config.step.id}];
 
 if config.redo==0 && (exist(expSave(config, [], 'data'), 'file') || exist(expSave(config, [], 'display'), 'file'))
-   disp(['skipping ' config.step.idName ' ' config.step.design.infoString]);
+   disp(['skipping ' config.step.idName ' ' config.step.setting.infoString]);
    return
 end
 
@@ -146,7 +146,7 @@ end
 ticId = tic;
 
 config = expProgress(config);
-[config storeData storeObs] = feval(functionName, config, config.step.design, loadedData);
+[config storeData storeObs] = feval(functionName, config, config.step.setting, loadedData);
 
 if config.showTiming && ~isfield(storeObs, 'time')
     storeObs.time = toc(ticId);

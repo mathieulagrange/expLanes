@@ -62,7 +62,7 @@ if iscell(config.mask)
     end
 end
 
-config.step = expStepDesign(config.factors, config.mask, config.step.id);
+config.step = expStepSetting(config.factors, config.mask, config.step.id);
 config = expReduce(config);
 
 if isempty(config.evaluation) || isempty(config.evaluation.data)
@@ -108,8 +108,8 @@ if p.expand,
     end
     p.expand = find(strcmp(config.step.parameters.names, p.expandName));
     oriStep = config.step;
-    config.step = expStepDesign(config.factors, mask, config.step.id);
-%     config.designs = tv.designs;
+    config.step = expStepSetting(config.factors, mask, config.step.id);
+%     config.settings = tv.settings;
 %     config.sequence = tv.sequence;
           config.step.oriParameters = oriStep.parameters;
 end
@@ -131,9 +131,9 @@ if any(p.percent)
     end
 end
 
-p.title = strrep(p.title, '+', config.step.design.infoStringMask);
+p.title = strrep(p.title, '+', config.step.setting.infoStringMask);
 p.caption = strrep(p.caption, '=', p.title);
-p.caption = strrep(p.caption, '+', config.step.design.infoStringMask);
+p.caption = strrep(p.caption, '+', config.step.setting.infoStringMask);
 p.caption = strrep(p.caption, '_', '\_');
 
 if p.expand
@@ -149,19 +149,19 @@ if p.expand
     p.columnNames = [config.step.parameters.names(data.parameterSelector); p.legendNames]'; % (data.parameterSelector)
     p.methodLabel = config.evaluation.metrics{p.metric};
     p.xName = p.expandName;
-    p.rowNames = config.step.oriParameters.list(data.designSelector, data.parameterSelector);
+    p.rowNames = config.step.oriParameters.list(data.settingSelector, data.parameterSelector);
 else
     p.legendNames = evaluationMetrics;
     p.xName='';
     p.columnNames = [config.step.parameters.names(data.parameterSelector)' evaluationMetrics];
     p.methodLabel = '';
     p.xAxis='';
-    p.rowNames = config.step.parameters.list(data.designSelector, data.parameterSelector);
+    p.rowNames = config.step.parameters.list(data.settingSelector, data.parameterSelector);
 end
 
-for k=1:config.step.nbDesigns
-    d = expDesign(config.step, k);
-    p.labels{k} = strrep(d.infoShortStringMasked, '_', ' '); % (data.designSelector)
+for k=1:config.step.nbSettings
+    d = expSetting(config.step, k);
+    p.labels{k} = strrep(d.infoShortStringMasked, '_', ' '); % (data.settingSelector)
 end
 p.axisLabels = evaluationMetrics;
 

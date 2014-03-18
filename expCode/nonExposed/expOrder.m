@@ -18,7 +18,7 @@ for k=1:length(select)
 end
 vSpec.selectParameters = select;
 
-config.step = expStepDesign(vSpec, config.mask, config.step.id);
+config.step = expStepSetting(vSpec, config.mask, config.step.id);
 
 for k=1:size(vSet, 2)
     for m=1:length(vSet)

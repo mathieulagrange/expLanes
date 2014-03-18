@@ -30,9 +30,9 @@ if nargin<6, level = 1; end
 if config.log >= level
     switch expInfo
         case 1
-            expInfoString = ['performing ' config.stepName{config.step.id} ' step with design ' config.step.design.infoString '.\n'];
+            expInfoString = ['performing ' config.stepName{config.step.id} ' step with setting ' config.step.setting.infoString '.\n'];
         case 2
-            expInfoString = ['performing ' config.stepName{config.step.id} ' step ' mat2str(config.step.design.infoId) ': ' config.step.design.infoString];
+            expInfoString = ['performing ' config.stepName{config.step.id} ' step ' mat2str(config.step.setting.infoId) ': ' config.step.setting.infoString];
         otherwise
             expInfoString = '';
     end

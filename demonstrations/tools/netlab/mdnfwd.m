@@ -5,9 +5,9 @@ function [mixparams, y, z, a] = mdnfwd(net, x)
 %	 MIXPARAMS = MDNFWD(NET, X) takes a mixture density network data
 %	structure NET and a matrix X of input vectors, and forward propagates
 %	the inputs through the network to generate a structure MIXPARAMS
-%	which contains the parameters of several mixture designls.   Each row
+%	which contains the parameters of several mixture settingls.   Each row
 %	of X represents one input vector and the corresponding row of the
-%	matrices in MIXPARAMS  represents the parameters of a mixture designl
+%	matrices in MIXPARAMS  represents the parameters of a mixture settingl
 %	for the conditional probability of target vectors given the input
 %	vector.  This is not represented as an array of GMM structures to
 %	improve the efficiency of MDN training.
@@ -42,13 +42,13 @@ if ~isempty(errstring)
   error(errstring);
 end
 
-% Extract mlp and mixture designl descriptors
+% Extract mlp and mixture settingl descriptors
 mlpnet = net.mlp;
 mixes = net.mdnmixes;
 
-ncentres = mixes.ncentres;	% Number of components in mixture designl
+ncentres = mixes.ncentres;	% Number of components in mixture settingl
 dim_target = mixes.dim_target;	% Dimension of targets
-nparams = mixes.nparams;	% Number of parameters in mixture designl
+nparams = mixes.nparams;	% Number of parameters in mixture settingl
 
 % Propagate forwards through MLP
 [y, z, a] = mlpfwd(mlpnet, x);
@@ -59,7 +59,7 @@ mixcoeff  = [1:1:ncentres];
 centres   = [ncentres+1:1:(ncentres*(1+dim_target))];
 variances = [(ncentres*(1+dim_target)+1):1:nparams];
 
-% Convert output values into mixture designl parameters
+% Convert output values into mixture settingl parameters
 
 % Use softmax to calculate priors
 % Prevent overflow and underflow: use same bounds as glmfwd
@@ -78,7 +78,7 @@ mixcentres =  y(:,(ncentres+1):ncentres*(1+dim_target));
 % Variances are exp of network outputs
 mixwidths = exp(y(:,(ncentres*(1+dim_target)+1):nparams));
 
-% Now build up all the mixture designl weight vectors
+% Now build up all the mixture settingl weight vectors
 ndata = size(x, 1);
 
 % Return parameters

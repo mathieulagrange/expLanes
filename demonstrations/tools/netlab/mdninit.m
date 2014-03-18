@@ -10,9 +10,9 @@ function net = mdninit(net, prior, t, options)
 %	NET = MDNINIT(NET, PRIOR, T, OPTIONS) uses the target data T to
 %	initialise the biases for the output units after initialising the
 %	other weights as above.  It calls GMMINIT, with T and OPTIONS as
-%	arguments, to obtain a designl of the unconditional density of T.  The
+%	arguments, to obtain a settingl of the unconditional density of T.  The
 %	biases are then set so that NET will output the values in the
-%	Gaussian  mixture designl.
+%	Gaussian  mixture settingl.
 %
 %	See also
 %	MDN, MLP, MLPINIT, GMMINIT

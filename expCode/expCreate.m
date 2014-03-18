@@ -144,7 +144,7 @@ copyfile([configPath '/' config.shortProjectName 'ConfigDefault.txt'], [configPa
 
 % create factors file
 fid = fopen([config.codePath '/' config.shortProjectName 'Factors.txt'], 'w');
-fprintf(fid, 'method =1== {''methodOne'', ''methodTwo'', ''methodThree''} % method will be defined for step 1 only \nthreshold =s1:=1/[1 3]= [0:10] % threshold is defined for step 1 and the remaining steps, will be sequenced and valid for the 1st and 3rd value of the 1st parameter (methodOne and methodThree) \n\n%% Designs file for the %s project\n%% Adapt at your convenience\n', config.shortProjectName);
+fprintf(fid, 'method =1== {''methodOne'', ''methodTwo'', ''methodThree''} % method will be defined for step 1 only \nthreshold =s1:=1/[1 3]= [0:10] % threshold is defined for step 1 and the remaining steps, will be sequenced and valid for the 1st and 3rd value of the 1st parameter (methodOne and methodThree) \n\n%% Settings file for the %s project\n%% Adapt at your convenience\n', config.shortProjectName);
 fclose(fid);
 
 
@@ -179,11 +179,11 @@ config.latex = LatexCreator([config.codePath filesep config.projectName '.tex'],
 for k=1:length(stepNames)
     functionName = [shortProjectName num2str(k) stepNames{k}];
     functionString = char({...
-        ['function [config, store, obs] = ' functionName '(config, design, data)'];
+        ['function [config, store, obs] = ' functionName '(config, setting, data)'];
         ['% ' functionName ' ' upper(stepNames{k}) ' step of the expCode project ' projectName];
-        ['%    [config, store, obs] = ' functionName '(config, design, data)'];
+        ['%    [config, store, obs] = ' functionName '(config, setting, data)'];
         '%       config : expCode configuration state';
-        '%       design   : set of factors to be evaluated';
+        '%       setting   : set of factors to be evaluated';
         '%       data   : processing data stored during the previous step';
         '%';
         '%       store  : processing data to be saved for the other steps ';
@@ -195,7 +195,7 @@ for k=1:length(stepNames)
         '% Set behavior for debug mode.';
         ['if nargin==0, ' , projectName '(''step'', ' num2str(k) ', ''mask'', {}); return; end'];
         '';
-        'disp([config.step.idName '' '' design.infoString]);';
+        'disp([config.step.idName '' '' setting.infoString]);';
         '';
         'store=[];';
         'obs=[];';
@@ -203,7 +203,7 @@ for k=1:length(stepNames)
     dlmwrite([config.codePath '/' functionName '.m'], functionString,'delimiter','');
     
     %     fid=fopen([config.codePath '/' functionName '.m'], 'w');
-    %     sprintf('function [config, store, display] = %s(config, design, data)\n\nif nargin==0, %s(''do'', %d, ''mask'', {{}}); return; end\n\n\n\n', );
+    %     sprintf('function [config, store, display] = %s(config, setting, data)\n\nif nargin==0, %s(''do'', %d, ''mask'', {{}}); return; end\n\n\n\n', );
     %     fclose(fid);
 end
 

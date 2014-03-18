@@ -40,7 +40,7 @@ if q_temp ~= ppca_dim
 end
 if q_temp == 0
   % All the latent dimensions have disappeared, so we are
-  % just left with the noise designl
+  % just left with the noise settingl
   var = l(1)/data_dim;
   lambda = var*ones(1, ppca_dim);
 else

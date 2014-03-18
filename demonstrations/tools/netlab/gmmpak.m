@@ -1,5 +1,5 @@
 function p = gmmpak(mix)
-%GMMPAK	Combines all the parameters in a Gaussian mixture designl into one vector.
+%GMMPAK	Combines all the parameters in a Gaussian mixture settingl into one vector.
 %
 %	Description
 %	P = GMMPAK(NET) takes a mixture data structure MIX  and combines the

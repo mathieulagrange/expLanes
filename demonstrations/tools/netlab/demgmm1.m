@@ -40,7 +40,7 @@ disp(' ');
 disp('Press any key to continue.')
 pause; clc;
 
-disp('We next create and initialize a mixture designl consisting of a mixture')
+disp('We next create and initialize a mixture settingl consisting of a mixture')
 disp('of 2 Gaussians having ''spherical'' covariance matrices, using the')
 disp('function GMM. The Gaussian components can be obsed on the same')
 disp('plot as the data by drawing a contour of constant probability density')
@@ -52,18 +52,18 @@ disp('Note that a particulary poor choice of initial parameters has been')
 disp('made in order to illustrate more effectively the operation of the')
 disp('EM algorithm.')
 disp(' ')
-disp('Press any key to see the initial configuration of the mixture designl.')
+disp('Press any key to see the initial configuration of the mixture settingl.')
 pause;
 
-% Set up mixture designl
+% Set up mixture settingl
 ncentres = 2; input_dim = 2;
 mix = gmm(input_dim, ncentres, 'spherical');
 
-% Initialise the mixture designl
+% Initialise the mixture settingl
 mix.centres = [0.2 0.8; 0.8, 0.2];
 mix.covars = [0.01 0.01];
 
-% Plot the initial designl
+% Plot the initial settingl
 ncirc = 30; theta = linspace(0, 2*pi, ncirc);
 xs = cos(theta); ys = sin(theta);
 xvals = mix.centres(:, 1)*ones(1,ncirc) + sqrt(mix.covars')*xs;
@@ -76,7 +76,7 @@ disp(' ')
 disp('Press any key to continue'); 
 pause; clc;
 
-disp('Now we adapt the parameters of the mixture designl iteratively using the')
+disp('Now we adapt the parameters of the mixture settingl iteratively using the')
 disp('EM algorithm. Each cycle of the EM algorithm consists of an E-step')
 disp('followed by an M-step.  We start with the E-step, which involves the')
 disp('evaluation of the posterior probabilities (responsibilities) which the')

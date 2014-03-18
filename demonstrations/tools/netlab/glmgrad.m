@@ -1,8 +1,8 @@
 function [g, gdata, gprior] = glmgrad(net, x, t)
-%GLMGRAD Evaluate gradient of error function for generalized linear designl.
+%GLMGRAD Evaluate gradient of error function for generalized linear settingl.
 %
 %	Description
-%	G = GLMGRAD(NET, X, T) takes a generalized linear designl data
+%	G = GLMGRAD(NET, X, T) takes a generalized linear settingl data
 %	structure NET  together with a matrix X of input vectors and a matrix
 %	T of target vectors, and evaluates the gradient G of the error
 %	function with respect to the network weights. The error function

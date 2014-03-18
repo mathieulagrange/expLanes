@@ -139,8 +139,8 @@ config.suggestedNumberOfCores = Inf;
 config.loadFileInfo.date = {'', ''};
 config.loadFileInfo.dateNum = [Inf, 0];
 
-config.designStatus.success = 0;
-config.designStatus.failed = 0;
+config.settingStatus.success = 0;
+config.settingStatus.failed = 0;
 
 function config = commandLine(config, v)
 

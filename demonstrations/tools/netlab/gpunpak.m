@@ -4,7 +4,7 @@ function net = gpunpak(net, hp)
 %	Description
 %	NET = GPUNPAK(NET, HP) takes an Gaussian Process data structure NET
 %	and  a hyperparameter vector HP, and returns a Gaussian Process data
-%	structure  identical to the input designl, except that the covariance
+%	structure  identical to the input settingl, except that the covariance
 %	bias BIAS, output noise NOISE, the input weight vector INWEIGHTS and
 %	the vector of covariance function specific parameters  FPAR have all
 %	been set to the corresponding elements of HP.

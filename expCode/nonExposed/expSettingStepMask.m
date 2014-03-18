@@ -1,4 +1,4 @@
-function mask = expDesignStep(vSpec, mask, currentStep)
+function mask = expSettingStepMask(vSpec, mask, currentStep)
 
 % complete mask according to currentStep
 for k=1:length(vSpec.step)

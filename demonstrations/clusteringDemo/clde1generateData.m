@@ -1,8 +1,8 @@
-function [config, store, obs] = clde1generateData(config, design, data)
+function [config, store, obs] = clde1generateData(config, setting, data)
 % clde1generateData GENERATEDATA step of the expCode project clusteringDemo
-%    [config, store, obs] = clde1generateData(config, design, data)
+%    [config, store, obs] = clde1generateData(config, setting, data)
 %       config : expCode configuration state
-%       design: current set of parameters
+%       setting: current set of parameters
 %       data   : processing data stored during the previous step
 %
 %       store  : processing data to be saved for the other steps
@@ -16,13 +16,13 @@ if nargin==0, clusteringDemo('do', 1, 'mask', {{0 0 0 3}}); return; end
 store=[];
 obs=[];
 
-switch design.dataType
+switch setting.dataType
     case 'spherical'
         bandwidth = 0.1;
-        data = zeros([design.nbClasses*design.nbElementsPerClass, 2]);
+        data = zeros([setting.nbClasses*setting.nbElementsPerClass, 2]);
         idx = 1;
-        for k = 1 : design.nbClasses
-            for n = 1 : design.nbElementsPerClass
+        for k = 1 : setting.nbClasses
+            for n = 1 : setting.nbElementsPerClass
                 theta = 2 * pi * rand;
                 rho = k + randn(1) * bandwidth;
                 [x, y] = pol2cart(theta, rho);
@@ -32,25 +32,25 @@ switch design.dataType
         end
     case 'spiral'
         bandwidth = 0.1;
-        data = zeros([design.nbElementsPerClass, 2]);
-        for k = 1 : design.nbElementsPerClass
-            w = k / design.nbElementsPerClass;
+        data = zeros([setting.nbElementsPerClass, 2]);
+        for k = 1 : setting.nbElementsPerClass
+            w = k / setting.nbElementsPerClass;
             data(k,1) = (4 * w + 1) * cos(2 * pi * w) + randn(1) * bandwidth;
             data(k,2) = (4 * w + 1) * sin(2 * pi * w) + randn(1) * bandwidth;
         end
         data = [data; -data];
-        design.nbClasses = 2;
+        setting.nbClasses = 2;
     case 'gaussian'
         data = [];
         class = [];
-        for m=1:design.nbClasses
-            data = [data; repmat(m*2.5, design.nbElementsPerClass, 2)+randn(design.nbElementsPerClass, 2)];
+        for m=1:setting.nbClasses
+            data = [data; repmat(m*2.5, setting.nbElementsPerClass, 2)+randn(setting.nbElementsPerClass, 2)];
         end
 end
 
 class = [];
-for k = 1 : design.nbClasses
-    class = [class; k*ones(design.nbElementsPerClass, 1)];
+for k = 1 : setting.nbClasses
+    class = [class; k*ones(setting.nbElementsPerClass, 1)];
 end
 
 store.samples = data;

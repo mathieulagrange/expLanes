@@ -3,13 +3,13 @@ function [post, a] = mdnpost(mixparams, t)
 %
 %	Description
 %	POST = MDNPOST(MIXPARAMS, T) computes the posterior probability
-%	P(J|T) of each data vector in T under the Gaussian mixture designl
+%	P(J|T) of each data vector in T under the Gaussian mixture settingl
 %	represented by the corresponding entries in MIXPARAMS. Each row of T
 %	represents a single vector.
 %
 %	[POST, A] = MDNPOST(MIXPARAMS, T) also computes the activations A
 %	(i.e. the probability P(T|J) of the data conditioned on each
-%	component density) for a Gaussian mixture designl.
+%	component density) for a Gaussian mixture settingl.
 %
 %	See also
 %	MDNGRAD, MDNPROB

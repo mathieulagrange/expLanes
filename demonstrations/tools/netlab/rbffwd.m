@@ -11,7 +11,7 @@ function [a, z, n2] = rbffwd(net, x)
 %
 %	[A, Z, N2] = RBFFWD(NET, X) also generates a matrix Z of the hidden
 %	unit activations where each row corresponds to one pattern. These
-%	hidden unit activations represent the design matrix for the RBF.  The
+%	hidden unit activations represent the setting matrix for the RBF.  The
 %	matrix N2 is the squared distances between each basis function centre
 %	and each pattern in which each row corresponds to a data point.
 %

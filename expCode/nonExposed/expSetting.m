@@ -1,4 +1,4 @@
-function design = expDesign(step, k)
+function setting = expSetting(step, k)
 
 vSpec = step.specifications;
 vSet =  step.set;
@@ -48,20 +48,20 @@ end
 
 for m=1:size(vSet, 1)
     if vSet(m, k)
-        design.(vSpec.names{m})  = vSpec.values{m}{vSet(m, k)};
+        setting.(vSpec.names{m})  = vSpec.values{m}{vSet(m, k)};
     else
-        design.(vSpec.names{m})  = NaN;
+        setting.(vSpec.names{m})  = NaN;
     end
 end
 
 
 [null, parameterOrder] = sort(mNames);
-design.id = k;
+setting.id = k;
 f = t(parameterOrder(filter));
 if ~isempty(f)
     f(2, :) = {', '}; f(2, end) = {''};
 end
-design.infoString = [f{:}];
+setting.infoString = [f{:}];
 
 f = st(parameterOrder(filter));
 if ~isempty(skipIndex)
@@ -71,22 +71,22 @@ end
 if ~isempty(f)
     f(2, :) = {'_'}; f(2, end) = {''};
 end
-design.infoShortString = [f{:}];
+setting.infoShortString = [f{:}];
 
 f = t(prunedFilterMask);
-design.infoStringMasked = [f{:}];
+setting.infoStringMasked = [f{:}];
 
 f = st(prunedFilterMask);
 if ~isempty(f)
     f(2, :) = {'_'}; f(2, end) = {''};
 end
-design.infoShortStringMasked = [f{:}];
+setting.infoShortStringMasked = [f{:}];
 
 
-design.infoStringMask = maskFilter.maskInfo(1:end-2);
+setting.infoStringMask = maskFilter.maskInfo(1:end-2);
 
 f = vSpec.names(filterMask).';
 f(2, :) = {', '}; f(2, end) = {''};
-design.infoStringFactors = [f{:}];
-design.infoShortNames = vSpec.shortNames(maskFilter.invFilterMask);
-design.infoId = vSet(:, k)';
+setting.infoStringFactors = [f{:}];
+setting.infoShortNames = vSpec.shortNames(maskFilter.invFilterMask);
+setting.infoId = vSet(:, k)';

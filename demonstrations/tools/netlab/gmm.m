@@ -1,10 +1,10 @@
 function mix = gmm(dim, ncentres, covar_type, ppca_dim)
-%GMM	Creates a Gaussian mixture designl with specified architecture.
+%GMM	Creates a Gaussian mixture settingl with specified architecture.
 %
 %	Description
 %	 MIX = GMM(DIM, NCENTRES, COVARTYPE) takes the dimension of the space
-%	DIM, the number of centres in the mixture designl and the type of the
-%	mixture designl, and returns a data structure MIX. The mixture designl
+%	DIM, the number of centres in the mixture settingl and the type of the
+%	mixture settingl, and returns a data structure MIX. The mixture settingl
 %	type defines the covariance structure of each component  Gaussian:
 %	  'spherical' = single variance parameter for each component: stored as a vector
 %	  'diag' = diagonal matrix for each component: stored as rows of a matrix
@@ -26,7 +26,7 @@ function mix = gmm(dim, ncentres, covar_type, ppca_dim)
 %	  type = 'gmm'
 %	  nin = the dimension of the space
 %	  ncentres = number of mixture components
-%	  covartype = string for type of variance designl
+%	  covartype = string for type of variance settingl
 %	  priors = mixing coefficients
 %	  centres = means of Gaussians: stored as rows of a matrix
 %	  covars = covariances of Gaussians

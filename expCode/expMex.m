@@ -15,14 +15,14 @@ if  ~exist(toolName, 'file')
     force=1;
 else
     toolFile = dir(toolName);
-    toolDesignDate = toolFile(1).datenum;
+    toolSettingDate = toolFile(1).datenum;
     codeFiles = [dir('*h'); dir('*.cpp'); dir('*.c'); dir('*.c++')];
     if isempty(codeFiles)
         codeModDate = 0;
     else
         codeModDate = max([codeFiles.datenum]);
     end
-    if codeModDate>toolDesignDate
+    if codeModDate>toolSettingDate
         force = 1;
     end
 end

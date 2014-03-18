@@ -7,9 +7,9 @@ function net = gtm(dim_latent, nlatent, dim_data, ncentres, rbfunc, ...
 %	NET = GTM(DIMLATENT, NLATENT, DIMDATA, NCENTRES, RBFUNC), takes the
 %	dimension of the latent space DIMLATENT, the number of data points
 %	sampled in the latent space NLATENT, the dimension of the data space
-%	DIMDATA, the number of centres in the RBF designl NCENTRES, the
+%	DIMDATA, the number of centres in the RBF settingl NCENTRES, the
 %	activation function for the RBF RBFUNC and returns a data structure
-%	NET. The parameters in the RBF and GMM sub-designls are set by calls to
+%	NET. The parameters in the RBF and GMM sub-settingls are set by calls to
 %	the corresponding creation routines RBF and GMM.
 %
 %	The fields in NET are
@@ -21,7 +21,7 @@ function net = gtm(dim_latent, nlatent, dim_data, ncentres, rbfunc, ...
 %	  X = sample of latent points
 %
 %	NET = GTM(DIMLATENT, NLATENT, DIMDATA, NCENTRES, RBFUNC, PRIOR),
-%	sets a Gaussian zero mean prior on the parameters of the RBF designl.
+%	sets a Gaussian zero mean prior on the parameters of the RBF settingl.
 %	PRIOR must be a scalar and represents the inverse variance of the
 %	prior distribution.  This gives rise to a weight decay term in the
 %	error function.
@@ -54,7 +54,7 @@ net.rbfnet = rbf(dim_latent, ncentres, dim_data, rbfunc, ...
 % Mask all but output weights
 net.rbfnet.mask = rbfprior(rbfunc, dim_latent, ncentres, dim_data);
 
-% Create field for GMM output designl
+% Create field for GMM output settingl
 net.gmmnet = gmm(dim_data, nlatent, 'spherical');
 
 % Create empty latent data sample
