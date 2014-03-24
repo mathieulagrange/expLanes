@@ -1,4 +1,4 @@
-function [settingSpec] = expSettingParse(fileName)
+function [settingSpec] = expFactorParse(fileName)
 
 fid =fopen(fileName);
 C = textscan(fid,'%s%s%s%s', 'commentstyle', '%', 'delimiter', '=');
@@ -77,6 +77,8 @@ for k=1:size(values, 2)
         %         shortValues{k} = shortValues(k);
     end
 end
+
+
 
 settingSpec.values = values;
 settingSpec.stringValues = stringValues;

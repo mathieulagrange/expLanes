@@ -1,6 +1,6 @@
 function config = expHistory(projectPath, shortProjectName, commands)
 
-if length(commands)<1,
+if length(commands)<1, % default config
     config = expConfig(projectPath, shortProjectName, commands);
     showSettings(config.factorFileName);
     fprintf('---------------------------\nHistory: \n');
@@ -22,7 +22,7 @@ if length(commands)<1,
     else
         config = expConfig(projectPath, shortProjectName);
     end
-elseif length(commands)>1 % || isstruct(varargin{1})
+elseif length(commands)>1 % command line processing
     config = expConfig(projectPath, shortProjectName, commands);
 elseif isnumeric(commands{1})
     config = expConfig(projectPath, shortProjectName, {});
@@ -43,7 +43,7 @@ elseif isnumeric(commands{1})
     else
         error('Command not found');
     end
-elseif isstruct(commands{1})
+elseif isstruct(commands{1}) % server mode
     config = commands{1};
 elseif ischar(commands{1})
     switch commands{1}

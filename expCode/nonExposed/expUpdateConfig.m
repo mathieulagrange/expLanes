@@ -17,9 +17,9 @@ if ~isempty(newNames)
     end
     disp('');
     layout = 0;
-    if inputQuestion('Do you want to update your config with your original layout ?')
+    if inputQuestion(['Do you want to update ' configFileName ' with your original layout ?'])
         layout = 1;
-    elseif inputQuestion('Do you want to update your config with your expCode layout ?')
+    elseif inputQuestion(['Do you want to update ' configFileName ' with the expCode layout ?'])
         layout = 2;
     end
     if layout

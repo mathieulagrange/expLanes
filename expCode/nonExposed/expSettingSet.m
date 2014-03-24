@@ -23,7 +23,7 @@ elseif length(mask)<length(vSpec.names)
     mask = [mask num2cell(zeros(1, length(vSpec.names)-length(mask)))];
 end
 
-mask = expSettingStep(vSpec, mask, currentStep);
+mask = expSettingStepMask(vSpec, mask, currentStep);
 
 mask = expSelectParameters(vSpec, {mask});
 

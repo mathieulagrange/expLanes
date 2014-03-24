@@ -48,8 +48,8 @@ parallel  = 0
 mask  = {{}}
 % cell array of couples of string and array, if the string is parsed in a mask definition it gets replaced by the specified array
 maskPatch  = {}
-% set a experiment plan: assume cell array of {[factors as numericIds], number of values per factor (0 complete set of values), type of plan as string 'f' (factorial) or 'o' (one parameter at a time), [seed as a vector of index of factor]}
-plan  = 
+% set a experiment design: assume cell array of {[factors as numericIds], number of values per factor (0 complete set of values), type of plan as string 'f' (factorial) or 'o' (one parameter at a time), [seed as a vector of index of factor]}
+design =
 % dummy mode
 dummy  = 0
 % set the random seed at init for replicability
@@ -69,8 +69,8 @@ progress  = 1
 
 % attempt to retrieve needed data server side
 retrieve  = 0
-% naming convention for files: long (long naming), short (short naming), hash (hash based naming)
-namingConventionForFiles = hash
+% naming convention for files: long (long naming as default), short (short naming), hash (hash based naming)
+namingConventionForFiles  = hash
 % sync data across machines:
 sync  = {}
 % generate bundle of code and/or data
@@ -103,6 +103,8 @@ message  = default
 pdfViewer  = 
 % threshold for statistical significance testing
 significanceThreshold  = 0.05
+% show the factors graph in the report
+showFactorsInReport = 1
 
 
 %% MISC

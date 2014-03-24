@@ -40,6 +40,25 @@ end
 config.factorFileName = [projectPath filesep config.shortProjectName 'Factors.txt'];
 config.factors = expFactorParse(config.factorFileName);
 
+% checking maximal length of data files
+fileLength = 0;
+switch config.namingConventionForFiles
+    case 'long'
+        fileLength = sum(cellfun(@length, config.factors.names)+1);
+        for k=1:length(config.factors.stringValues)
+            valueLength(k) = max(cellfun(@length, config.factors.stringValues{k}));
+        end
+        fileLength = fileLength+sum(valueLength+1);
+    case 'short'
+        fileLength = sum(cellfun(@length, config.factors.shortNames)+1);
+        for k=1:length(config.factors.shortValues)
+            valueLength(k) = max(cellfun(@length, config.factors.shortValues{k}));
+        end
+        fileLength = fileLength+sum(valueLength+1);
+end
+if fileLength && fileLength>512
+   warning('Following your factors definition, the longer data file name may exceed the possible range of the file system (512). Please consider using the hash based naming convention.') 
+end
 
 if nargin>2,
     configOri = config;
@@ -63,7 +82,7 @@ if iscell(config.mask)
     end
 end
 
-config = expPlan(config);
+config = expDesign(config);
 
 if nargin<1 || config.host < 1
     hostIndex = find(strcmp(config.machineNames, config.hostName));
@@ -86,7 +105,7 @@ end
 config.runId = staticData.runId;
 if config.host>0
     runId = config.runId+1; %#ok<NASGU>
-    save(config.staticMatName, 'runId', '-append');
+    save(config.staticDataFileName, 'runId', '-append');
     config.runId = runId;
 end
 % end
@@ -95,12 +114,16 @@ if isfield(staticData, 'waitbarId') && isobject(staticData.waitbarId)
 end
 config.waitBar = [];
 config.progressId = 0;
-
+config.displayData.prompt = [];
 
 config = expandPath(config, hostIndex, projectPath);
 
 config.configMatName = [config.codePath 'config/' config.shortProjectName 'Config' config.userName '_' num2str(config.runId) '.mat'];
 config.reportPath = [config.codePath 'report/'];
+
+if ~exist(config.reportPath, 'dir')
+    mkdir(config.reportPath);
+end
 
 config.stepName = expStepName(config.projectPath, config.shortProjectName);
 

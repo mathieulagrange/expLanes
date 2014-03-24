@@ -193,7 +193,7 @@ for k=1:length(stepNames)
         ['% Date ' date()];
         '';
         '% Set behavior for debug mode.';
-        ['if nargin==0, ' , projectName '(''step'', ' num2str(k) ', ''mask'', {}); return; end'];
+        ['if nargin==0, ' , projectName '(''do'', ' num2str(k) ', ''mask'', {}); return; end'];
         '';
         'disp([config.step.idName '' '' setting.infoString]);';
         '';

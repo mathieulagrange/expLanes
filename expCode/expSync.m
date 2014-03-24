@@ -95,7 +95,7 @@ for k=1:length(tokens)
             case 'i'
                 dataBaseSettingIndex = find(strcmp(config.factors.names, 'dataBase'));
                 if ~isempty(dataBaseSettingIndex)
-                    dataBases = config.settingValues{dataBaseSettingIndex};
+                    dataBases = config.factors.values{dataBaseSettingIndex};
                     for k=1:length(dataBases)
                         syncDirectory(config, serverConfig, 'input', delete, detach, dataBases{k});
                     end

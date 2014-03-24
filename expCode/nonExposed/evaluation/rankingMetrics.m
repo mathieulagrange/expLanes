@@ -1,4 +1,4 @@
-function res = rankingMetrics(prediction, labels, rank, filter, short)
+function res = rankingMetrics(prediction, labels, rank, filter, short, small, average)
 
 % prediction is supposed to be small for components that are close
 % rank is the maximal rank for computing the metrics, e.g. for 5-precision,
@@ -9,7 +9,7 @@ function res = rankingMetrics(prediction, labels, rank, filter, short)
 % on hubs and orphans Aucouturier Jasa
 % on reversibility Jegou Pami
 
-if ~exist('rank', 'var'), rank=5; end
+if ~exist('rank', 'var') || isempty(rank), rank=5; end
 if nargin<1
     labels = repmat((1:3), rank+1, 1);
     labels=labels(:);
@@ -24,9 +24,12 @@ if nargin<1
     imagesc(prediction);
 end
 if ~exist('filter', 'var') || isempty(filter), filter=1:length(labels); end
-if ~exist('short', 'var'), short = 0; end
+if ~exist('short', 'var') || isempty(short), short = 0; end
+if ~exist('small', 'var') || isempty(small), small = 0; end
+if ~exist('average', 'var') || isempty(short), average = 1; end
 
 labels=labels(:);
+if isvector(prediction), prediction = squareform(prediction); end
 nbElts = size(prediction, 1);
 
 % sort predictions
@@ -59,72 +62,86 @@ for k=1:nbElts
     end
 end
 % average number of correct answers at rank
-res.(['precisionAt' num2str(rank)]) = mean(n, 2);
+res.(['precisionAt' num2str(rank)]) = n';%mean(n, 2);
 %
-res.meanAveragePrecision = mean(v(:, 1));
+res.meanAveragePrecision = v(:, 1);
 % inverse of the rank of the first correct answer
-res.meanReciprocalRank = mean(v(:, 2));
+res.meanReciprocalRank = v(:, 2);
 % ratio between the number of correct answer at rank and the number of
 % correct answers
-res.(['recallAt' num2str(rank)]) = mean(v(:, 3));
+res.(['recallAt' num2str(rank)]) = v(:, 3);
 
-m=zeros(1, nbElts);
-for k=1:nbElts
-    % number of elements per cluster
-    nbc = sum(labels==labels(k));
-    % number of closest elts which are within the cluster
-    nbk = find((labels(si(:, k))==labels(k)), 1, 'last');
-    m(k) =  nbc / nbk;
-end
-% number of elements of the shortest ranked list that contains every
-% elements of the class of the query
-res.precisionAtCompleteRecall = mean(m);
-
-
-VI=si(2:min(rank+1, size(si, 1)), :);
-vI = VI(:);
-v = sort(hist(vI, (1:nbElts)));
-% orphean
-res.orpheanRatio = (nbElts-length(unique(vI)))/nbElts;
-% hub
-res.hubRatio = max(v)/nbElts;
-
-% % consistency
-% for k=1:nb
-%     % number of elements per cluster
-%     nbc = sum(labels==labels(k));
-%     % number of closest elts which are within the cluster
-%     nbk = sum(labels(si(1:nbc, k))==labels(k));
-%     m(k) =  nbk / nbc;
-% end
-%
-% e(8) = mean(m);
-
-% reversibility rate: for each query, count the number of neighbors which
-% have the query as neighbor
-rev=0;
-for k=1:nbElts
-    for l=2:rank+1
-        if sum(si(2:rank+1, si(l, k))==k)
-            rev=rev+1;
-        else
-            disp('');
+if ~small
+    m=zeros(1, nbElts);
+    for k=1:nbElts
+        % number of elements per cluster
+        nbc = sum(labels==labels(k));
+        % number of closest elts which are within the cluster
+        nbk = find((labels(si(:, k))==labels(k)), 1, 'last');
+        m(k) =  nbc / nbk;
+    end
+    % number of elements of the shortest ranked list that contains every
+    % elements of the class of the query
+    res.precisionAtCompleteRecall = m;
+    
+    
+    VI=si(2:min(rank+1, size(si, 1)), :);
+    vI = VI(:);
+    v = sort(hist(vI, (1:nbElts)));
+    % orphean
+    res.orpheanRatio = (nbElts-length(unique(vI)))/nbElts;
+    % hub
+    res.hubRatio = max(v)/nbElts;
+    
+    % % consistency
+    % for k=1:nb
+    %     % number of elements per cluster
+    %     nbc = sum(labels==labels(k));
+    %     % number of closest elts which are within the cluster
+    %     nbk = sum(labels(si(1:nbc, k))==labels(k));
+    %     m(k) =  nbk / nbc;
+    % end
+    %
+    % e(8) = mean(m);
+    
+    % reversibility rate: for each query, count the number of neighbors which
+    % have the query as neighbor
+    rev=0;
+    for k=1:nbElts
+        for l=2:rank+1
+            if sum(si(2:rank+1, si(l, k))==k)
+                rev=rev+1;
+            else
+                disp('');
+            end
         end
     end
+    res.reversibilityRate=rev/(nbElts*rank);
+    res.rank = rank;
 end
-res.reversibilityRate=rev/(nbElts*rank);
-res.rank = rank;
 
 if short
     r.(['pAt' num2str(rank)]) = res.(['precisionAt' num2str(rank)]);
-    r.pAtR = res.precisionAtCompleteRecall;
     r.map = res.meanAveragePrecision;
     r.mrr = res.meanReciprocalRank;
     r.(['rAt' num2str(rank)]) = res.(['recallAt' num2str(rank)]);
-    r.o = res.orpheanRatio;
-    r.hub = res.hubRatio;
-    r.rev = res.reversibilityRate;
+    if ~small
+        r.pAtR = res.precisionAtCompleteRecall;
+        
+        r.o = res.orpheanRatio;
+        r.hub = res.hubRatio;
+        r.rev = res.reversibilityRate;
+    end
     res = r ;
 end
+
+if average
+    names = fieldnames(res);
+    for k=1:length(names)
+        res.(names{k})  = mean(res.(names{k}));
+    end
+end
+
+
 
 

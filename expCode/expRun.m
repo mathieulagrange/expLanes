@@ -9,6 +9,9 @@ config.errorDataFileName = {};
 if exist(config.logFileName, 'file')
     delete(config.logFileName);
 end
+if ~exist(config.reportPath, 'dir')
+    mkdir(config.reportPath);
+end
 
 config.logFile = fopen([config.reportPath 'config.txt'], 'w');
 fprintf(config.logFile, '\n%s\n', evalc('disp(config)'));
@@ -91,6 +94,7 @@ if isfield(config, 'serverConfig')
     matConfig = config.serverConfig;
     matConfig.host = -1;
     matConfig.runInfo = config.runInfo;
+    matConfig.staticDataFileName = [config.serverConfig.codePath '/config' filesep shortProjectName];
     matConfig.sync = [];
     %     matConfig.obs = -1;
     %     if matConfig.report==1
@@ -112,13 +116,13 @@ if isfield(config, 'serverConfig')
         matConfig.localDependencies = 0;
         expConfigMatSave(config.configMatName, matConfig);
         % genpath dependencies ; addpath(ans);
-        command = ['screen -m -d ' config.matlabPath 'matlab -nodesktop -nosplash -r  "cd ' config.serverConfig.codePath ' ; load ' config.serverConfig.configMatName '; ' config.projectName '(config);"']; % replace -d by -t in ssh for verbosity
+        command = ['screen  -m -d ' config.matlabPath 'matlab -nodesktop -nosplash -r  "cd ' config.serverConfig.codePath ' ; load ' config.serverConfig.configMatName '; ' config.projectName '(config);"']; % replace -d by -t in ssh for verbosity
     end
     
     % if runnning with issues with ssh connection run ssh with -v and check
-    % that the LC_MESSAGES and LANG encoding are available on the server
+    % that the LC_MESSAGES and LANG encoding are available on the server (locale -a)
     % if not edit /var/lib/locales/supported.d/local to put the needed ones
-    % and run sudo dpkg-reconfigure locales
+    % and run sudo dpkg-reconfigure locales or locales-gen
     
     system(command);
     fprintf('\nExperiment launched.\n');
