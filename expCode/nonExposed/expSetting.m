@@ -75,9 +75,12 @@ end
 setting.infoShortString = [f{:}];
 
 f = t(prunedFilterMask);
+if ~isempty(f)
+    f(2, :) = {', '}; f(2, end) = {''};
+end
 setting.infoStringMasked = [f{:}];
 
-f = st(prunedFilterMask);
+f = st(prunedFilterMask); % TODO should output something
 if ~isempty(f)
     f(2, :) = {'_'}; f(2, end) = {''};
 end

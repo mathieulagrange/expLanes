@@ -8,6 +8,7 @@ data = config.evaluation.results;
 settingSelector = 1:config.step.nbSettings;
 
 if  p.expand ~= 0 % TODO allow expand with mutiple metrics
+    % TODO allow for irregular number of settings per expanded item
     if length(config.evaluation.metrics)==1
         p.metric=1;
     end
@@ -20,16 +21,19 @@ if  p.expand ~= 0 % TODO allow expand with mutiple metrics
         % use one parameter to rearrange data
         pList = config.step.oriParameters.list(:, p.expand);
         nExpand = length(config.step.oriParameters.values{p.expand});
-        settingSelector = (1:length(pList));
+%         settingSelector = (1:length(pList));
         % sort
         [null, idx] = sort(pList);
-        settingSelector = settingSelector(idx);
+%         settingSelector = settingSelector(idx);
         % cut
         fData = fData(idx, :, :);
         fSize = size(fData, 1)/nExpand;
-        settingSelector = settingSelector(1:fSize);
+%         settingSelector = settingSelector(1:fSize);
         % reshape
         fData = reshape(fData, fSize, nExpand, size(fData, 3));
+        if p.integrate
+           fData = nanmean(fData, 2); 
+        end
     end
 elseif p.metric>0
     fData = data(:, p.metric, :);
@@ -92,9 +96,9 @@ for k=1:length(config.step.parameters.names)
         parameterSelector(end+1) = k;
     end
 end
-if  p.expand ~= 0;
-    parameterSelector(parameterSelector==p.expand)=[];
-end
+% if  p.expand ~= 0;
+%     parameterSelector(parameterSelector==p.expand)=[];
+% end
 
 dataDisplay.rawData = data;
 dataDisplay.filteredData = squeeze(fData);

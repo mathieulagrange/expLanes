@@ -25,6 +25,7 @@ p.save=0;
 p.report=1;
 p.percent=0;
 p.legend=1;
+p.integrate=0;
 
 pNames = fieldnames(p);
 % overwrite default parameters with command line ones
@@ -91,6 +92,14 @@ end
 if ~isempty(p.order),
     config = expOrder(config, p.order);
 end
+
+if p.integrate && p.expand
+   error('Cannot use intergate and expand at the same time.'); 
+end
+if p.integrate
+    p.expand = p.integrate;
+end
+
 if p.expand,
     if ~isnumeric(p.expand)
         p.expand = find(strcmp(config.factors.names, p.expand));
@@ -131,13 +140,17 @@ if any(p.percent)
     end
 end
 
-p.title = strrep(p.title, '+', config.step.setting.infoStringMask);
+p.title = strrep(p.title, '+', config.step.setting.infoStringMask); % TODO not meaningful anymore
 p.caption = strrep(p.caption, '=', p.title);
 p.caption = strrep(p.caption, '+', config.step.setting.infoStringMask);
 p.caption = strrep(p.caption, '_', '\_');
 
+p.legendNames = evaluationMetrics;
+    
 if p.expand
-    p.legendNames = config.step.oriParameters.values{p.expand};
+    if ~p.integrate
+        p.legendNames = config.step.oriParameters.values{p.expand};
+    end
     if ~ischar(p.legendNames)
         if isnumeric(p.legendNames{1})
             p.xAxis = cell2mat(config.step.parameters.set{p.expand});
@@ -147,17 +160,19 @@ if p.expand
         p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
     end
     p.columnNames = [config.step.parameters.names(data.parameterSelector); p.legendNames]'; % (data.parameterSelector)
+   % p.columnNames = [config.step.parameters.names; p.legendNames]'; % (data.parameterSelector)
     p.methodLabel = config.evaluation.metrics{p.metric};
     p.xName = p.expandName;
-    p.rowNames = config.step.oriParameters.list(data.settingSelector, data.parameterSelector);
+    p.rowNames = config.step.parameters.list(data.settingSelector, data.parameterSelector); %config.step.oriParameters.list(data.settingSelector, data.parameterSelector);
 else
-    p.legendNames = evaluationMetrics;
     p.xName='';
     p.columnNames = [config.step.parameters.names(data.parameterSelector)' evaluationMetrics];
     p.methodLabel = '';
     p.xAxis='';
     p.rowNames = config.step.parameters.list(data.settingSelector, data.parameterSelector);
 end
+
+
 
 for k=1:config.step.nbSettings
     d = expSetting(config.step, k);
