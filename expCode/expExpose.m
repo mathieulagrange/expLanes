@@ -93,37 +93,21 @@ if ~isempty(p.order),
     config = expOrder(config, p.order);
 end
 
-if p.integrate && p.expand
+if any(p.integrate) && p.expand
    error('Cannot use intergate and expand at the same time.'); 
    % TODO integrate shall be done by summing over same plist values (allow for irregular entries)
 end
-if p.integrate
-    p.expand = p.integrate;
-end
+% if p.integrate
+%     p.expand = p.integrate;
+% end
 
 if p.expand,
-    if ~isnumeric(p.expand)
-        p.expand = find(strcmp(config.factors.names, p.expand));
-        if isempty(p.expand)
-            error('Unable to find expand parameter.');
-        end
-    end
-    p.expandName = config.factors.names{p.expand};
-    mask = config.mask;
-    for k=1:length(mask)
-        if sum(size(mask{k}))<p.expand
-            mask{k} = [mask{k} num2cell(zeros(1,  p.expand-length(mask{k})))];
-        end
-        mask{k}{p.expand} = -1;
-    end
-    p.expand = find(strcmp(config.step.parameters.names, p.expandName));
-    oriStep = config.step;
-    config.step = expStepSetting(config.factors, mask, config.step.id);
-%     config.settings = tv.settings;
-%     config.sequence = tv.sequence;
-          config.step.oriParameters = oriStep.parameters;
+ [config p.expand p.expandName] = expModifyExposition(config, p.expand);
 end
 
+if p.integrate,
+ [config p.integrate p.integrateName] = expModifyExposition(config, p.integrate);
+end
 
 if ~p.sort && isfield(config, 'sortDisplay')
     p.sort = config.sortDisplay;
@@ -148,7 +132,7 @@ p.caption = strrep(p.caption, '_', '\_');
 
 p.legendNames = evaluationMetrics;
     
-if p.expand
+if p.expand || any(p.integrate)
     if ~p.integrate
         p.legendNames = config.step.oriParameters.values{p.expand};
     end
@@ -163,7 +147,11 @@ if p.expand
     p.columnNames = [config.step.parameters.names(data.parameterSelector); p.legendNames]'; % (data.parameterSelector)
    % p.columnNames = [config.step.parameters.names; p.legendNames]'; % (data.parameterSelector)
     p.methodLabel = config.evaluation.metrics{p.metric};
+if p.expand
     p.xName = p.expandName;
+else
+     p.xName = p.integrateName;
+end
     p.rowNames = config.step.parameters.list(data.settingSelector, data.parameterSelector); %config.step.oriParameters.list(data.settingSelector, data.parameterSelector);
 else
     p.xName='';

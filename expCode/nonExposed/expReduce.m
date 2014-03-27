@@ -77,6 +77,7 @@ for k=1:size(results, 2)
         end
     end
 end
+results = data;
 
 if isempty(structMetrics)
     structResults = [];

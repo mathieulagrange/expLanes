@@ -7,7 +7,6 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % TODO expCreate diamond ??
 % TODO 'host' 1 on  linux -> matlab path ?
 % TODO symbolic link to data, issue with rsync and issues with path generation ?
-% TODO fix factor selector (too much NaNs)
 % TODO renaming .mat function when adding factor
 % TODO convert disp by expLog
 
