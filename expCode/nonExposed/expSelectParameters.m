@@ -64,7 +64,11 @@ if ~isempty(factors.selectParameters)
     end
     
     rec=rec+1;
-    mask= expSelectParameters(factors, mask, mode, rec);
+    m={};
+    for k=1:length(mask)
+        m = [m expSelectParameters(factors, mask(k), mode, rec)];
+    end
+    mask = m;
 end
 
 function v = isMyEqual(m1, m2)

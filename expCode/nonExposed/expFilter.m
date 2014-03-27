@@ -21,18 +21,19 @@ if  p.expand ~= 0 % TODO allow expand with mutiple metrics
         % use one parameter to rearrange data
         pList = config.step.oriParameters.list(:, p.expand);
         nExpand = length(config.step.oriParameters.values{p.expand});
-%         settingSelector = (1:length(pList));
+        %         settingSelector = (1:length(pList));
         % sort
         [null, idx] = sort(pList);
-%         settingSelector = settingSelector(idx);
+        %         settingSelector = settingSelector(idx);
         % cut
         fData = fData(idx, :, :);
         fSize = size(fData, 1)/nExpand;
-%         settingSelector = settingSelector(1:fSize);
+        %         settingSelector = settingSelector(1:fSize);
         % reshape
-        fData = reshape(fData, fSize, nExpand, size(fData, 3));
         if p.integrate
-           fData = nanmean(fData, 2); 
+            fData = reshape(fData, fSize, 1, nExpand*size(fData, 3));            
+        else
+            fData = reshape(fData, fSize, nExpand, size(fData, 3));
         end
     end
 elseif p.metric>0

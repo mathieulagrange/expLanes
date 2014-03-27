@@ -144,7 +144,7 @@ try
         %         else
         %             config.load.('input') = [config.load.('input') loadData];
         %         end
-        
+%         loadData.setting
         if isempty(config.load)
             if inputId
                 config.load=[];

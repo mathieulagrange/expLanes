@@ -95,6 +95,7 @@ end
 
 if p.integrate && p.expand
    error('Cannot use intergate and expand at the same time.'); 
+   % TODO integrate shall be done by summing over same plist values (allow for irregular entries)
 end
 if p.integrate
     p.expand = p.integrate;
