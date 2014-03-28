@@ -4,36 +4,26 @@ function dataDisplay = expFilter(config, p)
 data = config.evaluation.results;
 metrics = config.evaluation.metrics;
 
-% fData = data;
 settingSelector = 1:config.step.nbSettings;
 
-if  p.expand ~= 0 % TODO allow expand with mutiple metrics
-    % TODO allow for irregular number of settings per expanded item
+if  p.expand ~= 0
     if length(config.evaluation.metrics)==1
         p.metric=1;
     end
-    if ~p.metric
-        error('Please select the metric you want to expand.');
+    if ~p.metric || length(p.metric)>1
+        error('Please select one metric to expand.');
     end
-    % select one metric
-    fData = (data(:, p.metric, :));
-    if length(p.metric)==1 && p.expand >0
-        % use one parameter to rearrange data
-        pList = config.step.oriParameters.list(:, p.expand);
-        nExpand = length(config.step.oriParameters.values{p.expand});
-        %         settingSelector = (1:length(pList));
-        % sort
-        [null, idx] = sort(pList);
-        %         settingSelector = settingSelector(idx);
-        % cut
-        fData = fData(idx, :, :);
-        fSize = size(fData, 1)/nExpand;
-        %         settingSelector = settingSelector(1:fSize);
-        % reshape
-        if p.integrate
-            fData = reshape(fData, fSize, 1, nExpand*size(fData, 3));
-        else
-            fData = reshape(fData, fSize, nExpand, size(fData, 3));
+    fData = data;
+    metric = metrics{p.metric};
+    metrics = config.step.oriParameters.values{p.expand};
+    fSize = length(fData)/length(metrics);
+    p.metric = 1:length(metrics);
+    data={};
+    for m=1:length(metrics)
+        metrics{m} = [config.step.oriParameters.names{p.expand} metrics{m}];
+        for k=1:fSize
+            
+            data{k}.(metrics{m}) = fData{k+m-1}.(metric);
         end
     end
 elseif  p.integrate ~= 0
@@ -75,8 +65,8 @@ for k=1:length(data)
             sData(k, m) = NaN;
             vData(k, m) = 0;
         else
-        sData(k, m) = mean(data{k}.(metrics{p.metric(m)}));
-        vData(k, m) = std(data{k}.(metrics{p.metric(m)}));
+            sData(k, m) = mean(data{k}.(metrics{p.metric(m)}));
+            vData(k, m) = std(data{k}.(metrics{p.metric(m)}));
         end
     end
 end
@@ -92,7 +82,7 @@ if p.highlight ~= -1
         if any(vData(:))
             for m=1:length(data)
                 if ~isempty(data{m})
-                highlights(m, k) = ~ttest2(data{m}.(metrics{p.metric(k)}), data{maxIndex}.(metrics{p.metric(k)}));
+                    highlights(m, k) = ~ttest2(data{m}.(metrics{p.metric(k)}), data{maxIndex}.(metrics{p.metric(k)}));
                 end
             end
         else
@@ -150,8 +140,8 @@ for k=1:length(config.factors.names)
 end
 
 parameterSelector = [];
-for k=1:length(config.step.parameters.names)
-    if any(strcmp(parameterSelected, config.step.parameters.names{k}))
+for k=1:length(config.step.factors.names)
+    if any(strcmp(parameterSelected, config.step.factors.names{k}))
         parameterSelector(end+1) = k;
     end
 end

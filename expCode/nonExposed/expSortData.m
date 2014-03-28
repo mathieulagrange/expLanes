@@ -19,7 +19,7 @@ if ~isempty(pSelector)
                 end
             end
         elseif ischar(sortType)
-            ind = find(strcmp(sortType, config.step.parameters.name(pSelector)));
+            ind = find(strcmp(sortType, config.step.factors.name(pSelector)));
             if ~isempty(ind)
                 sortType = ind;
             else

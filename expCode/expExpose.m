@@ -28,7 +28,7 @@ p.legend=1;
 p.integrate=0;
 
 pNames = fieldnames(p);
-% overwrite default parameters with command line ones
+% overwrite default factors with command line ones
 for pair = reshape(varargin(3:end),2,[]) % pair is {propName;propValue}
     if ~any(strcmp(pair{1},strtrim(pNames))) % , length(pair{1})
         error(['Error: ' pair{1} ' is not a parameter']);
@@ -102,11 +102,12 @@ end
 % end
 
 if p.expand,
- [config p.expand p.expandName] = expModifyExposition(config, p.expand);
+    if length(p.expand)>1, error('Please choose only one factor to expand.'); end
+    [config p.expand p.expandName] = expModifyExposition(config, p.expand);
 end
 
 if p.integrate,
- [config p.integrate p.integrateName] = expModifyExposition(config, p.integrate);
+    [config p.integrate p.integrateName] = expModifyExposition(config, p.integrate);
 end
 
 if ~p.sort && isfield(config, 'sortDisplay')
@@ -138,27 +139,27 @@ if p.expand || any(p.integrate)
     end
     if ~ischar(p.legendNames)
         if isnumeric(p.legendNames{1})
-            p.xAxis = cell2mat(config.step.parameters.set{p.expand});
+            p.xAxis = cell2mat(config.step.factors.set{p.expand});
         else
             p.xAxis = 1:length(p.legendNames);
         end
         p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
     end
-    p.columnNames = [config.step.parameters.names(data.parameterSelector); p.legendNames]'; % (data.parameterSelector)
-   % p.columnNames = [config.step.parameters.names; p.legendNames]'; % (data.parameterSelector)
+    p.columnNames = [config.step.factors.names(data.parameterSelector); p.legendNames]'; % (data.parameterSelector)
+   % p.columnNames = [config.step.factors.names; p.legendNames]'; % (data.parameterSelector)
     p.methodLabel = config.evaluation.metrics{p.metric};
 if p.expand
     p.xName = p.expandName;
 else
      p.xName = p.integrateName;
 end
-    p.rowNames = config.step.parameters.list(data.settingSelector, data.parameterSelector); %config.step.oriParameters.list(data.settingSelector, data.parameterSelector);
+    p.rowNames = config.step.factors.list(data.settingSelector, data.parameterSelector); %config.step.oriParameters.list(data.settingSelector, data.parameterSelector);
 else
     p.xName='';
-    p.columnNames = [config.step.parameters.names(data.parameterSelector)' evaluationMetrics];
+    p.columnNames = [config.step.factors.names(data.parameterSelector)' evaluationMetrics];
     p.methodLabel = '';
     p.xAxis='';
-    p.rowNames = config.step.parameters.list(data.settingSelector, data.parameterSelector);
+    p.rowNames = config.step.factors.list(data.settingSelector, data.parameterSelector);
 end
 
 

@@ -24,7 +24,7 @@ for k=1:length(mask)
 end
 
 for k=1:length(factorsName)
-    factors(k) = find(strcmp(config.step.parameters.names, factorsName{k}));
+    factors(k) = find(strcmp(config.step.factors.names, factorsName{k}));
 end
 oriStep = config.step;
 config.step = expStepSetting(config.factors, mask, config.step.id);

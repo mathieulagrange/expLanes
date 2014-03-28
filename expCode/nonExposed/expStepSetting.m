@@ -23,14 +23,14 @@ for k=1:size(vSet, 1)
     values{k}(cellfun(@isempty,values{k}))=[];
 end
 
-parameters.list = list(e, :)';
-parameters.names = vSpec.names(e);
-parameters.values = values(e);
+factors.list = list(e, :)';
+factors.names = vSpec.names(e);
+factors.values = values(e);
 
 stepSetting.nbSettings = size(vSet, 2);
 stepSetting.maskFilter = maskFilter;
 stepSetting.sequence = sequence;
-stepSetting.parameters = parameters;
+stepSetting.factors = factors;
 stepSetting.set = vSet;
 stepSetting.specifications = vSpec;
 stepSetting.id = currentStep;
