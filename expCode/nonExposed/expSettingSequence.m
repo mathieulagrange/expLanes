@@ -1,8 +1,8 @@
 function sequence = expSettingSequence(vSpec, vSet)
 
 if size(vSet, 2)>1
-    if ~isempty(vSpec.sequentialParameter)
-        sIndex = find(strcmp(vSpec.names, vSpec.sequentialParameter));
+    if ~isempty(vSpec.sequentialFactor)
+        sIndex = find(strcmp(vSpec.names, vSpec.sequentialFactor));
         vSet(sIndex, :)=[];
         sequence = {};
         notDone=ones(1, size(vSet, 2));

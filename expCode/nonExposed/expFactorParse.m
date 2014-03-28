@@ -9,7 +9,7 @@ select=C{3};
 values=C{4};
 
 if length(unique(names)) < length(names)
-    error('Duplicate parameter name in setting file');
+    error('Duplicate factor name in setting file');
 end
 
 selectAll = {};
@@ -25,35 +25,35 @@ for k=1:length(names)
     if iscellstr(values{k})
         shortValues{k} = names2shortNames(values{k});
        if ~all(cellfun(@isempty, strfind(values{k}, '/'))) || ~all(cellfun(@isempty, strfind(values{k}, '\'))) || ~all(cellfun(@isempty, strfind(values{k}, '.')))
-          error(['Invalid set of settings for ' names{k} ' parameter in ' fileName '. the settings shall not include any path-like characters like: ''/'', ''\'', or ''.''.']); 
+          error(['Invalid set of settings for ' names{k} ' factor in ' fileName '. the settings shall not include any path-like characters like: ''/'', ''\'', or ''.''.']); 
        end
         if length(unique(values{k})) < length(values{k})
-            error(['Duplicate values of parameter ' names{k} ' in setting file']);
+            error(['Duplicate values of factor ' names{k} ' in setting file']);
         end
     elseif isnumeric(values{k})
         shortValues{k} = values{k};
     else
-        error(['Invalid set of settings for ' names{k} ' parameter in ' fileName '. Shall be numeric or cell array of strings.']);
+        error(['Invalid set of settings for ' names{k} ' factor in ' fileName '. Shall be numeric or cell array of strings.']);
     end
 end
 
 % identifying sequential factor
-sequentialParameter = [];
+sequentialFactor = [];
 seq=0;
 for k=1:length(step)
     step{k} = strtrim(step{k});
     if length(step{k}) ~= length(regexp(step{k}, '[0-9:s,]', 'match'))
-        error(['Unrecognized step definition for parameter ', names{k}]);
+        error(['Unrecognized step definition for factor ', names{k}]);
     end
     sMatch = strfind(step{k}, 's');
     if any(sMatch)
-        sequentialParameter = names{k};
+        sequentialFactor = names{k};
         seq=seq+1;
         step{k}(sMatch) = [];
     end
 end
 
-if seq>1, error('Only one sequential parameter is allowed'); end
+if seq>1, error('Only one sequential factor is allowed'); end
 
 
 values=values';
@@ -86,5 +86,5 @@ settingSpec.names = names;
 settingSpec.shortNames = shortNames;
 settingSpec.shortValues = shortValues;
 settingSpec.step = step;
-settingSpec.selectParameters = selectAll;
-settingSpec.sequentialParameter = sequentialParameter;
+settingSpec.selectFactors = selectAll;
+settingSpec.sequentialFactor = sequentialFactor;

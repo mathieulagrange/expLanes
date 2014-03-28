@@ -5,7 +5,7 @@ if nargin==0, classificationDemo('do', 4, 'mask', {{1, 0, 0, 0, 0, 2}}); return;
 % no storage for this step
 store=[];
 % get number of classes
-nbClasses = length(expParameterValues(config, 'class'));
+nbClasses = length(expFactorValues(config, 'class'));
 
 switch setting.method
     case 'knn'
@@ -46,7 +46,7 @@ obs.accuracy = mean(agreement);
 % record information for the obs of the confusion matrix
 obs.confusionMatrix.prediction = prediction;
 obs.confusionMatrix.class = class;
-obs.confusionMatrix.classNames = expParameterValues(config, 'class');
+obs.confusionMatrix.classNames = expFactorValues(config, 'class');
 
 function classMatrix = netClass(class)
 

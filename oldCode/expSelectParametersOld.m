@@ -1,14 +1,14 @@
-function mask = expSelectParametersOld(factorSpecifications, mask, mode, rec)
+function mask = expSelectFactorsOld(factorSpecifications, mask, mode, rec)
 
 if ~exist('mode', 'var'), mode=-1; end
 if ~exist('rec', 'var'), rec=1; end
 
-if ~isempty(factorSpecifications.selectParameters)
+if ~isempty(factorSpecifications.selectFactors)
     %     if rec==1
     %         mask = {mask};
     %     end
     % else
-    c = regexp(factorSpecifications.selectParameters{1}, '/', 'split');
+    c = regexp(factorSpecifications.selectFactors{1}, '/', 'split');
     if length(c)==3
         c{4} = '0';
     end
@@ -33,9 +33,9 @@ if ~isempty(factorSpecifications.selectParameters)
     mask = [c1mask c2mask];
     
     
-    factorSpecifications.selectParameters(1) = [];
+    factorSpecifications.selectFactors(1) = [];
     rec=rec+1;
-    mask= expSelectParameters(factorSpecifications, mask, mode, rec);
+    mask= expSelectFactors(factorSpecifications, mask, mode, rec);
 end
 
 function mask = mergeMask(m, s, values, mode)

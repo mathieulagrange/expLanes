@@ -5,7 +5,7 @@ if nargin==0, classificationDemo('do', 1, 'mask', {{}}); return; end
 % no obs for this step
 obs = [];
 % get number of classes
-nbClasses = length(expParameterValues(config, 'class'));
+nbClasses = length(expFactorValues(config, 'class'));
 % initialize the gmm settingl
 mix = gmm(setting.nbDimensions, setting.nbGaussiansInData, 'diag');
 

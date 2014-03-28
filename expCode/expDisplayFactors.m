@@ -17,7 +17,7 @@ copyfile([p '/nonExposed/utils/headerFactorDisplay.tex'], texFileName);
 
 % all steps
 allIndex = cellfun(@isempty, config.factors.step);
-allparameterIndex = config.factors.names(allIndex);
+allfactorIndex = config.factors.names(allIndex);
 
 functionCell = displayNode(config, allIndex);
 
@@ -76,7 +76,7 @@ end
 system(cmd);
 end
 
-function functionCell = displayNode(config, parameterIndex, stepId)
+function functionCell = displayNode(config, factorIndex, stepId)
 
 if ~exist('stepId', 'var')
     stepId = 0;
@@ -93,9 +93,9 @@ functionCell={...
     '\nodepart{two}\tabular{@{}l}  ', ...
     };
 
-for k=1:length(parameterIndex)
-    if parameterIndex(k) && length(config.factors.values{k}) > 1
-        if strcmp(config.factors.sequentialParameter, config.factors.names{k})
+for k=1:length(factorIndex)
+    if factorIndex(k) && length(config.factors.values{k}) > 1
+        if strcmp(config.factors.sequentialFactor, config.factors.names{k})
             seq = '(s)';
         else
             seq = '';
@@ -107,8 +107,8 @@ end
 functionCell{end+1} = '\endtabular';
 functionCell{end+1} = ' ';
 functionCell{end+1} = '\nodepart{three}\tabular{@{}l}  ';
-for k=1:length(parameterIndex)
-    if parameterIndex(k) && length(config.factors.values{k}) == 1
+for k=1:length(factorIndex)
+    if factorIndex(k) && length(config.factors.values{k}) == 1
         functionCell{end+1} = ['\texttt{' config.factors.names{k} '} = ' config.factors.stringValues{k}{1} '\\'];
     end
 end

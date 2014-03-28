@@ -30,7 +30,7 @@ for k=1:length(step)
     end
     sMatch = strfind(step{k}, 's');
     if any(sMatch)
-        config.sequentialParameter = names{k};
+        config.sequentialFactor = names{k};
         seq=seq+1;
         step{k}(sMatch==1) = [];
     end

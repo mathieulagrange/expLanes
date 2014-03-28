@@ -42,7 +42,7 @@ elseif size(aw1) == [1, nin]
 
 else
   
-    error('Parameter aw1 of invalid dimensions');
+    error('Factor aw1 of invalid dimensions');
     
 end
 

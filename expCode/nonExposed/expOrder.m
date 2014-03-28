@@ -10,13 +10,13 @@ vSpec.values = vSpec.values(order);
 vSpec.stringValues = vSpec.stringValues(order);
 vSpec.step = vSpec.step(order);
 
-select = vSpec.selectParameters;
+select = vSpec.selectFactors;
 [null io] = sort(order);
 for k=1:length(select)
     c = regexp(select{k}, '/', 'split');
     select{k} = [num2str(io(str2num(c{1}))) '/' num2str(io(str2num(c{2}))) '/' c{3}];
 end
-vSpec.selectParameters = select;
+vSpec.selectFactors = select;
 
 config.step = expStepSetting(vSpec, config.mask, config.step.id);
 

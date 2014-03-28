@@ -1,14 +1,14 @@
-function mask = expSelectParametersNew(factorSpecifications, mask, mode, rec)
+function mask = expSelectFactorsNew(factorSpecifications, mask, mode, rec)
 
 if ~exist('mode', 'var'), mode=-1; end
 if ~exist('rec', 'var'), rec=1; end
 
-if ~isempty(factorSpecifications.selectParameters)
+if ~isempty(factorSpecifications.selectFactors)
     % TODO iterate over same parameters filters ?
     l=1;
     c1mask = {};
-    while ~isempty(factorSpecifications.selectParameters) && (l==1 || p == str2num(factorSpecifications.selectParameters{1}(1)))
-        c = regexp(factorSpecifications.selectParameters{1}, '/', 'split');
+    while ~isempty(factorSpecifications.selectFactors) && (l==1 || p == str2num(factorSpecifications.selectFactors{1}(1)))
+        c = regexp(factorSpecifications.selectFactors{1}, '/', 'split');
         if length(c)==3
             c{4} = '0';
         end
@@ -35,7 +35,7 @@ if ~isempty(factorSpecifications.selectParameters)
 
         end
                     l=l+1;
-        factorSpecifications.selectParameters(1) = [];
+        factorSpecifications.selectFactors(1) = [];
     end
     s2mask{p} = -1;
     s2mask{s} = setxor(ss, 1:length(factorSpecifications.values{s}));
@@ -58,7 +58,7 @@ if ~isempty(factorSpecifications.selectParameters)
     end    
     
     rec=rec+1;
-    mask= expSelectParametersNew(factorSpecifications, mask, mode, rec);
+    mask= expSelectFactorsNew(factorSpecifications, mask, mode, rec);
 end
 
 function v = isMyEqual(m1, m2)

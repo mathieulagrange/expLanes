@@ -42,12 +42,12 @@ if ~exist('mode', 'var'), mode=1; end
 
 modes = [];
 
-config = selectParameters(config, mode);
+config = selectFactors(config, mode);
 
 if length(config.mask)==1
     configTmp = config;
     configTmp.mask = config.mask{1};
-    [modes , config.allParameters, config.parameters, null, config.modeSequence] = expModes(configTmp);
+    [modes , config.allFactors, config.parameters, null, config.modeSequence] = expModes(configTmp);
 else
     modeSequence = {};
     config.parameters = [];
@@ -68,7 +68,7 @@ else
         end
     end
     config.modeSequence = modeSequence;
-    config.allParameters = config.parameters;
+    config.allFactors = config.parameters;
     
     icml=0;
     for k=1:length(modes)

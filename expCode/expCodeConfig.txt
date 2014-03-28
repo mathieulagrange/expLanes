@@ -48,7 +48,7 @@ parallel = 0
 mask = {}
 % cell array of couples of string and array, if the string is parsed in a mask definition it gets replaced by the specified array
 maskPatch = {} 
-% set a experiment design: assume cell array of {[factors as numericIds], number of values per factor (0 complete set of values), type of plan as string 'f' (factorial) or 'o' (one parameter at a time), [seed as a vector of index of factor]}
+% set a experiment design: assume cell array of {[factors as numericIds], number of values per factor (0 complete set of values), type of plan as string 'f' (factorial) or 'o' (one factor at a time), [seed as a vector of index of factor]}
 design = 
 % dummy mode
 dummy = 0 

@@ -1,15 +1,15 @@
-function mask = expSelectParameters(factors, mask, mode, rec)
+function mask = expSelectFactors(factors, mask, mode, rec)
 
 if ~exist('mode', 'var'), mode=-1; end
 if ~exist('rec', 'var'), rec=1; end
 
-if ~isempty(factors.selectParameters)
-    % TODO iterate over same parameters filters ?
+if ~isempty(factors.selectFactors)
+    % TODO iterate over same factors filters ?
     k=1;
     doit=0;
     c1mask = {};
-    while ~isempty(factors.selectParameters) && (k==1 || p == str2num(factors.selectParameters{1}(1)))
-        c = regexp(factors.selectParameters{1}, '/', 'split');
+    while ~isempty(factors.selectFactors) && (k==1 || p == str2num(factors.selectFactors{1}(1)))
+        c = regexp(factors.selectFactors{1}, '/', 'split');
         if length(c)==3
             c{4} = '0';
         end
@@ -40,7 +40,7 @@ if ~isempty(factors.selectParameters)
             
         end
         k=k+1;
-        factors.selectParameters(1) = [];
+        factors.selectFactors(1) = [];
     end
     
     s2mask{p} = -1;
@@ -66,7 +66,7 @@ if ~isempty(factors.selectParameters)
     rec=rec+1;
     m={};
     for k=1:length(mask)
-        m = [m expSelectParameters(factors, mask(k), mode, rec)];
+        m = [m expSelectFactors(factors, mask(k), mode, rec)];
     end
     mask = m;
 end

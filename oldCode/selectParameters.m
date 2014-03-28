@@ -1,14 +1,14 @@
-function config = selectParameters(config, mode)
+function config = selectFactors(config, mode)
 
-config.selectParameters =  config.factors.selectParameters;
-config= selectParametersRecursive(config, mode);
-config = rmfield(config, 'selectParameters');
+config.selectFactors =  config.factors.selectFactors;
+config= selectFactorsRecursive(config, mode);
+config = rmfield(config, 'selectFactors');
 
-function config = selectParametersRecursive(config, mode)
+function config = selectFactorsRecursive(config, mode)
 
-if ~isempty(config.selectParameters)
+if ~isempty(config.selectFactors)
     
-    c = regexp(config.selectParameters{1}, '/', 'split');
+    c = regexp(config.selectFactors{1}, '/', 'split');
     if length(c)==3
         c{4} = '0';
     end
@@ -41,8 +41,8 @@ if ~isempty(config.selectParameters)
     % c2.mask
     
     config.mask = [c1.mask c2.mask];
-    config.selectParameters(1) = [];
-    config= selectParametersRecursive(config, mode);
+    config.selectFactors(1) = [];
+    config= selectFactorsRecursive(config, mode);
 end
 
 function mask = mergeMask(m, s, values, mode)

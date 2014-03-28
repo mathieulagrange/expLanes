@@ -7,7 +7,7 @@ if ~isnumeric(factors)
     for k=1:length(factors)
         factorIndex(k) = find(strcmp(config.factors.names, factors{k}));
         if isempty(factorIndex(k))
-            error(['Unable to find parameter ' factors{k}]);
+            error(['Unable to find factor ' factors{k}]);
         end
     end
     factors = factorIndex;
@@ -28,5 +28,5 @@ for k=1:length(factorsName)
 end
 oriStep = config.step;
 config.step = expStepSetting(config.factors, mask, config.step.id);
-config.step.oriParameters = oriStep.parameters;
-config.step.oriSet = oriStep.set;
+config.step.oriFactors = oriStep.factors;
+% config.step.oriSet = oriStep.set;

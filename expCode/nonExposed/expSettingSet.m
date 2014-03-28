@@ -25,7 +25,7 @@ end
 
 mask = expSettingStepMask(vSpec, mask, currentStep);
 
-mask = expSelectParameters(vSpec, {mask});
+mask = expSelectFactors(vSpec, {mask});
 
 vSet=[];
 for k=1:length(mask)

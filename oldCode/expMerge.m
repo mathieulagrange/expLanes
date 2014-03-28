@@ -6,14 +6,14 @@ if nargin<3, mergeMethod = 'mean'; end
 % if isnumeric(parameterName)
 %     parameterId = parameterName;
 % else
-parameterId = find(strcmp(config.allParameters.name, parameterName));
+parameterId = find(strcmp(config.allFactors.name, parameterName));
 if isempty(parameterId),
     config.parameters = config.oriConfig.parameters;
     config.modes = config.oriConfig.modes;
     config.mask = config.oriConfig.mask;
     config.evaluation = config.oriconfig.evaluation;
     
-    parameterId = find(strcmp(config.allParameters.name, parameterName));
+    parameterId = find(strcmp(config.allFactors.name, parameterName));
     if isempty(parameterId),
         error(['Unable to find parameter with name ' parameterName]);
     end
@@ -21,8 +21,8 @@ end
 % end
 
 % reorder if needed
-orderList = 1:length(config.allParameters.name);
-if parameterId ~= length(config.allParameters.name)
+orderList = 1:length(config.allFactors.name);
+if parameterId ~= length(config.allFactors.name)
     orderList(parameterId) = [];
     orderList(end+1) = parameterId;
     config = expOrder (config,  orderList);
@@ -63,7 +63,7 @@ end
 % [cv p uConfig.parameters] = expModes(uConfig);
 
 for k=1:length(config.mask)
-    op = find(strcmp(config.allParameters.name, parameterName));
+    op = find(strcmp(config.allFactors.name, parameterName));
     mask = config.mask{k};
     if length(mask)<parameterId
         tMask=arrayfun(@(x) 0,1:parameterId,'uni',false);

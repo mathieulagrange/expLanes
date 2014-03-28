@@ -15,12 +15,12 @@ if  p.expand ~= 0
     end
     fData = data;
     metric = metrics{p.metric};
-    metrics = config.step.oriParameters.values{p.expand};
+    metrics = config.step.oriFactors.values{p.expand};
     fSize = length(fData)/length(metrics);
     p.metric = 1:length(metrics);
     data={};
     for m=1:length(metrics)
-        metrics{m} = [config.step.oriParameters.names{p.expand} metrics{m}];
+        metrics{m} = [config.step.oriFactors.names{p.expand} metrics{m}];
         for k=1:fSize
             
             data{k}.(metrics{m}) = fData{k+m-1}.(metric);
@@ -28,10 +28,10 @@ if  p.expand ~= 0
     end
 elseif  p.integrate ~= 0
     fData = data;
-    parameters = 1:length(config.step.oriParameters.names);
-    parameters(p.integrate)=[];
-    for k=1:length(config.step.oriParameters.list)
-        pList{k} = [config.step.oriParameters.list{k, parameters}];
+    factors = 1:length(config.step.oriFactors.names);
+    factors(p.integrate)=[];
+    for k=1:length(config.step.oriFactors.list)
+        pList{k} = [config.step.oriFactors.list{k, factors}];
     end
     [modalityNames a modalityIndexes]=unique(pList);
     
@@ -130,18 +130,18 @@ else
     select = ~all(isnan(sData'));
 end
 
-parameterSelected = {};
+factorSelected = {};
 for k=1:length(config.factors.names)
     vsk = config.step.set(k, select);
     vsk(vsk==0)=[];
     if length(unique(vsk))>1
-        parameterSelected(end+1) = config.factors.names(k);
+        factorSelected(end+1) = config.factors.names(k);
     end
 end
 
 factorSelector = [];
 for k=1:length(config.step.factors.names)
-    if any(strcmp(parameterSelected, config.step.factors.names{k}))
+    if any(strcmp(factorSelected, config.step.factors.names{k}))
         factorSelector(end+1) = k;
     end
 end

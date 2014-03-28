@@ -1,25 +1,25 @@
-function data = expSortData(data, sortType, pSelector, config)
+function data = expSortData(data, sortType, factorSelector, config)
 
-if ~isempty(pSelector)
+if ~isempty(factorSelector)
     if sortType
         flip=0;
         if isnumeric(sortType)
             if sortType<0
-                if abs(sortType)>length(pSelector)
-                    error('can not find corresponding parameters to sort');
+                if abs(sortType)>length(factorSelector)
+                    error('can not find corresponding factor to sort');
                 else
                     sortType = abs(sortType);
                 end
             else
                 flip=1;
-                if sortType>length(pSelector)
-                    error('can not find corresponding parameters to sort');
+                if sortType>length(factorSelector)
+                    error('can not find corresponding factor to sort');
                 else
-                    sortType = sortType+length(pSelector);
+                    sortType = sortType+length(factorSelector);
                 end
             end
         elseif ischar(sortType)
-            ind = find(strcmp(sortType, config.step.factors.name(pSelector)));
+            ind = find(strcmp(sortType, config.step.factors.name(factorSelector)));
             if ~isempty(ind)
                 sortType = ind;
             else
@@ -28,7 +28,7 @@ if ~isempty(pSelector)
                 if ~isempty(ind)
                     sortType = ind;
                 else
-                    error('can not find corresponding parameters to sort');
+                    error('can not find corresponding factor to sort');
                 end
                 
             end

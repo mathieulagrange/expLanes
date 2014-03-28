@@ -200,8 +200,8 @@ function sequence = sequencingModes(config, modes, parameters)
 
 sequence = num2cell(1:length(modes));
 
-if isfield(config, 'sequentialParameter') && ~isempty(config.sequentialParameter)
-    pIndex = find(strcmp(parameters.name, config.sequentialParameter));
+if isfield(config, 'sequentialFactor') && ~isempty(config.sequentialFactor)
+    pIndex = find(strcmp(parameters.name, config.sequentialFactor));
     if ~isempty(pIndex)
         pValues =  parameters.set{pIndex};
         notDone = ones(1, length(modes));
@@ -211,9 +211,9 @@ if isfield(config, 'sequentialParameter') && ~isempty(config.sequentialParameter
         while sum(notDone)
             for k=1:length(modes)
                 if notDone(k) && length(sequence{activeSequence}) < length(pValues) && ...
-                        (ischar(modes(k).(config.sequentialParameter)) && strcmp(modes(k).(config.sequentialParameter), pValues{length(sequence{activeSequence})+1})...
+                        (ischar(modes(k).(config.sequentialFactor)) && strcmp(modes(k).(config.sequentialFactor), pValues{length(sequence{activeSequence})+1})...
                         || ...
-                        isnumeric(modes(k).(config.sequentialParameter)) && modes(k).(config.sequentialParameter) == pValues{length(sequence{activeSequence})+1}),
+                        isnumeric(modes(k).(config.sequentialFactor)) && modes(k).(config.sequentialFactor) == pValues{length(sequence{activeSequence})+1}),
                     sequence{activeSequence}(end+1) = k;
                     notDone(k) = 0;
                 end

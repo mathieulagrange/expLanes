@@ -55,18 +55,18 @@ for m=1:size(vSet, 1)
 end
 
 
-[null, parameterOrder] = sort(mNames);
+[null, factorOrder] = sort(mNames);
 setting.id = k;
-f = t(parameterOrder(filter));
+f = t(factorOrder(filter));
 if ~isempty(f)
     f(2, :) = {', '}; f(2, end) = {''};
 end
 setting.infoString = [f{:}];
 
 
-f = st(parameterOrder(filter));
+f = st(factorOrder(filter));
 if ~isempty(skipIndex)
-    [~, id] = sort(parameterOrder);
+    [~, id] = sort(factorOrder);
     f(id(skipIndex)) = [];
 end
 if ~isempty(f)

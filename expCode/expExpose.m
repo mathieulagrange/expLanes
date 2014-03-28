@@ -9,7 +9,6 @@ exposeType = varargin{2};
 p.order = [];
 p.expand = 0;
 p.metric = 0;
-p.parameter = [];
 p.variance = 0;
 p.highlight=0;
 p.title='+';
@@ -31,7 +30,7 @@ pNames = fieldnames(p);
 % overwrite default factors with command line ones
 for pair = reshape(varargin(3:end),2,[]) % pair is {propName;propValue}
     if ~any(strcmp(pair{1},strtrim(pNames))) % , length(pair{1})
-        error(['Error: ' pair{1} ' is not a parameter']);
+        error(['Error: ' pair{1} ' is not a valid parameter']);
     end
     p.(pair{1}) = pair{2};
 end
@@ -72,7 +71,7 @@ if isempty(config.evaluation) || isempty(config.evaluation.data)
 end
 if ischar(p.metric)
     p.metric = find(strcmp(config.evaluation.metrics, p.metric));
-    if isempty(p.metric), disp(['Unable to find parameter with name' p.metric]); end
+    if isempty(p.metric), disp(['Unable to find metric with name' p.metric]); end
     
 end
 if ~p.metric
@@ -135,7 +134,7 @@ p.legendNames = evaluationMetrics;
     
 if p.expand || any(p.integrate)
     if ~p.integrate
-        p.legendNames = config.step.oriParameters.values{p.expand};
+        p.legendNames = config.step.oriFactors.values{p.expand};
     end
     if ~ischar(p.legendNames)
         if isnumeric(p.legendNames{1})
@@ -153,7 +152,7 @@ if p.expand
 else
      p.xName = p.integrateName;
 end
-    p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriParameters.list(data.settingSelector, data.factorSelector);
+    p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
 else
     p.xName='';
     p.columnNames = [config.step.factors.names(data.factorSelector)' evaluationMetrics];

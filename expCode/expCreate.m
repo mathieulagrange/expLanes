@@ -144,7 +144,7 @@ copyfile([configPath '/' config.shortProjectName 'ConfigDefault.txt'], [configPa
 
 % create factors file
 fid = fopen([config.codePath '/' config.shortProjectName 'Factors.txt'], 'w');
-fprintf(fid, 'method =1== {''methodOne'', ''methodTwo'', ''methodThree''} % method will be defined for step 1 only \nthreshold =s1:=1/[1 3]= [0:10] % threshold is defined for step 1 and the remaining steps, will be sequenced and valid for the 1st and 3rd value of the 1st parameter (methodOne and methodThree) \n\n%% Settings file for the %s project\n%% Adapt at your convenience\n', config.shortProjectName);
+fprintf(fid, 'method =1== {''methodOne'', ''methodTwo'', ''methodThree''} % method will be defined for step 1 only \nthreshold =s1:=1/[1 3]= [0:10] % threshold is defined for step 1 and the remaining steps, will be sequenced and valid for the 1st and 3rd value of the 1st factor (methodOne and methodThree) \n\n%% Settings file for the %s project\n%% Adapt at your convenience\n', config.shortProjectName);
 fclose(fid);
 
 
