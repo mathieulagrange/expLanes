@@ -139,14 +139,14 @@ for k=1:length(config.factors.names)
     end
 end
 
-parameterSelector = [];
+factorSelector = [];
 for k=1:length(config.step.factors.names)
     if any(strcmp(parameterSelected, config.step.factors.names{k}))
-        parameterSelector(end+1) = k;
+        factorSelector(end+1) = k;
     end
 end
 % if  p.expand ~= 0;
-%     parameterSelector(parameterSelector==p.expand)=[];
+%     factorSelector(factorSelector==p.expand)=[];
 % end
 
 dataDisplay.rawData = data;
@@ -156,9 +156,9 @@ dataDisplay.rawData = data;
 % end
 dataDisplay.meanData = sData(select, :);
 dataDisplay.highlights = highlights(select, :);
-dataDisplay.parameterSelector = parameterSelector;
+dataDisplay.factorSelector = factorSelector;
 % dataDisplay.p.expand = p.expand;
-dataDisplay.p.metric = p.metric;
+% dataDisplay.p.metric = p.metric;
 dataDisplay.varData = vData(select, :);
 dataDisplay.selector = select;
 if isempty(settingSelector)
@@ -166,6 +166,3 @@ if isempty(settingSelector)
 else
     dataDisplay.settingSelector = settingSelector(select);
 end
-
-
-

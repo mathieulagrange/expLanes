@@ -145,21 +145,21 @@ if p.expand || any(p.integrate)
         end
         p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
     end
-    p.columnNames = [config.step.factors.names(data.parameterSelector); p.legendNames]'; % (data.parameterSelector)
-   % p.columnNames = [config.step.factors.names; p.legendNames]'; % (data.parameterSelector)
+    p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
+   % p.columnNames = [config.step.factors.names; p.legendNames]'; % (data.factorSelector)
     p.methodLabel = config.evaluation.metrics{p.metric};
 if p.expand
     p.xName = p.expandName;
 else
      p.xName = p.integrateName;
 end
-    p.rowNames = config.step.factors.list(data.settingSelector, data.parameterSelector); %config.step.oriParameters.list(data.settingSelector, data.parameterSelector);
+    p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriParameters.list(data.settingSelector, data.factorSelector);
 else
     p.xName='';
-    p.columnNames = [config.step.factors.names(data.parameterSelector)' evaluationMetrics];
+    p.columnNames = [config.step.factors.names(data.factorSelector)' evaluationMetrics];
     p.methodLabel = '';
     p.xAxis='';
-    p.rowNames = config.step.factors.list(data.settingSelector, data.parameterSelector);
+    p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector);
 end
 
 

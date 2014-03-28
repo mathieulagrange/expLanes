@@ -5,9 +5,9 @@ if p.highlight
     numCell(data.highlights==1) = strcat('\textbf{', numCell(data.highlights==1), '}');
 end
 
-dataCell = [strrep(config.step.factors.list(data.modeSelector, data.parameterSelector), '_', '\_') numCell];
+dataCell = [strrep(config.step.factors.list(data.settingSelector, data.factorSelector), '_', '\_') numCell];
 
-dataCell = expSortData(dataCell, p.sort, data.parameterSelector, config);
+dataCell = expSortData(dataCell, p.sort, data.factorSelector, config);
 
 displayData.table(end+1).caption = p.caption;
 displayData.table(end).multipage = p.multipage;

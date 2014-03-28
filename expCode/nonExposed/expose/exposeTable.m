@@ -3,8 +3,8 @@ function config = exposeTable(config, data, p)
 switch p.put
     case 0
         numCell = expNumToCell(data.meanData, data.varData, config.displayDigitPrecision);
-        dataCell = [p.rowNames numCell]; % config.step.factors.list(data.modeSelector, data.parameterSelector)
-        dataCell = expSortData(dataCell, p.sort, data.parameterSelector, config);
+        dataCell = [p.rowNames numCell]; % config.step.factors.list(data.settingSelector, data.factorSelector)
+        dataCell = expSortData(dataCell, p.sort, data.factorSelector, config);
         el = cell(1, length(p.columnNames));
         [el{:}] = deal('---');
         config.displayData.cellData = [p.columnNames; el; dataCell];
@@ -13,7 +13,7 @@ switch p.put
         config = expDisplay(config, p);
         numCell = expNumToCell(data.meanData, data.varData, config.displayDigitPrecision, 0, data.highlights);
         dataCell = [p.rowNames numCell];
-        dataCell = expSortData(dataCell, p.sort, data.parameterSelector, config);
+        dataCell = expSortData(dataCell, p.sort, data.factorSelector, config);
         
         
         if ~feature('ShowFigureWindows'), return; end
@@ -48,7 +48,7 @@ switch p.put
     case 2
         numCell = expNumToCell(data.meanData, data.varData, config.displayDigitPrecision, 1, data.highlights); % TODO being able to remove variance
         dataCell = [p.rowNames numCell];
-        allCell = [p.columnNames; expSortData(dataCell, p.sort, data.parameterSelector, config)];
+        allCell = [p.columnNames; expSortData(dataCell, p.sort, data.factorSelector, config)];
         allCell = strrep(allCell, '_', '\_');
         allCell = strrep(allCell, '%', '\%');
         config.displayData.cellData = allCell;
