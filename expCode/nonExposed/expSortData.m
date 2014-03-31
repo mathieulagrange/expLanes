@@ -1,32 +1,32 @@
-function data = expSortData(data, sortType, factorSelector, config)
+function data = expSortData(data, p, factorSelector, config)
 
 if ~isempty(factorSelector)
-    if sortType
+    if p.sort
         flip=0;
-        if isnumeric(sortType)
-            if sortType<0
-                if abs(sortType)>length(factorSelector)
+        if isnumeric(p.sort)
+            if p.sort<0
+                if abs(p.sort)>length(factorSelector)
                     error('can not find corresponding factor to sort');
                 else
-                    sortType = abs(sortType);
+                    p.sort = abs(p.sort);
                 end
             else
                 flip=1;
-                if sortType>length(factorSelector)
+                if p.sort>length(factorSelector)
                     error('can not find corresponding factor to sort');
                 else
-                    sortType = sortType+length(factorSelector);
+                    p.sort = p.sort+length(factorSelector);
                 end
             end
-        elseif ischar(sortType)
-            ind = find(strcmp(sortType, config.step.factors.name(factorSelector)));
+        elseif ischar(p.sort)
+            ind = find(strcmp(p.sort, config.step.factors.name(factorSelector)));
             if ~isempty(ind)
-                sortType = ind;
+                p.sort = ind;
             else
                 flip=1;
-                ind = find(strcmp(sortType, config.evaluation.metrics));
+                ind = find(strcmp(p.sort, config.evaluation.metrics));
                 if ~isempty(ind)
-                    sortType = ind;
+                    p.sort = ind;
                 else
                     error('can not find corresponding factor to sort');
                 end
@@ -36,9 +36,16 @@ if ~isempty(factorSelector)
             error('unkown sort type');
         end
         
-        [bin ind] = sort(data(:, sortType));
+        if p.total
+            [bin ind] = sort(data(1:end-1, p.sort));
+        else
+            [bin ind] = sort(data(:, p.sort));
+        end
         if flip
             ind = flipud(ind);
+        end
+        if p.total
+            ind = [ind; size(data, 1)];
         end
         data = data(ind, :);
     end

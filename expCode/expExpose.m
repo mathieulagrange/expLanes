@@ -25,6 +25,7 @@ p.report=1;
 p.percent=0;
 p.legend=1;
 p.integrate=0;
+p.total=0;
 
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
@@ -161,7 +162,15 @@ else
     p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector);
 end
 
-
+if p.total
+    for k=1:size(p.rowNames, 2)
+        if k==1
+            p.rowNames{end+1, k} = 'Total';
+        else
+            p.rowNames{end, k} = '';
+        end
+    end
+end
 
 for k=1:config.step.nbSettings
     d = expSetting(config.step, k);

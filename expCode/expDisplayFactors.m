@@ -26,7 +26,7 @@ for k=1:length(config.stepName)
     stepIndex = allIndex == 0;
     mask = cell(1, size(config.factors.values, 2));
     mask(:) = {0};
-    mask = expSettingStep(config.factors, mask, k);
+    mask = expSettingStepMask(config.factors, mask, k);
     stepIndex([mask{:}]==-1) = 0;
     stepCell = displayNode(config, stepIndex, k) ;
     functionCell = [functionCell; stepCell];

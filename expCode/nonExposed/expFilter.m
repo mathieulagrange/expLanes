@@ -22,8 +22,7 @@ if  p.expand ~= 0
     for m=1:length(metrics)
         metrics{m} = [config.step.oriFactors.names{p.expand} metrics{m}];
         for k=1:fSize
-            
-            data{k}.(metrics{m}) = fData{k+m-1}.(metric);
+            data{k}.(metrics{m}) = fData{(m-1)*fSize+k}.(metric);
         end
     end
 elseif  p.integrate ~= 0
@@ -51,16 +50,29 @@ elseif  p.integrate ~= 0
                 end
             end
         end
-    end
-    
+    end   
 end
 
 if p.metric==0
     p.metric = 1:length(config.evaluation.metrics);
 end
 
-for k=1:length(data)
+nbSettings = length(data);
+
+if p.total
     for m=1:length(p.metric)
+        for k=1:nbSettings
+            if length(data)>nbSettings && ~isempty(data{nbSettings+1}) && isfield(data{nbSettings+1}, metrics{p.metric(m)})
+                data{nbSettings+1}.(metrics{p.metric(m)}) = [data{nbSettings+1}.(metrics{p.metric(m)}); data{k}.(metrics{p.metric(m)})];
+            else
+                data{nbSettings+1}.(metrics{p.metric(m)}) = data{k}.(metrics{p.metric(m)});
+            end
+        end
+    end
+end
+
+for m=1:length(p.metric)
+    for k=1:length(data)
         if isempty(data{k})
             sData(k, m) = NaN;
             vData(k, m) = 0;
@@ -70,6 +82,7 @@ for k=1:length(data)
         end
     end
 end
+
 highlights = zeros(size(sData));
 if p.highlight ~= -1
     if ~p.highlight
@@ -79,14 +92,32 @@ if p.highlight ~= -1
         col = round(sData(:, k)*10^config.displayDigitPrecision);
         [maxValue maxIndex] = max(col);
         
-        if any(vData(:))
+        if any(vData(:, k))
             for m=1:length(data)
                 if ~isempty(data{m})
-                    highlights(m, k) = ~ttest2(data{m}.(metrics{p.metric(k)}), data{maxIndex}.(metrics{p.metric(k)}));
+                    rejection = ttest2(data{m}.(metrics{p.metric(k)}), data{maxIndex}.(metrics{p.metric(k)}));
+                    if isnan(rejection), rejection = 0; end
+                    highlights(m, k) = ~rejection;
                 end
             end
         else
             highlights(:, k) =  col==maxValue;
+        end
+    end
+    if p.total
+         col = round(sData(end, :)*10^config.displayDigitPrecision);
+        [maxValue maxIndex] = max(col);
+        
+        if any(vData(end, :))
+            for m=1:length(col)
+                if ~isempty(data{end}.(metrics{p.metric(m)}))
+                    rejection = ttest2(data{end}.(metrics{p.metric(m)}), data{end}.(metrics{p.metric(maxIndex)}));
+                    if isnan(rejection), rejection = 0; end
+                    highlights(end, m) = ~rejection;
+                end
+            end
+        else
+            highlights(end, :) =  col==maxValue;
         end
     end
 end
@@ -130,14 +161,16 @@ else
     select = ~all(isnan(sData'));
 end
 
+
 factorSelected = {};
 for k=1:length(config.factors.names)
-    vsk = config.step.set(k, select);
+    vsk = config.step.set(k, select(1:size(config.step.set, 2)));
     vsk(vsk==0)=[];
     if length(unique(vsk))>1
         factorSelected(end+1) = config.factors.names(k);
     end
 end
+
 
 factorSelector = [];
 for k=1:length(config.step.factors.names)
@@ -164,5 +197,5 @@ dataDisplay.selector = select;
 if isempty(settingSelector)
     dataDisplay.settingSelector = [];
 else
-    dataDisplay.settingSelector = settingSelector(select);
+    dataDisplay.settingSelector = settingSelector(select(1:length(settingSelector)));
 end

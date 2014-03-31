@@ -101,13 +101,12 @@ config.sequentialData = [];
 for k=1:length(config.step.sequence{sequence})
     config.step.setting = expSetting(config.step, config.step.sequence{sequence}(k));
     success=1;
-    try
+    if config.host == 0
         config = expProcessOneSub(config);
-    catch error
-        if config.host == 0
-
-            rethrow(error);
-        else
+    else
+        try
+            config = expProcessOneSub(config);
+        catch error
             config.settingStatus.failed = config.settingStatus.failed+1;
             config = expLog(config, error, 2, 1);
             success = 0;

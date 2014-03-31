@@ -34,7 +34,7 @@ if config.showFactorsInReport
     end
     config.latex.addLine('\begin{center}');
     config.latex.addLine('\begin{figure}[ht]');
- config.latex.addLine(['\includegraphics[width=\textwidth]{' pdfFileName '}']);
+ config.latex.addLine(['\includegraphics[width=\textwidth]{' expandPath(pdfFileName) '}']);
  config.latex.addLine('\label{factorFlowGraph}');
  config.latex.addLine('\caption{Factors flow graph for the experiment.}');
   
