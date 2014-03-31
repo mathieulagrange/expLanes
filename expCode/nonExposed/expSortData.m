@@ -36,10 +36,15 @@ if ~isempty(factorSelector)
             error('unkown sort type');
         end
         
+        col = data(:, p.sort);
+        for k=1:length(col)
+            c = regexp(col{k}, '(', 'split')
+            col{k} = strtrim(c{1});
+        end
         if p.total
-            [bin ind] = sort(data(1:end-1, p.sort));
+            [bin ind] = sort(col(1:end-1));
         else
-            [bin ind] = sort(data(:, p.sort));
+            [bin ind] = sort(col);
         end
         if flip
             ind = flipud(ind);

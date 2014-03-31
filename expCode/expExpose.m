@@ -188,6 +188,7 @@ for k=1:size(data.varData, 2)
     end
 end
 
+
 config.data = data;
 
 config.displayData.cellData=[];
