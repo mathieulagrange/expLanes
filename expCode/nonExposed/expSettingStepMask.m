@@ -24,6 +24,8 @@ for k=1:length(vSpec.step)
         end
     end
     if ~doStep
-        mask{k} = -1;
+        for m=1:length(mask)
+            mask{m}{k} = -1;
+        end
     end
 end

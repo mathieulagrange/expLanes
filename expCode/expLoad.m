@@ -40,9 +40,13 @@ end
 
 if nargin<2 || isempty(name)
     %     setting = expSettingBuild(config.factors, config.step.setting.infoId');
-    tv = expStepSetting(config.factors, {num2cell(config.step.setting.infoId)}, inputId); % TODO slow but useful, detect if data flow is contracting
+    %     tv = expStepSetting(config.factors, {num2cell(config.step.setting.infoId)}, inputId); % TODO slow but useful, detect if data flow is contracting
+    m = config.mask;
+    m = expMergeMask(m, {num2cell(config.step.setting.infoId)}, config.factors.values, -1);
+    tv = expStepSetting(config.factors, m{1}, inputId); % TODO slow but useful, detect if data flow is contracting
     for k=1:tv.nbSettings
         d = expSetting(tv, k);
+        d.infoString
         switch config.namingConventionForFiles
             case 'short'
                 names{k} = d.infoShortString; % FIXME should be masked

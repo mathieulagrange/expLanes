@@ -16,7 +16,7 @@ if exist(reduceFileName, 'file')
     end
 end
 
-if isempty(data)
+if 1 % isempty(data)
 %     config.step.id = config.step.id+1; % FIX ME fragile
     
     config.loadFileInfo.date = {'', ''};

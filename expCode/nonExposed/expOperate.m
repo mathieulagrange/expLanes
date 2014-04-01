@@ -123,7 +123,7 @@ function config = expProcessOneSub(config)
 
 functionName = [config.shortProjectName num2str(config.step.id) config.stepName{config.step.id}];
 
-if config.redo==0 && (exist(expSave(config, [], 'data'), 'file') || exist(expSave(config, [], 'display'), 'file'))
+if config.redo==0 && (exist(expSave(config, [], 'data'), 'file') || exist(expSave(config, [], 'obs'), 'file'))
    disp(['skipping ' config.step.idName ' ' config.step.setting.infoString]);
    return
 end

@@ -18,9 +18,56 @@ for k=1:length(names)
     selectSplit = regexp(strtrim(select{k}), ',', 'split');
     if ~isempty(selectSplit{1})
         for l=1:length(selectSplit)
-            selectAll{end+1} = [num2str(k) '/' selectSplit{l}];
+            c = regexp(selectSplit{l}, '/', 'split');
+            p = eval(c{1});
+            s = eval(c{2});
+            if p<0
+                sLength = length(eval(values{-p}));
+                if s>1 && s<sLength
+                    if s>2
+                        sel1 = ['1:' num2str(s-1)];
+                    else
+                        sel1 = '1';
+                    end
+                    if s<sLength-1
+                        sel2 = [num2str(s+1) ':' num2str(sLength)];
+                    else
+                        sel2 = sLength;
+                    end
+                else
+                    if s==1
+                        sel1 = ['2:' num2str(sLength)];
+                    else
+                        sel1 = ['1:' num2str(sLength-1)];
+                    end
+                    sel2 = [];
+                end
+                for m=1:length(names)
+                    selectSplitm = regexp(strtrim(select{m}), ',', 'split');
+                     doit = 1;
+                       if ~isempty(selectSplitm{1})
+                        for n=1:length(selectSplitm)
+                            cn = regexp(selectSplitm{n}, '/', 'split');
+                            pn = eval(cn{1});
+                            sn = eval(cn{2});
+                            if pn == p, doit=0; end
+                        end
+                       end
+                        if m~=k && m ~=-p && doit
+                            selectAll{end+1} = [num2str(m) '/' num2str(-p) '/' sel1]; % FIXME more difficult than this
+                        if ~isempty(sel2)
+                            selectAll{end+1} = [num2str(m) '/' num2str(-p) '/' sel2]; % FIXME more difficult than this
+                        end
+                        end
+                end
+            else
+                selectAll{end+1} = [num2str(k) '/' selectSplit{l} ];
+            end
         end
     end
+end
+for k=1:length(names)
+
     values{k}=eval(values{k});
     if iscellstr(values{k})
         shortValues{k} = names2shortNames(values{k});
@@ -36,6 +83,8 @@ for k=1:length(names)
         error(['Invalid set of settings for ' names{k} ' factor in ' fileName '. Shall be numeric or cell array of strings.']);
     end
 end
+
+selectAll
 
 % identifying sequential factor
 sequentialFactor = [];

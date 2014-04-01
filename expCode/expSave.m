@@ -10,7 +10,7 @@ end
 stepName = config.stepName{config.step.id};
 
 path = [config.dataPath stepName filesep];
-
+% config.step.setting.infoString
 switch config.namingConventionForFiles
     case 'short'
         name = config.step.setting.infoShortString; % FIXME should be masked
