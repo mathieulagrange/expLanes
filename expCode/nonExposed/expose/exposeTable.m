@@ -33,6 +33,10 @@ switch p.put
         margin = fPos(4)/20;
         
         clf
+        if size(p.columnNames, 1)>1
+            dataCell = [p.columnNames(2, :); dataCell];
+            p.columnNames = p.columnNames(1, :);
+        end
         hTable=uitable('Data', dataCell, 'columnName', p.columnNames, 'fontName','courier', 'fontSize', 14);
         set(hTable, 'units', get(gcf, 'units'));
         set(hTable, 'position', [margin margin fPos(3:4)-2*margin]); % , 'position', [30 30 600 600]

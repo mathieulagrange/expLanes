@@ -1,35 +1,19 @@
-function dataDisplay = expFilter(config, p)
+function dataDisplay = expFilter(config, p, data)
 % filter data in various ways
 
+if ~exist('data', 'var')
 data = config.evaluation.results;
+end
 metrics = config.evaluation.metrics;
 
 settingSelector = 1:config.step.nbSettings;
 
-if  p.expand ~= 0
-    if length(config.evaluation.metrics)==1
-        p.metric=1;
-    end
-    if ~p.metric || length(p.metric)>1
-        error('Please select one metric to expand.');
-    end
-    fData = data;
-    metric = metrics{p.metric};
-    metrics = config.step.oriFactors.values{p.expand};
-    fSize = length(fData)/length(metrics);
-    p.metric = 1:length(metrics);
-    data={};
-    for m=1:length(metrics)
-        metrics{m} = [config.step.oriFactors.names{p.expand} metrics{m}];
-        for k=1:fSize
-            data{k}.(metrics{m}) = fData{(m-1)*fSize+k}.(metric);
-        end
-    end
-elseif  p.integrate ~= 0
+
+if  isnumeric(p.integrate) && all(p.integrate ~= 0)
     fData = data;
     factors = 1:length(config.step.oriFactors.names);
     factors(p.integrate)=[];
-    for k=1:length(config.step.oriFactors.list)
+    for k=1:size(config.step.oriFactors.list, 1)
         pList{k} = [config.step.oriFactors.list{k, factors}];
     end
     [modalityNames a modalityIndexes]=unique(pList);
@@ -50,11 +34,35 @@ elseif  p.integrate ~= 0
                 end
             end
         end
-    end   
+    end
 end
 
-if p.metric==0
-    p.metric = 1:length(config.evaluation.metrics);
+% TODO clean this part
+if  p.expand ~= 0
+    if length(config.evaluation.metrics)==1
+        p.metric=1;
+    end
+   fData = data;
+    metric = metrics(p.metric);
+    metrics = config.step.oriFactors.values{p.expand};
+    met={};
+    met2={};
+      for m=1:length(metrics)
+      for k=1:length(metric)
+            met = [met [metrics{m} metric{k}]];
+            met2 = [met2 metric{k}];           
+        end
+    end
+    fSize = length(fData)/length(metrics);
+    metrics = met;
+    p.metric = 1:length(metrics);
+    data={};
+    for m=1:length(metrics)
+        metrics{m} = [config.step.oriFactors.names{p.expand} metrics{m}];
+        for k=1:fSize
+            data{k}.(metrics{m}) = fData{floor((m-1)/length(metric))*fSize+k}.(met2{m});
+        end
+    end
 end
 
 nbSettings = length(data);
@@ -71,6 +79,8 @@ if p.total
     end
 end
 
+sData = [];
+vData = [];
 for m=1:length(p.metric)
     for k=1:length(data)
         if isempty(data{k})
@@ -105,7 +115,7 @@ if p.highlight ~= -1
         end
     end
     if p.total
-         col = round(sData(end, :)*10^config.displayDigitPrecision);
+        col = round(sData(end, :)*10^config.displayDigitPrecision);
         [maxValue maxIndex] = max(col);
         
         if any(vData(end, :))
@@ -122,39 +132,6 @@ if p.highlight ~= -1
     end
 end
 
-% if ndims(data) == 3
-%     sData = squeeze(nanmean(fData, 3));
-%     vData = squeeze(nanstd(fData, 0, 3));
-%     highlights = zeros(size(sData));
-%     % FIXME move this at display time
-%     if p.highlight ~= -1
-%         if ~p.highlight
-%             p.highlight = 1:size(sData, 2);
-%         end
-%         for k=p.highlight
-%             [null, maxIndex] = max(sData(:, k));
-%             maxIndex = maxIndex(1);
-%             tData = squeeze(fData(:, k, :));
-%             tData = bsxfun(@minus, tData, tData(maxIndex, :));
-%             tRes = ttest(tData')';
-%             tRes(maxIndex) = 0;
-%             tRes(isnan(tRes)) = 0; % handle special case of identity
-%             highlights(:, k) = tRes==0;
-%         end
-%     end
-% else
-%     sData = fData;
-%     vData = zeros(size(sData));
-%     highlights = zeros(size(fData));
-%     if p.highlight
-%         for k=1:size(fData, 2)
-%             col = round(fData(:, k)*10^config.displayDigitPrecision);
-%             maxValue = max(col);
-%             highlights(:, k) =  col==maxValue;
-%         end
-%     end
-% end
-
 if size(sData, 2) == 1
     select = ~isnan(sData');
 else
@@ -164,7 +141,7 @@ end
 
 factorSelected = {};
 for k=1:length(config.factors.names)
-    vsk = config.step.set(k, select(1:size(config.step.set, 2)));
+    vsk = config.step.set(k, select(1:min(length(select):size(config.step.set, 2))));
     vsk(vsk==0)=[];
     if length(unique(vsk))>1
         factorSelected(end+1) = config.factors.names(k);
@@ -197,5 +174,5 @@ dataDisplay.selector = select;
 if isempty(settingSelector)
     dataDisplay.settingSelector = [];
 else
-    dataDisplay.settingSelector = settingSelector(select(1:length(settingSelector)));
+    dataDisplay.settingSelector = settingSelector(select(1:min(length(select), length(settingSelector))));
 end

@@ -38,7 +38,7 @@ if ~isempty(factorSelector)
         
         col = data(:, p.sort);
         for k=1:length(col)
-            c = regexp(col{k}, '(', 'split')
+            c = regexp(col{k}, '(', 'split');
             col{k} = strtrim(c{1});
         end
         if p.total

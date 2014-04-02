@@ -46,7 +46,7 @@ if nargin<2 || isempty(name)
     tv = expStepSetting(config.factors, m{1}, inputId); % TODO slow but useful, detect if data flow is contracting
     for k=1:tv.nbSettings
         d = expSetting(tv, k);
-        d.infoString
+%         d.infoString
         switch config.namingConventionForFiles
             case 'short'
                 names{k} = d.infoShortString; % FIXME should be masked

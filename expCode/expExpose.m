@@ -76,10 +76,9 @@ if ischar(p.metric)
     
 end
 if ~p.metric
-    evaluationMetrics = config.evaluation.metrics;
-else
-    evaluationMetrics = config.evaluation.metrics(p.metric);
+    p.metric = 1:length(config.evaluation.metrics);
 end
+evaluationMetrics = config.evaluation.metrics(p.metric);
 
 if p.percent
     for k=1:length(p.percent)
@@ -93,38 +92,59 @@ if ~isempty(p.order),
     config = expOrder(config, p.order);
 end
 
-if any(p.integrate) && p.expand
-   error('Cannot use intergate and expand at the same time.'); 
-   % TODO integrate shall be done by summing over same plist values (allow for irregular entries)
-end
-% if p.integrate
-%     p.expand = p.integrate;
+% if any(p.integrate) && p.expand
+%    error('Cannot use intergate and expand at the same time.');
 % end
 
-if p.expand,
-    if length(p.expand)>1, error('Please choose only one factor to expand.'); end
-    [config p.expand p.expandName] = expModifyExposition(config, p.expand);
+% if any(p.percent)
+%     for k=1:length(p.percent)
+%         if p.percent(k) <= size(data.meanData, 2)
+%             data.meanData(:, p.percent(k)) =  data.meanData(:, p.percent(k))*100;
+%             data.varData(:, p.percent(k)) =  data.varData(:, p.percent(k))*100;
+%         end
+%     end
+% end
+
+if any(p.percent)
+    metrics = config.evaluation.metrics;
+    for k=1:length(p.percent)
+        for m=1:length(config.evaluation.results)
+           config.evaluation.results{m}.(metrics{p.percent(k)}) = 100*config.evaluation.results{m}.(metrics{p.percent(k)});
+        end
+    end
 end
 
-if p.integrate,
+data = {};
+if iscell(p.integrate) || p.integrate ~= 0,
     [config p.integrate p.integrateName] = expModifyExposition(config, p.integrate);
+    pi=p;
+    pi.expand = 0;
+    data = expFilter(config, pi);
+elseif isnumeric(p.expand) && ~p.expand
+   data = expFilter(config, p);
 end
+
+if p.expand,
+    if (isnumeric(p.expand) && length(p.expand)>1) || iscell(p.expand), error('Please choose only one factor to expand.'); end
+    [config p.expand p.expandName] = expModifyExposition(config, p.expand);
+    pe=p;
+    pe.integrate = 0;
+    if ~isempty(data)
+        data = expFilter(config, pe, data.rawData);
+    else
+        data = expFilter(config, pe);
+    end
+end
+
+
 
 if ~p.sort && isfield(config, 'sortDisplay')
     p.sort = config.sortDisplay;
 end
 
 
-data = expFilter(config, p);
 
-if any(p.percent)
-    for k=1:length(p.percent)
-        if p.percent(k) <= size(data.meanData, 2)
-            data.meanData(:, p.percent(k)) =  data.meanData(:, p.percent(k))*100;
-            data.varData(:, p.percent(k)) =  data.varData(:, p.percent(k))*100;
-        end
-    end
-end
+
 
 p.title = strrep(p.title, '+', config.step.setting.infoStringMask); % TODO not meaningful anymore
 p.caption = strrep(p.caption, '=', p.title);
@@ -132,10 +152,41 @@ p.caption = strrep(p.caption, '+', config.step.setting.infoStringMask);
 p.caption = strrep(p.caption, '_', '\_');
 
 p.legendNames = evaluationMetrics;
+
+p.xName='';
+p.columnNames = [config.step.factors.names(data.factorSelector)' evaluationMetrics];
+p.methodLabel = '';
+p.xAxis='';
+p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector);
+
+if p.integrate
+    if ~ischar(p.legendNames)
+        if isnumeric(p.legendNames{1})
+            p.xAxis = cell2mat(config.step.factors.set{p.expand});
+        else
+            p.xAxis = 1:length(p.legendNames);
+        end
+        p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
+    end
+    p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
+    p.methodLabel = config.evaluation.metrics(p.metric);
+    p.xName = p.integrateName;
+    p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
     
-if p.expand || any(p.integrate)
-    if ~p.integrate
-        p.legendNames = config.step.oriFactors.values{p.expand};
+end
+
+if p.expand
+   if length(p.metric)>1
+       nbModalities = length(config.step.oriFactors.values{p.expand});
+       for k=1:nbModalities
+           for m=1:length(p.metric)
+               p.legendNames(1, (k-1)*length(p.metric)+m) = {''};
+              p.legendNames(2, (k-1)*length(p.metric)+m) = evaluationMetrics(m);
+           end
+              p.legendNames(1, (k-1)*length(p.metric)+floor(length(p.metric)/2)) = config.step.oriFactors.values{p.expand}(k);         
+       end
+    else
+        p.legendNames = config.step.oriFactors.values{p.expand};  
     end
     if ~ischar(p.legendNames)
         if isnumeric(p.legendNames{1})
@@ -146,21 +197,41 @@ if p.expand || any(p.integrate)
         p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
     end
     p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
-   % p.columnNames = [config.step.factors.names; p.legendNames]'; % (data.factorSelector)
-    p.methodLabel = config.evaluation.metrics{p.metric};
-if p.expand
+    p.methodLabel = config.evaluation.metrics(p.metric);
     p.xName = p.expandName;
-else
-     p.xName = p.integrateName;
-end
     p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
-else
-    p.xName='';
-    p.columnNames = [config.step.factors.names(data.factorSelector)' evaluationMetrics];
-    p.methodLabel = '';
-    p.xAxis='';
-    p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector);
+    
 end
+
+%
+% if p.expand || any(p.integrate)
+%     if ~p.integrate
+%         p.legendNames = config.step.oriFactors.values{p.expand};
+%     end
+%     if ~ischar(p.legendNames)
+%         if isnumeric(p.legendNames{1})
+%             p.xAxis = cell2mat(config.step.factors.set{p.expand});
+%         else
+%             p.xAxis = 1:length(p.legendNames);
+%         end
+%         p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
+%     end
+%     p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
+%    % p.columnNames = [config.step.factors.names; p.legendNames]'; % (data.factorSelector)
+%     p.methodLabel = config.evaluation.metrics(p.metric);
+% if p.expand
+%     p.xName = p.expandName;
+% else
+%      p.xName = p.integrateName;
+% end
+%     p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
+% else
+%     p.xName='';
+%     p.columnNames = [config.step.factors.names(data.factorSelector)' evaluationMetrics];
+%     p.methodLabel = '';
+%     p.xAxis='';
+%     p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector);
+% end
 
 if p.total
     for k=1:size(p.rowNames, 2)

@@ -84,8 +84,6 @@ for k=1:length(names)
     end
 end
 
-selectAll
-
 % identifying sequential factor
 sequentialFactor = [];
 seq=0;
