@@ -31,7 +31,10 @@ else
     fid = fopen(defaultConfigFileName, 'rt');
     text={};
     while ~feof(fid)
-        text{end+1} = strtrim(fgetl(fid));
+        line = fgetl(fid);
+        if line ~= -1
+        text{end+1} = strtrim(line);
+        end
     end
     fclose(fid);
     

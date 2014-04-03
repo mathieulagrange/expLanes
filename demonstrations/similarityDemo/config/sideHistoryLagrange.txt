@@ -4,3 +4,5 @@ similarityDemo('do', 0, 'host', 2, 'parallel', 1);
 similarityDemo('show', 1);
 config=similarityDemo('show', 1);
 similarityDemo('do', 0)
+similarityDemo('do', 1, 'redo', 0);
+similarityDemo('do', 1, 'redo', 0, 'display', 't');

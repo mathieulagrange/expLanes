@@ -4,7 +4,7 @@ if nargin<1, config=expConfig(); end
 
 % check data directory
 if ~exist(config.inputPath, 'dir')
-    warning('Unreachable input path %s ', config.inputPath);
+    disp(['Warning. Unreachable input path: ', config.inputPath]);
 end
 
 %create needed directories
@@ -124,7 +124,7 @@ function config = expProcessOneSub(config)
 functionName = [config.shortProjectName num2str(config.step.id) config.stepName{config.step.id}];
 
 if config.redo==0 && (exist(expSave(config, [], 'data'), 'file') || exist(expSave(config, [], 'obs'), 'file'))
-   disp(['skipping ' config.step.idName ' ' config.step.setting.infoString]);
+   % disp(['skipping ' config.step.idName ' ' config.step.setting.infoString]);
    return
 end
 

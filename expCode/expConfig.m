@@ -16,6 +16,8 @@ function config = expConfig(projectPath, shortProjectName, commands)
 
 setenv('PATH', [getenv('PATH') ':/usr/texbin']);
 
+%userDefaultConfigFileName = expUserDefaultConfig();
+
 configFileName = getUserFileName(shortProjectName, projectPath);
 config = expUpdateConfig(configFileName);
 config.shortProjectName = shortProjectName;
