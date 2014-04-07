@@ -3,7 +3,11 @@ function config = exposeLinePlot(config, data, p)
 config = expDisplay(config, p);
 set(gca, 'ColorOrder', varycolor(size(data.meanData, 1)));
 hold on
-plot(data.meanData','linewidth', 1.1); % TODO xAxis,
+if ~isempty(p.add)
+    plot(data.meanData','linewidth', 1.1, p.add{:}); % TODO xAxis,  
+else
+    plot(data.meanData','linewidth', 1.1); % TODO xAxis,
+end
 set(gca,'xtick', 1:length(p.legendNames));
 set(gca, 'xticklabel', p.legendNames);
 set(gca, 'fontsize', config.displayFontSize);

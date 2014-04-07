@@ -26,6 +26,8 @@ p.percent=0;
 p.legend=1;
 p.integrate=0;
 p.total=0;
+p.add=[];
+p.orientation='v';
 
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
@@ -109,13 +111,15 @@ if any(p.percent)
     metrics = config.evaluation.metrics;
     for k=1:length(p.percent)
         for m=1:length(config.evaluation.results)
+            if ~isempty(config.evaluation.results{m}) && all(config.evaluation.results{m}.(metrics{p.percent(k)})<1) % TODO remove when done
            config.evaluation.results{m}.(metrics{p.percent(k)}) = 100*config.evaluation.results{m}.(metrics{p.percent(k)});
+            end
         end
     end
 end
 
 data = {};
-if iscell(p.integrate) || p.integrate ~= 0,
+if iscell(p.integrate) || any(p.integrate ~= 0),
     [config p.integrate p.integrateName] = expModifyExposition(config, p.integrate);
     pi=p;
     pi.expand = 0;
@@ -136,15 +140,9 @@ if p.expand,
     end
 end
 
-
-
 if ~p.sort && isfield(config, 'sortDisplay')
     p.sort = config.sortDisplay;
 end
-
-
-
-
 
 p.title = strrep(p.title, '+', config.step.setting.infoStringMask); % TODO not meaningful anymore
 p.caption = strrep(p.caption, '=', p.title);
@@ -171,8 +169,7 @@ if p.integrate
     p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
     p.methodLabel = config.evaluation.metrics(p.metric);
     p.xName = p.integrateName;
-    p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
-    
+    p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);   
 end
 
 if p.expand
@@ -245,7 +242,9 @@ end
 
 for k=1:config.step.nbSettings
     d = expSetting(config.step, k);
-    p.labels{k} = strrep(d.infoShortStringMasked, '_', ' '); % (data.settingSelector)
+    if ~isempty(d.infoShortStringMasked)
+        p.labels{k} = strrep(d.infoShortStringMasked, '_', ' '); % (data.settingSelector)
+    end
 end
 p.axisLabels = evaluationMetrics;
 

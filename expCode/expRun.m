@@ -168,7 +168,7 @@ if config.report>-1
     end
     displayData = config.displayData; %#ok<NASGU>
     save(config.staticDataFileName, 'displayData', '-append');
-else
+elseif config.report>-3
     vars = whos('-file', config.staticDataFileName);
     if ismember('displayData', {vars.name})
         data = load(config.staticDataFileName, 'displayData');
@@ -207,7 +207,9 @@ switch config.host
             message{end+1} = '';
             
             message{end+1} = ['total duration: ' expTimeString(config.runDuration)];
+            if config.settingStatus.failed+config.settingStatus.success>0
             message{end+1} = ['average duration per setting: ' expTimeString(config.runDuration/(config.settingStatus.failed+config.settingStatus.success))];
+            end
             message{end+1} = '';
             message{end+1} = ['number of cores used: ' num2str(max([1 config.parallel]))];
             message{end+1} = ['number of successful settings: ' num2str(config.settingStatus.success)];
@@ -234,9 +236,9 @@ switch config.host
             %             if exist(config.configMatName, 'file') % FIXME
             %                 config.mailAttachment{end+1} = config.configMatName;
             %             end
-            if exist(config.logFileName, 'file')
-                config.mailAttachment{end+1} = config.logFileName;
-            end
+%             if exist(config.logFileName, 'file')
+%                 config.mailAttachment{end+1} = config.logFileName;
+%             end
             for k=1:length(config.errorDataFileName)
                 if exist(config.errorDataFileName{k}, 'file')
                     config.mailAttachment{end+1} = config.errorDataFileName{k};

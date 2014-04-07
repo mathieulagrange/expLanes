@@ -1,14 +1,15 @@
 function config=exposeBar(config, data, p)
 
 config = expDisplay(config, p);
-barh(data.meanData);
-if length(p.legendNames)>1
-    legend(p.legendNames);
+if strcmpi(p.orientation(1), 'v')
+    barCommand = 'bar';
 else
-    xlabel(p.legendNames);
+    barCommand = 'barh';
 end
-set(gca,'ytick', 1:length(p.labels));
-set(gca, 'yticklabel', p.labels);
-set(gca, 'fontsize', config.displayFontSize);
-xlabel(p.methodLabel);
-title(p.title);
+if ~isempty(p.add)
+    feval(barCommand, data.meanData, p.add{:});
+else
+    feval(barCommand, data.meanData);
+end
+
+expSetAxes(config, data, p)

@@ -37,7 +37,11 @@ switch p.put
             dataCell = [p.columnNames(2, :); dataCell];
             p.columnNames = p.columnNames(1, :);
         end
-        hTable=uitable('Data', dataCell, 'columnName', p.columnNames, 'fontName','courier', 'fontSize', 14);
+        if ~isempty(p.add)
+        hTable=uitable('Data', dataCell, 'columnName', p.columnNames, 'fontName','courier', 'fontSize', 14, p.add{:});
+        else
+       hTable=uitable('Data', dataCell, 'columnName', p.columnNames, 'fontName','courier', 'fontSize', 14);      
+        end
         set(hTable, 'units', get(gcf, 'units'));
         set(hTable, 'position', [margin margin fPos(3:4)-2*margin]); % , 'position', [30 30 600 600]
         

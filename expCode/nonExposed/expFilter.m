@@ -9,27 +9,34 @@ metrics = config.evaluation.metrics;
 settingSelector = 1:config.step.nbSettings;
 
 
-if  isnumeric(p.integrate) && all(p.integrate ~= 0)
+if isnumeric(p.integrate) && all(p.integrate ~= 0)
     fData = data;
     factors = 1:length(config.step.oriFactors.names);
     factors(p.integrate)=[];
     for k=1:size(config.step.oriFactors.list, 1)
-        pList{k} = [config.step.oriFactors.list{k, factors}];
+        pListOri{k} = [config.step.oriFactors.list{k, factors}];
     end
-    [modalityNames a modalityIndexes]=unique(pList);
+    %     [modalityNames a modalityIndexes]=unique(pList);
+    
+    factors = 1:length(config.step.factors.names);
+    for k=1:size(config.step.factors.list, 1)
+        pList{k} = [config.step.factors.list{k, factors}];
+    end
     
     data={};
-    for k=1:length(modalityNames)
-        idx = find(modalityIndexes == k);
+    for k=1:length(pList)
+         idx = find(ismember(pListOri, pList{k}));
         for n=1:length(idx)
             for m=1:length(metrics)
-                if isempty(fData{idx(n)})
-                    data{k}.(metrics{m}) = 0;
-                else
+                if isempty(fData{idx(n)}) && ~isfield(data{k}, metrics{m})
+                    data{k}.(metrics{m}) = [];
+                elseif ~isempty(fData{idx(n)})
                     if length(data)>=k && ~isempty(data{k}) && isfield(data{k}, metrics{m})
-                        data{k}.(metrics{m}) = [data{k}.(metrics{m}); fData{idx(n)}.(metrics{m})];
+                        d = fData{idx(n)}.(metrics{m});
+                        data{k}.(metrics{m}) = [data{k}.(metrics{m}); mean(d(:))];
                     else
-                        data{k}.(metrics{m}) = fData{idx(n)}.(metrics{m});
+                        d = fData{idx(n)}.(metrics{m});
+                        data{k}.(metrics{m}) = mean(d(:));
                     end
                 end
             end
@@ -81,14 +88,28 @@ end
 
 sData = [];
 vData = [];
+fData = [];
 for m=1:length(p.metric)
     for k=1:length(data)
         if isempty(data{k})
+            nbData(k, m, :) = 0;
             sData(k, m) = NaN;
             vData(k, m) = 0;
         else
+            nbData(k, m) = length(data{k}.(metrics{p.metric(m)}));
             sData(k, m) = mean(data{k}.(metrics{p.metric(m)}));
-            vData(k, m) = std(data{k}.(metrics{p.metric(m)}));
+            vData(k, m) = std(double(data{k}.(metrics{p.metric(m)})));
+        end
+    end
+end
+nbData = max(nbData);
+fData  = NaN*zeros(size(sData, 1), size(sData, 2), nbData);
+for m=1:length(p.metric)
+    for k=1:length(data)
+        if isempty(data{k})
+        else
+            datak = data{k}.(metrics{p.metric(m)});
+            fData(k, m, 1:length(datak)) = datak;
         end
     end
 end
@@ -104,8 +125,8 @@ if p.highlight ~= -1
         
         if any(vData(:, k))
             for m=1:length(data)
-                if ~isempty(data{m})
-                    rejection = ttest2(data{m}.(metrics{p.metric(k)}), data{maxIndex}.(metrics{p.metric(k)}));
+                if ~isempty(data{m}) && ~isempty(data{m}.(metrics{p.metric(k)}))
+                    rejection = ttest2(double(data{m}.(metrics{p.metric(k)})), double(data{maxIndex}.(metrics{p.metric(k)})));
                     if isnan(rejection), rejection = 0; end
                     highlights(m, k) = ~rejection;
                 end
@@ -160,7 +181,7 @@ end
 % end
 
 dataDisplay.rawData = data;
-% dataDisplay.filteredData = squeeze(fData);
+dataDisplay.filteredData = squeeze(fData);
 % if isvector(dataDisplay.filteredData)
 %     dataDisplay.filteredData = dataDisplay.filteredData(:).';
 % end
