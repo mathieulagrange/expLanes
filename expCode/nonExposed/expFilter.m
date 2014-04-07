@@ -33,10 +33,10 @@ if isnumeric(p.integrate) && all(p.integrate ~= 0)
                 elseif ~isempty(fData{idx(n)})
                     if length(data)>=k && ~isempty(data{k}) && isfield(data{k}, metrics{m})
                         d = fData{idx(n)}.(metrics{m});
-                        data{k}.(metrics{m}) = [data{k}.(metrics{m}); mean(d(:))];
+                        data{k}.(metrics{m}) = [data{k}.(metrics{m}); (d(:))];
                     else
                         d = fData{idx(n)}.(metrics{m});
-                        data{k}.(metrics{m}) = mean(d(:));
+                        data{k}.(metrics{m}) = (d(:));
                     end
                 end
             end
@@ -89,6 +89,7 @@ end
 sData = [];
 vData = [];
 fData = [];
+nbData = 0;
 for m=1:length(p.metric)
     for k=1:length(data)
         if isempty(data{k})

@@ -13,6 +13,7 @@ if length(unique(names)) < length(names)
 end
 
 selectAll = {};
+deselectAll = {};
 for k=1:length(names)
     names{k}=strtrim(names{k});
     selectSplit = regexp(strtrim(select{k}), ',', 'split');
@@ -21,48 +22,49 @@ for k=1:length(names)
             c = regexp(selectSplit{l}, '/', 'split');
             p = eval(c{1});
             s = eval(c{2});
-            if p<0
-                sLength = length(eval(values{-p}));
-                if s>1 && s<sLength
-                    if s>2
-                        sel1 = ['1:' num2str(s-1)];
-                    else
-                        sel1 = '1';
-                    end
-                    if s<sLength-1
-                        sel2 = [num2str(s+1) ':' num2str(sLength)];
-                    else
-                        sel2 = sLength;
-                    end
-                else
-                    if s==1
-                        sel1 = ['2:' num2str(sLength)];
-                    else
-                        sel1 = ['1:' num2str(sLength-1)];
-                    end
-                    sel2 = [];
-                end
-                for m=1:length(names)
-                    selectSplitm = regexp(strtrim(select{m}), ',', 'split');
-                     doit = 1;
-                       if ~isempty(selectSplitm{1})
-                        for n=1:length(selectSplitm)
-                            cn = regexp(selectSplitm{n}, '/', 'split');
-                            pn = eval(cn{1});
-                            sn = eval(cn{2});
-                            if pn == p, doit=0; end
-                        end
-                       end
-                        if m~=k && m ~=-p && doit
-                            selectAll{end+1} = [num2str(m) '/' num2str(-p) '/' sel1]; % FIXME more difficult than this
-                        if ~isempty(sel2)
-                            selectAll{end+1} = [num2str(m) '/' num2str(-p) '/' sel2]; % FIXME more difficult than this
-                        end
-                        end
-                end
-            else
+             if p<0
+                  deselectAll{end+1} = [num2str(k) '/' selectSplit{l} ];
+%                 sLength = length(eval(values{-p}));
+%                 if s>1 && s<sLength
+%                     if s>2
+%                         sel1 = ['1:' num2str(s-1)];
+%                     else
+%                         sel1 = '1';
+%                     end
+%                     if s<sLength-1
+%                         sel2 = [num2str(s+1) ':' num2str(sLength)];
+%                     else
+%                         sel2 = sLength;
+%                     end
+%                 else
+%                     if s==1
+%                         sel1 = ['2:' num2str(sLength)];
+%                     else
+%                         sel1 = ['1:' num2str(sLength-1)];
+%                     end
+%                     sel2 = [];
+%                 end
+%                 for m=1:length(names)
+%                     selectSplitm = regexp(strtrim(select{m}), ',', 'split');
+%                      doit = 1;
+%                        if ~isempty(selectSplitm{1})
+%                         for n=1:length(selectSplitm)
+%                             cn = regexp(selectSplitm{n}, '/', 'split');
+%                             pn = eval(cn{1});
+%                             sn = eval(cn{2});
+%                             if pn == p, doit=0; end
+%                         end
+%                        end
+%                         if m~=k && m ~=-p && doit
+%                             selectAll{end+1} = [num2str(m) '/' num2str(-p) '/' sel1]; % FIXME more difficult than this
+%                         if ~isempty(sel2)
+%                             selectAll{end+1} = [num2str(m) '/' num2str(-p) '/' sel2]; % FIXME more difficult than this
+%                         end
+%                         end
+%                 end
+             else
                 selectAll{end+1} = [num2str(k) '/' selectSplit{l} ];
-            end
+             end
         end
     end
 end
@@ -134,4 +136,5 @@ settingSpec.shortNames = shortNames;
 settingSpec.shortValues = shortValues;
 settingSpec.step = step;
 settingSpec.selectFactors = selectAll;
+settingSpec.deselectFactors = deselectAll;
 settingSpec.sequentialFactor = sequentialFactor;
