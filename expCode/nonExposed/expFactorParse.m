@@ -1,4 +1,6 @@
-function [settingSpec] = expFactorParse(fileName)
+function [settingSpec] = expFactorParse(fileName, nbSteps)
+
+if ~exist('nbSteps', 'var'), nbSteps=0; end
 
 fid =fopen(fileName);
 C = textscan(fid,'%s%s%s%s', 'commentstyle', '%', 'delimiter', '=');
@@ -119,11 +121,8 @@ for k=1:size(values, 2)
         values{k} = num2cell(values{k});
         shortValues{k} = num2cell(shortValues{k});
     elseif iscellstr(values{k})
-        % check if cell array of strings
-        
+        % check if cell array of strings       
         stringValues(k) = values(k);
-        %         values{k} = values(k);
-        %         shortValues{k} = shortValues(k);
     end
 end
 

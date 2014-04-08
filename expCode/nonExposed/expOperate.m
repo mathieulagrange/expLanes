@@ -134,10 +134,6 @@ if config.step.id>1
     if ~isempty(config.load)
         loadedData = config.load;
     end
-    %     config = expLoad(config, [], [], 'display');
-    %     if ~isempty(config.load)
-    %         loadedDisplay = config.load;
-    %     end
 else
     loadedData = config.initStore;
 end

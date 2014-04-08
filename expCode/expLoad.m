@@ -1,4 +1,4 @@
-function [config data] = expLoad(config, name, inputId, extension, selector)
+function [config data] = expLoad(config, name, inputId, extension, selector, contracting)
 
 if nargin<2 || isempty(name), name = ''; end
 if nargin<3 || isempty(inputId), inputId=config.step.id-1; end
@@ -8,9 +8,10 @@ else
     [p n] = fileparts(extension); % FIXME may be fragile
     extension = ['_' n];
 end
+if ~exist('contracting', 'var'), contracting = 1; end
 if ~exist('selector', 'var')
     selector=[]; 
-elseif ~iscell(selector)
+elseif ~iscell(selector) && ~isempty(selector)
     selector = {selector};
 end
 
@@ -39,21 +40,24 @@ else
 end
 
 if nargin<2 || isempty(name)
-    %     setting = expSettingBuild(config.factors, config.step.setting.infoId');
-    %     tv = expStepSetting(config.factors, {num2cell(config.step.setting.infoId)}, inputId); % TODO slow but useful, detect if data flow is contracting
-    m = config.mask;
-    m = expMergeMask(m, {num2cell(config.step.setting.infoId)}, config.factors.values, -1);
-    tv = expStepSetting(config.factors, m{1}, inputId); % TODO slow but useful, detect if data flow is contracting
-    for k=1:tv.nbSettings
-        d = expSetting(tv, k);
-%         d.infoString
+    if contracting % TODO detect wich step are contracting
+        m = config.mask;
+        m = expMergeMask(m, {num2cell(config.step.setting.infoId)}, config.factors.values, -1);
+        tv = expStepSetting(config.factors, m{1}, inputId);
+        for k=1:tv.nbSettings
+            settings{k} = expSetting(tv, k);
+        end
+    else
+        settings{1} = config.step.setting;
+    end
+    for k=1:length(settings)
         switch config.namingConventionForFiles
             case 'short'
-                names{k} = d.infoShortString; % FIXME should be masked
+                names{k} = settings{k}.infoShortString; % FIXME should be masked
             case 'long'
-                names{k} = d.infoString; % FIXME should be masked
+                names{k} = settings{k}.infoString; % FIXME should be masked
             case 'hash'
-                names{k} = DataHash(d.infoString); % FIXME should be masked
+                names{k} = DataHash(settings{k}.infoString); % FIXME should be masked
         end
     end
 end

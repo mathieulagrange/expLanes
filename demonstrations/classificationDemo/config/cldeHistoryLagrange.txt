@@ -68,15 +68,15 @@ classificationDemo('do', 4, 'mask', {2});
 classificationDemo('show', 4, 'mask', {2});
 classificationDemo('do', 4, 'mask', {});
 classificationDemo('do', 0, 'mask', {1});
-classificationDemo('do', 1)
 classificationDemo('do', 1);
-classificationDemo('do', 2);
-classificationDemo('do', 3);
 classificationDemo('do', 3, 'mask', {1, 0, 1});
 classificationDemo('do', 3, 'mask', {2, 0, 1});
 classificationDemo('do', 4, 'mask', {2, 0, 1});
-classificationDemo('do', 4);
 classificationDemo('do', 4, 'progress', 2);
 classificationDemo('do', 4, 'progress', 1);
 classificationDemo('report', 2);
 classificationDemo('report', 1);
+classificationDemo('do', 1)
+classificationDemo('do', 2);
+classificationDemo('do', 3);
+classificationDemo('do', 4);

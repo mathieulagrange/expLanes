@@ -10,6 +10,8 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % TODO renaming .mat function when adding factor
 % TODO convert disp by expLog
 
+
+
 % FIXME fails to attach config file
 
 % FIXME store dependency string and force localDep = 2 if different
@@ -39,7 +41,8 @@ if isempty(config.completeName)
 end
 
 config.factorFileName = [projectPath filesep config.shortProjectName 'Factors.txt'];
-config.factors = expFactorParse(config.factorFileName);
+config.stepName = expStepName(config.projectPath, config.shortProjectName);
+config.factors = expFactorParse(config.factorFileName, length(config.stepName));
 
 % checking maximal length of data files
 fileLength = 0;
@@ -126,7 +129,6 @@ if ~exist(config.reportPath, 'dir')
     mkdir(config.reportPath);
 end
 
-config.stepName = expStepName(config.projectPath, config.shortProjectName);
 
 if iscell(config.parallel)
     if length(config.parallel)>=hostIndex

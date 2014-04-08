@@ -1,6 +1,6 @@
 function stepName = expStepName(projectPath, shortProjectName)
 
-fInfo = dir([projectPath shortProjectName '*.m']);
+fInfo = dir([projectPath filesep shortProjectName '*.m']);
 
 for k=1:length(fInfo)
     r =  regexp(fInfo(k).name, [shortProjectName '([1-9]+)(\w+).m'], 'tokens');

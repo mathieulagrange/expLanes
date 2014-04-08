@@ -92,7 +92,7 @@ fData = [];
 nbData = 0;
 for m=1:length(p.metric)
     for k=1:length(data)
-        if isempty(data{k})
+        if isempty(data{k}) || ~isfield(data{k}, metrics{p.metric(m)})
             nbData(k, m, :) = 0;
             sData(k, m) = NaN;
             vData(k, m) = 0;
@@ -107,8 +107,7 @@ nbData = max(nbData);
 fData  = NaN*zeros(size(sData, 1), size(sData, 2), nbData);
 for m=1:length(p.metric)
     for k=1:length(data)
-        if isempty(data{k})
-        else
+        if ~isempty(data{k}) && isfield(data{k}, metrics{p.metric(m)})
             datak = data{k}.(metrics{p.metric(m)});
             fData(k, m, 1:length(datak)) = datak;
         end
