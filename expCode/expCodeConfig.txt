@@ -67,6 +67,8 @@ progress = 1
 
 %% DATA
 
+% attempt to perform computation to be stored
+store = 1
 % attempt to retrieve needed data server side
 retrieve = 0
 % naming convention for files: long (long naming as default), short (short naming), hash (hash based naming)

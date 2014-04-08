@@ -103,7 +103,7 @@ for m=1:length(p.metric)
         end
     end
 end
-nbData = max(nbData);
+nbData = max(nbData(:));
 fData  = NaN*zeros(size(sData, 1), size(sData, 2), nbData);
 for m=1:length(p.metric)
     for k=1:length(data)

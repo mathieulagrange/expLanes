@@ -11,7 +11,7 @@ for k=1:length(vSpec.deselectFactors)
     p = eval(c{1});
     s = abs(eval(c{2}));
     f = eval(c{3});
-    vSet(setdiff(1:size(vSet, 1), [f p]), vSet(p, :)==s) =0;
+    vSet(setdiff(1:size(vSet, 1), [f p]), union(find(vSet(p, :)==0), find(vSet(p, :)==s))) =0;
 end
 
 % prune vSet for repetition

@@ -80,8 +80,8 @@ end
 if ~p.metric
     p.metric = 1:length(config.evaluation.metrics);
 end
-evaluationMetrics = config.evaluation.metrics(p.metric);
 
+evaluationMetrics = config.evaluation.metrics;
 if p.percent
     for k=1:length(p.percent)
         if p.percent(k) <= length(evaluationMetrics)
@@ -89,6 +89,7 @@ if p.percent
         end
     end
 end
+evaluationMetrics = evaluationMetrics(p.metric);
 
 if ~isempty(p.order),
     config = expOrder(config, p.order);
@@ -111,9 +112,9 @@ if any(p.percent)
     metrics = config.evaluation.metrics;
     for k=1:length(p.percent)
         for m=1:length(config.evaluation.results)
-            if ~isempty(config.evaluation.results{m}) && all(config.evaluation.results{m}.(metrics{p.percent(k)})<1) % TODO remove when done
+             if ~isempty(config.evaluation.results{m}) && all(config.evaluation.results{m}.(metrics{p.percent(k)})<=1) % TODO remove when done
            config.evaluation.results{m}.(metrics{p.percent(k)}) = 100*config.evaluation.results{m}.(metrics{p.percent(k)});
-            end
+             end
         end
     end
 end
@@ -193,7 +194,13 @@ if p.expand
         end
         p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
     end
-    p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
+    if length(p.metric)>1
+        el = cell(1, length(config.step.factors.names(data.factorSelector)));
+        [el{:}] = deal('');
+        p.columnNames = [[el; config.step.factors.names(data.factorSelector)'] p.legendNames']; % (data.factorSelector)        
+ else
+     p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
+end
     p.methodLabel = config.evaluation.metrics(p.metric);
     p.xName = p.expandName;
     p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);

@@ -19,7 +19,7 @@ for k=1:nbFactors
     end
 end
 
-p.columnNames = [{''}; config.step.factors.names]';
+p.columnNames = [{''}; config.step.factors.names(data.factorSelector)]';
 p.rowNames = config.step.factors.names(data.factorSelector);
 data.highlights = m<config.significanceThreshold;
 data.meanData = m;
