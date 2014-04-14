@@ -1,10 +1,17 @@
 function config = exposeTable(config, data, p)
 
+if isstruct(data)
+    numeric=1;
+   inputCell = expNumToCell(data.meanData, data.varData, config.displayDigitPrecision, p.put, data.highlights);
+else
+    numeric = 0;
+    inputCell = data;
+end
+    
 switch p.put
     case 0
-        numCell = expNumToCell(data.meanData, data.varData, config.displayDigitPrecision);
-        dataCell = [p.rowNames numCell]; % config.step.factors.list(data.settingSelector, data.factorSelector)
-        dataCell = expSortData(dataCell, p, data.factorSelector, config);
+        dataCell = [p.rowNames inputCell]; % config.step.factors.list(data.settingSelector, data.factorSelector)
+        if numeric, dataCell = expSortData(dataCell, p, data.factorSelector, config); end
         el = cell(1, length(p.columnNames));
         [el{:}] = deal('---');
         if p.total
@@ -18,9 +25,8 @@ switch p.put
     case 1
         p.report=0;
         config = expDisplay(config, p);
-        numCell = expNumToCell(data.meanData, data.varData, config.displayDigitPrecision, 0, data.highlights);
-        dataCell = [p.rowNames numCell];
-        dataCell = expSortData(dataCell, p, data.factorSelector, config);
+        dataCell = [p.rowNames inputCell];
+        if numeric, dataCell = expSortData(dataCell, p, data.factorSelector, config); end
         if p.total
             el = cell(1, length(p.columnNames));
             [el{:}] = deal('');
@@ -38,9 +44,9 @@ switch p.put
             p.columnNames = p.columnNames(1, :);
         end
         if ~isempty(p.add)
-        hTable=uitable('Data', dataCell, 'columnName', p.columnNames, 'fontName','courier', 'fontSize', 14, p.add{:});
+            hTable=uitable('Data', dataCell, 'columnName', p.columnNames, 'fontName','courier', 'fontSize', 14, p.add{:});
         else
-       hTable=uitable('Data', dataCell, 'columnName', p.columnNames, 'fontName','courier', 'fontSize', 14);      
+            hTable=uitable('Data', dataCell, 'columnName', p.columnNames, 'fontName','courier', 'fontSize', 14);
         end
         set(hTable, 'units', get(gcf, 'units'));
         set(hTable, 'position', [margin margin fPos(3:4)-2*margin]); % , 'position', [30 30 600 600]
@@ -60,14 +66,14 @@ switch p.put
             jTable.setMultiColumnSortable(true);
             jTable.setPreserveSelectionsAfterSorting(true);
             
-            if size(data, 1)>700 || any(data.meanData(:)<0)
+            if numeric && (size(data, 1)>700 || any(data.meanData(:)<0))
                 disp('Display warning: sorting from column header may be inaccurate :(');
             end
         end
     case 2
-        numCell = expNumToCell(data.meanData, data.varData, config.displayDigitPrecision, 1, data.highlights); % TODO being able to remove variance
-        dataCell = [p.rowNames numCell];
-        allCell = [p.columnNames; expSortData(dataCell, p, data.factorSelector, config)];
+        dataCell = [p.rowNames inputCell];
+        if numeric, dataCell = expSortData(dataCell, p, data.factorSelector, config); end
+        allCell = [p.columnNames; dataCell];
         allCell = strrep(allCell, '_', '\_');
         allCell = strrep(allCell, '%', '\%');
         config.displayData.cellData = allCell;

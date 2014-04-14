@@ -132,21 +132,18 @@ else
 end
 
 if config.obs ~= -1
-    %     try
-    for k=1:length(config.obs)
-        config.step = config.stepSettings{config.obs(k)};
-        if iscell(config.display)
-            config = expExpose(config, config.display{:});
-        else
-            config = expExpose(config, config.display);
+    if config.host == 0
+        config = exposeObservations(config);
+    else
+        try
+            config = exposeObservations(config);
+        catch error
+            if config.host == 0
+                rethrow(error);
+            else
+                explog(config, error, 3, 1);
+            end
         end
-        %         end
-        %     catch error
-        %         if config.host == 0
-        %             rethrow(error);
-        %         else
-        %             expLog(config, error, 3, 1);
-        %         end
     end
 end
 
@@ -262,4 +259,15 @@ end
 
 if config.waitBar
     delete(config.waitBar);
+end
+
+function config = exposeObservations(config)
+
+for k=1:length(config.obs)
+    config.step = config.stepSettings{config.obs(k)};
+    if iscell(config.display)
+        config = expExpose(config, config.display{:});
+    else
+        config = expExpose(config, config.display);
+    end
 end

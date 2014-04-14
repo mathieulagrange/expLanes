@@ -1,16 +1,19 @@
-function resultCell = expNumToCell(dataMean, dataVar, displayDigitPrecision, latexStyle, highlight)
+function resultCell = expNumToCell(dataMean, dataVar, displayDigitPrecision, put, highlight)
 
 if ~exist('dataVar', 'var'), dataVar = []; end
 if ~exist('displayDigitPrecision', 'var'), displayDigitPrecision=0; end
-if ~exist('latexStyle', 'var'), latexStyle=0; end
+if ~exist('put', 'var'), put=0; end
 if ~exist('highlight', 'var'), highlight=0; end
 
-if latexStyle
+if put==2
     og = '$\\pm$';
     fg = '';
-else
+elseif put == 1
     og = ' (';
     fg = ')';
+else
+    og='';
+    fg='';
 end
 
 resultCell = cell(size(dataMean));
@@ -30,9 +33,9 @@ for k=1:size(dataMean, 2)
 end
 
 if any(highlight(:))
-    if latexStyle
+    if put == 2
         resultCell(highlight==1) = strcat('\textbf{', resultCell(highlight==1), '}');
-    else
+    elseif put == 1
 %         resultCell(highlight==0) = strcat('<html><font color="black"><b>', resultCell(highlight==0), '</font></html>');
         resultCell(highlight==1) = strcat('<html><font color="purple"><b>', resultCell(highlight==1), '</font></html>');
     end

@@ -112,9 +112,9 @@ if any(p.percent)
     metrics = config.evaluation.metrics;
     for k=1:length(p.percent)
         for m=1:length(config.evaluation.results)
-             if ~isempty(config.evaluation.results{m}) && all(config.evaluation.results{m}.(metrics{p.percent(k)})<=1) % TODO remove when done
-           config.evaluation.results{m}.(metrics{p.percent(k)}) = 100*config.evaluation.results{m}.(metrics{p.percent(k)});
-             end
+            if ~isempty(config.evaluation.results{m}) && all(config.evaluation.results{m}.(metrics{p.percent(k)})<=1) % TODO remove when done
+                config.evaluation.results{m}.(metrics{p.percent(k)}) = 100*config.evaluation.results{m}.(metrics{p.percent(k)});
+            end
         end
     end
 end
@@ -126,7 +126,7 @@ if iscell(p.integrate) || any(p.integrate ~= 0),
     pi.expand = 0;
     data = expFilter(config, pi);
 elseif isnumeric(p.expand) && ~p.expand
-   data = expFilter(config, p);
+    data = expFilter(config, p);
 end
 
 if p.expand,
@@ -154,6 +154,8 @@ p.legendNames = evaluationMetrics;
 
 p.xName='';
 p.columnNames = [config.step.factors.names(data.factorSelector)' evaluationMetrics];
+p.factorNames = config.step.factors.names(data.factorSelector)';
+p.metricNames = evaluationMetrics;
 p.methodLabel = '';
 p.xAxis='';
 p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector);
@@ -167,24 +169,25 @@ if p.integrate
         end
         p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
     end
-    p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
+    %     p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
+    p.metricNames = p.legendNames;
     p.methodLabel = config.evaluation.metrics(p.metric);
     p.xName = p.integrateName;
-    p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);   
+    p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
 end
 
 if p.expand
-   if length(p.metric)>1
-       nbModalities = length(config.step.oriFactors.values{p.expand});
-       for k=1:nbModalities
-           for m=1:length(p.metric)
-               p.legendNames(1, (k-1)*length(p.metric)+m) = {''};
-              p.legendNames(2, (k-1)*length(p.metric)+m) = evaluationMetrics(m);
-           end
-              p.legendNames(1, (k-1)*length(p.metric)+floor(length(p.metric)/2)) = config.step.oriFactors.values{p.expand}(k);         
-       end
+    if length(p.metric)>1
+        nbModalities = length(config.step.oriFactors.values{p.expand});
+        for k=1:nbModalities
+            for m=1:length(p.metric)
+                p.legendNames(1, (k-1)*length(p.metric)+m) = {''};
+                p.legendNames(2, (k-1)*length(p.metric)+m) = evaluationMetrics(m);
+            end
+            p.legendNames(1, (k-1)*length(p.metric)+floor(length(p.metric)/2)) = config.step.oriFactors.values{p.expand}(k);
+        end
     else
-        p.legendNames = config.step.oriFactors.values{p.expand};  
+        p.legendNames = config.step.oriFactors.values{p.expand};
     end
     if ~ischar(p.legendNames)
         if isnumeric(p.legendNames{1})
@@ -197,14 +200,14 @@ if p.expand
     if length(p.metric)>1
         el = cell(1, length(config.step.factors.names(data.factorSelector)));
         [el{:}] = deal('');
-        p.columnNames = [[el; config.step.factors.names(data.factorSelector)'] p.legendNames']; % (data.factorSelector)        
- else
-     p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
-end
+        p.columnNames = [[el; config.step.factors.names(data.factorSelector)'] p.legendNames']; % (data.factorSelector)
+        %         p.factorNames = [el; config.step.factors.names(data.factorSelector)'];
+    else
+        p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
+    end
     p.methodLabel = config.evaluation.metrics(p.metric);
     p.xName = p.expandName;
     p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
-    
 end
 
 %

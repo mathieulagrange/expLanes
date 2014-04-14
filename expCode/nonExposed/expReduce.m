@@ -52,10 +52,10 @@ for k=1:length(data)
     if ~isempty(data{k})
         names = fieldnames(data{k});
         for m=1:length(names)
-            if ~isstruct(data{k}.(names{m}))
+            if isstruct(data{k}.(names{m})) % || iscell(data{k}.(names{m}))
+                structMetrics = [structMetrics names{m}];
+            elseif ~iscell(data{k}.(names{m}))
                 metrics = [metrics names{m}];
-            else
-                 structMetrics = [structMetrics names{m}];               
             end
         end
         for m=1:length(names)
