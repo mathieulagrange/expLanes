@@ -8,12 +8,9 @@ if ~exist('highlight', 'var'), highlight=0; end
 if put==2
     og = '$\\pm$';
     fg = '';
-elseif put == 1
+else
     og = ' (';
     fg = ')';
-else
-    og='';
-    fg='';
 end
 
 resultCell = cell(size(dataMean));

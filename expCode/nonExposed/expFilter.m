@@ -122,7 +122,6 @@ if p.highlight ~= -1
     for k=1:length(p.metric)
         col = round(sData(:, k)*10^config.displayDigitPrecision);
         [maxValue maxIndex] = max(col);
-        
         if any(vData(:, k))
             for m=1:length(data)
                 if ~isempty(data{m}) && ~isempty(data{m}.(metrics{p.metric(k)}))

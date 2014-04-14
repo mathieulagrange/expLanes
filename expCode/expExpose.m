@@ -28,6 +28,7 @@ p.integrate=0;
 p.total=0;
 p.add=[];
 p.orientation='v';
+p.shortMetrics = -1;
 
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
@@ -90,6 +91,15 @@ if p.percent
     end
 end
 evaluationMetrics = evaluationMetrics(p.metric);
+
+if p.shortMetrics == 0
+    p.shortMetrics = 1:length(evaluationMetrics);
+end
+if p.shortMetrics ~= -1
+    for k=1:length(p.shortMetrics)
+        evaluationMetrics(p.shortMetrics(k)) =  names2shortNames(evaluationMetrics(p.shortMetrics(k)), 3);
+    end
+end
 
 if ~isempty(p.order),
     config = expOrder(config, p.order);
@@ -169,7 +179,7 @@ if p.integrate
         end
         p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
     end
-    %     p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
+    p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
     p.metricNames = p.legendNames;
     p.methodLabel = config.evaluation.metrics(p.metric);
     p.xName = p.integrateName;
