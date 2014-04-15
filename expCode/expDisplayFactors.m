@@ -1,9 +1,10 @@
-function expDisplayFactors(config, style, silent, show)
+function expDisplayFactors(config, infoType, style, silent, show)
 % style 0: no propagation, 1: propagation, 2: all steps node
 
 if ~exist('silent', 'var'), silent=1; end
-if ~exist('show', 'var'), show=0; end
+if ~exist('show', 'var'), show=1; end
 if ~exist('style', 'var'), style=0; end
+if ~exist('infoType', 'var') || infoType==0, infoType=4; end
 
 p = fileparts(mfilename('fullpath'));
 
@@ -47,13 +48,21 @@ for k=1:length(config.stepName)
 end
 
 for k=1:length(config.stepName)
-    stepCell = displayNode(config, stepIndexes{k}, k, style) ;
+    stepCell = displayNode(config, stepIndexes{k}, k, style, infoType) ;
     functionCell = [functionCell; stepCell];
 end
 
 % arrows
 for k=1:length(config.stepName)-1
-    functionCell{end+1} = ['\draw[stepArrow] (' num2str(k) '.east) -- (' num2str(k+1) '.west);'];
+    if infoType == 2 || infoType  == 4
+        storeNames = expGetStepVariables(config, k, 'store');
+    storeNames(2, :) = {'\\'};storeNames(2, end) = {''};
+    storeNames = [storeNames{:}];
+   
+    functionCell{end+1} = ['\draw[stepArrow]   (' num2str(k) '.east) -- (' num2str(k+1) '.west) node[midway,text width=3cm,text centered,below] {\textbf{' storeNames '}} ;'];    
+    else
+    functionCell{end+1} = ['\draw[stepArrow]   (' num2str(k) '.east) -- (' num2str(k+1) '.west) ;'];
+    end
 end
 
 % footer
@@ -96,7 +105,7 @@ if show
     system(cmd);
 end
 
-function functionCell = displayNode(config, factorIndex, stepId, style)
+function functionCell = displayNode(config, factorIndex, stepId, style, infoType)
 
 if ~exist('stepId', 'var')
     stepId = 0;
@@ -131,10 +140,24 @@ end
 functionCell{end+1} = '\endtabular';
 functionCell{end+1} = ' ';
 functionCell{end+1} = '\nodepart{three}\tabular{@{}l}  ';
+
 for k=1:length(factorIndex)
     if factorIndex(k) && length(config.factors.values{k}) == 1
         functionCell{end+1} = ['\texttt{' config.factors.names{k} '} = ' config.factors.stringValues{k}{1} '\\'];
     end
 end
 functionCell{end+1} = '\endtabular};';
-
+if infoType>2
+    [obsNames structId] = expGetStepVariables(config, stepId, 'obs');
+    for k=1:length(obsNames)
+        if structId(k)
+            obsNames{k} = ['\textbf{' obsNames{k} '}'];
+        end
+    end
+    obsNames(2, :) = {'\\'};obsNames(2, end) = {''};
+    obsNames = [obsNames{:}];
+    if ~isempty(obsNames)
+        
+    functionCell{end+1} = ['\draw[obsArrow]   (' num2str(stepId) '.south) -- (' num2str(stepId) '.south) node[midway,text width=3cm,text centered,below] {\textit{' obsNames '}} ;'];
+    end
+end

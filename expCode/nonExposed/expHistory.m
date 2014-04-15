@@ -54,10 +54,10 @@ elseif ischar(commands{1})
             
         case 'f'
             config = expConfig(projectPath, shortProjectName);
-            expDisplayFactors(config, config.factorDisplayStyle);
+            expDisplayFactors(config, config.showFactorsInReport, config.factorDisplayStyle);
        case 'F'
             config = expConfig(projectPath, shortProjectName);
-            expDisplayFactors(config, config.factorDisplayStyle, 0);
+            expDisplayFactors(config, config.showFactorsInReport, config.factorDisplayStyle, 0);
         otherwise
             error('Unable to handle command');
     end

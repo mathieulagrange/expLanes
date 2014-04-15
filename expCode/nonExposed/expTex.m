@@ -30,7 +30,7 @@ if config.showFactorsInReport
     a=dir(pdfFileName);
     b=dir([config.codePath config.shortProjectName 'Factors.txt']);
     if ~exist(pdfFileName, 'file')  || a.datenum < b.datenum
-        expDisplayFactors(config, ~(abs(config.report)-1), 0);
+        expDisplayFactors(config, config.factorDisplayStyle, config.showFactorsInReport, ~(abs(config.report)-1), 0);
     end
     config.latex.addLine('\begin{center}');
     config.latex.addLine('\begin{figure}[ht]');
