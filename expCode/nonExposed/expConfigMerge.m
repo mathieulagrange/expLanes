@@ -32,9 +32,9 @@ else
     text={};
     while ~feof(fid)
         line = fgetl(fid);
-        if line ~= -1
+%         if line ~= -1
         text{end+1} = strtrim(line);
-        end
+%         end
     end
     fclose(fid);
     

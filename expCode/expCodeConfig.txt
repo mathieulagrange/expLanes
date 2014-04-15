@@ -107,10 +107,12 @@ pdfViewer =
 significanceThreshold = 0.05 
 % show the factors graph in the report
 showFactorsInReport = 1
-
+% style of the factor graph: 0 no propagation of factors, 1 propagation of factors, 2 propagation of factors with an "all steps" node
+factorDisplayStyle = 0
 
 %% MISC
 
 % usage of default expcode smtp. If set to 0 assume availability of local stmp server
 useExpCodeSmtp = 1
+
 

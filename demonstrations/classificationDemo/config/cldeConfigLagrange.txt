@@ -1,12 +1,19 @@
 %% PROJECT
+
 % version of the experiment
 versionName  = 0.1
+
+
 %% USER
+
 % email address ticked when processing is done server side (leave empty for no mailing service), can be a cell array of email adresses
 emailAddress  = lagrange@ircam.fr
 % complete name of user
 completeName  = 
+
+
 %% PATHS
+
 % path to input data
 inputPath  = ~/data/databases
 % path to the code repository of the project
@@ -19,12 +26,18 @@ backupPath  = /tmp/expCodeBackup/classificationDemo
 bundlePath  = /tmp/classificationDemo
 % path to matlab
 matlabPath  = {'', '/net/moncol/data/usr_local/MATLAB/R2010b/bin'}
+
+
 %% CODE
+
 % code dependencies to load and export
 dependencies  = {'../../expCode' '../tools/netlab'}
 % dependencies (including expCode) can be part of the project: 0 do not use local versions, 1 use local versions, 2 update local versions
 localDependencies  = 0
+
+
 %% COMPUTING
+
 % processing steps to execute: -1 none, 0 all, >0 processing step by numeric id
 do  = -1
 % perform computation even if the result is already available
@@ -36,11 +49,12 @@ mask  = {{}}
 % cell array of couples of string and array, if the string is parsed in a mask definition it gets replaced by the specified array
 maskPatch  = {}
 % set a experiment design: assume cell array of {[factors as numericIds], number of values per factor (0 complete set of values), type of plan as string 'f' (factorial) or 'o' (one factor at a time), [seed as a vector of index of factor]}
-design =
+design  = 
 % dummy mode
 dummy  = 0
 % set the random seed at init for replicability
 setRandomSeed  = 1
+
 % names of the machines
 machineNames  = {'mo-lagrange.irccyn.ec-nantes.fr', 'pc-adtsi-sunda.irccyn.ec-nantes.fr'}
 % host index for running the experiment
@@ -49,7 +63,12 @@ host  = 0
 log  = 1
 % show processing progress 0: none, 1: bar if on local host, 2: verbose output, 3: liminar output
 progress  = 1
+
+
 %% DATA
+
+% attempt to perform computation to be stored
+store  = 1
 % attempt to retrieve needed data server side
 retrieve  = 0
 % naming convention for files: long (long naming as default), short (short naming), hash (hash based naming)
@@ -60,7 +79,10 @@ sync  = {}
 bundle  = 0
 % clean data repositories
 clean  = 0
+
+
 %% DISPLAY
+
 % step for which to display observations: -1 none, 0 last processed step if any, >0 specific step
 obs  = 0
 % specify default display of observations (>: prompt, t: table, p:plot)
@@ -71,7 +93,10 @@ displayDigitPrecision  = 2
 displayFontSize  = 16
 % show timing observations
 showTiming  = 1
+
+
 %% REPORT
+
 % generate report: <=-3 none -2 verbose tex report -1 generation of tex report, 0 display figures, 1 display figures and generation of tex report, 2 display figures and verbose tex report >=3 none
 report  = -3
 % memo message for the generation of reports
@@ -82,6 +107,10 @@ pdfViewer  =
 significanceThreshold  = 0.05
 % show the factors graph in the report
 showFactorsInReport  = 1
+% style of the factor graph: 0 no propagation of factors, 1 propagation of factors, 2 propagation of factors with an "all steps" node
+factorDisplayStyle  = 2
+
 %% MISC
+
 % usage of default expcode smtp. If set to 0 assume availability of local stmp server
 useExpCodeSmtp  = 1

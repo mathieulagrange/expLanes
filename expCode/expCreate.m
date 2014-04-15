@@ -175,8 +175,8 @@ for k=1:length(stepNames)
         '%       store  : processing data to be saved for the other steps ';
         '%       obs    : observations to be saved for analysis';
         '';
-        ['% Copyright ' config.completeName];
-        ['% Date ' date()];
+        ['% Copyright: ' config.completeName];
+        ['% Date: ' date()];
         '';
         '% Set behavior for debug mode.';
         ['if nargin==0, ' , projectName '(''do'', ' num2str(k) ', ''mask'', {}); return; end'];
@@ -197,8 +197,8 @@ functionString = char({...
     '%';
     '%       store  : processing data to be saved for the other steps ';
     '';
-    ['% Copyright ' config.completeName];
-    ['% Date ' date()];
+    ['% Copyright: ' config.completeName];
+    ['% Date: ' date()];
     '';
     ['if nargin==0, ' , projectName '(); return; end'];
     'store=[];';
@@ -211,8 +211,8 @@ functionString = char({...
     ['%    config = ' functionName 'Report(config)'];
     '%       config : expCode configuration state';
     '';
-    ['% Copyright ' config.completeName];
-    ['% Date ' date()];
+    ['% Copyright: ' config.completeName];
+    ['% Date: ' date()];
     '';
     ['if nargin==0, ' , projectName '(''report'', 0); return; end'];
     });
@@ -227,7 +227,6 @@ dlmwrite([config.codePath '/README.txt'], fileread([expCodePath '/nonExposed/REA
 runId=1;
 save([configPath config.shortProjectName], 'runId');
 
-
 % copy depencies if necessary
 if str2num(config.localDependencies) >= 1
     config.dependencies = eval(config.dependencies);
@@ -239,15 +238,3 @@ end
 
 fprintf('Done.\nMoving to project directory.\n')
 cd(config.codePath);
-
-% function s=cell2string(c)
-% 
-% if isempty(c)
-%     s='{}';
-% else
-%     s='{';
-%     for k=1:length(c)
-%         s = [s '''' c{k} ''' '];
-%     end
-%     s = [s(1:end-1) '}'];
-% end
