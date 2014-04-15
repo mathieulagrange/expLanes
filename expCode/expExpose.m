@@ -311,6 +311,29 @@ else
     end
     if ~strcmp(exposeType(1:6), 'expose')
         exposeType = ['expose' upper(exposeType(1)) exposeType(2:end)];
+        
+        if exist(exposeType) ~= 2
+            disp(['Unable to find ' exposeType  ' in your path. This function is needed to display the observations ' exposeType(7:end) '.']);
+            if inputQuestion('Do you want to create it ?');
+                functionString = char({...
+                    ['function config = ' exposeType '(config, data, p)'];
+                    ['% ' exposeType ' EXPOSE of the expCode project ' config.projectName];
+                    ['%    config = ' exposeType '(config, data, p)'];
+                    '%       config : expCode configuration state';
+                    '%       data : observations as a struct array';
+                    '%       p : various display information';
+                    '';
+                    ['% Copyright: ' config.completeName];
+                    ['% Date: ' date()];
+                    '';
+                    'p';
+                    'data';
+                    '';
+                    });
+                dlmwrite([config.codePath '/' exposeType '.m'], functionString,'delimiter','');
+            end
+        end
+        
     end
     
 end

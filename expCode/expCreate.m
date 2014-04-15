@@ -185,10 +185,6 @@ for k=1:length(stepNames)
         'obs=[];';
         });
     dlmwrite([config.codePath '/' functionName '.m'], functionString,'delimiter','');
-    
-    %     fid=fopen([config.codePath '/' functionName '.m'], 'w');
-    %     sprintf('function [config, store, display] = %s(config, setting, data)\n\nif nargin==0, %s(''do'', %d, ''mask'', {{}}); return; end\n\n\n\n', );
-    %     fclose(fid);
 end
 
 
@@ -208,12 +204,6 @@ functionString = char({...
     'store=[];';
     });
 dlmwrite([config.codePath '/' functionName '.m'], functionString,'delimiter','');
-
-
-functionName = [shortProjectName 'Report'];
-fid=fopen([config.codePath '/' functionName '.m'], 'w');
-fprintf(fid, 'function config = %s(config)\n\nif nargin==0, %s(''report'', 2); return; end', functionName, projectName);
-fclose(fid);
 
 functionString = char({...
     ['function config = ' shortProjectName 'Report(config)'];
