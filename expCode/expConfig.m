@@ -10,7 +10,9 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % TODO renaming .mat function when adding factor
 % TODO convert disp by expLog
 
+% TODO creation of .expCode data at each run of config ??
 
+% FIXME progress bar with wrong size on linux
 
 % FIXME fails to attach config file
 

@@ -1,4 +1,4 @@
-function userDefaultConfigFileName = expUserDefaultConfig(expCodePath)
+function [userDefaultConfigFileName userDir] = expUserDefaultConfig(expCodePath)
 
 if ispc, userDir= getenv('USERPROFILE');
 else userDir= getenv('HOME');
