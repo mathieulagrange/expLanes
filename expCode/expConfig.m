@@ -18,6 +18,10 @@ function config = expConfig(projectPath, shortProjectName, commands)
 
 % FIXME store dependency string and force localDep = 2 if different
 
+% FIXME status of time as unique metric
+
+% TODO replace metric by obs
+
 setenv('PATH', [getenv('PATH') ':/usr/texbin']);
 
 %userDefaultConfigFileName = expUserDefaultConfig();
