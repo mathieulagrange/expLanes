@@ -16,11 +16,21 @@ function config = expConfig(projectPath, shortProjectName, commands)
 
 % FIXME fails to attach config file
 
+% FIXME saving of tables
+
 % FIXME store dependency string and force localDep = 2 if different
 
 % FIXME status of time as unique metric
 
+% FIXME progress bar do not close on linux if error
+
+% FIXME missing info in confusion Matrix
+
+% FIXME generation of factor graph detect commented line
+
 % TODO replace metric by obs
+
+% TODO deal with graphic path for latex compilation of figures
 
 setenv('PATH', [getenv('PATH') ':/usr/texbin']);
 
@@ -80,7 +90,7 @@ if nargin>2,
     if isnumeric(config.mask)
         if config.mask==0
             config.mask = {{}};
-        else
+            elseexit
             config.mask = configOri.mask(config.mask);
         end
     end

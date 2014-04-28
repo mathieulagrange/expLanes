@@ -56,7 +56,7 @@ if  p.expand ~= 0
     met2={};
       for m=1:length(metrics)
       for k=1:length(metric)
-            met = [met [metrics{m} metric{k}]];
+            met = [met [strtrim(metrics{m}) metric{k}]];
             met2 = [met2 metric{k}];           
         end
     end
