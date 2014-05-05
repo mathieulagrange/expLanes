@@ -12,11 +12,11 @@ if config.progress == 1 && config.host == 0 && config.parallel(config.step.id) =
     if isempty(config.waitBar)
         config.waitBar = waitbar(0,config.step.setting.infoString,'Name',['Step ' config.step.idName ' of ' config.projectName],...
             'CreateCancelBtn',...
-            'setappdata(gcbf,''canceling'',1)');
+            'setappdata(gcbf,''canceling'',1)', 'userdata', 'expProgress');
         setappdata(config.waitBar,'canceling',0);
         config.progressId = 0;
-        waitbarId = config.waitBar;
-        save(config.staticDataFileName, 'waitbarId', '-append');
+%         waitbarId = config.waitBar;
+%         save(config.staticDataFileName, 'waitbarId', '-append');
     else
         waitbar(progress/100, config.waitBar, config.step.setting.infoString);
     end

@@ -22,7 +22,7 @@ function config = expConfig(projectPath, shortProjectName, commands)
 
 % FIXME status of time as unique metric
 
-% FIXME progress bar do not close on linux if error
+% FIXME progress bar do not close on linux if error (probe for figure handle and destroy if userdata = waitbar)
 
 % FIXME missing info in confusion Matrix
 
@@ -31,6 +31,20 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % TODO replace metric by obs
 
 % TODO deal with graphic path for latex compilation of figures
+
+% TODO help command
+
+% TODO set total on the right of table
+
+% TODO have a type for several display of structMetrics
+
+% TODO store store and obs with different paths
+
+% TODO utilities path and config probe (tex, rsync, ssh connect to servers)
+
+% FIXME percent 0 fails
+% FIXME percent lost variance with violet
+% FIXME sorting fails with percent
 
 setenv('PATH', [getenv('PATH') ':/usr/texbin']);
 
@@ -132,7 +146,7 @@ end
 if isfield(staticData, 'waitbarId') && isobject(staticData.waitbarId)
     delete(staticData.waitbarId);
 end
-config.waitBar = [];
+% config.waitBar = [];
 config.progressId = 0;
 config.displayData.prompt = [];
 
@@ -183,6 +197,13 @@ config.loadFileInfo.dateNum = [Inf, 0];
 
 config.settingStatus.success = 0;
 config.settingStatus.failed = 0;
+
+if ~exist(config.reportPath, 'dir'), mkdir(config.reportPath); end
+if ~exist([config.reportPath 'figures'], 'dir'), mkdir([config.reportPath 'figures']); end
+if ~exist([config.reportPath 'tables'], 'dir'), mkdir([config.reportPath 'tables']); end
+if ~exist([config.reportPath 'tex'], 'dir'), mkdir([config.reportPath 'tex']); end
+if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']); end
+
 
 function config = commandLine(config, v)
 

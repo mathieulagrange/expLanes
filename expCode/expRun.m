@@ -46,6 +46,11 @@ end
 
 % expPath();
 
+waitBars = findall(0, 'Type', 'figure', 'userdata', 'expProgress');
+for k=1:length(waitBars)
+   delete(waitBars(k)); 
+end
+
 if config.do == 0
     config.do = 1:length(config.stepName);
 end
