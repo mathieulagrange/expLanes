@@ -22,8 +22,6 @@ function config = expConfig(projectPath, shortProjectName, commands)
 
 % FIXME status of time as unique metric
 
-% FIXME progress bar do not close on linux if error (probe for figure handle and destroy if userdata = waitbar)
-
 % FIXME missing info in confusion Matrix
 
 % FIXME generation of factor graph detect commented line
@@ -45,6 +43,10 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % FIXME percent 0 fails
 % FIXME percent lost variance with violet
 % FIXME sorting fails with percent
+
+% TODO copy user default config (remove Default one)
+
+% TODO ability to load store of current step
 
 setenv('PATH', [getenv('PATH') ':/usr/texbin']);
 
@@ -146,7 +148,7 @@ end
 if isfield(staticData, 'waitbarId') && isobject(staticData.waitbarId)
     delete(staticData.waitbarId);
 end
-% config.waitBar = [];
+config.waitBar = [];
 config.progressId = 0;
 config.displayData.prompt = [];
 
