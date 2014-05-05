@@ -309,11 +309,11 @@ else
     if any(strcmp(exposeType, config.evaluation.structMetrics))
         data = config.evaluation.structResults.(exposeType);
     end
-    if ~strcmp(exposeType(1:6), 'expose')
+    if ~strcmp(exposeType(1:min(6, length(exposeType))), 'expose')
         exposeType = ['expose' upper(exposeType(1)) exposeType(2:end)];
         
         if exist(exposeType) ~= 2
-            disp(['Unable to find ' exposeType  ' in your path. This function is needed to display the observations ' exposeType(7:end) '.']);
+            disp(['Unable to find ' exposeType  ' in your path. This function is needed to display the observation ' exposeType(7:end) '.']);
             if inputQuestion('Do you want to create it ?');
                 functionString = char({...
                     ['function config = ' exposeType '(config, data, p)'];
