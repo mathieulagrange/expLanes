@@ -22,7 +22,7 @@ p.label='';
 p.put=1;
 p.save=0;
 p.report=1;
-p.percent=0;
+p.percent=-1;
 p.legend=1;
 p.integrate=0;
 p.total=0;
@@ -83,7 +83,10 @@ if ~p.metric
 end
 
 evaluationMetrics = config.evaluation.metrics;
-if p.percent
+if p.percent ~= -1
+    if p.percent==0
+       p.percent = 1:length(evaluationMetrics);
+    end
     for k=1:length(p.percent)
         if p.percent(k) <= length(evaluationMetrics)
             evaluationMetrics{p.percent(k)} =  [evaluationMetrics{p.percent(k)} ' (%)'];
@@ -118,7 +121,7 @@ end
 %     end
 % end
 
-if any(p.percent)
+if any(p.percent>0)
     metrics = config.evaluation.metrics;
     for k=1:length(p.percent)
         for m=1:length(config.evaluation.results)
