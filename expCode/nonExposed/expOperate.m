@@ -13,6 +13,10 @@ for k=1:length(config.stepName)
     if ~exist(stepPath, 'dir')
         mkdir(stepPath);
     end
+    stepPath = [config.obsPath config.stepName{k} filesep];
+    if ~exist(stepPath, 'dir')
+        mkdir(stepPath);
+    end
 end
     %     copyfile([fileparts(mfilename('fullpath')) filesep 'utils/mcode.sty'], [config.reportPath 'tex/']);
 
@@ -46,7 +50,7 @@ if all(config.do>0)
         for k=1:length(config.do)
             config.step = config.stepSettings{config.do(k)};
             % remove reduceData
-            reduceDataFileName = [config.dataPath config.stepName{config.step.id} filesep 'reduceData.mat'];
+            reduceDataFileName = [config.obsPath config.stepName{config.step.id} filesep 'reduceData.mat'];
             if exist(reduceDataFileName, 'file')
                 delete(reduceDataFileName);
             end
@@ -74,7 +78,7 @@ if all(config.do>0)
     else
         for k=1:length(config.do)
            config.step = config.stepSettings{config.do(k)}; % remove reduceData
-            reduceDataFileName = [config.dataPath config.stepName{config.step.id} filesep 'reduceData.mat'];
+            reduceDataFileName = [config.obsPath config.stepName{config.step.id} filesep 'reduceData.mat'];
             if exist(reduceDataFileName, 'file')
                 delete(reduceDataFileName);
             end
@@ -131,6 +135,12 @@ if config.step.id>1
     end
 else
     loadedData = config.initStore;
+end
+if config.store == 0
+    config = expLoad(config, [], config.step.id, 'data');
+    if ~isempty(config.load)
+        loadedData.store = config.load.data;
+    end
 end
 
 ticId = tic;

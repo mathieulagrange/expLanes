@@ -19,8 +19,8 @@ inputPath =
 % path to the code repository of the project 
 codePath = <projectPath> 
 % path to the data repository of the project for stored data 
-storePath = ~/data/projects/<projectName> 
-% path to the data repository of the project for observation data (same as storePath if left blank)
+dataPath = ~/data/projects/<projectName> 
+% path to the data repository of the project for observation data (same as dataPath if left blank)
 obsPath =  
 % path to backup of transfered data
 backupPath = /tmp/expCodeBackup/<projectName>

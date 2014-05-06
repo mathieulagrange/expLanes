@@ -17,10 +17,10 @@ if ~isempty(newNames)
     end
     disp('');
     layout = 0;
-    if inputQuestion(['Do you want to update ' configFileName ' with your original layout ?'])
-        layout = 1;
-    elseif inputQuestion(['Do you want to update ' configFileName ' with the expCode layout ?'])
+    if inputQuestion(['Do you want to update ' configFileName ' with the expCode layout ?'])
         layout = 2;
+    elseif inputQuestion(['Do you want to update ' configFileName ' with your original layout ?'])
+        layout = 1;
     end
     if layout
         expConfigMerge(configFileName, [expCodePath filesep 'expCodeConfig.txt'], layout);

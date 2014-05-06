@@ -31,7 +31,11 @@ end
 
 if isempty(p) || ~any(strcmp(p(1), {'/', '\', '~'}))
     if inputId
-        path = [config.dataPath config.stepName{inputId} filesep];
+        if ~isempty(strfind(extension, '_obs')) && ~isempty(config.obsPath)
+            path = [config.obsPath config.stepName{inputId} filesep];
+        else
+            path = [config.dataPath config.stepName{inputId} filesep];
+        end
     else
         path = config.inputPath;
     end

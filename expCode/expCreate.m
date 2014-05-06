@@ -85,7 +85,7 @@ config.dependencies = [config.dependencies(1:end-1) ' ''' expCodePath '''}']; % 
 % prompt
 fprintf('You are about to create an experiment called %s with short name %s and steps: ', projectName, shortProjectName);
 disp(stepNames);
-fprintf('Path to code %s\nData path %s\n', config.codePath, config.dataPath);
+fprintf('Path to code %s\nData path %s\nObservations path %s\n', config.codePath, config.dataPath, config.obsPath);
 disp(['Note: you can set the default values to all configuration parameters in your config file: ' userDir filesep '.expCode' filesep 'defaultConfig.txt.']);
 if ~inputQuestion(), fprintf(' Bailing out ...\n'); return; end
 

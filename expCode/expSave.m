@@ -9,7 +9,13 @@ end
 
 stepName = config.stepName{config.step.id};
 
-path = [config.dataPath stepName filesep];
+if ~isempty(strfind(extension, '_obs')) && ~isempty(config.obsPath)
+    path = [config.obsPath stepName filesep];
+else
+    path = [config.dataPath stepName filesep];
+end
+% path = [config.dataPath stepName filesep];
+
 % config.step.setting.infoString
 switch config.namingConventionForFiles
     case 'short'

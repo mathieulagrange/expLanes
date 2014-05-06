@@ -20,3 +20,4 @@ for k=1:length(names)
 end
 config.codePath = '.';
 config.dataPath = '.';
+config.obsPath = '.';

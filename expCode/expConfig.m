@@ -34,8 +34,6 @@ function config = expConfig(projectPath, shortProjectName, commands)
 
 % TODO set total on the right of table
 
-% TODO store store and obs with different paths
-
 % TODO utilities path and config probe (tex, rsync, ssh connect to servers)
 
 % FIXME percent lost variance with violet
@@ -201,6 +199,7 @@ if ~exist([config.reportPath 'tables'], 'dir'), mkdir([config.reportPath 'tables
 if ~exist([config.reportPath 'tex'], 'dir'), mkdir([config.reportPath 'tex']); end
 if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']); end
 
+if isempty(config.obsPath), config.obsPath = config.dataPath; end
 
 function config = commandLine(config, v)
 

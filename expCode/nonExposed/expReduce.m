@@ -3,7 +3,7 @@ function config=expReduce(config)
 % TODO reduceData per expose Call
 
 data = {};
-reduceFileName = [config.dataPath config.stepName{config.step.id} filesep 'reduceData.mat'];
+reduceFileName = [config.obsPath config.stepName{config.step.id} filesep 'reduceData.mat'];
 
 if exist(reduceFileName, 'file')
     % get vSet
