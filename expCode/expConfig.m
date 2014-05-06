@@ -1,4 +1,4 @@
-function config = expConfig(projectPath, shortProjectName, commands)
+function config = expConfig(projectPath, projectName, shortProjectName, commands)
 
 % TODO command to purge server code base
 
@@ -24,8 +24,6 @@ function config = expConfig(projectPath, shortProjectName, commands)
 
 % FIXME missing info in confusion Matrix
 
-% FIXME generation of factor graph detect commented line
-
 % TODO replace metric by obs
 
 % TODO deal with graphic path for latex compilation of figures
@@ -39,13 +37,12 @@ function config = expConfig(projectPath, shortProjectName, commands)
 % FIXME percent lost variance with violet
 % FIXME sorting fails with percent
 
-% TODO ability to load store of current step
 
 setenv('PATH', [getenv('PATH') ':/usr/texbin']);
 
 %userDefaultConfigFileName = expUserDefaultConfig();
 
-configFileName = getUserFileName(shortProjectName, projectPath);
+configFileName = getUserFileName(shortProjectName, projectName, projectPath);
 config = expUpdateConfig(configFileName);
 config.shortProjectName = shortProjectName;
 config.userName = getUserName();
@@ -89,7 +86,7 @@ if fileLength && fileLength>512
    warning('Following your factors definition, the longer data file name may exceed the possible range of the file system (512). Please consider using the hash based naming convention.') 
 end
 
-if nargin>2,
+if nargin>3,
     configOri = config;
     %     if ~mod(nargin, 2)
     config = commandLine(config, commands);

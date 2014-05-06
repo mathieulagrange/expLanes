@@ -1,11 +1,11 @@
-function configFileName = getUserFileName(projectName, projectPath)
+function configFileName = getUserFileName(shortProjectName, projectName, projectPath)
 
 % shortProjectName = names2shortNames(projectName);
 % shortProjectName = shortProjectName{1};
 
 userName = getUserName();
 
-configFileName = [projectPath '/config' filesep projectName 'Config' [upper(userName(1)) userName(2:end)] '.txt'];
+configFileName = [projectPath '/config' filesep shortProjectName 'Config' [upper(userName(1)) userName(2:end)] '.txt'];
 
 if ~exist(configFileName, 'file')
     userDefaultConfigFileName = expUserDefaultConfig();
@@ -16,8 +16,9 @@ if ~exist(configFileName, 'file')
     while ~feof(fid)
         text = fgetl(fid);
         if line ~= -1
-            text = strrep(text, '<<>>', projectPath);
-            text = strrep(text, '<>', projectName);
+            text = strrep(text, '<projectPath>', projectPath);
+            text = strrep(text, '<userName>', userName);
+            text = strrep(text, '<projectName>', projectName);
             fprintf(fidw, '%s\n', text);
         end
     end
@@ -26,4 +27,3 @@ if ~exist(configFileName, 'file')
     open(configFileName);
     disp(['Please update the file ' configFileName ' to suit your needs.']);    
 end
-

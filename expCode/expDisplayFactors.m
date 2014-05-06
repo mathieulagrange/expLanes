@@ -64,6 +64,18 @@ for k=1:length(config.stepName)-1
     functionCell{end+1} = ['\draw[stepArrow]   (' num2str(k) '.east) -- (' num2str(k+1) '.west) ;'];
     end
 end
+if infoType == 2 || infoType  == 4
+    storeNames = expGetStepVariables(config, length(config.stepName), 'store');
+    storeNames(2, :) = {'\\'};storeNames(2, end) = {''};
+    storeNames = [storeNames{:}];
+    if ~isempty(storeNames)
+        functionCell{end+1}=['\node (' num2str(length(config.stepName)+1) ') [right=of ' num2str(length(config.stepName)) ']{};'];
+
+        functionCell{end+1} = ['\draw[stepArrow]   (' num2str(length(config.stepName)) '.east) -- (' num2str(length(config.stepName)+1) '.west) node[midway, text width=3cm,text centered,below] {\textbf{' storeNames '}} ;'];
+    end
+% else
+%     functionCell{end+1} = ['\draw[stepArrow]   (' num2str(length(config.stepName)) '.east) -- (' num2str(length(config.stepName)) '.east) ;'];
+end
 
 % footer
 functionCell = [functionCell;...

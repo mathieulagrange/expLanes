@@ -7,11 +7,12 @@ structNames = {};
 fid = fopen(stepFileName);
 while ~feof(fid)
     line = fgetl(fid);
-    match = regexp(line, [type '\.(\w+)'], 'match');
+    line = regexp(line, '%', 'split');
+    match = regexp(line{1}, [type '\.(\w+)'], 'match');
     for k=1:length(match)
         names{end+1} = match{k}(length(type)+2:end);
     end
-    match = regexp(line, [type '\.(\w+)\.'], 'match');
+    match = regexp(line{1}, [type '\.(\w+)\.'], 'match');
     for k=1:length(match)
         structNames{end+1} = match{k}(length(type)+2:end-1);
     end

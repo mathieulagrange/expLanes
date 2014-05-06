@@ -148,11 +148,11 @@ rootString = char({...
     'if nargin>0 && isstruct(varargin{1})';
     ' config = varargin{1};';
     'else';
-    ' config = expConfigParse(getUserFileName(shortProjectName, p));';
+    ' config = expConfigParse(getUserFileName(shortProjectName, projectName, p));';
     'end';
     '';
     'expDependencies(config);';
-    'config = expRun(p, shortProjectName, varargin);';
+    'config = expRun(p, projectName, shortProjectName, varargin);';
     '';
     fileread([expCodePath '/nonExposed/utils/getUserFileName.m'])
     fileread([expCodePath '/nonExposed/expConfigParse.m'])

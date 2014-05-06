@@ -1,4 +1,4 @@
-function config = expHistory(projectPath, shortProjectName, commands)
+function config = expHistory(projectPath, projectName, shortProjectName, commands)
 
 if length(commands)<1, % default config
     config = expConfig(projectPath, shortProjectName, commands);
@@ -20,12 +20,12 @@ if length(commands)<1, % default config
         %         eval(lastCommand);
         return
     else
-        config = expConfig(projectPath, shortProjectName);
+        config = expConfig(projectPath, projectName, shortProjectName);
     end
 elseif length(commands)>1 % command line processing
-    config = expConfig(projectPath, shortProjectName, commands);
+    config = expConfig(projectPath, projectName, shortProjectName, commands);
 elseif isnumeric(commands{1})
-    config = expConfig(projectPath, shortProjectName, {});
+    config = expConfig(projectPath, projectName, shortProjectName, {});
     fid = fopen([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt'], 'rt');
     foundCommand = '';
     if fid>0
@@ -48,22 +48,22 @@ elseif isstruct(commands{1}) % server mode
 elseif ischar(commands{1})
     switch commands{1}
         case 'v'
-            config = expConfig(projectPath, shortProjectName, {});
+            config = expConfig(projectPath, projectName, shortProjectName, {});
             showFactors(config.factorFileName);
         case 'c'
             
         case 'f'
-            config = expConfig(projectPath, shortProjectName);
+            config = expConfig(projectPath, projectName, shortProjectName);
             expDisplayFactors(config, config.showFactorsInReport, config.factorDisplayStyle);
        case 'F'
-            config = expConfig(projectPath, shortProjectName);
+            config = expConfig(projectPath, projectName, shortProjectName);
             expDisplayFactors(config, config.showFactorsInReport, config.factorDisplayStyle, 0);
         otherwise
             error('Unable to handle command');
     end
     return
 else
-    config = expConfig(projectPath, shortProjectName, commands);
+    config = expConfig(projectPath, projectName, shortProjectName, commands);
 end
 
 if config.host>0

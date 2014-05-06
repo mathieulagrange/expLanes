@@ -1,8 +1,8 @@
-function config = expRun(projectPath, shortProjectName, commands)
+function config = expRun(projectPath, projectName, shortProjectName, commands)
 
 beep off
 
-config = expHistory(projectPath, shortProjectName, commands);
+config = expHistory(projectPath, projectName, shortProjectName, commands);
 
 config.logFileName = [config.reportPath 'log_' num2str(config.runId) '.txt'];
 config.errorDataFileName = {};
