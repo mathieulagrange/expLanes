@@ -18,6 +18,8 @@ elseif ~ischar(projectName)
     error('The projectName must be a string');
 end
 
+if ~iscell(stepNames), stepNames = {stepNames}; end
+
 shortProjectName = names2shortNames(projectName);
 shortProjectName = shortProjectName{1};
 
@@ -34,6 +36,8 @@ values = strtrim(configCell{2});
 for k=1:length(names)
     if k <= length(values)
         values{k} = strrep(values{k}, '<>', projectName);
+        values{k} = strrep(values{k}, '<projectName>', projectName);
+        values{k} = strrep(values{k}, '<projectPath>', projectName);
     else
         values{k} = '';
     end
@@ -63,8 +67,8 @@ if exist('dataPath', 'var')
     end
 end
 
-config.dataPath = strrep(config.dataPath, '<>', projectName);
-config.codePath = strrep(config.codePath, '<>', projectName);
+% config.dataPath = strrep(config.dataPath, '<projectName>', projectName);
+% config.codePath = strrep(config.codePath, '<projectName>', projectName);
 
 if isempty(config.dataPath)
     config.dataPath = fullfile(pwd());
@@ -126,7 +130,7 @@ end
 fclose(fid);
 
 expConfigMerge([configPath '/' config.shortProjectName 'ConfigDefault.txt'], [expCodePath '/expCodeConfig.txt'], 2, 0);
-copyfile([configPath '/' config.shortProjectName 'ConfigDefault.txt'], [configPath '/' config.shortProjectName 'Config' [upper(config.userName(1)) config.userName(2:end)] '.txt']);
+movefile([configPath '/' config.shortProjectName 'ConfigDefault.txt'], [configPath '/' config.shortProjectName 'Config' [upper(config.userName(1)) config.userName(2:end)] '.txt']);
 
 % create factors file
 fid = fopen([config.codePath '/' config.shortProjectName 'Factors.txt'], 'w');
@@ -154,6 +158,7 @@ rootString = char({...
     fileread([expCodePath '/nonExposed/expConfigParse.m'])
     fileread([expCodePath '/nonExposed/utils/getUserName.m'])
     fileread([expCodePath '/nonExposed/expDependencies.m'])
+    fileread([expCodePath '/nonExposed/expUserDefaultConfig.m'])
     });
 
 dlmwrite([config.codePath '/' projectName '.m'], rootString,'delimiter','');

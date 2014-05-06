@@ -9,7 +9,7 @@ versionName = 0.1
 % email address ticked when processing is done server side (leave empty for no mailing service), can be a cell array of email adresses
 emailAddress = 
 % complete name of user
-completeName = 
+completeName = <userName>
 
 
 %% PATHS
@@ -17,13 +17,15 @@ completeName =
 % path to input data
 inputPath = 
 % path to the code repository of the project 
-codePath = ~/projects/research/experiments/active/<> 
-% path to the data repository of the project 
-dataPath = ~/data/projects/<> 
+codePath = <projectPath> 
+% path to the data repository of the project for stored data 
+storePath = ~/data/projects/<projectName> 
+% path to the data repository of the project for observation data (same as storePath if left blank)
+obsPath =  
 % path to backup of transfered data
-backupPath = /tmp/expCodeBackup/<>
+backupPath = /tmp/expCodeBackup/<projectName>
 % path to export bundles
-bundlePath = /tmp/<> 
+bundlePath = /tmp/<projectName> 
 % path to matlab
 matlabPath = 
 

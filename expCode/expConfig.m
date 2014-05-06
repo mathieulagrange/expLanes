@@ -34,17 +34,12 @@ function config = expConfig(projectPath, shortProjectName, commands)
 
 % TODO set total on the right of table
 
-% TODO have a type for several display of structMetrics
-
 % TODO store store and obs with different paths
 
 % TODO utilities path and config probe (tex, rsync, ssh connect to servers)
 
-% FIXME percent 0 fails
 % FIXME percent lost variance with violet
 % FIXME sorting fails with percent
-
-% TODO copy user default config (remove Default one)
 
 % TODO ability to load store of current step
 

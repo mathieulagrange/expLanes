@@ -29,6 +29,7 @@ p.total=0;
 p.add=[];
 p.orientation='v';
 p.shortMetrics = -1;
+p.type='';
 
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
