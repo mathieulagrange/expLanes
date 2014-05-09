@@ -68,6 +68,7 @@ if iscell(config.mask)
 end
 
 config.step = expStepSetting(config.factors, config.mask, config.step.id);
+
 config = expReduce(config);
 
 if isempty(config.evaluation) || isempty(config.evaluation.data)
