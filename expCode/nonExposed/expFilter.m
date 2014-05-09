@@ -4,7 +4,7 @@ function dataDisplay = expFilter(config, p, data)
 if ~exist('data', 'var')
 data = config.evaluation.results;
 end
-metrics = config.evaluation.metrics;
+observations = config.evaluation.observations;
 
 settingSelector = 1:config.step.nbSettings;
 
@@ -27,16 +27,16 @@ if isnumeric(p.integrate) && all(p.integrate ~= 0)
     for k=1:length(pList)
          idx = find(ismember(pListOri, pList{k}));
         for n=1:length(idx)
-            for m=1:length(metrics)
-                if isempty(fData{idx(n)}) && ~isfield(data{k}, metrics{m})
-                    data{k}.(metrics{m}) = [];
+            for m=1:length(observations)
+                if isempty(fData{idx(n)}) && ~isfield(data{k}, observations{m})
+                    data{k}.(observations{m}) = [];
                 elseif ~isempty(fData{idx(n)})
-                    if length(data)>=k && ~isempty(data{k}) && isfield(data{k}, metrics{m})
-                        d = fData{idx(n)}.(metrics{m});
-                        data{k}.(metrics{m}) = [data{k}.(metrics{m}); (d(:))];
+                    if length(data)>=k && ~isempty(data{k}) && isfield(data{k}, observations{m})
+                        d = fData{idx(n)}.(observations{m});
+                        data{k}.(observations{m}) = [data{k}.(observations{m}); (d(:))];
                     else
-                        d = fData{idx(n)}.(metrics{m});
-                        data{k}.(metrics{m}) = (d(:));
+                        d = fData{idx(n)}.(observations{m});
+                        data{k}.(observations{m}) = (d(:));
                     end
                 end
             end
@@ -46,28 +46,28 @@ end
 
 % TODO clean this part
 if  p.expand ~= 0
-    if length(config.evaluation.metrics)==1
-        p.metric=1;
+    if length(config.evaluation.observations)==1
+        p.obs=1;
     end
    fData = data;
-    metric = metrics(p.metric);
-    metrics = config.step.oriFactors.values{p.expand};
+    observation = observations(p.obs);
+    observations = config.step.oriFactors.values{p.expand};
     met={};
     met2={};
-      for m=1:length(metrics)
-      for k=1:length(metric)
-            met = [met [strtrim(metrics{m}) metric{k}]];
-            met2 = [met2 metric{k}];           
+      for m=1:length(observations)
+      for k=1:length(observation)
+            met = [met [strtrim(observations{m}) observation{k}]];
+            met2 = [met2 observation{k}];           
         end
     end
-    fSize = length(fData)/length(metrics);
-    metrics = met;
-    p.metric = 1:length(metrics);
+    fSize = length(fData)/length(observations);
+    observations = met;
+    p.obs = 1:length(observations);
     data={};
-    for m=1:length(metrics)
-        metrics{m} = [config.step.oriFactors.names{p.expand} metrics{m}];
+    for m=1:length(observations)
+        observations{m} = [config.step.oriFactors.names{p.expand} observations{m}];
         for k=1:fSize
-            data{k}.(metrics{m}) = fData{floor((m-1)/length(metric))*fSize+k}.(met2{m});
+            data{k}.(observations{m}) = fData{floor((m-1)/length(observation))*fSize+k}.(met2{m});
         end
     end
 end
@@ -75,12 +75,12 @@ end
 nbSettings = length(data);
 
 if p.total
-    for m=1:length(p.metric)
+    for m=1:length(p.obs)
         for k=1:nbSettings
-            if length(data)>nbSettings && ~isempty(data{nbSettings+1}) && isfield(data{nbSettings+1}, metrics{p.metric(m)})
-                data{nbSettings+1}.(metrics{p.metric(m)}) = [data{nbSettings+1}.(metrics{p.metric(m)}); data{k}.(metrics{p.metric(m)})];
+            if length(data)>nbSettings && ~isempty(data{nbSettings+1}) && isfield(data{nbSettings+1}, observations{p.obs(m)})
+                data{nbSettings+1}.(observations{p.obs(m)}) = [data{nbSettings+1}.(observations{p.obs(m)}); data{k}.(observations{p.obs(m)})];
             else
-                data{nbSettings+1}.(metrics{p.metric(m)}) = data{k}.(metrics{p.metric(m)});
+                data{nbSettings+1}.(observations{p.obs(m)}) = data{k}.(observations{p.obs(m)});
             end
         end
     end
@@ -90,25 +90,25 @@ sData = [];
 vData = [];
 fData = [];
 nbData = 0;
-for m=1:length(p.metric)
+for m=1:length(p.obs)
     for k=1:length(data)
-        if isempty(data{k}) || ~isfield(data{k}, metrics{p.metric(m)})
+        if isempty(data{k}) || ~isfield(data{k}, observations{p.obs(m)})
             nbData(k, m, :) = 0;
             sData(k, m) = NaN;
             vData(k, m) = 0;
         else
-            nbData(k, m) = length(data{k}.(metrics{p.metric(m)}));
-            sData(k, m) = mean(data{k}.(metrics{p.metric(m)}));
-            vData(k, m) = std(double(data{k}.(metrics{p.metric(m)})));
+            nbData(k, m) = length(data{k}.(observations{p.obs(m)}));
+            sData(k, m) = mean(data{k}.(observations{p.obs(m)}));
+            vData(k, m) = std(double(data{k}.(observations{p.obs(m)})));
         end
     end
 end
 nbData = max(nbData(:));
 fData  = NaN*zeros(size(sData, 1), size(sData, 2), nbData);
-for m=1:length(p.metric)
+for m=1:length(p.obs)
     for k=1:length(data)
-        if ~isempty(data{k}) && isfield(data{k}, metrics{p.metric(m)})
-            datak = data{k}.(metrics{p.metric(m)});
+        if ~isempty(data{k}) && isfield(data{k}, observations{p.obs(m)})
+            datak = data{k}.(observations{p.obs(m)});
             fData(k, m, 1:length(datak)) = datak;
         end
     end
@@ -119,13 +119,13 @@ if p.highlight ~= -1
     if ~p.highlight
         p.highlight = 1:size(sData, 2);
     end
-    for k=1:length(p.metric)
+    for k=1:length(p.obs)
         col = round(sData(:, k)*10^config.displayDigitPrecision);
         [maxValue maxIndex] = max(col);
         if any(vData(:, k))
             for m=1:length(data)
-                if ~isempty(data{m}) && ~isempty(data{m}.(metrics{p.metric(k)}))
-                    rejection = ttest2(double(data{m}.(metrics{p.metric(k)})), double(data{maxIndex}.(metrics{p.metric(k)})));
+                if ~isempty(data{m}) && ~isempty(data{m}.(observations{p.obs(k)}))
+                    rejection = ttest2(double(data{m}.(observations{p.obs(k)})), double(data{maxIndex}.(observations{p.obs(k)})));
                     if isnan(rejection), rejection = 0; end
                     highlights(m, k) = ~rejection;
                 end
@@ -140,8 +140,8 @@ if p.highlight ~= -1
         
         if any(vData(end, :))
             for m=1:length(col)
-                if ~isempty(data{end}.(metrics{p.metric(m)}))
-                    rejection = ttest2(data{end}.(metrics{p.metric(m)}), data{end}.(metrics{p.metric(maxIndex)}));
+                if ~isempty(data{end}.(observations{p.obs(m)}))
+                    rejection = ttest2(data{end}.(observations{p.obs(m)}), data{end}.(observations{p.obs(maxIndex)}));
                     if isnan(rejection), rejection = 0; end
                     highlights(end, m) = ~rejection;
                 end
@@ -188,7 +188,7 @@ dataDisplay.meanData = sData(select, :);
 dataDisplay.highlights = highlights(select, :);
 dataDisplay.factorSelector = factorSelector;
 % dataDisplay.p.expand = p.expand;
-% dataDisplay.p.metric = p.metric;
+% dataDisplay.p.obs = p.obs;
 dataDisplay.varData = vData(select, :);
 dataDisplay.selector = select;
 if isempty(settingSelector)

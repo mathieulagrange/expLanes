@@ -24,7 +24,7 @@ if ~isempty(factorSelector)
                 p.sort = ind;
             else
                 flip=1;
-                ind = find(strcmp(p.sort, config.evaluation.metrics));
+                ind = find(strcmp(p.sort, config.evaluation.observations));
                 if ~isempty(ind)
                     p.sort = ind;
                 else

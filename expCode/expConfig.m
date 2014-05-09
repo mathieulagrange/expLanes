@@ -24,10 +24,6 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % FIXME missing info in confusion Matrix
 
-% TODO replace metric by obs
-
-% TODO deal with graphic path for latex compilation of figures
-
 % TODO help command
 
 % TODO set total on the right of table
@@ -142,15 +138,12 @@ config.waitBar = [];
 config.progressId = 0;
 config.displayData.prompt = [];
 
+if isempty(config.obsPath), config.obsPath = config.dataPath; end
+
 config = expandPath(config, hostIndex, projectPath);
 
 config.configMatName = [config.codePath 'config/' config.shortProjectName 'Config' config.userName '_' num2str(config.runId) '.mat'];
 config.reportPath = [config.codePath 'report/'];
-
-if ~exist(config.reportPath, 'dir')
-    mkdir(config.reportPath);
-end
-
 
 if iscell(config.parallel)
     if length(config.parallel)>=hostIndex
@@ -162,10 +155,7 @@ end
 while length(config.parallel)<length(config.stepName)
     config.parallel(end+1)=config.parallel(end);
 end
-% config.parallel(end) = 0; % never for reduce
 
-
-% config.randState = staticData.randState;
 if config.setRandomSeed
     expRandom();
 end
@@ -196,7 +186,6 @@ if ~exist([config.reportPath 'tables'], 'dir'), mkdir([config.reportPath 'tables
 if ~exist([config.reportPath 'tex'], 'dir'), mkdir([config.reportPath 'tex']); end
 if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']); end
 
-if isempty(config.obsPath), config.obsPath = config.dataPath; end
 
 function config = commandLine(config, v)
 

@@ -1,8 +1,8 @@
 function config = exposeBoxPlot(config, data, p)
 
 config = expDisplay(config, p);
-if length(p.metric)>1
-    error('Please select one metric');
+if length(p.observation)>1
+    error('Please select one observation');
 end
 if strcmpi(p.orientation(1), 'h')
    p.add = [ p.add {'orientation', 'horizontal'}]; 

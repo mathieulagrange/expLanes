@@ -8,7 +8,7 @@ exposeType = varargin{2};
 
 p.order = [];
 p.expand = 0;
-p.metric = 0;
+p.obs = 0;
 p.variance = 0;
 p.highlight=0;
 p.title='+';
@@ -75,16 +75,16 @@ if isempty(config.evaluation) || isempty(config.evaluation.data)
     disp('No observations to display.');
     return
 end
-if ischar(p.metric)
-    p.metric = find(strcmp(config.evaluation.metrics, p.metric));
-    if isempty(p.metric), disp(['Unable to find metric with name' p.metric]); end
+if ischar(p.obs)
+    p.obs = find(strcmp(config.evaluation.observations, p.obs));
+    if isempty(p.obs), disp(['Unable to find observation with name' p.obs]); end
     
 end
-if ~p.metric
-    p.metric = 1:length(config.evaluation.metrics);
+if ~p.obs
+    p.obs = 1:length(config.evaluation.observations);
 end
 
-evaluationMetrics = config.evaluation.metrics;
+evaluationMetrics = config.evaluation.observations;
 if p.percent ~= -1
     if p.percent==0
        p.percent = 1:length(evaluationMetrics);
@@ -95,7 +95,7 @@ if p.percent ~= -1
         end
     end
 end
-evaluationMetrics = evaluationMetrics(p.metric);
+evaluationMetrics = evaluationMetrics(p.obs);
 
 if p.shortMetrics == 0
     p.shortMetrics = 1:length(evaluationMetrics);
@@ -124,11 +124,11 @@ end
 % end
 
 if any(p.percent>0)
-    metrics = config.evaluation.metrics;
+    observations = config.evaluation.observations;
     for k=1:length(p.percent)
         for m=1:length(config.evaluation.results)
-            if ~isempty(config.evaluation.results{m}) && all(config.evaluation.results{m}.(metrics{p.percent(k)})<=1) % TODO remove when done
-                config.evaluation.results{m}.(metrics{p.percent(k)}) = 100*config.evaluation.results{m}.(metrics{p.percent(k)});
+            if ~isempty(config.evaluation.results{m}) && all(config.evaluation.results{m}.(observations{p.percent(k)})<=1) % TODO remove when done
+                config.evaluation.results{m}.(observations{p.percent(k)}) = 100*config.evaluation.results{m}.(observations{p.percent(k)});
             end
         end
     end
@@ -170,7 +170,7 @@ p.legendNames = evaluationMetrics;
 p.xName='';
 p.columnNames = [config.step.factors.names(data.factorSelector)' evaluationMetrics];
 p.factorNames = config.step.factors.names(data.factorSelector)';
-p.metricNames = evaluationMetrics;
+p.obsNames = evaluationMetrics;
 p.methodLabel = '';
 p.xAxis='';
 p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector);
@@ -185,21 +185,21 @@ if p.integrate
         p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
     end
     p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
-    p.metricNames = p.legendNames;
-    p.methodLabel = config.evaluation.metrics(p.metric);
+    p.obsNames = p.legendNames;
+    p.methodLabel = config.evaluation.observations(p.obs);
     p.xName = p.integrateName;
     p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
 end
 
 if p.expand
-    if length(p.metric)>1
+    if length(p.obs)>1
         nbModalities = length(config.step.oriFactors.values{p.expand});
         for k=1:nbModalities
-            for m=1:length(p.metric)
-                p.legendNames(1, (k-1)*length(p.metric)+m) = {''};
-                p.legendNames(2, (k-1)*length(p.metric)+m) = evaluationMetrics(m);
+            for m=1:length(p.obs)
+                p.legendNames(1, (k-1)*length(p.obs)+m) = {''};
+                p.legendNames(2, (k-1)*length(p.obs)+m) = evaluationMetrics(m);
             end
-            p.legendNames(1, (k-1)*length(p.metric)+floor(length(p.metric)/2)) = config.step.oriFactors.values{p.expand}(k);
+            p.legendNames(1, (k-1)*length(p.obs)+floor(length(p.obs)/2)) = config.step.oriFactors.values{p.expand}(k);
         end
     else
         p.legendNames = config.step.oriFactors.values{p.expand};
@@ -212,7 +212,7 @@ if p.expand
         end
         p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
     end
-    if length(p.metric)>1
+    if length(p.obs)>1
         el = cell(1, length(config.step.factors.names(data.factorSelector)));
         [el{:}] = deal('');
         p.columnNames = [[el; config.step.factors.names(data.factorSelector)'] p.legendNames']; % (data.factorSelector)
@@ -220,7 +220,7 @@ if p.expand
     else
         p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
     end
-    p.methodLabel = config.evaluation.metrics(p.metric);
+    p.methodLabel = config.evaluation.observations(p.obs);
     p.xName = p.expandName;
     p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
 end
@@ -240,7 +240,7 @@ end
 %     end
 %     p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
 %    % p.columnNames = [config.step.factors.names; p.legendNames]'; % (data.factorSelector)
-%     p.methodLabel = config.evaluation.metrics(p.metric);
+%     p.methodLabel = config.evaluation.observations(p.obs);
 % if p.expand
 %     p.xName = p.expandName;
 % else

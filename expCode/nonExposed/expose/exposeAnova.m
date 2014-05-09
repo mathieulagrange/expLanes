@@ -1,6 +1,6 @@
 function config = exposeAnova(config, data, p)
 
-if size(data, 2)>2, error('Please choose one metric'); end
+if size(data, 2)>2, error('Please choose one observation'); end
 
 nbFactors = length(data.factorSelector);
 
