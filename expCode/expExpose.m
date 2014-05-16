@@ -217,7 +217,7 @@ if p.expand
     end
     p.methodLabel = config.evaluation.metrics(p.metric);
     p.xName = p.expandName;
-    p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
+    p.rowNames = config.step.oriFactors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
 end
 
 %
