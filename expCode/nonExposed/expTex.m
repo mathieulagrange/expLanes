@@ -87,7 +87,7 @@ for k=1:length(command)
                     cmd=['evince ', config.pdfFileName, ' &'];
                 end
             end
-            if isempty(cmp)
+            if isempty(cmd)
                 open(config.pdfFileName);
             else
                 system(cmd);
