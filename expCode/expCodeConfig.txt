@@ -70,6 +70,8 @@ progress = 1
 
 %% DATA
 
+% encoding type of mat files (doc save for specs)
+encodingVersion = 7.3
 % attempt to perform computation to be stored
 store = 1
 % attempt to retrieve needed data server side

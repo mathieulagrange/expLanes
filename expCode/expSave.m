@@ -33,7 +33,7 @@ end
 if exist('data', 'var') && ~isempty(data)
     runId = config.runId;
     setting = config.step.setting;
-    save([path name  extension ], 'data', 'stepName', 'runId', 'setting');
+    save([path name  extension ], 'data', 'stepName', 'runId', 'setting', ['-v' num2str(config.encodingVersion)]);
 end
 
 fileName = [path name  extension];

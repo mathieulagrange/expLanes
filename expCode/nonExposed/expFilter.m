@@ -2,7 +2,7 @@ function dataDisplay = expFilter(config, p, data)
 % filter data in various ways
 
 if ~exist('data', 'var')
-data = config.evaluation.results;
+    data = config.evaluation.results;
 end
 observations = config.evaluation.observations;
 
@@ -25,7 +25,7 @@ if isnumeric(p.integrate) && all(p.integrate ~= 0)
     
     data={};
     for k=1:length(pList)
-         idx = find(ismember(pListOri, pList{k}));
+        idx = find(ismember(pListOri, pList{k}));
         for n=1:length(idx)
             for m=1:length(observations)
                 if isempty(fData{idx(n)}) && ~isfield(data{k}, observations{m})
@@ -49,15 +49,15 @@ if  p.expand ~= 0
     if length(config.evaluation.observations)==1
         p.obs=1;
     end
-   fData = data;
-    observation = observations(p.obs);
-    observations = config.step.oriFactors.values{p.expand};
+    fData = data;
+    metric = metrics(p.metric);
+    metrics = strrep(config.step.oriFactors.values{p.expand}, '-', 'expCodeMinus');
     met={};
     met2={};
-      for m=1:length(observations)
-      for k=1:length(observation)
-            met = [met [strtrim(observations{m}) observation{k}]];
-            met2 = [met2 observation{k}];           
+    for m=1:length(metrics)
+        for k=1:length(metric)
+            met = [met [metrics{m} metric{k}]];
+            met2 = [met2 metric{k}];
         end
     end
     fSize = length(fData)/length(observations);

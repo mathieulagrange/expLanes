@@ -27,7 +27,7 @@ if duration >= 1
     if nbMinutes == 1
         time = [time num2str(nbMinutes) ' minute'];
     else
-        time = [time num2str(nbMinutes) ' minutes'];
+        time = [time num2str(nbMinutes) ' minutes '];
     end
     duration = rem(duration, 1);
 end

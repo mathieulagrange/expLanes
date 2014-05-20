@@ -23,7 +23,7 @@ p.put=1;
 p.save=0;
 p.report=1;
 p.percent=-1;
-p.legend=1;
+p.legend='BestOutSide';
 p.integrate=0;
 p.total=0;
 p.add=[];
@@ -222,7 +222,7 @@ if p.expand
     end
     p.methodLabel = config.evaluation.observations(p.obs);
     p.xName = p.expandName;
-    p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
+    p.rowNames = config.step.oriFactors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
 end
 
 %

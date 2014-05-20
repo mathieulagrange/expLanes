@@ -8,5 +8,5 @@ end
 
 reply = input([q ' Y/N [Y]: '], 's');
 
-if isempty(reply) || lower(reply)=='y', doit=1; else doit=0; end
+if isempty(reply) || lower(reply(1))=='y', doit=1; else doit=0; end
 end
