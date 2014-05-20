@@ -51,12 +51,12 @@ if  p.expand ~= 0
     end
    fData = data;
     metric = metrics(p.metric);
-    metrics = config.step.oriFactors.values{p.expand};
+    metrics = strrep(config.step.oriFactors.values{p.expand}, '-', 'expCodeMinus');
     met={};
     met2={};
       for m=1:length(metrics)
       for k=1:length(metric)
-            met = [met [strtrim(metrics{m}) metric{k}]];
+            met = [met [metrics{m} metric{k}]];
             met2 = [met2 metric{k}];           
         end
     end

@@ -129,7 +129,7 @@ end
 
 
 settingSpec.values = values;
-settingSpec.stringValues = stringValues;
+settingSpec.stringValues = strtrim(stringValues);
 settingSpec.names = names;
 settingSpec.shortNames = shortNames;
 settingSpec.shortValues = shortValues;
