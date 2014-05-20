@@ -34,29 +34,29 @@ if config.showFactorsInReport
     end
     config.latex.addLine('\begin{center}');
     config.latex.addLine('\begin{figure}[ht]');
- config.latex.addLine(['\includegraphics[width=\textwidth]{' expandPath(pdfFileName) '}']);
- config.latex.addLine('\label{factorFlowGraph}');
- config.latex.addLine('\caption{Factors flow graph for the experiment.}');
-  
-   config.latex.addLine('\end{figure}');
-   config.latex.addLine('\end{center}');
+    config.latex.addLine(['\includegraphics[width=\textwidth]{' expandPath(pdfFileName) '}']);
+    config.latex.addLine('\label{factorFlowGraph}');
+    config.latex.addLine('\caption{Factors flow graph for the experiment.}');
+    
+    config.latex.addLine('\end{figure}');
+    config.latex.addLine('\end{center}');
 end
 
 % add table
 for k=1:length(config.displayData.table)
     config.latex.addTable(config.displayData.table(k).table, 'caption', config.displayData.table(k).caption, 'multipage', config.displayData.table(k).multipage, 'landscape', config.displayData.table(k).landscape, 'label', config.displayData.table(k).label);
-if ~mod(k, 10)
+    if ~mod(k, 10)
         config.latex.addLine('\clearpage');
-end
+    end
 end
 
 % add figure
 for k=1:length(config.displayData.figure)
     if config.displayData.figure(k).taken && config.displayData.figure(k).report
         config.latex.addFigure(config.displayData.figure(k).handle, 'caption', config.displayData.figure(k).caption, 'label', config.displayData.figure(k).label);
-    if ~mod(k, 10)
-        config.latex.addLine('\clearpage');
-    end
+        if ~mod(k, 10)
+            config.latex.addLine('\clearpage');
+        end
     end
 end
 
@@ -75,23 +75,28 @@ for k=1:length(command)
                 disp(['report available: ', config.pdfFileName])
             else
                 return
-            end         
+            end
         case 'v'
+            cmd = [];
             if ~isempty(config.pdfViewer)
                 cmd=[config.pdfViewer ' ', config.pdfFileName, ' &'];
             else
                 if ismac
                     cmd=['open -a Preview ', config.pdfFileName, ' &'];
-                else
-                    open(config.pdfFileName);
-                    return;
+                elseif isunix
+                    cmd=['evince ', config.pdfFileName, ' &'];
                 end
             end
-            system(cmd);
+            if isempty(cmp)
+                open(config.pdfFileName);
+            else
+                system(cmd);
+            end
     end
 end
+
 warning off
-%rmdir(latexPath, 's');
+rmdir(latexPath, 's');
 mkdir(latexPath);
 warning on
 
