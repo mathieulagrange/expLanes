@@ -33,8 +33,8 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 % FIXME percent lost variance with violet
 % FIXME sorting fails with percent
 
+% TODO set current host with hostName (<0 detached server mode >0 attached mode 0 auto mode, Inf debug mode)
 
-setenv('PATH', [getenv('PATH') ':/usr/texbin']);
 
 %userDefaultConfigFileName = expUserDefaultConfig();
 
@@ -185,6 +185,8 @@ if ~exist([config.reportPath 'figures'], 'dir'), mkdir([config.reportPath 'figur
 if ~exist([config.reportPath 'tables'], 'dir'), mkdir([config.reportPath 'tables']); end
 if ~exist([config.reportPath 'tex'], 'dir'), mkdir([config.reportPath 'tex']); end
 if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']); end
+
+expTools(config);
 
 
 function config = commandLine(config, v)

@@ -1,4 +1,4 @@
-function expMex(config, toolPath, fileName, command, force)
+function expMex(config, mexPath, fileName, command, force)
 
 if ~exist('command', 'var')
     command = ['mex(' fileName ')'];
@@ -9,7 +9,7 @@ if ~exist('force', 'var'), force=0; end
 [p f] = fileparts(fileName);
 toolName = [f '.' mexext];
 
-initPath = cd([config.codePath toolPath]);
+initPath = cd([config.codePath mexPath]);
 
 if  ~exist(toolName, 'file')
     force=1;

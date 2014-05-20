@@ -12,8 +12,10 @@ emailAddress =
 completeName = <userName>
 
 
-%% PATHS
+%% HOSTNAMES AND PATHS
 
+% names of the machines
+machineNames = 
 % path to input data
 inputPath = 
 % path to the code repository of the project 
@@ -28,7 +30,8 @@ backupPath = /tmp/expCodeBackup/<projectName>
 bundlePath = /tmp/<projectName> 
 % path to matlab
 matlabPath = 
-
+% path to unix tools (pdflatex, rsync, ssh)
+toolPath = 
 
 %% CODE
 
@@ -57,8 +60,6 @@ dummy = 0
 % set the random seed at init for replicability
 setRandomSeed = 0
 
-% names of the machines
-machineNames = {'mo-lagrange.irccyn.ec-nantes.fr', 'pc-adtsi-sunda.irccyn.ec-nantes.fr'} 
 % host index for running the experiment
 host = 0
 % log level (set to 0 for no log) 
