@@ -33,6 +33,7 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO set current host with hostName (<0 detached server mode >0 attached mode 0 auto mode, Inf debug mode)
 
+% FIXME add expTools
 
 %userDefaultConfigFileName = expUserDefaultConfig();
 
@@ -184,7 +185,7 @@ if ~exist([config.reportPath 'tables'], 'dir'), mkdir([config.reportPath 'tables
 if ~exist([config.reportPath 'tex'], 'dir'), mkdir([config.reportPath 'tex']); end
 if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']); end
 
-expTools(config);
+%expTools(config);
 
 
 function config = commandLine(config, v)

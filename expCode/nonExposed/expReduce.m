@@ -46,14 +46,14 @@ end
 
 % list all observations
 observations = {};
-structMetrics = {};
+structObservations = {};
 maxLength = 0;
 for k=1:length(data)
     if ~isempty(data{k})
         names = fieldnames(data{k});
         for m=1:length(names)
             if isstruct(data{k}.(names{m})) % || iscell(data{k}.(names{m}))
-                structMetrics = [structMetrics names{m}];
+                structObservations = [structObservations names{m}];
             elseif ~iscell(data{k}.(names{m}))
                 observations = [observations names{m}];
             end
@@ -64,7 +64,7 @@ for k=1:length(data)
     end
 end
 observations = unique(observations);
-structMetrics = unique(structMetrics);
+structObservations = unique(structObservations);
 
 % build results matrix
 %results = zeros(length(data), length(observations), maxLength)*NaN;
@@ -77,15 +77,15 @@ structMetrics = unique(structMetrics);
 %     end
 % end
 
-if isempty(structMetrics)
+if isempty(structObservations)
     structResults = [];
 else
-    for k=1:length(structMetrics)
+    for k=1:length(structObservations)
         n=1;
         for m=1:length(data)
-            if isfield(data{m}, structMetrics{k})
-                structResults.(structMetrics{k})(n) = data{m}.(structMetrics{k});
-                %             structResults.(structMetrics{k})(n).setting = config.settings(m);
+            if isfield(data{m}, structObservations{k})
+                structResults.(structObservations{k})(n) = data{m}.(structObservations{k});
+                %             structResults.(structObservations{k})(n).setting = config.settings(m);
                 n=n+1;
             end
         end
@@ -95,6 +95,6 @@ end
 % store
 config.evaluation.observations = observations;
 config.evaluation.results = data;
-config.evaluation.structMetrics = structMetrics;
+config.evaluation.structObservations = structObservations;
 config.evaluation.structResults = structResults;
 config.evaluation.data = data;

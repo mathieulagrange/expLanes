@@ -104,6 +104,8 @@ showTiming = 1
 
 % generate report: <=-3 none -2 verbose tex report -1 generation of tex report, 0 display figures, 1 display figures and generation of tex report, 2 display figures and verbose tex report >=3 none
 report = -3
+% type of report: empty (default), if containing the word slides or Slides, use the beamer presentation mode
+reportName = 
 % memo message for the generation of reports
 message = default 
 % path to the pdf viewer (try to locate one if left empty)
@@ -114,6 +116,8 @@ significanceThreshold = 0.05
 showFactorsInReport = 4
 % style of the factor graph: 0 no propagation of factors, 1 propagation of factors, 2 propagation of factors with an "all steps" node
 factorDisplayStyle = 0
+% delete the tex directory where actual LaTex compilation is performed
+deleteTexDirectory = 1
 
 %% MISC
 

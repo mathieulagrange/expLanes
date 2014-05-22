@@ -28,7 +28,7 @@ p.integrate=0;
 p.total=0;
 p.add=[];
 p.orientation='v';
-p.shortMetrics = -1;
+p.shortObservations = -1;
 p.type='';
 
 pNames = fieldnames(p);
@@ -84,25 +84,25 @@ if ~p.obs
     p.obs = 1:length(config.evaluation.observations);
 end
 
-evaluationMetrics = config.evaluation.observations;
+evaluationObservations = config.evaluation.observations;
 if p.percent ~= -1
     if p.percent==0
-       p.percent = 1:length(evaluationMetrics);
+       p.percent = 1:length(evaluationObservations);
     end
     for k=1:length(p.percent)
-        if p.percent(k) <= length(evaluationMetrics)
-            evaluationMetrics{p.percent(k)} =  [evaluationMetrics{p.percent(k)} ' (%)'];
+        if p.percent(k) <= length(evaluationObservations)
+            evaluationObservations{p.percent(k)} =  [evaluationObservations{p.percent(k)} ' (%)'];
         end
     end
 end
-evaluationMetrics = evaluationMetrics(p.obs);
+evaluationObservations = evaluationObservations(p.obs);
 
-if p.shortMetrics == 0
-    p.shortMetrics = 1:length(evaluationMetrics);
+if p.shortObservations == 0
+    p.shortObservations = 1:length(evaluationObservations);
 end
-if p.shortMetrics ~= -1
-    for k=1:length(p.shortMetrics)
-        evaluationMetrics(p.shortMetrics(k)) =  names2shortNames(evaluationMetrics(p.shortMetrics(k)), 3);
+if p.shortObservations ~= -1
+    for k=1:length(p.shortObservations)
+        evaluationObservations(p.shortObservations(k)) =  names2shortNames(evaluationObservations(p.shortObservations(k)), 3);
     end
 end
 
@@ -165,12 +165,12 @@ p.caption = strrep(p.caption, '=', p.title);
 p.caption = strrep(p.caption, '+', config.step.setting.infoStringMask);
 p.caption = strrep(p.caption, '_', '\_');
 
-p.legendNames = evaluationMetrics;
+p.legendNames = evaluationObservations;
 
 p.xName='';
-p.columnNames = [config.step.factors.names(data.factorSelector)' evaluationMetrics];
+p.columnNames = [config.step.factors.names(data.factorSelector)' evaluationObservations];
 p.factorNames = config.step.factors.names(data.factorSelector)';
-p.obsNames = evaluationMetrics;
+p.obsNames = evaluationObservations;
 p.methodLabel = '';
 p.xAxis='';
 p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector);
@@ -197,7 +197,7 @@ if p.expand
         for k=1:nbModalities
             for m=1:length(p.obs)
                 p.legendNames(1, (k-1)*length(p.obs)+m) = {''};
-                p.legendNames(2, (k-1)*length(p.obs)+m) = evaluationMetrics(m);
+                p.legendNames(2, (k-1)*length(p.obs)+m) = evaluationObservations(m);
             end
             p.legendNames(1, (k-1)*length(p.obs)+floor(length(p.obs)/2)) = config.step.oriFactors.values{p.expand}(k);
         end
@@ -249,7 +249,7 @@ end
 %     p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
 % else
 %     p.xName='';
-%     p.columnNames = [config.step.factors.names(data.factorSelector)' evaluationMetrics];
+%     p.columnNames = [config.step.factors.names(data.factorSelector)' evaluationObservations];
 %     p.methodLabel = '';
 %     p.xAxis='';
 %     p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector);
@@ -271,7 +271,7 @@ for k=1:config.step.nbSettings
         p.labels{k} = strrep(d.infoShortStringMasked, '_', ' '); % (data.settingSelector)
     end
 end
-p.axisLabels = evaluationMetrics;
+p.axisLabels = evaluationObservations;
 
 % displayData = config.displayData;
 if p.variance == 0
@@ -311,7 +311,7 @@ if length(exposeType)==1
             error(['unknown display type: ' exposeType]);
     end
 else
-    if any(strcmp(exposeType, config.evaluation.structMetrics))
+    if any(strcmp(exposeType, config.evaluation.structObservations))
         data = config.evaluation.structResults.(exposeType);
     end
     if ~strcmp(exposeType(1:min(6, length(exposeType))), 'expose')

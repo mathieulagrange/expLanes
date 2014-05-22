@@ -1,7 +1,7 @@
 function config = expHistory(projectPath, projectName, shortProjectName, commands)
 
 if length(commands)<1, % default config
-    config = expConfig(projectPath, shortProjectName, commands);
+    config = expConfig(projectPath, shortProjectName, shortProjectName, commands);
     showFactors(config.factorFileName);
     fprintf('---------------------------\nHistory: \n');
     fid = fopen([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt'], 'rt');

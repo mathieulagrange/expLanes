@@ -7,7 +7,17 @@ if ~exist(latexPath, 'dir')
     mkdir(latexPath);
 end
 
-config.latexFileName = [latexPath config.projectName ]; % '.tex'
+if ~isempty(config.reportName)
+    reportName = [upper(config.reportName(1)), config.reportName(2:end)];
+    
+    if strfind(lower(config.reportName), 'slides')
+        slides = 1;
+    else
+        slides= 0 ;
+    end
+end
+
+config.latexFileName = [latexPath config.projectName reportName]; % '.tex'
 
 for k=1:length(config.stepName)
     copyfile([config.codePath config.shortProjectName num2str(k) config.stepName{k} '.m'], [config.reportPath 'tex/' config.shortProjectName num2str(k) config.stepName{k} '.m']);
@@ -15,15 +25,15 @@ end
 copyfile([config.codePath config.shortProjectName 'Init.m'], [config.reportPath 'tex/' config.shortProjectName 'Init.m']);
 copyfile([config.codePath config.shortProjectName 'Report.m'], [config.reportPath 'tex/' config.shortProjectName 'Report.m']);
 
-if ~exist([config.codePath config.projectName '.tex'], 'file')
-    config.latex = LatexCreator([config.codePath filesep config.projectName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName, 1, 1);
+if ~exist([config.codePath config.projectName reportName '.tex'], 'file')
+    config.latex = LatexCreator([config.codePath filesep config.projectName reportName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName, 1, 1, slides);
 end
-copyfile([config.codePath config.projectName '.tex'], [config.latexFileName '.tex']);
+copyfile([config.codePath config.projectName reportName '.tex'], [config.latexFileName '.tex']);
 copyfile([fileparts(mfilename('fullpath')) filesep 'utils/mcode.sty'], [config.reportPath 'tex/']);
 
-config.pdfFileName = [config.reportPath config.projectName '_v' num2str(config.versionName) '_' config.userName  '_' date '_' strrep(config.message, ' ', '-') '.pdf'];
+config.pdfFileName = [config.reportPath config.projectName '_' reportName '_v' num2str(config.versionName) '_' config.userName  '_' date '_' strrep(config.message, ' ', '-') '.pdf'];
 
-config.latex = LatexCreator([config.latexFileName '.tex'], 1, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName);
+config.latex = LatexCreator([config.latexFileName '.tex'], 1, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName, 1, 0, slides);
 
 if config.showFactorsInReport
     pdfFileName = [config.reportPath 'figures/' config.shortProjectName 'Factors.pdf'];
@@ -32,14 +42,23 @@ if config.showFactorsInReport
     if ~exist(pdfFileName, 'file')  || a.datenum < b.datenum
         expDisplayFactors(config, config.factorDisplayStyle, config.showFactorsInReport, ~(abs(config.report)-1), 0);
     end
+    
+    if slides
+        config.latex.addLine('\begin{frame}\frametitle{Factors flow graph}');
+        
+    end
+    
     config.latex.addLine('\begin{center}');
     config.latex.addLine('\begin{figure}[ht]');
-    config.latex.addLine(['\includegraphics[width=\textwidth]{' expandPath(pdfFileName) '}']);
+    config.latex.addLine(['\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{' expandPath(pdfFileName) '}']);
     config.latex.addLine('\label{factorFlowGraph}');
-    config.latex.addLine('\caption{Factors flow graph for the experiment.}');
-    
+    if~slides
+        config.latex.addLine('\caption{Factors flow graph for the experiment.}');
+    end
     config.latex.addLine('\end{figure}');
     config.latex.addLine('\end{center}');
+    if slides, config.latex.addLine('\end{frame}');end
+    
 end
 
 % add table
@@ -95,9 +114,11 @@ for k=1:length(command)
     end
 end
 
-warning off
-rmdir(latexPath, 's');
-mkdir(latexPath);
-warning on
+if config.deleteTexDirectory
+    warning off
+    rmdir(latexPath, 's');
+    mkdir(latexPath);
+    warning on
+end
 
 

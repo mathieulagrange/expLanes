@@ -50,14 +50,14 @@ if  p.expand ~= 0
         p.obs=1;
     end
     fData = data;
-    metric = metrics(p.metric);
-    metrics = strrep(config.step.oriFactors.values{p.expand}, '-', 'expCodeMinus');
+    observation = observations(p.obs);
+    observations = strrep(config.step.oriFactors.values{p.expand}, '-', 'expCodeMinus');
     met={};
     met2={};
-    for m=1:length(metrics)
-        for k=1:length(metric)
-            met = [met [metrics{m} metric{k}]];
-            met2 = [met2 metric{k}];
+    for m=1:length(observations)
+        for k=1:length(observation)
+            met = [met [observations{m} observation{k}]];
+            met2 = [met2 observation{k}];
         end
     end
     fSize = length(fData)/length(observations);
