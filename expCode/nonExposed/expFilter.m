@@ -54,10 +54,12 @@ if  p.expand ~= 0
     observations = strrep(config.step.oriFactors.values{p.expand}, '-', 'expCodeMinus');
     met={};
     met2={};
+    ind = [];
     for m=1:length(observations)
         for k=1:length(observation)
             met = [met [observations{m} observation{k}]];
             met2 = [met2 observation{k}];
+            ind(end+1) = m;
         end
     end
     fSize = length(fData)/length(observations);
@@ -67,7 +69,7 @@ if  p.expand ~= 0
     for m=1:length(observations)
         observations{m} = [config.step.oriFactors.names{p.expand} observations{m}];
         for k=1:fSize
-            data{k}.(observations{m}) = fData{floor((m-1)/length(observation))*fSize+k}.(met2{m});
+            data{k}.(observations{m}) = fData{(k-1)*length(observations)/length(observation)+ind(m)}.(met2{m});
         end
     end
 end
