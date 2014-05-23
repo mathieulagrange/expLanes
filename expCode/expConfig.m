@@ -37,7 +37,6 @@ config.staticDataFileName = [projectPath '/config' filesep shortProjectName];
 
 staticData = load(config.staticDataFileName);
 
-
 [p, projectName] = fileparts(projectPath);
 
 config.projectName = projectName;
@@ -177,8 +176,7 @@ if ~exist([config.reportPath 'tables'], 'dir'), mkdir([config.reportPath 'tables
 if ~exist([config.reportPath 'tex'], 'dir'), mkdir([config.reportPath 'tex']); end
 if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']); end
 
-%expTools(config);
-
+expTools(config);
 
 function config = commandLine(config, v)
 
@@ -228,7 +226,7 @@ for k=1:length(fieldNames)
     if ~isempty(strfind(fieldNames{k}, 'Path'))
         field = config.(fieldNames{k});
         % if relative add projectPath
-        if ~strcmp(fieldNames{k}, 'matlabPath')  && (isempty(field) || ((~isempty(field) && ~any(strcmp(field(1), {'~', '/', '\'}))) && ((length(field)<1 || ~strcmp(field(2), ':')))))
+        if all(~strcmp(fieldNames{k}, {'matlabPath', 'toolPath'}))  && (isempty(field) || ((~isempty(field) && ~any(strcmp(field(1), {'~', '/', '\'}))) && ((length(field)<1 || ~strcmp(field(2), ':')))))
             config.(fieldNames{k}) = [projectPath filesep field];
         end
     end
@@ -238,7 +236,7 @@ for k=1:length(fieldNames)
     if ~isempty(strfind(fieldNames{k}, 'Path'))
         field = config.(fieldNames{k});
        
-        if isempty(field) || any(strcmp(field(end), {'/', '\'}))
+        if isempty(field) || iscell(field) || any(strcmp(field(end), {'/', '\'}))
             config.(fieldNames{k})=field;
         else
             config.(fieldNames{k})=[field filesep];

@@ -60,11 +60,11 @@ dummy = 0
 % set the random seed at init for replicability
 setRandomSeed = 0
 
-% host index for running the experiment
+% host index to run the experiment: 0: seek by hostName, >0: server mode, <0: local mode
 host = 0
 % log level (set to 0 for no log) 
 log = 1 
-% show processing progress 0: none, 1: bar if on local host, 2: verbose output, 3: liminar output
+% show processing progress 0: none, 1: bar if on local mode, 2: verbose output, 3: liminar output
 progress = 1 
 
 
@@ -123,5 +123,7 @@ deleteTexDirectory = 1
 
 % usage of default expcode smtp. If set to 0 assume availability of local stmp server
 useExpCodeSmtp = 1
+% probe tools and paths
+probe = 1
 
 
