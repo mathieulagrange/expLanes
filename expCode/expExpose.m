@@ -222,7 +222,7 @@ if p.expand
     end
     p.methodLabel = config.evaluation.observations(p.obs);
     p.xName = p.expandName;
-    p.rowNames = config.step.oriFactors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
+    p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
 end
 
 %
@@ -258,7 +258,7 @@ end
 if p.total
     for k=1:size(p.rowNames, 2)
         if k==1
-            p.rowNames{end+1, k} = 'Total';
+            p.rowNames{end+1, k} = 'Average';
         else
             p.rowNames{end, k} = '';
         end

@@ -80,7 +80,7 @@ if p.total
     for m=1:length(p.obs)
         for k=1:nbSettings
             if length(data)>nbSettings && ~isempty(data{nbSettings+1}) && isfield(data{nbSettings+1}, observations{p.obs(m)})
-                data{nbSettings+1}.(observations{p.obs(m)}) = [data{nbSettings+1}.(observations{p.obs(m)}); data{k}.(observations{p.obs(m)})];
+                data{nbSettings+1}.(observations{p.obs(m)}) = [data{nbSettings+1}.(observations{p.obs(m)}) data{k}.(observations{p.obs(m)})];
             else
                 data{nbSettings+1}.(observations{p.obs(m)}) = data{k}.(observations{p.obs(m)});
             end
@@ -163,7 +163,7 @@ end
 
 factorSelected = {};
 for k=1:length(config.factors.names)
-    vsk = config.step.set(k, select(1:min(length(select):size(config.step.set, 2))));
+    vsk = config.step.set(k, select(1:min(length(select), size(config.step.set, 2))));
     vsk(vsk==0)=[];
     if length(unique(vsk))>1
         factorSelected(end+1) = config.factors.names(k);

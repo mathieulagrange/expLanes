@@ -14,8 +14,6 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % FIXME fails to attach config file
 
-% FIXME saving of tables
-
 % FIXME store dependency string and force localDep = 2 if different
 
 % FIXME status of time as unique metric
@@ -24,16 +22,10 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO help command
 
-% TODO set total on the right of table
-
 % TODO utilities path and config probe (tex, rsync, ssh connect to servers)
 
-% FIXME percent lost variance with violet
-% FIXME sorting fails with percent
 
 % TODO set current host with hostName (<0 detached server mode >0 attached mode 0 auto mode, Inf debug mode)
-
-% FIXME add expTools
 
 %userDefaultConfigFileName = expUserDefaultConfig();
 
