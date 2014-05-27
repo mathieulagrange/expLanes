@@ -20,7 +20,7 @@ if length(commands)<1, % default config
         %         eval(lastCommand);
         return
     else
-        config = expConfig(projectPath, projectName, shortProjectName);
+        config = expConfig(projectPath, projectName, shortProjectName, commands);
     end
 elseif length(commands)>1 % command line processing
     config = expConfig(projectPath, projectName, shortProjectName, commands);

@@ -30,7 +30,7 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 %userDefaultConfigFileName = expUserDefaultConfig();
 
-if isstruct(commands{1})
+if ~isempty(commands) && isstruct(commands{1})
     config = commands{1};
     commands = commands(2:end);
 else
@@ -44,11 +44,15 @@ else
 end
 
 config.staticDataFileName = [projectPath '/config' filesep shortProjectName];
+if ~exist(config.staticDataFileName, 'file')
+    runId=1;
+    save(config.staticDataFileName, 'runId');
+end
 staticData = load(config.staticDataFileName);
 [p, projectName] = fileparts(projectPath);
 
 detectedHostName = char(getHostName(java.net.InetAddress.getLocalHost));
-% disp(['detectedHostName: ' detectedHostName]);
+disp(['detectedHostName: ' detectedHostName]);
 
 if isempty(config.completeName)
     config.completeName = config.userName;
@@ -151,14 +155,14 @@ config.displayData.prompt = [];
 
 if isempty(config.obsPath), config.obsPath = config.dataPath; end
 
-config = expandPath(config, config.host, projectPath);
+config = expandPath(config, projectPath);
 
 config.configMatName = [config.codePath 'config/' config.shortProjectName 'Config' config.userName '_' num2str(config.runId) '.mat'];
 config.reportPath = [config.codePath 'report/'];
 
 if iscell(config.parallel)
-    if length(config.parallel)>=hostIndex
-        config.parallel = config.parallel{hostIndex};
+    if length(config.parallel)>=config.host
+        config.parallel = config.parallel{config.host};
     else
         config.parallel = config.parallel{end};
     end
@@ -204,14 +208,14 @@ for pair = reshape(v,2,[]) % pair is {propName;propValue}
     config.(pair{1}) = pair{2};
 end
 
-function config = expandPath(config, hostIndex, projectPath)
+function config = expandPath(config, projectPath)
 
 for k=1:length(config.dependencies) % FIXME may be wrong
     field = config.dependencies{k};
     if ~isempty(field) && any(strcmp(field(end), {'/', '\'}))
         field = field(1:end-1);
     end
-    if hostIndex > 1
+    if config.attachedMode
         [p field] = fileparts(field);
         field = ['dependencies' filesep field];
     end
@@ -225,8 +229,8 @@ for k=1:length(fieldNames)
   
          % pick relevant path
         if iscell(field)
-            if length(field)>=hostIndex
-                 config.(fieldNames{k}) = field{hostIndex};
+            if length(field)>=config.host
+                 config.(fieldNames{k}) = field{config.host};
             else
                 config.(fieldNames{k}) = field{end}; % convention add the last parameter
             end
@@ -239,10 +243,12 @@ end
 
 for k=1:length(fieldNames)
     if ~isempty(strfind(fieldNames{k}, 'Path'))
-        field = config.(fieldNames{k});
+        field = expandHomePath(config.(fieldNames{k}));
         % if relative add projectPath
         if all(~strcmp(fieldNames{k}, {'matlabPath', 'toolPath'}))  && (isempty(field) || ((~isempty(field) && ~any(strcmp(field(1), {'~', '/', '\'}))) && ((length(field)<1 || ~strcmp(field(2), ':')))))
             config.(fieldNames{k}) = [projectPath filesep field];
+        else
+            config.(fieldNames{k}) = field;
         end
     end
 end

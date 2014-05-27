@@ -12,7 +12,7 @@ end
 sysPath = getenv('PATH');
 commands = {'pdflatex', 'rsync', 'ssh'};
 
-config.toolPath
+% config.toolPath
 
 if config.probe
     disp('**** Probing tools...');

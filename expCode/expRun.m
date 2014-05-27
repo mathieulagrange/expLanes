@@ -1,7 +1,7 @@
 function config = expRun(projectPath, projectName, shortProjectName, commands)
 
 beep off
-
+expCodePath = fileparts(mfilename('fullpath'));
 config = expHistory(projectPath, projectName, shortProjectName, commands);
 
 if ~exist(config.reportPath, 'dir'), mkdir(config.reportPath); end
@@ -11,6 +11,9 @@ if ~exist([config.reportPath 'tex'], 'dir'), mkdir([config.reportPath 'tex']); e
 if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']); end
 
 expTools(config);
+if config.generateRootFile
+   expCreateRootFile(config, projectName, shortProjectName, expCodePath); 
+end
 
 config.logFileName = [config.reportPath 'log_' num2str(config.runId) '.txt'];
 config.errorDataFileName = {};
@@ -260,7 +263,7 @@ if config.sendMail
             config.mailAttachment = [{config.pdfFileName} config.mailAttachment];
         end
         % sendMail does not like tilde
-        config.mailAttachment = expandPath(config.mailAttachment);
+        config.mailAttachment = expandHomePath(config.mailAttachment);
         sendmail(config.emailAddress, ['[expCode] ' config.projectName ' ' num2str(config.runId) ' is over on ' config.hostName], message, config.mailAttachment);
     end
     expConfigMatSave(config.configMatName);
