@@ -22,6 +22,8 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO help command
 
+% sync obs / data with different paths
+
 % TODO set current host with hostName (<0 detached server mode >0 attached mode 0 auto mode, Inf debug mode)
 
 % FIXME issue with toolpath on server mode
@@ -43,7 +45,7 @@ else
     config.configFileName = configFileName;
 end
 
-config.staticDataFileName = [projectPath '/config' filesep shortProjectName];
+config.staticDataFileName = [projectPath '/config' '/' shortProjectName];
 if ~exist(config.staticDataFileName, 'file')
     runId=1;
     save(config.staticDataFileName, 'runId');
@@ -58,7 +60,7 @@ if isempty(config.completeName)
     config.completeName = config.userName;
 end
 
-config.factorFileName = [projectPath filesep config.shortProjectName 'Factors.txt'];
+config.factorFileName = [projectPath '/' config.shortProjectName 'Factors.txt'];
 config.stepName = expStepName(config.projectPath, config.shortProjectName);
 config.factors = expFactorParse(config.factorFileName, length(config.stepName));
 
@@ -79,7 +81,7 @@ switch config.namingConventionForFiles
         fileLength = fileLength+sum(valueLength+1);
 end
 if fileLength && fileLength>512
-   warning('Following your factors definition, the longer data file name may exceed the possible range of the file system (512). Please consider using the hash based naming convention.') 
+    warning('Following your factors definition, the longer data file name may exceed the possible range of the file system (512). Please consider using the hash based naming convention.')
 end
 
 if nargin>3,
@@ -108,8 +110,8 @@ config = expDesign(config);
 
 config.attachedMode = 1;
 if nargin<1 || config.host==0
-  config.host = 0;
-  for k=1:length(config.machineNames)
+    config.host = 0;
+    for k=1:length(config.machineNames)
         id = find(strcmp(config.machineNames{k}, detectedHostName));
         if ~isempty(id)
             config.host = k;
@@ -117,22 +119,22 @@ if nargin<1 || config.host==0
         end
     end
     if config.host==0
-    error(['Unable to find the detected host ' detectedHostName  ' in the machineNames field of your configuration file.']);
+        error(['Unable to find the detected host ' detectedHostName  ' in the machineNames field of your configuration file. Either explicitely set the host number (''host'', <value>) or add ' detectedHostName ' to the list of your machines in your config file.']);
     end
 else
-     if config.host>0
+    if config.host>0
         config.attachedMode = 0;
     end
     config.host = abs(config.host);
     if config.host == floor(config.host)
         if iscell(config.machineNames{config.host})
-         config.hostName = config.machineNames{config.host}{1};    
+            config.hostName = config.machineNames{config.host}{1};
         else
-         config.hostName = config.machineNames{config.host};
+            config.hostName = config.machineNames{config.host};
         end
     else
-    config.hostName = config.machineNames{floor(config.host)}{floor(rem(config.host, 1)*10)};
-    config.host = floor(config.host);
+        config.hostName = config.machineNames{floor(config.host)}{floor(rem(config.host, 1)*10)};
+        config.host = floor(config.host);
     end
 end
 
@@ -178,12 +180,12 @@ end
 figureHandles = findobj('Type','figure');
 config.displayData.figure = [];
 for k=1:length(figureHandles)
-   config.displayData.figure(k).handle = figureHandles(k);  
-   config.displayData.figure(k).taken = 0;
-   config.displayData.figure(k).caption = 0;
-   config.displayData.figure(k).report = 0;
-   config.displayData.figure(k).label = 0;
-   
+    config.displayData.figure(k).handle = figureHandles(k);
+    config.displayData.figure(k).taken = 0;
+    config.displayData.figure(k).caption = 0;
+    config.displayData.figure(k).report = 0;
+    config.displayData.figure(k).label = 0;
+    
 end
 config.displayData.table = [];
 
@@ -217,36 +219,40 @@ for k=1:length(config.dependencies) % FIXME may be wrong
     end
     if config.attachedMode
         [p field] = fileparts(field);
-        field = ['dependencies' filesep field];
+        field = ['dependencies' '/' field];
     end
     config.dependencies{k} = field;
 end
 
 fieldNames=fieldnames(config);
 for k=1:length(fieldNames)
-     if ~isempty(strfind(fieldNames{k}, 'Path'))
-         field = config.(fieldNames{k});
-  
-         % pick relevant path
+    if ~isempty(strfind(fieldNames{k}, 'Path'))
+        field = config.(fieldNames{k});
+        
+        % pick relevant path
         if iscell(field)
             if length(field)>=config.host
-                 config.(fieldNames{k}) = field{config.host};
+                config.(fieldNames{k}) = field{config.host};
             else
                 config.(fieldNames{k}) = field{end}; % convention add the last parameter
             end
         end
-%         if ~strcmp(fieldNames{k}, 'matlabPath')  && ~isempty(field) && strcmp(field(1), '.')
-%             config.(fieldNames{k}) = [pwd() field(2:end)];
-%         end
+        %         if ~strcmp(fieldNames{k}, 'matlabPath')  && ~isempty(field) && strcmp(field(1), '.')
+        %             config.(fieldNames{k}) = [pwd() field(2:end)];
+        %         end
     end
 end
 
 for k=1:length(fieldNames)
     if ~isempty(strfind(fieldNames{k}, 'Path'))
-        field = expandHomePath(config.(fieldNames{k}));
+        if config.attachedMode
+            field = expandHomePath(config.(fieldNames{k}));
+        else
+             field = config.(fieldNames{k});
+        end
         % if relative add projectPath
         if all(~strcmp(fieldNames{k}, {'matlabPath', 'toolPath'}))  && (isempty(field) || ((~isempty(field) && ~any(strcmp(field(1), {'~', '/', '\'}))) && ((length(field)<1 || ~strcmp(field(2), ':')))))
-            config.(fieldNames{k}) = [projectPath filesep field];
+            config.(fieldNames{k}) = [projectPath '/' field];
         else
             config.(fieldNames{k}) = field;
         end
@@ -256,11 +262,11 @@ end
 for k=1:length(fieldNames)
     if ~isempty(strfind(fieldNames{k}, 'Path'))
         field = config.(fieldNames{k});
-       
+        
         if isempty(field) || iscell(field) || any(strcmp(field(end), {'/', '\'}))
             config.(fieldNames{k})=field;
         else
-            config.(fieldNames{k})=[field filesep];
+            config.(fieldNames{k})=[field '/'];
         end
     end
 end

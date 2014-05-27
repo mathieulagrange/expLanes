@@ -10,11 +10,11 @@ end
 stepName = config.stepName{config.step.id};
 
 if ~isempty(strfind(extension, '_obs')) && ~isempty(config.obsPath)
-    path = [config.obsPath stepName filesep];
+    path = [config.obsPath stepName '/'];
 else
-    path = [config.dataPath stepName filesep];
+    path = [config.dataPath stepName '/'];
 end
-% path = [config.dataPath stepName filesep];
+% path = [config.dataPath stepName '/'];
 
 % config.step.setting.infoString
 switch config.namingConventionForFiles

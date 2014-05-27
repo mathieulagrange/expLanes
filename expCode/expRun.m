@@ -113,11 +113,11 @@ if isfield(config, 'serverConfig')
     matConfig.exitMatlab = 0;
     matConfig.sendMail = 1;
     matConfig.runInfo = config.runInfo;
-    matConfig.staticDataFileName = [config.serverConfig.codePath '/config' filesep shortProjectName];
+    matConfig.staticDataFileName = [config.serverConfig.codePath '/config' '/' shortProjectName];
     matConfig.sync = [];
 
     matConfig.retrieve = 0; % do not retrieve on server setting
-    if config.serverConfig.host>1
+    if ~config.attachedMode
         matConfig.localDependencies = 1;
         expConfigMatSave(config.configMatName, matConfig);
         

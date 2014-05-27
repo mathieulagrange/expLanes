@@ -1,12 +1,21 @@
 function expTools(config)
 
+if ispc
+    null = 'NUL';
+    separator = ';';
+else
+    null = '/dev/null 2>/dev/null';
+    separator = ':';
+end
+
 sysPath = getenv('PATH');
 if ~iscell(config.toolPath) % FIX ME failing in server mode
     config.toolPath  = {config.toolPath};
 end
+
 for k=1:length(config.toolPath)
     if isempty(strfind(sysPath, config.toolPath{k}))
-        setenv('PATH', [sysPath ':' config.toolPath{k}]);
+        setenv('PATH', [sysPath separator config.toolPath{k}]);
     end
 end
 sysPath = getenv('PATH');
@@ -19,10 +28,12 @@ if config.probe
     disp(['SYSTEM PATH: ' sysPath]);
     
     for k=1:length(commands)
+        
+        
         if any(k==[1 2])
-            status = system([commands{k} ' --help >/dev/null 2>/dev/null']);
+            status = system([commands{k} ' --help > ' null]);
         else
-            [ status message] = system([commands{k} ' -V >/dev/null 2>/dev/null']);
+            [ status message] = system([commands{k} ' -V > ' null]);
             if status, ssh=0;else ssh=1;end
         end
         if status
@@ -48,7 +59,7 @@ if config.probe
     end
     disp(' ');
     if ssh
-        disp('**** Probing hosts (ssh login with empty passphrase needed)')
+        disp('**** Probing hosts (ssh login with empty passphrase needed. Hosts shall be in your ssh known hosts.)')
         disp(' ');
         for k=1:length(config.machineNames)
             if ~iscell(config.machineNames{k})
