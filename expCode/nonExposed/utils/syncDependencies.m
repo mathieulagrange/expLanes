@@ -29,7 +29,7 @@ for k=1:length(config.dependencies)
     else
         dependency = config.dependencies{k};
     end
-    if ~any(strcmp({'/', '\'}, dependency(1)))
+    if ~any(strcmp({'/', '\', '~'}, dependency(1)))
         dependency = [config.codePath filesep dependency];
     end
     [p n]=fileparts(dependency);

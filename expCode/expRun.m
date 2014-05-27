@@ -4,6 +4,14 @@ beep off
 
 config = expHistory(projectPath, projectName, shortProjectName, commands);
 
+if ~exist(config.reportPath, 'dir'), mkdir(config.reportPath); end
+if ~exist([config.reportPath 'figures'], 'dir'), mkdir([config.reportPath 'figures']); end
+if ~exist([config.reportPath 'tables'], 'dir'), mkdir([config.reportPath 'tables']); end
+if ~exist([config.reportPath 'tex'], 'dir'), mkdir([config.reportPath 'tex']); end
+if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']); end
+
+expTools(config);
+
 config.logFileName = [config.reportPath 'log_' num2str(config.runId) '.txt'];
 config.errorDataFileName = {};
 if exist(config.logFileName, 'file')
@@ -48,7 +56,7 @@ end
 
 waitBars = findall(0, 'Type', 'figure', 'userdata', 'expProgress');
 for k=1:length(waitBars)
-   delete(waitBars(k)); 
+    delete(waitBars(k));
 end
 
 if config.do == 0
@@ -73,7 +81,7 @@ if config.do>-1
         end
         if config.stepSettings{config.do(k)}.nbSettings>1
             runInfo = [runInfo sprintf('\n     %d settings with the factors: %s', config.stepSettings{config.do(k)}.nbSettings, config.stepSettings{config.do(k)}.setting.infoStringFactors)];
-        end        
+        end
         config.runInfo{k} = runInfo;
         config = expLog(config, [config.runInfo{k} '\n']);
     end
@@ -98,13 +106,13 @@ if isfield(config, 'serverConfig')
     
     matConfig = config.serverConfig;
     matConfig.host = -1;
+    matConfig.attachedMode = 1;
+    matConfig.exitMatlab = 0;
+    matConfig.sendMail = 1;
     matConfig.runInfo = config.runInfo;
     matConfig.staticDataFileName = [config.serverConfig.codePath '/config' filesep shortProjectName];
     matConfig.sync = [];
-    %     matConfig.obs = -1;
-    %     if matConfig.report==1
-    %     matConfig.report = 0; % output tex
-    %     end
+
     matConfig.retrieve = 0; % do not retrieve on server setting
     if config.serverConfig.host>1
         matConfig.localDependencies = 1;
@@ -179,92 +187,96 @@ elseif config.report>-3
 end
 
 
-switch config.host
-    case {-1, -2}
-        if ~config.useExpCodeSmtp
-            [p i]= regexp(config.hostName, '\.', 'split');
-            if ~isempty(i)
-                setpref('Internet', 'SMTP_Server', ['smtp' config.hostName(i(1):end)]);
-                setpref('Internet', 'E_mail', [config.userName '@' config.hostName(i(1)+1:end)]);
-            else
-                expLog(config, 'Please set the domain extensions to the server names');
-            end
+% switch config.host
+%     case {-1, -2}
+if config.sendMail
+    if ~config.useExpCodeSmtp
+        [p i]= regexp(config.hostName, '\.', 'split');
+        if ~isempty(i)
+            setpref('Internet', 'SMTP_Server', ['smtp' config.hostName(i(1):end)]);
+            setpref('Internet', 'E_mail', [config.userName '@' config.hostName(i(1)+1:end)]);
         else
-            setpref('Internet','E_mail','expcode.mailer@gmail.com');
-            setpref('Internet','SMTP_Server','smtp.gmail.com');
-            setpref('Internet','SMTP_Username', 'expcode.mailer@gmail.com');
-            setpref('Internet','SMTP_Password', 'welovecode');
-            
-            props = java.lang.System.getProperties;
-            props.setProperty('mail.smtp.auth','true');
-            props.setProperty('mail.smtp.socketFactory.class', ...
-                'javax.net.ssl.SSLSocketFactory');
-            props.setProperty('mail.smtp.socketFactory.port','465');
+            expLog(config, 'Please set the domain extensions to the server names');
         end
+    else
+        setpref('Internet','E_mail','expcode.mailer@gmail.com');
+        setpref('Internet','SMTP_Server','smtp.gmail.com');
+        setpref('Internet','SMTP_Username', 'expcode.mailer@gmail.com');
+        setpref('Internet','SMTP_Password', 'welovecode');
         
+        props = java.lang.System.getProperties;
+        props.setProperty('mail.smtp.auth','true');
+        props.setProperty('mail.smtp.socketFactory.class', ...
+            'javax.net.ssl.SSLSocketFactory');
+        props.setProperty('mail.smtp.socketFactory.port','465');
+    end
+    
+    
+    
+    if ~isempty(regexp(config.emailAddress, '[a-z_]+@[a-z]+\.[a-z]+', 'match'))
+        message = config.runInfo;
+        message{end+1} = '';
         
-        
-        if ~isempty(regexp(config.emailAddress, '[a-z_]+@[a-z]+\.[a-z]+', 'match'))
-            message = config.runInfo;
-            message{end+1} = '';
-            
-            message{end+1} = ['total duration: ' expTimeString(config.runDuration)];
-            if config.settingStatus.failed+config.settingStatus.success>0
+        message{end+1} = ['total duration: ' expTimeString(config.runDuration)];
+        if config.settingStatus.failed+config.settingStatus.success>0
             message{end+1} = ['average duration per setting: ' expTimeString(config.runDuration/(config.settingStatus.failed+config.settingStatus.success))];
-            end
-            message{end+1} = '';
-            message{end+1} = ['number of cores used: ' num2str(max([1 config.parallel]))];
-            message{end+1} = ['number of successful settings: ' num2str(config.settingStatus.success)];
-            message{end+1} = ['number of failed settings: ' num2str(config.settingStatus.failed)];
-            message{end+1} = '';
-            if ~isempty(config.displayData.prompt)
-                prompt = evalc('disp(config.displayData.prompt)');
-                prompt = regexp(prompt, '\n', 'split');
-                message = [message prompt];
-            end
-            
-            fid = fopen(config.logFileName);
-            if fid>0
-                C = textscan(fid, '%s', 'delimiter', '');
-                fclose(fid);
-                lines = C{1};
-                message = [message sprintf('\n\n -------------------------------------- \n')];
-                for k=1:length(lines)
-                    message = [message sprintf('%s\n', lines{k})];
-                end
-            end
+        end
+        message{end+1} = '';
+        message{end+1} = ['number of cores used: ' num2str(max([1 config.parallel]))];
+        message{end+1} = ['number of successful settings: ' num2str(config.settingStatus.success)];
+        message{end+1} = ['number of failed settings: ' num2str(config.settingStatus.failed)];
+        message{end+1} = '';
+        if ~isempty(config.displayData.prompt)
+            prompt = evalc('disp(config.displayData.prompt)');
+            prompt = regexp(prompt, '\n', 'split');
+            message = [message prompt];
+        end
+        
+        fid = fopen(config.logFileName);
+        if fid>0
+            C = textscan(fid, '%s', 'delimiter', '');
+            fclose(fid);
+            lines = C{1};
             message = [message sprintf('\n\n -------------------------------------- \n')];
-            config.mailAttachment = {[config.reportPath 'config.txt']};
-            %             if exist(config.configMatName, 'file') % FIXME
-            %                 config.mailAttachment{end+1} = config.configMatName;
-            %             end
-%             if exist(config.logFileName, 'file')
-%                 config.mailAttachment{end+1} = config.logFileName;
-%             end
-            for k=1:length(config.errorDataFileName)
-                if exist(config.errorDataFileName{k}, 'file')
-                    config.mailAttachment{end+1} = config.errorDataFileName{k};
-                end
+            for k=1:length(lines)
+                message = [message sprintf('%s\n', lines{k})];
             end
-            if config.report~=0 && abs(config.report)<3
-                config = expTex(config, 'c');
-                config.mailAttachment = [{config.pdfFileName} config.mailAttachment];
-            end
-            % sendMail does not like tilde
-            config.mailAttachment = expandPath(config.mailAttachment);
-            sendmail(config.emailAddress, ['[expCode] ' config.projectName ' ' num2str(config.runId) ' is over on ' config.hostName], message, config.mailAttachment);
         end
-        expConfigMatSave(config.configMatName);
-        if config.host == -1, exit(); end
-    case 0
+        message = [message sprintf('\n\n -------------------------------------- \n')];
+        config.mailAttachment = {[config.reportPath 'config.txt']};
+        %             if exist(config.configMatName, 'file') % FIXME
+        %                 config.mailAttachment{end+1} = config.configMatName;
+        %             end
+        %             if exist(config.logFileName, 'file')
+        %                 config.mailAttachment{end+1} = config.logFileName;
+        %             end
+        for k=1:length(config.errorDataFileName)
+            if exist(config.errorDataFileName{k}, 'file')
+                config.mailAttachment{end+1} = config.errorDataFileName{k};
+            end
+        end
         if config.report~=0 && abs(config.report)<3
-            config = expTex(config);
+            config = expTex(config, 'c');
+            config.mailAttachment = [{config.pdfFileName} config.mailAttachment];
         end
+        % sendMail does not like tilde
+        config.mailAttachment = expandPath(config.mailAttachment);
+        sendmail(config.emailAddress, ['[expCode] ' config.projectName ' ' num2str(config.runId) ' is over on ' config.hostName], message, config.mailAttachment);
+    end
+    expConfigMatSave(config.configMatName);
+else
+    if config.report~=0 && abs(config.report)<3  % FIXME
+        config = expTex(config);
+    end
 end
-
 if config.waitBar
     delete(config.waitBar);
 end
+if config.exitMatlab
+    exit();
+end
+
+
 
 function config = exposeObservations(config)
 

@@ -22,27 +22,33 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO help command
 
-% TODO utilities path and config probe (tex, rsync, ssh connect to servers)
-
-
 % TODO set current host with hostName (<0 detached server mode >0 attached mode 0 auto mode, Inf debug mode)
+
+% FIXME issue with toolpath on server mode
+
+% FIXME number of succesful settings wrong
 
 %userDefaultConfigFileName = expUserDefaultConfig();
 
-configFileName = getUserFileName(shortProjectName, projectName, projectPath);
-config = expUpdateConfig(configFileName);
-config.shortProjectName = shortProjectName;
-config.userName = getUserName();
+if isstruct(commands{1})
+    config = commands{1};
+    commands = commands(2:end);
+else
+    configFileName = getUserFileName(shortProjectName, projectName, projectPath);
+    config = expUpdateConfig(configFileName);
+    config.shortProjectName = shortProjectName;
+    config.userName = getUserName();
+    config.projectName = projectName;
+    config.projectPath = projectPath;
+    config.configFileName = configFileName;
+end
+
 config.staticDataFileName = [projectPath '/config' filesep shortProjectName];
-
 staticData = load(config.staticDataFileName);
-
 [p, projectName] = fileparts(projectPath);
 
-config.projectName = projectName;
-config.projectPath = projectPath;
-config.configFileName = configFileName;
-config.hostName = char(getHostName(java.net.InetAddress.getLocalHost));
+detectedHostName = char(getHostName(java.net.InetAddress.getLocalHost));
+% disp(['detectedHostName: ' detectedHostName]);
 
 if isempty(config.completeName)
     config.completeName = config.userName;
@@ -96,26 +102,41 @@ end
 
 config = expDesign(config);
 
-if nargin<1 || config.host < 1
-    hostIndex = find(strcmp(config.machineNames, config.hostName));
-    if isempty(hostIndex)
-        hostIndex = 1;
+config.attachedMode = 1;
+if nargin<1 || config.host==0
+  config.host = 0;
+  for k=1:length(config.machineNames)
+        id = find(strcmp(config.machineNames{k}, detectedHostName));
+        if ~isempty(id)
+            config.host = k;
+            config.hostName = config.machineNames{k}{id(1)};
+        end
+    end
+    if config.host==0
+    error(['Unable to find the detected host ' detectedHostName  ' in the machineNames field of your configuration file.']);
     end
 else
-    hostIndex = config.host;
-end
-
-if hostIndex>1
-    config.hostName = config.machineNames{hostIndex};
-else
-    config.hostName = config.machineNames{1};
+     if config.host>0
+        config.attachedMode = 0;
+    end
+    config.host = abs(config.host);
+    if config.host == floor(config.host)
+        if iscell(config.machineNames{config.host})
+         config.hostName = config.machineNames{config.host}{1};    
+        else
+         config.hostName = config.machineNames{config.host};
+        end
+    else
+    config.hostName = config.machineNames{floor(config.host)}{floor(rem(config.host, 1)*10)};
+    config.host = floor(config.host);
+    end
 end
 
 % if config.resume
 %     config.runId = config.resume;
 % else
 config.runId = staticData.runId;
-if config.host>0
+if ~config.attachedMode
     runId = config.runId+1; %#ok<NASGU>
     save(config.staticDataFileName, 'runId', '-append');
     config.runId = runId;
@@ -130,7 +151,7 @@ config.displayData.prompt = [];
 
 if isempty(config.obsPath), config.obsPath = config.dataPath; end
 
-config = expandPath(config, hostIndex, projectPath);
+config = expandPath(config, config.host, projectPath);
 
 config.configMatName = [config.codePath 'config/' config.shortProjectName 'Config' config.userName '_' num2str(config.runId) '.mat'];
 config.reportPath = [config.codePath 'report/'];
@@ -170,13 +191,7 @@ config.loadFileInfo.dateNum = [Inf, 0];
 config.settingStatus.success = 0;
 config.settingStatus.failed = 0;
 
-if ~exist(config.reportPath, 'dir'), mkdir(config.reportPath); end
-if ~exist([config.reportPath 'figures'], 'dir'), mkdir([config.reportPath 'figures']); end
-if ~exist([config.reportPath 'tables'], 'dir'), mkdir([config.reportPath 'tables']); end
-if ~exist([config.reportPath 'tex'], 'dir'), mkdir([config.reportPath 'tex']); end
-if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']); end
 
-expTools(config);
 
 function config = commandLine(config, v)
 
@@ -191,7 +206,7 @@ end
 
 function config = expandPath(config, hostIndex, projectPath)
 
-for k=1:length(config.dependencies)
+for k=1:length(config.dependencies) % FIXME may be wrong
     field = config.dependencies{k};
     if ~isempty(field) && any(strcmp(field(end), {'/', '\'}))
         field = field(1:end-1);
@@ -207,7 +222,7 @@ fieldNames=fieldnames(config);
 for k=1:length(fieldNames)
      if ~isempty(strfind(fieldNames{k}, 'Path'))
          field = config.(fieldNames{k});
-   
+  
          % pick relevant path
         if iscell(field)
             if length(field)>=hostIndex
