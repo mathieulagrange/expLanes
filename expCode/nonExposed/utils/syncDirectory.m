@@ -40,15 +40,15 @@ end
 fprintf('Performing %s %s sync of project %s %s ', upper(directoryName), extensionPath, config.projectName, detachMessage);
 
 % create it if needed
-if serverConfig.host < 2
+if serverConfig.host == config.host
     if ~exist(serverDirectoryPath, 'dir')
         mkdir(serverDirectoryPath);
     end
 else
     syncString = [syncString  ' -e ssh '];
-    if system(['ssh ' serverConfig.hostName ' '' ls ' serverDirectoryPath ' 2>/dev/null >/dev/null ''']) % TODO remove output when it fails put & ?
-        system(['ssh ' serverConfig.hostName ' ''mkdir -p ' serverDirectoryPath '''']);
-    end
+%     if system(['ssh -v ' serverConfig.hostName ' '' ls ' serverDirectoryPath ' 2>/dev/null >/dev/null ''']) % TODO remove output when it fails put & ?
+%         system(['ssh ' serverConfig.hostName ' ''mkdir -p ' serverDirectoryPath '''']);
+%     end
 end
 
 switch lower(config.syncDirection(1))
@@ -103,7 +103,13 @@ if ~isempty(selector)
     end
 end
 
-commandString = [syncString verboseString excludeString ' '  ori '/ ' dest detachString];
+dest = fileparts(dest(1:end-1));
+commandString = [syncString verboseString excludeString ' '  ori(1:end-1) ' ' dest detachString];
+
+if ispc % FIXME will not work on the other side
+   commandString= strrep(commandString, 'C:', '/cygdrive/c'); % FIXME build regexp to fix
+   commandString= strrep(commandString, '\', '/'); % FIXME build regexp to fix
+end
 % commandString
 
 if config.syncDirection(1)~='C'
@@ -111,7 +117,7 @@ if config.syncDirection(1)~='C'
 end
 
 if lower(config.syncDirection(1))=='c'
-    if serverConfig.host < 2
+    if serverConfig.host ~= config.host
         removeCommand = ['find ' serverDirectoryPath ' -name "*' selectorString '" -maxdepth 1 -print0 | xargs -0 rm -f 2>/dev/null '];
     else
         removeCommand = ['ssh ' serverConfig.hostName ' ''find ' serverDirectoryPath ' -name "*" -maxdepth 1 -print0 | xargs -0 rm -f' ''' 2>/dev/null '];

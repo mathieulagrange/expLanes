@@ -86,7 +86,7 @@ config.dependencies = [config.dependencies(1:end-1) ' ''' expCodePath '''}']; % 
 fprintf('You are about to create an experiment called %s with short name %s and steps: ', projectName, shortProjectName);
 disp(stepNames);
 fprintf('Path to code %s\nData path %s\nObservations path %s\n', config.codePath, config.dataPath, config.obsPath);
-disp(['Note: you can set the default values to all configuration parameters in your config file: ' userDir filesep '.expCode' filesep 'defaultConfig.txt.']);
+disp(['Note: you can set the default values to all configuration parameters in your config file: ' userDir '/' '.expCode' '/' 'defaultConfig.txt.']);
 if ~inputQuestion(), fprintf(' Bailing out ...\n'); return; end
 
 % create code repository
@@ -100,7 +100,7 @@ if exist(config.codePath, 'dir'),
 end
 mkdir(config.codePath);
 
-configPath = [config.codePath filesep 'config' filesep];
+configPath = [config.codePath '/' 'config' '/'];
 mkdir(configPath);
 
 config = orderfields(config);
@@ -115,7 +115,7 @@ configCell=textscan(configFile,'%s', 'delimiter', '\n');
 fclose(configFile);
 
 % create config file
-fid = fopen([configPath filesep config.shortProjectName 'ConfigDefault.txt'], 'w');
+fid = fopen([configPath '/' config.shortProjectName 'ConfigDefault.txt'], 'w');
 fprintf(fid, '%% Config file for the %s project\n%% Adapt at your convenience\n\n', config.shortProjectName);
 configFields = fieldnames(config);
 for k=1:length(configFields)
@@ -137,33 +137,11 @@ fid = fopen([config.codePath '/' config.shortProjectName 'Factors.txt'], 'w');
 fprintf(fid, 'method =1== {''methodOne'', ''methodTwo'', ''methodThree''} % method will be defined for step 1 only \nthreshold =s1:=1/[1 3]= [0:10] % threshold is defined for step 1 and the remaining steps, will be sequenced and valid for the 1st and 3rd value of the 1st factor (methodOne and methodThree) \n\n%% Settings file for the %s project\n%% Adapt at your convenience\n', config.shortProjectName);
 fclose(fid);
 
+%create root file
+expCreateRootFile(config, projectName, shortProjectName, expCodePath);
 
-rootString = char({...
-    ['function config = ' projectName '(varargin)'];
-    ['% Welcome to the main entry point of ' projectName];
-    '% Please DO NOT modify this file unless you have a precise intent.';
-    '';
-    ['shortProjectName = ''' shortProjectName ''';'];
-    '[p projectName] = fileparts(mfilename(''fullpath''));';
-    'if nargin>0 && isstruct(varargin{1})';
-    ' config = varargin{1};';
-    'else';
-    ' config = expConfigParse(getUserFileName(shortProjectName, projectName, p));';
-    'end';
-    '';
-    'expDependencies(config);';
-    'config = expRun(p, projectName, shortProjectName, varargin);';
-    '';
-    fileread([expCodePath '/nonExposed/utils/getUserFileName.m'])
-    fileread([expCodePath '/nonExposed/expConfigParse.m'])
-    fileread([expCodePath '/nonExposed/utils/getUserName.m'])
-    fileread([expCodePath '/nonExposed/expDependencies.m'])
-    fileread([expCodePath '/nonExposed/expUserDefaultConfig.m'])
-    });
 
-dlmwrite([config.codePath '/' projectName '.m'], rootString,'delimiter','');
-
-config.latex = LatexCreator([config.codePath filesep config.projectName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], projectName, 1, 1);
+config.latex = LatexCreator([config.codePath '/' config.projectName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], projectName, 1, 1);
 
 % create project functions
 % TODO add some comments

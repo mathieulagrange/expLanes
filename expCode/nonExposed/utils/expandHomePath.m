@@ -1,4 +1,4 @@
-function [ out ] = expandPath(in)
+function [ out ] = expandHomePath(in)
 %EXPPATH Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -8,16 +8,15 @@ else
   out = cellfun(@stringPath, in, 'UniformOutput', 0);
 end
 
-end
-
 function out =  stringPath (in)
 
-if strcmp(in(1), '~')
-    [null, homePath] = system('echo $HOME');
-    out = strrep(in, '~', homePath(1:end-1));
+if ~isempty(in) && strcmp(in(1), '~')
+   if ispc; 
+       homePath= getenv('USERPROFILE'); 
+   else
+       homePath= getenv('HOME');
+   end
+   out = strrep(in, '~', homePath);
 else
     out = in;
 end
-
-end
-

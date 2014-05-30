@@ -29,7 +29,7 @@ for k=1:length(config.dependencies)
     else
         dependency = config.dependencies{k};
     end
-    if ~any(strcmp({'/', '\'}, dependency(1)))
+    if ~any(strcmp({'/', '\', '~'}, dependency(1)))
         dependency = [config.codePath filesep dependency];
     end
     [p n]=fileparts(dependency);
@@ -41,6 +41,12 @@ for k=1:length(config.dependencies)
         syncString = 'rsync -arC   -e ssh --delete-after --exclude=.git --exclude=*.mex* ';
         command = [syncString strrep(dependency, ' ', '\ ') ' ' serverConfig.hostName ':' serverConfig.codePath 'dependencies'];
     end
+    
+    if ispc % FIXME will not work on the other side
+        command= strrep(command, 'C:', '/cygdrive/c'); % FIXME build regexp to fix
+        command= strrep(command, '\', '/'); % FIXME build regexp to fix
+    end
+    
     system(command);
     %     end
 end

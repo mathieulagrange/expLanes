@@ -17,7 +17,7 @@ end
 
 if ~isempty(name)
     [p n e] = fileparts(name);
-    name = [p filesep n];
+    name = [p '/' n];
 else
     p=[];
     e=[];
@@ -32,9 +32,9 @@ end
 if isempty(p) || ~any(strcmp(p(1), {'/', '\', '~'}))
     if inputId
         if ~isempty(strfind(extension, '_obs')) && ~isempty(config.obsPath)
-            path = [config.obsPath config.stepName{inputId} filesep];
+            path = [config.obsPath config.stepName{inputId} '/'];
         else
-            path = [config.dataPath config.stepName{inputId} filesep];
+            path = [config.dataPath config.stepName{inputId} '/'];
         end
     else
         path = config.inputPath;
@@ -102,7 +102,7 @@ if isempty(config.load) && config.retrieve
         sourceConfig = expConfig(config.codePath, config.shortProjectName, {'host', source});
         
         if inputId
-            sourcePath = [sourceConfig.dataPath sourceConfig.stepName{inputId} filesep];
+            sourcePath = [sourceConfig.dataPath sourceConfig.stepName{inputId} '/'];
 %             sourcePath = sourceConfig.([config.stepName{inputId} 'Path']);
         else
             sourcePath = sourceConfig.inputPath;

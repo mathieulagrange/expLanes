@@ -13,9 +13,9 @@ function expSync(config, syncMode, syncDestination, syncDirection, detach, delet
 
 if exist('syncMode', 'var')
     if isnumeric(syncMode)
-    config.syncMode = sprintf('%d', syncMode);
+        config.syncMode = sprintf('%d', syncMode);
     else
-        config.syncMode = syncMode; 
+        config.syncMode = syncMode;
     end
 end
 
@@ -41,7 +41,7 @@ if isstruct(syncDestination)
     serverConfig = syncDestination;
     syncDestination = serverConfig.host;
 else
-    serverConfig = expConfig(config.codePath, config.projectName, config.shortProjectName, {'host', syncDestination});
+    serverConfig = expConfig(config.codePath, config.projectName, config.shortProjectName, {'host', syncDestination, 'attachedMode', 0});
 end
 
 if syncDestination==-1
@@ -53,10 +53,10 @@ if syncDestination==-1
     fieldNames=fieldnames(serverConfig);
     for k=1:length(fieldNames)
         if any(~cellfun(@isempty, strfind({'dataPath', 'inputPath'}, fieldNames{k}))) % && isempty(strfind(fieldNames{k}, 'data'))
-            serverConfig.(fieldNames{k}) =  [config.bundlePath config.projectName filesep fieldNames{k}(1:end-4) filesep]; 
+            serverConfig.(fieldNames{k}) =  [config.bundlePath config.projectName '/' fieldNames{k}(1:end-4) '/']; 
         end
     end
-    serverConfig.codePath = [config.bundlePath config.projectName filesep];
+    serverConfig.codePath = [config.bundlePath config.projectName '/'];
 end
 
 % TODO what if some directories are unset ?

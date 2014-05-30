@@ -8,7 +8,10 @@ if config.localDependencies == 0 || config.localDependencies == 2
         dependencyPath = config.dependencies{k};
         if dependencyPath(1) == '.'
             dependencyPath = [p filesep dependencyPath];
+        elseif dependencyPath(1) == '~'
+            dependencyPath = expandHomePath(dependencyPath);
         end
         addpath(genpath(dependencyPath));
     end
 end
+

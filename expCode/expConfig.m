@@ -22,33 +22,45 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO help command
 
-% TODO utilities path and config probe (tex, rsync, ssh connect to servers)
-
+% sync obs / data with different paths
 
 % TODO set current host with hostName (<0 detached server mode >0 attached mode 0 auto mode, Inf debug mode)
 
+% FIXME issue with toolpath on server mode
+
+% FIXME number of succesful settings wrong
+
 %userDefaultConfigFileName = expUserDefaultConfig();
 
-configFileName = getUserFileName(shortProjectName, projectName, projectPath);
-config = expUpdateConfig(configFileName);
-config.shortProjectName = shortProjectName;
-config.userName = getUserName();
-config.staticDataFileName = [projectPath '/config' filesep shortProjectName];
+if ~isempty(commands) && isstruct(commands{1})
+    config = commands{1};
+    commands = commands(2:end);
+else
+    configFileName = getUserFileName(shortProjectName, projectName, projectPath);
+    config = expUpdateConfig(configFileName);
+    config.shortProjectName = shortProjectName;
+    config.userName = getUserName();
+    config.projectName = projectName;
+    config.projectPath = projectPath;
+    config.configFileName = configFileName;
+end
 
+config.staticDataFileName = [projectPath '/config' '/' shortProjectName];
+if ~exist(config.staticDataFileName, 'file')
+    runId=1;
+    save(config.staticDataFileName, 'runId');
+end
 staticData = load(config.staticDataFileName);
-
 [p, projectName] = fileparts(projectPath);
 
-config.projectName = projectName;
-config.projectPath = projectPath;
-config.configFileName = configFileName;
-config.hostName = char(getHostName(java.net.InetAddress.getLocalHost));
+detectedHostName = char(getHostName(java.net.InetAddress.getLocalHost));
+disp(['detectedHostName: ' detectedHostName]);
 
 if isempty(config.completeName)
     config.completeName = config.userName;
 end
 
-config.factorFileName = [projectPath filesep config.shortProjectName 'Factors.txt'];
+config.factorFileName = [projectPath '/' config.shortProjectName 'Factors.txt'];
 config.stepName = expStepName(config.projectPath, config.shortProjectName);
 config.factors = expFactorParse(config.factorFileName, length(config.stepName));
 
@@ -69,7 +81,7 @@ switch config.namingConventionForFiles
         fileLength = fileLength+sum(valueLength+1);
 end
 if fileLength && fileLength>512
-   warning('Following your factors definition, the longer data file name may exceed the possible range of the file system (512). Please consider using the hash based naming convention.') 
+    warning('Following your factors definition, the longer data file name may exceed the possible range of the file system (512). Please consider using the hash based naming convention.')
 end
 
 if nargin>3,
@@ -96,26 +108,41 @@ end
 
 config = expDesign(config);
 
-if nargin<1 || config.host < 1
-    hostIndex = find(strcmp(config.machineNames, config.hostName));
-    if isempty(hostIndex)
-        hostIndex = 1;
+config.attachedMode = 1;
+if nargin<1 || config.host==0
+    config.host = 0;
+    for k=1:length(config.machineNames)
+        id = find(strcmp(config.machineNames{k}, detectedHostName));
+        if ~isempty(id)
+            config.host = k;
+            config.hostName = config.machineNames{k}{id(1)};
+        end
+    end
+    if config.host==0
+        error(['Unable to find the detected host ' detectedHostName  ' in the machineNames field of your configuration file. Either explicitely set the host number (''host'', <value>) or add ' detectedHostName ' to the list of your machines in your config file.']);
     end
 else
-    hostIndex = config.host;
-end
-
-if hostIndex>1
-    config.hostName = config.machineNames{hostIndex};
-else
-    config.hostName = config.machineNames{1};
+    if config.host>0
+        config.attachedMode = 0;
+    end
+    config.host = abs(config.host);
+    if config.host == floor(config.host)
+        if iscell(config.machineNames{config.host})
+            config.hostName = config.machineNames{config.host}{1};
+        else
+            config.hostName = config.machineNames{config.host};
+        end
+    else
+        config.hostName = config.machineNames{floor(config.host)}{floor(rem(config.host, 1)*10)};
+        config.host = floor(config.host);
+    end
 end
 
 % if config.resume
 %     config.runId = config.resume;
 % else
 config.runId = staticData.runId;
-if config.host>0
+if config.host
     runId = config.runId+1; %#ok<NASGU>
     save(config.staticDataFileName, 'runId', '-append');
     config.runId = runId;
@@ -130,14 +157,14 @@ config.displayData.prompt = [];
 
 if isempty(config.obsPath), config.obsPath = config.dataPath; end
 
-config = expandPath(config, hostIndex, projectPath);
+config = expandPath(config, projectPath);
 
 config.configMatName = [config.codePath 'config/' config.shortProjectName 'Config' config.userName '_' num2str(config.runId) '.mat'];
 config.reportPath = [config.codePath 'report/'];
 
 if iscell(config.parallel)
-    if length(config.parallel)>=hostIndex
-        config.parallel = config.parallel{hostIndex};
+    if length(config.parallel)>=config.host
+        config.parallel = config.parallel{config.host};
     else
         config.parallel = config.parallel{end};
     end
@@ -153,12 +180,12 @@ end
 figureHandles = findobj('Type','figure');
 config.displayData.figure = [];
 for k=1:length(figureHandles)
-   config.displayData.figure(k).handle = figureHandles(k);  
-   config.displayData.figure(k).taken = 0;
-   config.displayData.figure(k).caption = 0;
-   config.displayData.figure(k).report = 0;
-   config.displayData.figure(k).label = 0;
-   
+    config.displayData.figure(k).handle = figureHandles(k);
+    config.displayData.figure(k).taken = 0;
+    config.displayData.figure(k).caption = 0;
+    config.displayData.figure(k).report = 0;
+    config.displayData.figure(k).label = 0;
+    
 end
 config.displayData.table = [];
 
@@ -170,13 +197,7 @@ config.loadFileInfo.dateNum = [Inf, 0];
 config.settingStatus.success = 0;
 config.settingStatus.failed = 0;
 
-if ~exist(config.reportPath, 'dir'), mkdir(config.reportPath); end
-if ~exist([config.reportPath 'figures'], 'dir'), mkdir([config.reportPath 'figures']); end
-if ~exist([config.reportPath 'tables'], 'dir'), mkdir([config.reportPath 'tables']); end
-if ~exist([config.reportPath 'tex'], 'dir'), mkdir([config.reportPath 'tex']); end
-if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']); end
 
-expTools(config);
 
 function config = commandLine(config, v)
 
@@ -189,45 +210,51 @@ for pair = reshape(v,2,[]) % pair is {propName;propValue}
     config.(pair{1}) = pair{2};
 end
 
-function config = expandPath(config, hostIndex, projectPath)
+function config = expandPath(config, projectPath)
 
-for k=1:length(config.dependencies)
+for k=1:length(config.dependencies) % FIXME may be wrong
     field = config.dependencies{k};
     if ~isempty(field) && any(strcmp(field(end), {'/', '\'}))
         field = field(1:end-1);
     end
-    if hostIndex > 1
+    if ~config.attachedMode
         [p field] = fileparts(field);
-        field = ['dependencies' filesep field];
+        field = ['dependencies' '/' field];
     end
     config.dependencies{k} = field;
 end
 
 fieldNames=fieldnames(config);
 for k=1:length(fieldNames)
-     if ~isempty(strfind(fieldNames{k}, 'Path'))
-         field = config.(fieldNames{k});
-   
-         % pick relevant path
+    if ~isempty(strfind(fieldNames{k}, 'Path'))
+        field = config.(fieldNames{k});
+        
+        % pick relevant path
         if iscell(field)
-            if length(field)>=hostIndex
-                 config.(fieldNames{k}) = field{hostIndex};
+            if length(field)>=config.host
+                config.(fieldNames{k}) = field{config.host};
             else
                 config.(fieldNames{k}) = field{end}; % convention add the last parameter
             end
         end
-%         if ~strcmp(fieldNames{k}, 'matlabPath')  && ~isempty(field) && strcmp(field(1), '.')
-%             config.(fieldNames{k}) = [pwd() field(2:end)];
-%         end
+        %         if ~strcmp(fieldNames{k}, 'matlabPath')  && ~isempty(field) && strcmp(field(1), '.')
+        %             config.(fieldNames{k}) = [pwd() field(2:end)];
+        %         end
     end
 end
 
 for k=1:length(fieldNames)
     if ~isempty(strfind(fieldNames{k}, 'Path'))
-        field = config.(fieldNames{k});
+        if config.attachedMode
+            field = expandHomePath(config.(fieldNames{k}));
+        else
+             field = config.(fieldNames{k});
+        end
         % if relative add projectPath
         if all(~strcmp(fieldNames{k}, {'matlabPath', 'toolPath'}))  && (isempty(field) || ((~isempty(field) && ~any(strcmp(field(1), {'~', '/', '\'}))) && ((length(field)<1 || ~strcmp(field(2), ':')))))
-            config.(fieldNames{k}) = [projectPath filesep field];
+            config.(fieldNames{k}) = [projectPath '/' field];
+        else
+            config.(fieldNames{k}) = field;
         end
     end
 end
@@ -235,11 +262,11 @@ end
 for k=1:length(fieldNames)
     if ~isempty(strfind(fieldNames{k}, 'Path'))
         field = config.(fieldNames{k});
-       
+        
         if isempty(field) || iscell(field) || any(strcmp(field(end), {'/', '\'}))
             config.(fieldNames{k})=field;
         else
-            config.(fieldNames{k})=[field filesep];
+            config.(fieldNames{k})=[field '/'];
         end
     end
 end
