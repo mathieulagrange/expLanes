@@ -108,6 +108,7 @@ commandString = [syncString verboseString excludeString ' '  ori(1:end-1) ' ' de
 
 if ispc % FIXME will not work on the other side
    commandString= strrep(commandString, 'C:', '/cygdrive/c'); % FIXME build regexp to fix
+   commandString= strrep(commandString, '\', '/'); % FIXME build regexp to fix
 end
 % commandString
 

@@ -117,12 +117,13 @@ if isfield(config, 'serverConfig')
     matConfig.sync = [];
 
     matConfig.retrieve = 0; % do not retrieve on server setting
-    if ~config.attachedMode
+    if config.host ~= config.serverConfig.host
         matConfig.localDependencies = 1;
         expConfigMatSave(config.configMatName, matConfig);
         
         expSync(config, 'c', config.serverConfig, 'up');
         if config.localDependencies == 0
+%             config.serverConfig.localDependencies = 1;
             expSync(config, 'd', config.serverConfig, 'up');
         end
         expConfigMatSave(config.configMatName);

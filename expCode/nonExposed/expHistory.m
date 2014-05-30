@@ -68,7 +68,7 @@ end
 
 if config.attachedMode==0
     serverConfig = config;
-    config = expConfig(projectPath, projectName, shortProjectName, [commands {'host', 0}]);
+    config = expConfig(projectPath, projectName, shortProjectName, [commands {'host', 0, 'attachedMode', 0}]);
     config.serverConfig=serverConfig;
     config.hostName = config.serverConfig.hostName;
 end

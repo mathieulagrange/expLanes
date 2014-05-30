@@ -142,7 +142,7 @@ end
 %     config.runId = config.resume;
 % else
 config.runId = staticData.runId;
-if ~config.attachedMode
+if config.host
     runId = config.runId+1; %#ok<NASGU>
     save(config.staticDataFileName, 'runId', '-append');
     config.runId = runId;
@@ -217,7 +217,7 @@ for k=1:length(config.dependencies) % FIXME may be wrong
     if ~isempty(field) && any(strcmp(field(end), {'/', '\'}))
         field = field(1:end-1);
     end
-    if config.attachedMode
+    if ~config.attachedMode
         [p field] = fileparts(field);
         field = ['dependencies' '/' field];
     end

@@ -19,7 +19,7 @@ for k=1:length(config.toolPath)
     end
 end
 sysPath = getenv('PATH');
-commands = {'pdflatex', 'rsync', 'ssh'};
+commands = {'pdflatex', 'rsync', 'ssh', 'screen'};
 
 % config.toolPath
 
@@ -29,12 +29,15 @@ if config.probe
     
     for k=1:length(commands)
         
-        
-        if any(k==[1 2])
+        switch commands{k}
+            case {'pdflatex', 'rsync'}
             status = system([commands{k} ' --help > ' null]);
-        else
+            case 'ssh'
             [ status message] = system([commands{k} ' -V > ' null]);
             if status, ssh=0;else ssh=1;end
+            case 'screen'
+                [status message] = system([commands{k} ' -v']);
+                if strfind(message, 'Screen'), status = 0; end
         end
         if status
             disp([commands{k} ' not found.']);
