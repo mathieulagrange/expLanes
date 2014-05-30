@@ -40,7 +40,7 @@ if config.showFactorsInReport
     a=dir(pdfFileName);
     b=dir([config.codePath config.shortProjectName 'Factors.txt']);
     if ~exist(pdfFileName, 'file')  || a.datenum < b.datenum
-        expDisplayFactors(config, config.factorDisplayStyle, config.showFactorsInReport, ~(abs(config.report)-1), 0);
+        expDisplayFactors(config, config.showFactorsInReport, config.factorDisplayStyle, ~(abs(config.report)-1), 0);
     end
     
     if slides
@@ -50,7 +50,7 @@ if config.showFactorsInReport
     
     config.latex.addLine('\begin{center}');
     config.latex.addLine('\begin{figure}[ht]');
-    config.latex.addLine(['\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{' expandPath(pdfFileName) '}']);
+    config.latex.addLine(['\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{' expandHomePath(pdfFileName) '}']);
     config.latex.addLine('\label{factorFlowGraph}');
     if~slides
         config.latex.addLine('\caption{Factors flow graph for the experiment.}');
