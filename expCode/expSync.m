@@ -41,7 +41,7 @@ if isstruct(syncDestination)
     serverConfig = syncDestination;
     syncDestination = serverConfig.host;
 else
-    serverConfig = expConfig(config.codePath, config.shortProjectName, {'host', syncDestination});
+    serverConfig = expConfig(config.codePath, config.projectName, config.shortProjectName, {'host', syncDestination});
 end
 
 if syncDestination==-1

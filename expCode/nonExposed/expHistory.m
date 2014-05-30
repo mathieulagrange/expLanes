@@ -68,7 +68,7 @@ end
 
 if config.host>0
     serverConfig = config;
-    config = expConfig(projectPath, shortProjectName, [commands {'host', 0}]);
+    config = expConfig(projectPath, projectName, shortProjectName, [commands {'host', 0}]);
     config.serverConfig=serverConfig;
     config.hostName = config.serverConfig.hostName;
 end
