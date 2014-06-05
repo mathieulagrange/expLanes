@@ -74,7 +74,7 @@ exitMatlab = 0
 
 % encoding type of mat files (doc save for specs)
 encodingVersion = 7.3
-% attempt to perform computation to be stored
+% attempt to perform computation to be stored: (1, 0) load data of previous step, (-1, 0) load data result of the current step
 store = 1
 % attempt to retrieve needed data server side
 retrieve = 0

@@ -128,15 +128,17 @@ if config.redo==0 && (exist(expSave(config, [], 'data'), 'file') || exist(expSav
 end
 
 loadedData = [];
-if config.step.id>1
-    config = expLoad(config, [], [], 'data');
-    if ~isempty(config.load)
-        loadedData = config.load;
+if config.store > -1
+    if config.step.id>1
+        config = expLoad(config, [], [], 'data');
+        if ~isempty(config.load)
+            loadedData = config.load;
+        end
+    else
+        loadedData = config.initStore;
     end
-else
-    loadedData = config.initStore;
 end
-if config.store == 0
+if config.store < 1
     config = expLoad(config, [], config.step.id, 'data');
     if ~isempty(config.load)
         loadedData.store = config.load.data;

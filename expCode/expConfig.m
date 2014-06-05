@@ -32,6 +32,8 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 %userDefaultConfigFileName = expUserDefaultConfig();
 
+% TODO test validity of submitted mask
+
 if ~isempty(commands) && isstruct(commands{1})
     config = commands{1};
     commands = commands(2:end);

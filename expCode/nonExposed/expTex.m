@@ -7,13 +7,13 @@ if ~exist(latexPath, 'dir')
     mkdir(latexPath);
 end
 
+reportName = '';
+slides= 0 ;
 if ~isempty(config.reportName)
     reportName = [upper(config.reportName(1)), config.reportName(2:end)];
     
     if strfind(lower(config.reportName), 'slides')
         slides = 1;
-    else
-        slides= 0 ;
     end
 end
 
