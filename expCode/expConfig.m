@@ -34,6 +34,8 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO test validity of submitted mask
 
+% cehck validity of factors and config
+
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
     config = commands{1};
     commands = commands(2:end);
@@ -55,8 +57,6 @@ end
 staticData = load(config.staticDataFileName);
 [p, projectName] = fileparts(projectPath);
 
-detectedHostName = char(getHostName(java.net.InetAddress.getLocalHost));
-disp(['detectedHostName: ' detectedHostName]);
 
 if isempty(config.completeName)
     config.completeName = config.userName;
@@ -86,9 +86,11 @@ if fileLength && fileLength>512
     warning('Following your factors definition, the longer data file name may exceed the possible range of the file system (512). Please consider using the hash based naming convention.')
 end
 
+config.attachedMode = 1;
 if nargin>3,
     configOri = config;
     %     if ~mod(nargin, 2)
+    
     config = commandLine(config, commands);
     %     else
     %         config = commandLine(config, commands(2:end));
@@ -108,15 +110,17 @@ if iscell(config.mask)
     end
 end
 
-config = expDesign(config);
+config.localHostName = char(getHostName(java.net.InetAddress.getLocalHost));
+disp(['detectedHostName: ' config.localHostName]);
 
-config.attachedMode = 1;
+config = expDesign(config);
 if nargin<1 || config.host==0
     config.host = 0;
     for k=1:length(config.machineNames)
-        id = find(strcmp(config.machineNames{k}, detectedHostName));
+        id = find(strcmp(config.machineNames{k}, config.localHostName));
         if ~isempty(id)
-            config.host = k;
+            config.hostGroup = k;
+            config.host = k+id(1)/10;
             config.hostName = config.machineNames{k}{id(1)};
         end
     end
@@ -135,10 +139,10 @@ else
             config.hostName = config.machineNames{config.host};
         end
     else
-        config.hostName = config.machineNames{floor(config.host)}{floor(rem(config.host, 1)*10)};
-        config.host = floor(config.host);
+        config.hostName = config.machineNames{floor(config.host)}{ceil(rem(config.host, 1)*10)};
     end
 end
+ config.hostGroup = floor(config.host);
 
 % if config.resume
 %     config.runId = config.resume;
@@ -165,8 +169,8 @@ config.configMatName = [config.codePath 'config/' config.shortProjectName 'Confi
 config.reportPath = [config.codePath 'report/'];
 
 if iscell(config.parallel)
-    if length(config.parallel)>=config.host
-        config.parallel = config.parallel{config.host};
+    if length(config.parallel)>=config.hostGroup
+        config.parallel = config.parallel{config.hostGroup};
     else
         config.parallel = config.parallel{end};
     end
@@ -219,7 +223,7 @@ for k=1:length(config.dependencies) % FIXME may be wrong
     if ~isempty(field) && any(strcmp(field(end), {'/', '\'}))
         field = field(1:end-1);
     end
-    if ~config.attachedMode
+    if ~config.attachedMode && ~strcmp(config.hostName, config.localHostName)
         [p field] = fileparts(field);
         field = ['dependencies' '/' field];
     end
@@ -233,8 +237,8 @@ for k=1:length(fieldNames)
         
         % pick relevant path
         if iscell(field)
-            if length(field)>=config.host
-                config.(fieldNames{k}) = field{config.host};
+            if length(field)>=config.hostGroup
+                config.(fieldNames{k}) = field{config.hostGroup};
             else
                 config.(fieldNames{k}) = field{end}; % convention add the last parameter
             end

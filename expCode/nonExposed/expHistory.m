@@ -83,8 +83,13 @@ end
 %     lastCommand = fgetl(fid);
 % end
 % fclose(fid);
+
 hist = com.mathworks.mlservices.MLCommandHistoryServices.getSessionHistory;
+if ~isempty(hist)
 lastCommand = char(hist(end));
+else
+   lastCommand = []; 
+end
 if ~isempty(strfind(lastCommand, ''''))
     fid = fopen([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt'], 'rt');
     commands = {};

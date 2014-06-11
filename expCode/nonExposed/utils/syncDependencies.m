@@ -3,8 +3,10 @@ function syncDependencies(config, serverConfig)
 fprintf('Performing DEPENDENCIES sync \n');
 
 if config.localDependencies == 2
-    if serverConfig.host < 2
-        rmdir([serverConfig.codePath 'dependencies']);
+    if config.host == serverConfig.host
+        if exist([serverConfig.codePath 'dependencies'], 'dir')
+            rmdir([serverConfig.codePath 'dependencies']);
+        end
     else
         system(['ssh ' serverConfig.hostName ' ''rm -r ' serverConfig.codePath 'dependencies 2>/dev/null ''']);
     end

@@ -108,9 +108,9 @@ if isfield(config, 'serverConfig')
     if ~inputQuestion(), fprintf(' Bailing out ...\n'); return; end
     
     matConfig = config.serverConfig;
-    matConfig.host = -1;
+%     matConfig.host = -1;
     matConfig.attachedMode = 1;
-    matConfig.exitMatlab = 0;
+    matConfig.exitMatlab = 1;
     matConfig.sendMail = 1;
     matConfig.runInfo = config.runInfo;
     matConfig.staticDataFileName = [config.serverConfig.codePath '/config' '/' shortProjectName];
