@@ -36,10 +36,6 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % FIXME test still in store ??
 
-% TODO max perf in red
-
-% FIXME exposeClass saved figurte fails
-
 if ~isempty(commands) && isstruct(commands{1})
     config = commands{1};
     commands = commands(2:end);

@@ -149,13 +149,13 @@ else
 end
 
 if config.obs ~= -1
-    if config.host == 0
+    if config.attachedMode
         config = exposeObservations(config);
     else
         try
             config = exposeObservations(config);
         catch error
-            if config.host == 0
+            if config.attachedMode
                 rethrow(error);
             else
                 explog(config, error, 3, 1);
@@ -166,14 +166,14 @@ end
 
 if config.report>-1
     config.step.id = length(config.stepName);
-    if config.host == 0
+    if config.attachedMode
         config = feval([config.shortProjectName 'Report'], config);
     else
         try
             config = feval([config.shortProjectName 'Report'], config);
         catch error
             config.report=-1;
-            if config.host == 0
+            if config.attachedMode
                 rethrow(error);
             else
                 expLog(config, error, 3, 1);
