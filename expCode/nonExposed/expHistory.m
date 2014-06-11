@@ -78,11 +78,13 @@ if config.attachedMode==0
     config.hostName = config.serverConfig.hostName;
 end
 
-fid = fopen([prefdir, filesep, 'history.m'],'rt');
-while ~feof(fid)
-    lastCommand = fgetl(fid);
-end
-fclose(fid);
+% fid = fopen([prefdir, filesep, 'history.m'],'rt');
+% while ~feof(fid)
+%     lastCommand = fgetl(fid);
+% end
+% fclose(fid);
+hist = com.mathworks.mlservices.MLCommandHistoryServices.getSessionHistory;
+lastCommand = char(hist(end));
 if ~isempty(strfind(lastCommand, ''''))
     fid = fopen([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt'], 'rt');
     commands = {};

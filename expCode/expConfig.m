@@ -34,8 +34,6 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO test validity of submitted mask
 
-% FIXME test still in store ??
-
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
     config = commands{1};
     commands = commands(2:end);
