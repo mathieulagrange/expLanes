@@ -122,7 +122,9 @@ if p.highlight ~= -1
         p.highlight = 1:size(sData, 2);
     end
     for k=1:length(p.obs)
-        col = round(sData(:, k)*10^config.displayDigitPrecision);
+       %  col = round(sData(:, k)*10^config.displayDigitPrecision); % FIXME
+       %  why ?
+        col = sData(:, k);
         [maxValue maxIndex] = max(col);
         if any(vData(:, k))
             for m=1:length(data)
@@ -132,6 +134,7 @@ if p.highlight ~= -1
                     highlights(m, k) = ~rejection;
                 end
             end
+             highlights(col==maxValue, k) = 2;
         else
             highlights(:, k) =  col==maxValue;
         end

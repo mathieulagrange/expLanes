@@ -32,9 +32,11 @@ end
 if any(highlight(:))
     if put == 2
         resultCell(highlight==1) = strcat('\textbf{', resultCell(highlight==1), '}');
+        resultCell(highlight==2) = strcat('\textbf{\textcolor{red}{', resultCell(highlight==2), '}}');
     elseif put == 1
 %         resultCell(highlight==0) = strcat('<html><font color="black"><b>', resultCell(highlight==0), '</font></html>');
-        resultCell(highlight==1) = strcat('<html><font color="purple"><b>', resultCell(highlight==1), '</font></html>');
+        resultCell(highlight==1) = strcat('<html><font color="blue"><b>', resultCell(highlight==1), '</font></html>');
+        resultCell(highlight==2) = strcat('<html><font color="red"><b>', resultCell(highlight==2), '</font></html>');
     end
 end
 
