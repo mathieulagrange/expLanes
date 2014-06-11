@@ -238,9 +238,9 @@ for k=1:length(fieldNames)
         % pick relevant path
         if iscell(field)
             if length(field)>=config.hostGroup
-                config.(fieldNames{k}) = field{config.hostGroup};
+                config.(fieldNames{k}) = strtrim(field{config.hostGroup});
             else
-                config.(fieldNames{k}) = field{end}; % convention add the last parameter
+                config.(fieldNames{k}) = strtrim(field{end}); % convention add the last parameter
             end
         end
         %         if ~strcmp(fieldNames{k}, 'matlabPath')  && ~isempty(field) && strcmp(field(1), '.')

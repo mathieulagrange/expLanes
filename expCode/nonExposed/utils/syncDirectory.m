@@ -56,7 +56,7 @@ switch lower(config.syncDirection(1))
     case 'u'
         fprintf('from host to server %s\n', serverConfig.hostName);
         ori = directoryPath;
-         if serverConfig.host < 2
+         if  serverConfig.host == config.host
             dest = serverDirectoryPath;
         else
             dest = [serverConfig.hostName ':' serverDirectoryPath];
@@ -68,7 +68,7 @@ switch lower(config.syncDirection(1))
         dest = directoryPath;
         excludeString=getExcludeString(serverConfig, serverDirectoryPath);
         
-         if serverConfig.host < 2
+         if serverConfig.host == config.host
             ori = serverDirectoryPath;
         else
             ori = [serverConfig.hostName ':' serverDirectoryPath];
@@ -96,19 +96,26 @@ if ~isempty(selector)
     switch selector
         case 'd'
             selectorString = '_data.mat';
-            excludeString = [excludeString '--include ''*_data.mat'' --exclude ''*'''];
+            excludeString = [excludeString '--include ''*/*_data.mat'' --exclude ''*/*'''];
         case 'o'
             selectorString = '_obs.mat';
-            excludeString = [excludeString '--include ''*_obs.mat'' --exclude ''*'''];
+            excludeString = [excludeString '--include ''*/*_obs.mat'' --exclude ''*/*'''];
     end
 end
 
-dest = fileparts(dest(1:end-1));
-commandString = [syncString verboseString excludeString ' '  ori(1:end-1) ' ' dest detachString];
+if any(strcmp(dest(end), {'\', '/'}))
+    dest = dest(1:end-1);
+end
+if any(strcmp(ori(end), {'\', '/'}))
+    ori = ori(1:end-1);
+end
+dest = fileparts(dest);
+
+commandString = [syncString verboseString excludeString ' '  ori ' ' dest detachString];
 
 if ispc % FIXME will not work on the other side
    commandString= strrep(commandString, 'C:', '/cygdrive/c'); % FIXME build regexp to fix
-   commandString= strrep(commandString, '\', '/'); % FIXME build regexp to fix
+   commandString= strrep(commandString, '\', '/'); 
 end
 % commandString
 
