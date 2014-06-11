@@ -36,7 +36,7 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % FIXME test still in store ??
 
-if ~isempty(commands) && isstruct(commands{1})
+if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
     config = commands{1};
     commands = commands(2:end);
 else

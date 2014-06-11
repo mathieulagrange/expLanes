@@ -7,7 +7,7 @@ if length(commands)<1, % default config
 elseif length(commands)>1 % command line processing
     config = expConfig(projectPath, projectName, shortProjectName, commands);
 elseif isnumeric(commands{1})
-    config = expConfig(projectPath, projectName, shortProjectName, {});
+    config = expConfig(projectPath, projectName, shortProjectName);
     fid = fopen([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt'], 'rt');
     foundCommand = '';
     if fid>0
@@ -28,29 +28,30 @@ elseif isnumeric(commands{1})
 elseif isstruct(commands{1}) % server mode
     config = commands{1};
 elseif ischar(commands{1})
-    switch lower(commands{1})
+    config = expConfig(projectPath, projectName, shortProjectName);
+    switch commands{1}
         case 'h'
             % TODO display help
         case 'p'
-        fprintf('---------------------------\nHistory: \n');
-        fid = fopen([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt'], 'rt');
-        if fid>0
-            lastCommands={};
-            while ~feof(fid)
-                lastCommands{end+1} = fgetl(fid);
+            fprintf('---------------------------\nHistory: \n');
+            fid = fopen([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt'], 'rt');
+            if fid>0
+                lastCommands={};
+                while ~feof(fid)
+                    lastCommands{end+1} = fgetl(fid);
+                end
+                fclose(fid);
+                for k=max([1 length(lastCommands)-10]):length(lastCommands)
+                    fprintf('%d %s\n', k, lastCommands{k});
+                end
+                fprintf('///////////////////////////////////// \n');
+                fprintf('Please enter the numeric id to rerun command\n');
+                %         fprintf('Runnning %s\n', lastCommand);
+                %         eval(lastCommand);
+                return
+            else
+                config = expConfig(projectPath, projectName, shortProjectName, commands);
             end
-            fclose(fid);
-            for k=max([1 length(lastCommands)-10]):length(lastCommands)
-                fprintf('%d %s\n', k, lastCommands{k});
-            end
-            fprintf('///////////////////////////////////// \n');
-            fprintf('Please enter the numeric id to rerun command\n');
-            %         fprintf('Runnning %s\n', lastCommand);
-            %         eval(lastCommand);
-            return
-        else
-            config = expConfig(projectPath, projectName, shortProjectName, commands);
-        end
         case 'v'
             config = expConfig(projectPath, projectName, shortProjectName, {});
             showFactors(config.factorFileName);

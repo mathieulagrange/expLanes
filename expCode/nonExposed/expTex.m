@@ -39,6 +39,12 @@ if config.showFactorsInReport
     pdfFileName = [config.reportPath 'figures/' config.shortProjectName 'Factors.pdf'];
     a=dir(pdfFileName);
     b=dir([config.codePath config.shortProjectName 'Factors.txt']);
+    for k=1:length(config.stepName)
+        c = dir([config.codePath config.shortProjectName num2str(k) config.stepName{k} '.m']);
+        if c.datenum > b.datenum
+            b=c;
+        end
+    end
     if ~exist(pdfFileName, 'file')  || a.datenum < b.datenum
         expDisplayFactors(config, config.showFactorsInReport, config.factorDisplayStyle, ~(abs(config.report)-1), 0);
     end
