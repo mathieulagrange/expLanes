@@ -67,6 +67,12 @@ if iscell(config.mask)
     end
 end
 
+if ~expCheckMask(config.factors, config.mask)
+    mask = cell(1, length(config.factors.names));
+    [mask{:}] = deal(-1);
+    config.mask = {mask};
+end
+
 config.step = expStepSetting(config.factors, config.mask, config.step.id);
 
 config = expReduce(config);

@@ -19,6 +19,8 @@ if size(vSet, 2)>1
     else
         sequence = num2cell(1:size(vSet, 2));
     end
-else
+elseif  size(vSet, 2)>1
     sequence = {1};
+else
+    sequence = {};
 end

@@ -32,8 +32,6 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 %userDefaultConfigFileName = expUserDefaultConfig();
 
-% TODO test validity of submitted mask
-
 % cehck validity of factors and config
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
@@ -109,6 +107,8 @@ if iscell(config.mask)
         config.mask = {config.mask};
     end
 end
+
+
 
 config.localHostName = char(getHostName(java.net.InetAddress.getLocalHost));
 % disp(['detectedHostName: ' config.localHostName]);

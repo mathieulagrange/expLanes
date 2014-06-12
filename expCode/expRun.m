@@ -11,6 +11,13 @@ if ~exist([config.reportPath 'tex'], 'dir'), mkdir([config.reportPath 'tex']); e
 if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']); end
 
 expTools(config);
+
+if ~expCheckMask(config.factors, config.mask)
+    mask = cell(1, length(config.factors.names));
+    [mask{:}] = deal(-1);
+    config.mask = {mask};
+end
+
 if config.generateRootFile
    expCreateRootFile(config, projectName, shortProjectName, expCodePath); 
 end
@@ -96,6 +103,9 @@ else
         rem = config.obs;
     end
 end
+
+
+
 for k=1:length(rem)
     [config.stepSettings{rem(k)}] = expStepSetting(config.factors, config.mask, rem(k));
 end
