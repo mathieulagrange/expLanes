@@ -71,7 +71,7 @@ config.step = expStepSetting(config.factors, config.mask, config.step.id);
 
 config = expReduce(config);
 
-if isempty(config.evaluation) || isempty(config.evaluation.data)
+if isempty(config.evaluation) || isempty(config.evaluation.data)  || isempty(config.evaluation.data{1})
     disp('No observations to display.');
     return
 end
@@ -95,7 +95,9 @@ if p.percent ~= -1
         end
     end
 end
+if ~isempty(evaluationObservations)
 evaluationObservations = evaluationObservations(p.obs);
+end
 
 if p.shortObservations == 0
     p.shortObservations = 1:length(evaluationObservations);

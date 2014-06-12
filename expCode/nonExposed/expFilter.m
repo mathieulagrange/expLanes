@@ -4,6 +4,7 @@ function dataDisplay = expFilter(config, p, data)
 if ~exist('data', 'var')
     data = config.evaluation.results;
 end
+
 observations = config.evaluation.observations;
 
 settingSelector = 1:config.step.nbSettings;

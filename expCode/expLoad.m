@@ -90,16 +90,26 @@ function config = loadFile(config, inputId, path, name, selector)
 
 config = loadFileName(config, [path name], inputId, selector);
 
-if isempty(config.load) && config.retrieve
-    source = 1;
-    
-    while  isempty(config.load) && source<=length(config.machineNames)
-        if strcmp(config.hostName, config.machineNames{source})
-            source = source+1;
-            continue;
+if isempty(config.load) && config.retrieve>-1
+    if ~config.retrieve
+        source = [];
+        for k=1:length(config.machineNames)
+            if iscell(config.machineNames{k})
+                for m=1:length(config.machineNames{k})
+                    source(end+1) = k+m/10;
+                end
+            else
+                source(end+1) = k;
+            end
         end
-        disp(['Attempting to fetch it from ' config.machineNames{source}]);
-        sourceConfig = expConfig(config.codePath, config.shortProjectName, {'host', source});
+    else
+        source = config.retrieve;
+    end
+    source(source==config.host) = [];
+    for k=1:length(source)
+
+        disp(['Attempting to fetch it from ' expGetMachineName(config, source(k))]);
+        sourceConfig = expConfig(config.codePath, config.projectName, config.shortProjectName, {'host', source(k)});
         
         if inputId
             sourcePath = [sourceConfig.dataPath sourceConfig.stepName{inputId} '/'];
@@ -113,14 +123,12 @@ if isempty(config.load) && config.retrieve
         end
         sourceName = [sourcePath name];
         sourceName = strrep(sourceName, ' ', '\ ');
-        command =  ['scp -q -r ' config.machineNames{source} ':"' sourceName '" '  path fileparts(name)];
+        command =  ['scp -q -r ' expGetMachineName(config, source(k)) ':"' sourceName '" '  path fileparts(name)];
         s = system(command);
         if s==0
             config = loadFileName(config, [path name], inputId, selector);
             disp('Success.');
             break;
-        else
-            source = source+1;
         end
         config = loadFileName(config, [path name], inputId, selector);
     end

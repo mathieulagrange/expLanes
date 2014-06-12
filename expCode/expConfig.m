@@ -111,7 +111,7 @@ if iscell(config.mask)
 end
 
 config.localHostName = char(getHostName(java.net.InetAddress.getLocalHost));
-disp(['detectedHostName: ' config.localHostName]);
+% disp(['detectedHostName: ' config.localHostName]);
 
 config = expDesign(config);
 if nargin<1 || config.host==0
@@ -139,7 +139,7 @@ else
             config.hostName = config.machineNames{config.host};
         end
     else
-        config.hostName = config.machineNames{floor(config.host)}{ceil(rem(config.host, 1)*10)};
+        config.hostName = expGetMachineName(config, config.host);
     end
 end
  config.hostGroup = floor(config.host);

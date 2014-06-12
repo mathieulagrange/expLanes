@@ -116,7 +116,7 @@ if isfield(config, 'serverConfig')
     matConfig.staticDataFileName = [config.serverConfig.codePath '/config' '/' shortProjectName];
     matConfig.sync = [];
 
-    matConfig.retrieve = 0; % do not retrieve on server setting
+    matConfig.retrieve = -1; % do not retrieve on server setting
     if config.host ~= config.serverConfig.host
         matConfig.localDependencies = 1;
         expConfigMatSave(config.configMatName, matConfig);
