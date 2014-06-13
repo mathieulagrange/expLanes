@@ -1,8 +1,9 @@
 function config = expConfigParse(configFileName)
 
+config=[];
 configFile=fopen(configFileName);
 if configFile==-1,
-    error('Unable to load the expCode config file for your project.');
+    fprintf(2,['Unable to load the expCode config file for your project named: ' configFileName '.']); return;
 end
 
 configCell=textscan(configFile,'%s%s ', 'commentStyle', '%', 'delimiter', '=');
@@ -12,15 +13,23 @@ values = strtrim(configCell{2});
 
 for k=1:length(names)
     if k <= length(values)
-    if ~isempty(values{k})
-        if  ~isnan(str2double(values{k}))
-            values{k} = str2double(values{k});
-        elseif values{k}(1) == '{' || values{k}(1) == '['
-            values{k} =  eval(values{k});
+        if ~isempty(values{k})
+            if  ~isnan(str2double(values{k}))
+                values{k} = str2double(values{k});
+            else
+                if values{k}(1) == '{' || values{k}(1) == '[' || values{k}(end) == '}' || values{k}(end) == ']'
+                    try
+                        values{k} =  eval(values{k});
+                    catch
+                        fprintf(2,['Unable to parse definition of  ' names{k} ' in file ' configFileName '.\n']); return;
+                    end
+                    %                 else
+                    %                     fprintf(2,['Unable to parse definition of  ' names{k} ' in file ' configFileName '.\n']); return;
+                end
+            end
         end
-    end
     else
-       values{k} = ''; 
+        values{k} = '';
     end
 end
 

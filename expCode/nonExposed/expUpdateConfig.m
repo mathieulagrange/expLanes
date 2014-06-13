@@ -2,6 +2,8 @@ function config = expUpdateConfig(configFileName)
 
 config = expConfigParse(configFileName);
 
+if isempty(config), return; end;
+
 expCodePath = [fileparts(mfilename('fullpath')) filesep '..'];  
 defaultConfig = expConfigParse([expCodePath filesep 'expCodeConfig.txt']);
 

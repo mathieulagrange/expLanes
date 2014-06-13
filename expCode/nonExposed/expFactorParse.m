@@ -1,5 +1,6 @@
 function [settingSpec] = expFactorParse(fileName, nbSteps)
 
+settingSpec = [];
 if ~exist('nbSteps', 'var'), nbSteps=0; end
 
 fid =fopen(fileName);
@@ -11,12 +12,19 @@ select=C{3};
 values=C{4};
 
 if length(unique(names)) < length(names)
-    error('Duplicate factor name in setting file');
+       fprintf(2, 'Factors definition, duplicate factor name in setting file');
+        return;
 end
 
 selectAll = {};
 deselectAll = {};
 for k=1:length(names)
+    
+    if isempty(values{k})
+        fprintf(2, ['Factors definition, missing definition of modalities for factor: ' names{k} '\n']);
+        return;
+    end
+    
     names{k}=strtrim(names{k});
     selectSplit = regexp(strtrim(select{k}), ',', 'split');
     if ~isempty(selectSplit{1})
@@ -24,67 +32,33 @@ for k=1:length(names)
             c = regexp(selectSplit{l}, '/', 'split');
             p = eval(c{1});
             s = eval(c{2});
-             if p<0
-                  deselectAll{end+1} = [num2str(k) '/' selectSplit{l} ];
-%                 sLength = length(eval(values{-p}));
-%                 if s>1 && s<sLength
-%                     if s>2
-%                         sel1 = ['1:' num2str(s-1)];
-%                     else
-%                         sel1 = '1';
-%                     end
-%                     if s<sLength-1
-%                         sel2 = [num2str(s+1) ':' num2str(sLength)];
-%                     else
-%                         sel2 = sLength;
-%                     end
-%                 else
-%                     if s==1
-%                         sel1 = ['2:' num2str(sLength)];
-%                     else
-%                         sel1 = ['1:' num2str(sLength-1)];
-%                     end
-%                     sel2 = [];
-%                 end
-%                 for m=1:length(names)
-%                     selectSplitm = regexp(strtrim(select{m}), ',', 'split');
-%                      doit = 1;
-%                        if ~isempty(selectSplitm{1})
-%                         for n=1:length(selectSplitm)
-%                             cn = regexp(selectSplitm{n}, '/', 'split');
-%                             pn = eval(cn{1});
-%                             sn = eval(cn{2});
-%                             if pn == p, doit=0; end
-%                         end
-%                        end
-%                         if m~=k && m ~=-p && doit
-%                             selectAll{end+1} = [num2str(m) '/' num2str(-p) '/' sel1]; % FIXME more difficult than this
-%                         if ~isempty(sel2)
-%                             selectAll{end+1} = [num2str(m) '/' num2str(-p) '/' sel2]; % FIXME more difficult than this
-%                         end
-%                         end
-%                 end
-             else
+            if p<0
+                deselectAll{end+1} = [num2str(k) '/' selectSplit{l} ];
+            else
                 selectAll{end+1} = [num2str(k) '/' selectSplit{l} ];
-             end
+            end
         end
     end
 end
 for k=1:length(names)
-
+    try
     values{k}=eval(values{k});
+    catch      
+        fprintf(2, ['Factors definition, unable to parse the set of modalities of the factor: ' names{k}]);
+        return;
+    end
     if iscellstr(values{k})
         shortValues{k} = names2shortNames(values{k});
-       if ~all(cellfun(@isempty, strfind(values{k}, '/'))) || ~all(cellfun(@isempty, strfind(values{k}, '\'))) || ~all(cellfun(@isempty, strfind(values{k}, '.')))
-          error(['Invalid set of settings for ' names{k} ' factor in ' fileName '. the settings shall not include any path-like characters like: ''/'', ''\'', or ''.''.']); 
-       end
+        if ~all(cellfun(@isempty, strfind(values{k}, '/'))) || ~all(cellfun(@isempty, strfind(values{k}, '\'))) || ~all(cellfun(@isempty, strfind(values{k}, '.')))
+            fprintf(2,['Factors definition, Invalid set of settings for ' names{k} ' factor in ' fileName '. the settings shall not include any path-like characters like: ''/'', ''\'', or ''.''.']); return;
+        end
         if length(unique(values{k})) < length(values{k})
-            error(['Duplicate values of factor ' names{k} ' in setting file']);
+            fprintf(2,['Factors definition, Duplicate values of factor ' names{k} ' in setting file']); return;
         end
     elseif isnumeric(values{k})
         shortValues{k} = values{k};
     else
-        error(['Invalid set of settings for ' names{k} ' factor in ' fileName '. Shall be numeric or cell array of strings.']);
+        fprintf(2,['Factors definition, i nvalid set of settings for ' names{k} ' factor in ' fileName '. Shall be numeric or cell array of strings.']); return;
     end
 end
 
@@ -94,7 +68,7 @@ seq=0;
 for k=1:length(step)
     step{k} = strtrim(step{k});
     if length(step{k}) ~= length(regexp(step{k}, '[0-9:s,]', 'match'))
-        error(['Unrecognized step definition for factor ', names{k}]);
+       fprintf(2,['Factors definition, unrecognized step definition for factor ', names{k}]);  return;
     end
     sMatch = strfind(step{k}, 's');
     if any(sMatch)
@@ -104,7 +78,7 @@ for k=1:length(step)
     end
 end
 
-if seq>1, error('Only one sequential factor is allowed'); end
+if seq>1, fprintf(2,'Factors definition, only one sequential factor is allowed');  return; end
 
 
 values=values';
@@ -121,7 +95,7 @@ for k=1:size(values, 2)
         values{k} = num2cell(values{k});
         shortValues{k} = num2cell(shortValues{k});
     elseif iscellstr(values{k})
-        % check if cell array of strings       
+        % check if cell array of strings
         stringValues(k) = values(k);
     end
 end

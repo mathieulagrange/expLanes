@@ -5,12 +5,9 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 % TODO default still in title
 % TODO seed index after resampling ?
 % TODO expCreate diamond ??
-% TODO 'host' 1 on  linux -> matlab path ?
 % TODO symbolic link to data, issue with rsync and issues with path generation ?
 % TODO renaming .mat function when adding factor
 % TODO convert disp by expLog
-
-% TODO creation of .expCode data at each run of config ??
 
 % FIXME fails to attach config file
 
@@ -22,17 +19,13 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO help command
 
-% sync obs / data with different paths
-
-% TODO set current host with hostName (<0 detached server mode >0 attached mode 0 auto mode, Inf debug mode)
+% TODO sync obs / data with different paths
 
 % FIXME issue with toolpath on server mode
 
 % FIXME number of succesful settings wrong
 
-%userDefaultConfigFileName = expUserDefaultConfig();
-
-% cehck validity of factors and config
+% TODO cehck validity of factors and config
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
     config = commands{1};
@@ -40,12 +33,15 @@ if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
 else
     configFileName = getUserFileName(shortProjectName, projectName, projectPath);
     config = expUpdateConfig(configFileName);
+    if isempty(config), return; end;
+    
     config.shortProjectName = shortProjectName;
     config.userName = getUserName();
     config.projectName = projectName;
     config.projectPath = projectPath;
     config.configFileName = configFileName;
 end
+
 
 config.staticDataFileName = [projectPath '/config' '/' shortProjectName];
 if ~exist(config.staticDataFileName, 'file')
@@ -54,6 +50,7 @@ if ~exist(config.staticDataFileName, 'file')
 end
 staticData = load(config.staticDataFileName);
 [p, projectName] = fileparts(projectPath);
+
 
 
 if isempty(config.completeName)
@@ -142,7 +139,7 @@ else
         config.hostName = expGetMachineName(config, config.host);
     end
 end
- config.hostGroup = floor(config.host);
+config.hostGroup = floor(config.host);
 
 % if config.resume
 %     config.runId = config.resume;
@@ -254,7 +251,7 @@ for k=1:length(fieldNames)
         if config.attachedMode
             field = expandHomePath(config.(fieldNames{k}));
         else
-             field = config.(fieldNames{k});
+            field = config.(fieldNames{k});
         end
         % if relative add projectPath
         if all(~strcmp(fieldNames{k}, {'matlabPath', 'toolPath'}))  && (isempty(field) || ((~isempty(field) && ~any(strcmp(field(1), {'~', '/', '\'}))) && ((length(field)<1 || ~strcmp(field(2), ':')))))

@@ -55,7 +55,7 @@ if config.log >= level
     end
     
     if any(strcmp({'prompt', 'both'}, destination))
-        fprintf(message);
+        fprintf(2, message);
     end
     
     if any(strcmp({'file', 'both'}, destination))

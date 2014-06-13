@@ -4,6 +4,8 @@ beep off
 expCodePath = fileparts(mfilename('fullpath'));
 config = expHistory(projectPath, projectName, shortProjectName, commands);
 
+  if isempty(config), return; end;
+
 if ~exist(config.reportPath, 'dir'), mkdir(config.reportPath); end
 if ~exist([config.reportPath 'figures'], 'dir'), mkdir([config.reportPath 'figures']); end
 if ~exist([config.reportPath 'tables'], 'dir'), mkdir([config.reportPath 'tables']); end
@@ -12,7 +14,9 @@ if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']);
 
 expTools(config);
 
-if ~expCheckMask(config.factors, config.mask)
+if isempty(config.factors) 
+    config.mask = {{}};
+elseif~expCheckMask(config.factors, config.mask)
     mask = cell(1, length(config.factors.names));
     [mask{:}] = deal(-1);
     config.mask = {mask};

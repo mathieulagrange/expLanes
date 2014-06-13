@@ -2,12 +2,15 @@ function config = expHistory(projectPath, projectName, shortProjectName, command
 
 if length(commands)<1, % default config
     config = expConfig(projectPath, shortProjectName, shortProjectName, commands);
+    if isempty(config), return; end;
     showFactors(config.factorFileName);
     
 elseif length(commands)>1 % command line processing
     config = expConfig(projectPath, projectName, shortProjectName, commands);
+    if isempty(config), return; end;
 elseif isnumeric(commands{1})
     config = expConfig(projectPath, projectName, shortProjectName);
+    if isempty(config), return; end;
     fid = fopen([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt'], 'rt');
     foundCommand = '';
     if fid>0
@@ -29,6 +32,7 @@ elseif isstruct(commands{1}) % server mode
     config = commands{1};
 elseif ischar(commands{1})
     config = expConfig(projectPath, projectName, shortProjectName);
+    if isempty(config), return; end;
     switch commands{1}
         case 'h'
             % TODO display help
@@ -51,17 +55,21 @@ elseif ischar(commands{1})
                 return
             else
                 config = expConfig(projectPath, projectName, shortProjectName, commands);
+                if isempty(config), return; end;
             end
         case 'v'
             config = expConfig(projectPath, projectName, shortProjectName, {});
+            if isempty(config), return; end;
             showFactors(config.factorFileName);
         case 'c'
             
         case 'f'
             config = expConfig(projectPath, projectName, shortProjectName);
+            if isempty(config), return; end;
             expDisplayFactors(config, config.showFactorsInReport, config.factorDisplayStyle);
         case 'F'
             config = expConfig(projectPath, projectName, shortProjectName);
+            if isempty(config), return; end;
             expDisplayFactors(config, config.showFactorsInReport, config.factorDisplayStyle, 0);
         otherwise
             error('Unable to handle command');
@@ -69,6 +77,7 @@ elseif ischar(commands{1})
     return
 else
     config = expConfig(projectPath, projectName, shortProjectName, commands);
+    if isempty(config), return; end;
 end
 
 if config.attachedMode==0
@@ -86,9 +95,9 @@ end
 
 hist = com.mathworks.mlservices.MLCommandHistoryServices.getSessionHistory;
 if ~isempty(hist)
-lastCommand = char(hist(end));
+    lastCommand = char(hist(end));
 else
-   lastCommand = []; 
+    lastCommand = [];
 end
 if ~isempty(strfind(lastCommand, ''''))
     fid = fopen([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt'], 'rt');
