@@ -13,8 +13,10 @@ rootString = char({...
     ' config = expConfigParse(getUserFileName(shortProjectName, projectName, p));';
     'end';
     '';
+    'if ~isempty(config)';
     'expDependencies(config);';
     'config = expRun(p, projectName, shortProjectName, varargin);';
+    'end';
     '';
     fileread([expCodePath '/nonExposed/utils/getUserFileName.m'])
     fileread([expCodePath '/nonExposed/expConfigParse.m'])

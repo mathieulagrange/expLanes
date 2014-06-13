@@ -33,5 +33,8 @@ for k=1:length(names)
     end
 end
 
+try
 config = cell2struct(values, names);
-
+catch error
+       fprintf(2,[error.message ' in file ' configFileName '\n']); return;
+end
