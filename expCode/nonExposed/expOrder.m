@@ -18,15 +18,19 @@ for k=1:length(select)
 end
 vSpec.selectFactors = select;
 
-config.step = expStepSetting(vSpec, config.mask, config.step.id);
+vSet = config.step.set;
+mask =  config.mask{1}(order);
+mask = {mask};
+config.step = expStepSetting(vSpec,mask, config.step.id);
 
 for k=1:size(vSet, 2)
-    for m=1:length(vSet)
-        if all(vSet(:, k)==config.step.set(order, m))
-            permutationVector(k) = m;
+    for m=1:size(vSet, 2)
+        if all(vSet(order, k)==config.step.set(:, m))
+            permutationVector(m) = k;
         end
     end
 end
 
-config.step.set = vSet;
-config.evaluation.results = config.evaluation.results(permutationVector, :, :);
+% config.step.set = vSet;
+config.factors = vSpec;
+config.evaluation.results = config.evaluation.results(permutationVector);

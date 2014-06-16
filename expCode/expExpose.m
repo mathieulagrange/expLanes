@@ -84,12 +84,10 @@ end
 if ischar(p.obs)
     p.obs = find(strcmp(config.evaluation.observations, p.obs));
     if isempty(p.obs), disp(['Unable to find observation with name' p.obs]); end
-    
 end
 if ~p.obs
     p.obs = 1:length(config.evaluation.observations);
 end
-
 evaluationObservations = config.evaluation.observations;
 if p.percent ~= -1
     if p.percent==0

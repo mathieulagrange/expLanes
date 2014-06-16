@@ -70,7 +70,11 @@ if  p.expand ~= 0
     for m=1:length(observations)
         observations{m} = [config.step.oriFactors.names{p.expand} observations{m}];
         for k=1:fSize
-            data{k}.(observations{m}) = fData{(k-1)*length(observations)/length(observation)+ind(m)}.(met2{m});
+            if isempty(fData{(k-1)*length(observations)/length(observation)+ind(m)})
+                data{k}.(observations{m}) = NaN;
+            else
+                data{k}.(observations{m}) = fData{(k-1)*length(observations)/length(observation)+ind(m)}.(met2{m});
+            end
         end
     end
 end
@@ -80,10 +84,12 @@ nbSettings = length(data);
 if p.total
     for m=1:length(p.obs)
         for k=1:nbSettings
-            if length(data)>nbSettings && ~isempty(data{nbSettings+1}) && isfield(data{nbSettings+1}, observations{p.obs(m)})
-                data{nbSettings+1}.(observations{p.obs(m)}) = [data{nbSettings+1}.(observations{p.obs(m)}) data{k}.(observations{p.obs(m)})];
-            else
-                data{nbSettings+1}.(observations{p.obs(m)}) = data{k}.(observations{p.obs(m)});
+            if ~isempty(data{k})
+                if length(data)>nbSettings && ~isempty(data{nbSettings+1}) && isfield(data{nbSettings+1}, observations{p.obs(m)})
+                    data{nbSettings+1}.(observations{p.obs(m)}) = [data{nbSettings+1}.(observations{p.obs(m)}) data{k}.(observations{p.obs(m)})];
+                else
+                    data{nbSettings+1}.(observations{p.obs(m)}) = data{k}.(observations{p.obs(m)});
+                end
             end
         end
     end
@@ -123,8 +129,8 @@ if p.highlight ~= -1
         p.highlight = 1:size(sData, 2);
     end
     for k=1:length(p.obs)
-       %  col = round(sData(:, k)*10^config.displayDigitPrecision); % FIXME
-       %  why ?
+        %  col = round(sData(:, k)*10^config.displayDigitPrecision); % FIXME
+        %  why ?
         col = sData(:, k);
         [maxValue maxIndex] = max(col);
         if any(vData(:, k))
@@ -135,7 +141,7 @@ if p.highlight ~= -1
                     highlights(m, k) = ~rejection;
                 end
             end
-             highlights(col==maxValue, k) = 2;
+            highlights(col==maxValue, k) = 2;
         else
             highlights(:, k) =  col==maxValue;
         end

@@ -28,7 +28,7 @@ if ~isempty(vSet)
         if ~all(cellfun(@isempty,list(k, :)))
             e(end+1) = k;
         end
-        values{k} = unique(list(k, :));
+        values{k} = unique(list(k, :), 'stable');
         values{k}(cellfun(@isempty,values{k}))=[];
     end
     
