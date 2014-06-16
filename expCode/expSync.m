@@ -112,7 +112,12 @@ for k=1:length(tokens)
         else
             selector = [];
         end
-        syncDirectory(config, serverConfig, config.stepName{str2double(tokens{k})}, delete, detach, '', selector);
+        if isempty(selector) || selector == 'd'
+            syncDirectory(config, serverConfig, config.stepName{str2double(tokens{k})}, delete, detach, '', 'd');
+        end
+        if isempty(selector) || selector == 'o'
+            syncDirectory(config, serverConfig, config.stepName{str2double(tokens{k})}, delete, detach, '', 'o');
+        end
     end
 end
 

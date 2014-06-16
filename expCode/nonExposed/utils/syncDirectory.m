@@ -6,8 +6,13 @@ if nargin<6, extensionPath = ''; end
 if nargin<7, selector = []; end
 
 if any(strcmp(config.stepName, directoryName))
+    if selector == 'd'
     directoryPath = [config.dataPath directoryName filesep extensionPath];
     serverDirectoryPath = [serverConfig.dataPath directoryName filesep extensionPath];
+    elseif selector == 'o'
+     directoryPath = [config.obsPath directoryName filesep extensionPath];
+    serverDirectoryPath = [serverConfig.obsPath directoryName filesep extensionPath];       
+    end
 else
     directoryPath = [eval(['config.' directoryName 'Path'])  extensionPath];
     serverDirectoryPath = [eval(['serverConfig.' directoryName 'Path'])  extensionPath];

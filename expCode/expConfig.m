@@ -19,13 +19,9 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO help command
 
-% TODO sync obs / data with different paths
-
 % FIXME issue with toolpath on server mode
 
 % FIXME number of succesful settings wrong
-
-% TODO cehck validity of factors and config
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
     config = commands{1};
