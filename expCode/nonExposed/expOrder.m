@@ -7,8 +7,17 @@ vSpec = config.factors;
 vSpec.names = vSpec.names(order);
 vSpec.shortNames = vSpec.shortNames(order);
 vSpec.values = vSpec.values(order);
+vSpec.shortValues = vSpec.shortValues(order);
 vSpec.stringValues = vSpec.stringValues(order);
 vSpec.step = vSpec.step(order);
+
+% [b p] = sort(order);
+% sf = vSpec.selectFactors;
+% for k=1:length(sf)
+%         sf{k}(1) = num2str(p(str2num(sf{k}(1))));
+%         sf{k}(3) = num2str(p(str2num(sf{k}(3))));
+% end
+% vSpec.selectFactors = sf;
 
 select = vSpec.selectFactors;
 [null io] = sort(order);
@@ -22,7 +31,7 @@ vSet = config.step.set;
 mask =  config.mask{1}(order);
 mask = {mask};
 config.step = expStepSetting(vSpec,mask, config.step.id);
-
+config.mask = mask;
 for k=1:size(vSet, 2)
     for m=1:size(vSet, 2)
         if all(vSet(order, k)==config.step.set(:, m))

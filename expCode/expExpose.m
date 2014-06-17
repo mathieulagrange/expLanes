@@ -112,8 +112,18 @@ if p.shortObservations ~= -1
     end
 end
 
-if ~isempty(p.order),
-    config = expOrder(config, p.order);
+if ~isempty(p.order) || any(p.expand ~= 0)
+    if ~isempty(p.order)
+        order = p.order;
+    else
+         order = 1:length(config.factors.names);  
+    end
+      [null expand] = expModifyExposition(config, p.expand);
+       if order(end) ~= expand
+        order(expand) = length(order);
+        order(end) = expand;
+    end
+    config = expOrder(config, order);
 end
 
 % if any(p.integrate) && p.expand
@@ -153,6 +163,7 @@ end
 if p.expand,
     if (isnumeric(p.expand) && length(p.expand)>1) || iscell(p.expand), error('Please choose only one factor to expand.'); end
     [config p.expand p.expandName] = expModifyExposition(config, p.expand);
+ 
     pe=p;
     pe.integrate = 0;
     if ~isempty(data)
