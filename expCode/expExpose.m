@@ -91,7 +91,7 @@ end
 evaluationObservations = config.evaluation.observations;
 if p.percent ~= -1
     if p.percent==0
-       p.percent = 1:length(evaluationObservations);
+        p.percent = 1:length(evaluationObservations);
     end
     for k=1:length(p.percent)
         if p.percent(k) <= length(evaluationObservations)
@@ -100,7 +100,7 @@ if p.percent ~= -1
     end
 end
 if ~isempty(evaluationObservations)
-evaluationObservations = evaluationObservations(p.obs);
+    evaluationObservations = evaluationObservations(p.obs);
 end
 
 if p.shortObservations == 0
@@ -116,12 +116,14 @@ if ~isempty(p.order) || any(p.expand ~= 0)
     if ~isempty(p.order)
         order = p.order;
     else
-         order = 1:length(config.factors.names);  
+        order = 1:length(config.factors.names);
     end
-      [null expand] = expModifyExposition(config, p.expand);
-       if order(end) ~= expand
-        order(expand) = length(order);
-        order(end) = expand;
+    if any(p.expand ~= 0)
+        [null expand] = expModifyExposition(config, p.expand);
+        if order(end) ~= expand
+            order(expand) = length(order);
+            order(end) = expand;
+        end
     end
     config = expOrder(config, order);
 end
@@ -163,7 +165,7 @@ end
 if p.expand,
     if (isnumeric(p.expand) && length(p.expand)>1) || iscell(p.expand), error('Please choose only one factor to expand.'); end
     [config p.expand p.expandName] = expModifyExposition(config, p.expand);
- 
+    
     pe=p;
     pe.integrate = 0;
     if ~isempty(data)

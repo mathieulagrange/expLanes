@@ -176,7 +176,7 @@ if config.setRandomSeed
     expRandom();
 end
 
-figureHandles = findobj('Type','figure');
+figureHandles = sort(findobj('Type','figure'));
 config.displayData.figure = [];
 for k=1:length(figureHandles)
     config.displayData.figure(k).handle = figureHandles(k);
