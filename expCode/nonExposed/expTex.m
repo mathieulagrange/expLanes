@@ -50,8 +50,7 @@ if config.showFactorsInReport
     end
     
     if slides
-        config.latex.addLine('\begin{frame}\frametitle{Factors flow graph}');
-        
+        config.latex.addLine('\begin{frame}\frametitle{Factors flow graph}');       
     end
     
     config.latex.addLine('\begin{center}');

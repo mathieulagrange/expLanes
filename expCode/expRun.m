@@ -4,7 +4,7 @@ beep off
 expCodePath = fileparts(mfilename('fullpath'));
 config = expHistory(projectPath, projectName, shortProjectName, commands);
 
-  if isempty(config), return; end;
+if isempty(config), return; end;
 
 if ~exist(config.reportPath, 'dir'), mkdir(config.reportPath); end
 if ~exist([config.reportPath 'figures'], 'dir'), mkdir([config.reportPath 'figures']); end
@@ -12,9 +12,11 @@ if ~exist([config.reportPath 'tables'], 'dir'), mkdir([config.reportPath 'tables
 if ~exist([config.reportPath 'tex'], 'dir'), mkdir([config.reportPath 'tex']); end
 if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']); end
 
-expTools(config);
-
-if isempty(config.factors) 
+expToolPath(config);
+if config.probe
+    expProbe(config);
+end
+if isempty(config.factors)
     config.mask = {{}};
 elseif~expCheckMask(config.factors, config.mask)
     mask = cell(1, length(config.factors.names));
@@ -23,7 +25,7 @@ elseif~expCheckMask(config.factors, config.mask)
 end
 
 if config.generateRootFile
-   expCreateRootFile(config, projectName, shortProjectName, expCodePath); 
+    expCreateRootFile(config, projectName, shortProjectName, expCodePath);
 end
 
 config.logFileName = [config.reportPath 'log_' num2str(config.runId) '.txt'];
@@ -122,39 +124,47 @@ if isfield(config, 'serverConfig')
     if ~inputQuestion(), fprintf(' Bailing out ...\n'); return; end
     
     matConfig = config.serverConfig;
-%     matConfig.host = -1;
+    %     matConfig.host = -1;
     matConfig.attachedMode = 1;
     matConfig.exitMatlab = 1;
     matConfig.sendMail = 1;
     matConfig.runInfo = config.runInfo;
     matConfig.staticDataFileName = [config.serverConfig.codePath '/config' '/' shortProjectName];
     matConfig.sync = [];
-
+    
     matConfig.retrieve = -1; % do not retrieve on server setting
+    
+    command = [config.serverConfig.matlabPath 'matlab -nodesktop -nosplash -r  " if ispc; homePath= getenv(''USERPROFILE''); else homePath= getenv(''HOME''); end; codePath = strrep(''' ...
+        config.serverConfig.codePath ''', ''~'', homePath); cd(strrep(codePath, ''\'', ''/'')) ' ...
+        ';  configMatName = strrep(''' ...
+        config.serverConfig.configMatName ''', ''~'', homePath); load(configMatName); ' ...
+        config.projectName '(config);"']; % replace -d by -t in ssh for verbosity
+    
     if config.host ~= config.serverConfig.host
         matConfig.localDependencies = 1;
-        expConfigMatSave(config.configMatName, matConfig);
+        expConfigMatSave(expandHomePath(config.configMatName), matConfig);
         
         expSync(config, 'c', config.serverConfig, 'up');
         if config.localDependencies == 0
-%             config.serverConfig.localDependencies = 1;
+            %             config.serverConfig.localDependencies = 1;
             expSync(config, 'd', config.serverConfig, 'up');
         end
         expConfigMatSave(config.configMatName);
         % genpath dependencies ; addpath(ans);
         command = ['ssh ' config.hostName ' screen -m -d ''' config.serverConfig.matlabPath 'matlab -nodesktop -nosplash -r  "cd ' config.serverConfig.codePath ' ; load ' config.serverConfig.configMatName '; ' config.projectName '(config);"''']; % replace -d by -t in ssh for verbosity
+%         command = ['ssh ' config.hostName ' screen  -m -d ''' strrep(command, '''', '"''') ''''];
     else
         matConfig.localDependencies = 0;
-        expConfigMatSave(config.configMatName, matConfig);
+        expConfigMatSave(expandHomePath(config.configMatName), matConfig);
         % genpath dependencies ; addpath(ans);
-        command = ['screen  -m -d ' config.matlabPath 'matlab -nodesktop -nosplash -r  "cd ' config.serverConfig.codePath ' ; load ' config.serverConfig.configMatName '; ' config.projectName '(config);"']; % replace -d by -t in ssh for verbosity
+        command = ['screen  -m -d ' command];
     end
     
     % if runnning with issues with ssh connection run ssh with -v and check
     % that the LC_MESSAGES and LANG encoding are available on the server (locale -a)
     % if not edit /var/lib/locales/supported.d/local to put the needed ones
-    % and run sudo dpkg-reconfigure locales or locales-gen
-    
+    % and run sudo dpkg-reconfigure locales or locales-gen   
+
     system(command);
     fprintf('\nExperiment launched.\n');
     return;

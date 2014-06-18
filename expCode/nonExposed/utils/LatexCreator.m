@@ -1,5 +1,4 @@
 
-
 function LatexObj_s = LatexCreator(varargin)
 %%
 %
@@ -396,13 +395,17 @@ CONSTRUCTOR(varargin{:});
         %% COMPILATION
         
         if silent,
-            silentString =   '>/dev/null';
+            if ispc
+                silentString = '> NUL';
+            else
+                silentString = '>/dev/null 2>/dev/null';
+            end
         else
             silentString =   '';
         end
         
-        res=unix(['cd "',Data.Dir,'"; bibtex "',Data.TexFn(1:end-4),'" ' silentString]);
-        res=unix(['cd "',Data.Dir,'"; pdflatex "',Data.TexFn,'" ' silentString ]);
+        res=system(['bibtex "',Data.TexFn(1:end-4),'" ' silentString]); % 'cd "',Data.Dir,'";
+        res=system(['pdflatex "',Data.TexFn,'" ' silentString ]); % cd "',Data.Dir,'";
         
         
         
@@ -460,11 +463,11 @@ CONSTRUCTOR(varargin{:});
                 %           Data.tex{end+1}='\usepackage[latin1]{inputenc}';
                 %           Data.tex{end+1}='\usepackage[french]{babel}';
                 Data.tex{end+1}='\usepackage{graphicx}';
-                Data.tex{end+1}='\usepackage{morefloats}';
-             %   Data.tex{end+1}='\usepackage[colorlinks=true,urlcolor=blue,citecolor=blue]{hyperref} ';
+                 Data.tex{end+1}='\usepackage{morefloats}';
+                %   Data.tex{end+1}='\usepackage[colorlinks=true,urlcolor=blue,citecolor=blue]{hyperref} ';
                 Data.tex{end+1}='\usepackage{amsmath}';
                 Data.tex{end+1}='\usepackage{amssymb}';
-          %      Data.tex{end+1}='\usepackage[margin=0.5in]{geometry} % wide margin (remove if needed)';
+                %      Data.tex{end+1}='\usepackage[margin=0.5in]{geometry} % wide margin (remove if needed)';
                 Data.tex{end+1}='\usepackage{rotating}';
                 Data.tex{end+1}='% mcode options for matlab code insertion bw (for printing), numbered (line numbers), framed (frame around code blocks), useliterate (convert Matlab expressions to Latex ones), autolinebreaks (automatic code wraping, use it with caution';
                 Data.tex{end+1}='\usepackage[literate]{mcode}';
@@ -481,7 +484,7 @@ CONSTRUCTOR(varargin{:});
                 Data.tex{end+1}= '%You can compile the report by setting the option ''report'' to 1 (silent mode) or 2 (verbose mode) with generation of figures and table or -1 (silent mode) or -2 (verbose mode) for latex compilation only.';
                 Data.tex{end+1}=' ';
                 if ~Data.slides
-                Data.tex{end+1}= ['This is the report to document the expCode project ' Data.projectName ' using \LaTeX.'];
+                    Data.tex{end+1}= ['This is the report to document the expCode project ' Data.projectName ' using \LaTeX.'];
                 end
                 Data.tex{end+1}=' ';
                 Data.tex{end+1}='% expDisplayInsertionFlag DO NOT CLEAR (but move it where you want the code to be inserted) ';
@@ -576,7 +579,7 @@ CONSTRUCTOR(varargin{:});
         Data.tex=[];
         Data.tex{end+1}=' ';
         
-          % sldie header
+        % sldie header
         if Data.slides
             Data.tex{end+1}=['\begin{frame}\frametitle{\small ' caption '}'];
         end
@@ -586,15 +589,15 @@ CONSTRUCTOR(varargin{:});
         Data.tex{end+1}='\begin{figure}[h]';
         Data.tex{end+1}='\centering';
         Data.tex{end+1}=['\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{./figures/Fig' num2str(Data.figure_number) '.pdf}']; % \width = width
-         if ~Data.slides
-        if (~isempty(caption)), Data.tex{end+1}=['\caption{' caption '}' ]; end;
-         end
+        if ~Data.slides
+            if (~isempty(caption)), Data.tex{end+1}=['\caption{' caption '}' ]; end;
+        end
         Data.tex{end+1}=['\label{' label '}'];
         Data.tex{end+1}='\end{figure}';
         Data.tex{end+1}='\end{center}';
         Data.tex{end+1}=' ';
         Data.tex{end+1}=' ';
-         if Data.slides, Data.tex{end+1}='\end{frame} '; end
+        if Data.slides, Data.tex{end+1}='\end{frame} '; end
         writeLatexFile();
         
     end
@@ -789,8 +792,8 @@ CONSTRUCTOR(varargin{:});
         end
         
         Data.tex{end+1}='';
-          if Data.slides, Data.tex{end+1}='\end{frame} '; end
-       
+        if Data.slides, Data.tex{end+1}='\end{frame} '; end
+        
         writeLatexFile();
         
         

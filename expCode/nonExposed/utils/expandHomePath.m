@@ -10,6 +10,8 @@ end
 
 function out =  stringPath (in)
 
+in = strrep(in, '\', '/');
+
 if ~isempty(in) && strcmp(in(1), '~')
    if ispc; 
        homePath= getenv('USERPROFILE'); 

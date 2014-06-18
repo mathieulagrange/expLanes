@@ -10,7 +10,7 @@ else
 end
 if ~exist('contracting', 'var'), contracting = 1; end
 if ~exist('selector', 'var')
-    selector=[]; 
+    selector=[];
 elseif ~iscell(selector) && ~isempty(selector)
     selector = {selector};
 end
@@ -107,13 +107,13 @@ if isempty(config.load) && config.retrieve>-1
     end
     source(source==config.host) = [];
     for k=1:length(source)
-
-        disp(['Attempting to fetch it from ' expGetMachineName(config, source(k))]);
+        
+        disp(['Attempting to fetch data from ' expGetMachineName(config, source(k))]);
         sourceConfig = expConfig(config.codePath, config.projectName, config.shortProjectName, {'host', source(k)});
         
         if inputId
             sourcePath = [sourceConfig.dataPath sourceConfig.stepName{inputId} '/'];
-%             sourcePath = sourceConfig.([config.stepName{inputId} 'Path']);
+            %             sourcePath = sourceConfig.([config.stepName{inputId} 'Path']);
         else
             sourcePath = sourceConfig.inputPath;
         end
@@ -124,6 +124,10 @@ if isempty(config.load) && config.retrieve>-1
         sourceName = [sourcePath name];
         sourceName = strrep(sourceName, ' ', '\ ');
         command =  ['scp -q -r ' expGetMachineName(config, source(k)) ':"' sourceName '" '  path fileparts(name)];
+        if ispc % FIXME will not work on the other side
+            command= strrep(command, 'C:', '/cygdrive/c'); % FIXME build regexp to fix
+            command= strrep(command, '\', '/');
+        end
         s = system(command);
         if s==0
             config = loadFileName(config, [path name], inputId, selector);
@@ -133,7 +137,7 @@ if isempty(config.load) && config.retrieve>-1
         config = loadFileName(config, [path name], inputId, selector);
     end
     if isempty(config.load)
-        disp('Failure.');
+        fprintf(2, 'Failure.');
     end
 end
 
@@ -164,7 +168,7 @@ try
         %         else
         %             config.load.('input') = [config.load.('input') loadData];
         %         end
-%         loadData.setting
+        %         loadData.setting
         if isempty(config.load)
             if inputId
                 config.load=[];
@@ -194,6 +198,6 @@ try
         end
     end
 catch err
-%     disp(err.message);
+    %     disp(err.message);
 end
 

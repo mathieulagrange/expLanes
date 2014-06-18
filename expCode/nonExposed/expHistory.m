@@ -112,7 +112,7 @@ if ~isempty(strfind(lastCommand, ''''))
         fclose(fid);
     end
     
-    fid = fopen([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt'], 'w');
+    fid = fopen(expandHomePath([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt']), 'w');
     for k=1:length(commands)
         fprintf(fid, '%s\n', commands{k});
     end

@@ -3,9 +3,9 @@ function config=expOperate(config)
 if nargin<1, config=expConfig(); end
 
 % check data directory
-if ~exist(config.inputPath, 'dir')
-    disp(['Warning. Unreachable input path: ', config.inputPath]);
-end
+% if ~exist(config.inputPath, 'dir')
+%     disp(['Warning. Unreachable input path: ', config.inputPath]);
+% end
 
 %create needed directories
 for k=1:length(config.stepName)

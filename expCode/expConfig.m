@@ -19,9 +19,13 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO help command
 
+% FIXME exclude report of code sync ?
+
 % FIXME issue with toolpath on server mode
 
 % FIXME number of succesful settings wrong
+
+% TOD check sending of dependencies
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
     config = commands{1};
@@ -53,7 +57,7 @@ if isempty(config.completeName)
     config.completeName = config.userName;
 end
 
-config.factorFileName = [projectPath '/' config.shortProjectName 'Factors.txt'];
+config.factorFileName = [config.projectPath '/' config.shortProjectName 'Factors.txt'];
 config.stepName = expStepName(config.projectPath, config.shortProjectName);
 config.factors = expFactorParse(config.factorFileName, length(config.stepName));
 
@@ -100,8 +104,6 @@ if iscell(config.mask)
         config.mask = {config.mask};
     end
 end
-
-
 
 config.localHostName = char(getHostName(java.net.InetAddress.getLocalHost));
 % disp(['detectedHostName: ' config.localHostName]);
@@ -156,7 +158,13 @@ config.displayData.prompt = [];
 
 if isempty(config.obsPath), config.obsPath = config.dataPath; end
 
-config = expandPath(config, projectPath);
+if length(config.codePath)>=config.hostGroup
+    config.projectPath = expandHomePath(strtrim(config.codePath{config.hostGroup}));
+else
+    config.projectPath = expandHomePath(strtrim(config.codePath{end})); % convention add the last parameter
+end
+
+config = expandPath(config, config.projectPath);
 
 config.configMatName = [config.codePath 'config/' config.shortProjectName 'Config' config.userName '_' num2str(config.runId) '.mat'];
 config.reportPath = [config.codePath 'report/'];
@@ -244,10 +252,9 @@ end
 
 for k=1:length(fieldNames)
     if ~isempty(strfind(fieldNames{k}, 'Path'))
+        field = config.(fieldNames{k});
         if config.attachedMode
             field = expandHomePath(config.(fieldNames{k}));
-        else
-            field = config.(fieldNames{k});
         end
         % if relative add projectPath
         if all(~strcmp(fieldNames{k}, {'matlabPath', 'toolPath'}))  && (isempty(field) || ((~isempty(field) && ~any(strcmp(field(1), {'~', '/', '\'}))) && ((length(field)<1 || ~strcmp(field(2), ':')))))
