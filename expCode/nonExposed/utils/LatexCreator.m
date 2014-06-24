@@ -648,6 +648,7 @@ CONSTRUCTOR(varargin{:});
         caption=[];
         multipage = 0;
         landscape=0;
+        fontSize='';
         bold=[];
         label = [];
         Mat_m=varargin{1}; % La matrice
@@ -664,6 +665,7 @@ CONSTRUCTOR(varargin{:});
             if ( isfield(arg,'multipage')), multipage=arg.multipage; end;
             if ( isfield(arg,'landscape')), landscape=arg.landscape; end;
             if ( isfield(arg,'label')), label=arg.label; end;
+            if ( isfield(arg,'fontSize')), fontSize=arg.fontSize; end;
         end
         
         % ----------------------------------------------------------------
@@ -733,6 +735,7 @@ CONSTRUCTOR(varargin{:});
             Data.tex{end+1}='\begin{table}';
         end
         Data.tex{end+1}='\begin{center}';
+        Data.tex{end+1}=['\' fontSize];
         tmp_line='\begin{tabular}{|';
         
         for pos_c =1 : nb_colone,

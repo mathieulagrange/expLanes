@@ -15,7 +15,7 @@ p.title='+';
 p.caption='+';
 p.multipage=0;
 p.landscape=0;
-p.sort=0;
+p.sort=-1;
 p.mask={};
 p.step=0;
 p.label='';
@@ -30,6 +30,7 @@ p.add=[];
 p.orientation='v';
 p.shortObservations = -1;
 p.type='';
+p.fontSize='';
 
 pNames = fieldnames(p);
 % overwrite default factors with command line ones

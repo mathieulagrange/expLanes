@@ -68,7 +68,7 @@ end
 
 % add table
 for k=1:length(config.displayData.table)
-    config.latex.addTable(config.displayData.table(k).table, 'caption', config.displayData.table(k).caption, 'multipage', config.displayData.table(k).multipage, 'landscape', config.displayData.table(k).landscape, 'label', config.displayData.table(k).label);
+    config.latex.addTable(config.displayData.table(k).table, 'caption', config.displayData.table(k).caption, 'multipage', config.displayData.table(k).multipage, 'landscape', config.displayData.table(k).landscape, 'label', config.displayData.table(k).label, 'fontSize', config.displayData.table(k).fontSize);
     if ~mod(k, 10)
         config.latex.addLine('\clearpage');
     end

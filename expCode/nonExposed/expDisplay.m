@@ -39,6 +39,7 @@ switch p.put
             config.displayData.table(end).table = config.displayData.cellData;
             config.displayData.table(end).data = config.data;
             config.displayData.table(end).label = p.label;
+            config.displayData.table(end).fontSize = p.fontSize;
             config.displayData.cellData = [];
         end
 end

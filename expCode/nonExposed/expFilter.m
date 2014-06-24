@@ -131,19 +131,21 @@ if p.highlight ~= -1
     for k=1:length(p.obs)
         %  col = round(sData(:, k)*10^config.displayDigitPrecision); % FIXME
         %  why ?
-        col = sData(:, k);
-        [maxValue maxIndex] = max(col);
-        if any(vData(:, k))
-            for m=1:length(data)
-                if ~isempty(data{m}) && ~isempty(data{m}.(observations{p.obs(k)}))
-                    rejection = ttest2(double(data{m}.(observations{p.obs(k)})), double(data{maxIndex}.(observations{p.obs(k)})));
-                    if isnan(rejection), rejection = 0; end
-                    highlights(m, k) = ~rejection;
+        if any(p.highlight==k)
+            col = sData(:, k);
+            [maxValue maxIndex] = max(col);
+            if any(vData(:, k))
+                for m=1:length(data)
+                    if ~isempty(data{m}) && ~isempty(data{m}.(observations{p.obs(k)}))
+                        rejection = ttest2(double(data{m}.(observations{p.obs(k)})), double(data{maxIndex}.(observations{p.obs(k)})));
+                        if isnan(rejection), rejection = 0; end
+                        highlights(m, k) = ~rejection;
+                    end
                 end
+                highlights(col==maxValue, k) = 2;
+            else
+                highlights(:, k) =  (col==maxValue)*2;
             end
-            highlights(col==maxValue, k) = 2;
-        else
-            highlights(:, k) =  col==maxValue;
         end
     end
     if p.total
