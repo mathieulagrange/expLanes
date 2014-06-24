@@ -120,7 +120,7 @@ if nargin<1 || config.host==0
         end
     end
     if config.host==0
-        error(['Unable to find the detected host ' detectedHostName  ' in the machineNames field of your configuration file. Either explicitely set the host number (''host'', <value>) or add ' detectedHostName ' to the list of your machines in your config file.']);
+        error(['Unable to find the detected host ' config.localHostName  ' in the machineNames field of your configuration file. Either explicitely set the host number (''host'', <value>) or add ' config.localHostName ' to the list of your machines in your config file.']);
     end
 else
     if config.host>0
@@ -158,10 +158,14 @@ config.displayData.prompt = [];
 
 if isempty(config.obsPath), config.obsPath = config.dataPath; end
 
-if length(config.codePath)>=config.hostGroup
-    config.projectPath = expandHomePath(strtrim(config.codePath{config.hostGroup}));
+if iscell(config.codePath)
+    if length(config.codePath)>=config.hostGroup
+        config.projectPath = expandHomePath(strtrim(config.codePath{config.hostGroup}));
+    else
+        config.projectPath = expandHomePath(strtrim(config.codePath{end})); % convention add the last parameter
+    end
 else
-    config.projectPath = expandHomePath(strtrim(config.codePath{end})); % convention add the last parameter
+    config.projectPath = expandHomePath(strtrim(config.codePath));
 end
 
 config = expandPath(config, config.projectPath);
