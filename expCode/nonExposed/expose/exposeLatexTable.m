@@ -11,6 +11,6 @@ dataCell = expSortData(dataCell, p.sort, data.factorSelector, config);
 
 displayData.table(end+1).caption = p.caption;
 displayData.table(end).multipage = p.multipage;
-displayData.table(end).landscape = p.landscape;
+displayData.table(end).landscape = p.orientation == 'h';
 displayData.table(end).data = [p.columnNames; dataCell];
 displayData.table(end).label = p.label;

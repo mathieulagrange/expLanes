@@ -43,8 +43,8 @@ switch p.put
             dataCell = [p.columnNames(2, :); dataCell];
             p.columnNames = p.columnNames(1, :);
         end
-        if ~isempty(p.add)
-            hTable=uitable('Data', dataCell, 'columnName', p.columnNames, 'fontName','courier', 'fontSize', 14, p.add{:});
+        if ~isempty(p.addSpecification)
+            hTable=uitable('Data', dataCell, 'columnName', p.columnNames, 'fontName','courier', 'fontSize', 14, p.addSpecification{:});
         else
             hTable=uitable('Data', dataCell, 'columnName', p.columnNames, 'fontName','courier', 'fontSize', 14);
         end

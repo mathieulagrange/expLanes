@@ -6,8 +6,8 @@ if strcmpi(p.orientation(1), 'v')
 else
     barCommand = 'barh';
 end
-if ~isempty(p.add)
-    feval(barCommand, data.meanData, p.add{:});
+if ~isempty(p.addSpecification)
+    feval(barCommand, data.meanData, p.addSpecification{:});
 else
     feval(barCommand, data.meanData);
 end

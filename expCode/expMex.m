@@ -1,18 +1,17 @@
 function expMex(config, mexPath, fileName, command, force)
-% expMex handle the compilation of mex files of the expCode project
-%
+% expMex handle the compilation of mex files
 %   expMex(config, mexPath, fileName, command, force)
-%
-%   mexPath: path of the directory containing the source code files
-%   fileName: name of the source file
-%   command: name of the compilation script (optional)
-%   force: force compilation 
+%   - config: expCode configuration
+%   - mexPath: path of the directory containing the source code files
+%   - fileName: name of the source file
+%   - command: name of the compilation script (optional)
+%   - force: force compilation 
 %       0: compile only if the source files in the mexPath directory are
 %       more recent (default)
 %       1: compile anyway
 
-%   Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
-%   See licence.txt for more information
+%	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
+%	See licence.txt for more information.
 
 if ~exist('command', 'var')
     command = ['mex(' fileName ')'];

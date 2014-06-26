@@ -1,7 +1,21 @@
-function [config data] = expLoad(config, name, inputId, extension, selector, contracting)
+function [config data] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
+% expLoad load data from the repository of the specified processing step
+%	[config data] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
+%	- config: expCode configuration
+%	- name: name of the file
+%	- stepId: step number
+%	- extension: string appended at the end of the name 
+%	- shall end with '_data' to retrieve data or '_obs' to retrieve observations
+%	- fieldSelector: string or cell array of strings containing the fields to be loaded
+%	- contracting: 
+%	-- data: loaded data structure
+
+%	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
+%	See licence.txt for more information.
+
 
 if nargin<2 || isempty(name), name = ''; end
-if nargin<3 || isempty(inputId), inputId=config.step.id-1; end
+if nargin<3 || isempty(stepId), stepId=config.step.id-1; end
 if nargin<4 || isempty(extension),
     extension = '_data';
 else
@@ -9,10 +23,10 @@ else
     extension = ['_' n];
 end
 if ~exist('contracting', 'var'), contracting = 1; end
-if ~exist('selector', 'var')
-    selector=[];
-elseif ~iscell(selector) && ~isempty(selector)
-    selector = {selector};
+if ~exist('fieldSelector', 'var')
+    fieldSelector=[];
+elseif ~iscell(fieldSelector) && ~isempty(fieldSelector)
+    fieldSelector = {fieldSelector};
 end
 
 if ~isempty(name)
@@ -30,11 +44,11 @@ else
 end
 
 if isempty(p) || ~any(strcmp(p(1), {'/', '\', '~'}))
-    if inputId
+    if stepId
         if ~isempty(strfind(extension, '_obs')) && ~isempty(config.obsPath)
-            path = [config.obsPath config.stepName{inputId} '/'];
+            path = [config.obsPath config.stepName{stepId} '/'];
         else
-            path = [config.dataPath config.stepName{inputId} '/'];
+            path = [config.dataPath config.stepName{stepId} '/'];
         end
     else
         path = config.inputPath;
@@ -47,7 +61,7 @@ if nargin<2 || isempty(name)
     if contracting % TODO detect wich step are contracting
         m = config.mask;
         m = expMergeMask(m, {num2cell(config.step.setting.infoId)}, config.factors.values, -1);
-        tv = expStepSetting(config.factors, m{1}, inputId);
+        tv = expStepSetting(config.factors, m{1}, stepId);
         for k=1:tv.nbSettings
             settings{k} = expSetting(tv, k);
         end
@@ -68,15 +82,15 @@ end
 
 config.load={};
 
-if config.dummy && inputId
+if config.dummy && stepId
     for k=1:length(names)
         dname = [names{k} '_dummy_' num2str(config.dummy) extension];
-        config = loadFile(config, inputId, path, dname, selector);
+        config = loadFile(config, stepId, path, dname, fieldSelector);
     end
 end
 if isempty(config.load)
     for k=1:length(names)
-        config = loadFile(config, inputId, path, [names{k} extension], selector);
+        config = loadFile(config, stepId, path, [names{k} extension], fieldSelector);
     end
 end
 
@@ -86,9 +100,9 @@ data = config.load;
 
 
 
-function config = loadFile(config, inputId, path, name, selector)
+function config = loadFile(config, stepId, path, name, fieldSelector)
 
-config = loadFileName(config, [path name], inputId, selector);
+config = loadFileName(config, [path name], stepId, fieldSelector);
 
 if isempty(config.load) && config.retrieve>-1
     if ~config.retrieve
@@ -111,9 +125,9 @@ if isempty(config.load) && config.retrieve>-1
         disp(['Attempting to fetch data from ' expGetMachineName(config, source(k))]);
         sourceConfig = expConfig(config.codePath, config.projectName, config.shortProjectName, {'host', source(k)});
         
-        if inputId
-            sourcePath = [sourceConfig.dataPath sourceConfig.stepName{inputId} '/'];
-            %             sourcePath = sourceConfig.([config.stepName{inputId} 'Path']);
+        if stepId
+            sourcePath = [sourceConfig.dataPath sourceConfig.stepName{stepId} '/'];
+            %             sourcePath = sourceConfig.([config.stepName{stepId} 'Path']);
         else
             sourcePath = sourceConfig.inputPath;
         end
@@ -130,11 +144,11 @@ if isempty(config.load) && config.retrieve>-1
         end
         s = system(command);
         if s==0
-            config = loadFileName(config, [path name], inputId, selector);
+            config = loadFileName(config, [path name], stepId, fieldSelector);
             disp('Success.');
             break;
         end
-        config = loadFileName(config, [path name], inputId, selector);
+        config = loadFileName(config, [path name], stepId, fieldSelector);
     end
     if isempty(config.load)
         fprintf(2, 'Failure.');
@@ -144,39 +158,39 @@ end
 
 
 
-function config = loadFileName(config, fileName, inputId, selector)
+function config = loadFileName(config, fileName, stepId, fieldSelector)
 
 % TODO handle stuff that are not mat files
 
 try
     if strcmp(fileName(end-2:end), 'mat')
         
-        if isempty(selector)
+        if isempty(fieldSelector)
             loadData = load(fileName);
         else
-            loadData = load(fileName, selector{:});
+            loadData = load(fileName, fieldSelector{:});
         end
         %         if isempty(config.load)
-        %             if inputId
+        %             if stepId
         %                 config.load.(loadData.stepName)=[];
         %             else
         %                 config.load.('input'){end+1} = [];
         %             end
         %         end
-        %         if inputId
+        %         if stepId
         %             config.load.(loadData.stepName) = [config.load.(loadData.stepName) loadData.data];
         %         else
         %             config.load.('input') = [config.load.('input') loadData];
         %         end
         %         loadData.setting
         if isempty(config.load)
-            if inputId
+            if stepId
                 config.load=[];
             else
                 config.load{end+1} = [];
             end
         end
-        if inputId
+        if stepId
             config.load = [config.load loadData.data];
         else
             config.load = [config.load loadData];

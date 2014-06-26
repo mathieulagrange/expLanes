@@ -27,6 +27,10 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TOD check sending of dependencies
 
+% TODO display variance and highlight in every plot
+
+% FIXME remove test for addSpecification
+
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
     config = commands{1};
     commands = commands(2:end);

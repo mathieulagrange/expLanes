@@ -1,4 +1,14 @@
 function fileName = expSave(config, data, extension)
+% expSave save data to the the repository of the current task
+%	fileName = expSave(config, data, extension)
+%	- config: expCode configuration
+%	- data: data to be saved
+%	- extension: string appended at the end of the name of the file
+%	-- fileName: name of the file used to store the data
+
+%	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
+%	See licence.txt for more information.
+
 
 if ~exist('extension', 'var')
     extension = '.mat';

@@ -1,6 +1,56 @@
 function config = expExpose(varargin)
+% expExpose display observations
+%	config = expExpose(varargin)
+%	- varargin: sequence of ('parameter', value) pairs where the parameter is of
+%		'order': numeric array ordering the observations
+%		'expand': name or index of the factor to expand
+%		'obs': name(s) or index(es) of the observations to retain
+%		'variance': display variance
+%			-1: no variance
+%			0: variance for every observations
+%			[1, 3]: variance for the first and third observations
+%		'highlight': highlight settings that are not significantly 
+%			different from the best performing setting
+%			selector is the same as 'variance'
+%		'title': title of display as string
+%			symbol + gets replaced by a description of the settings
+%		'caption': caption of display as string
+%			symbol + gets replaced by a description of the settings
+%		'multipage': activate the multipage to the LaTEX table
+%		'sort': sort settings acording to the specified observation
+%		'mask': selection of the settings to be displayed
+%		'step': name or index of the processing step
+%		'put': specify display output
+%			0: ouput to command prompt
+%			1: output to figure
+%			2: output to LaTEX
+%		'save': save the display
+%			0: no saving
+%			1: save to a file with the masked settings description as name
+%			'name': save to a file with 'name' as name 
+%		'report': generate report
+%			<=-3: no report
+%			-2: verbose tex report
+%			-1: generation of tex report
+%			0; generate outputs
+%			1: generate outputs and generation of tex report
+%			2: display figures and verbose tex report 
+%		'percent': display observations in percent
+%			selector is the same as 'variance'
+%		'legendLocation': location of the legend (default 'BestOutSide')
+%		'integrate': factor(s) to integrate
+%		'total': display average values for observations
+%		'addSpecification': add display specification to plot directive 
+%			as ('parameter' / value) pairs
+%		'orientation': display orientation
+%			'v': vertical (default)
+%			'h': horizontal
+%		'shortObservations': compact observation names
+%		'fontSize': set the font size of LaTEX tables (default 'normal')	
+%	-- config: expCode configuration
 
-% TODO display variance and highlight in every plot
+%	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
+%	See licence.txt for more information.
 
 oriConfig = varargin{1};
 config = varargin{1};
@@ -14,7 +64,6 @@ p.highlight=0;
 p.title='+';
 p.caption='+';
 p.multipage=0;
-p.landscape=0;
 p.sort=-1;
 p.mask={};
 p.step=0;
@@ -23,22 +72,30 @@ p.put=1;
 p.save=0;
 p.report=1;
 p.percent=-1;
-p.legend='BestOutSide';
+p.legendLocation='BestOutSide';
 p.integrate=0;
 p.total=0;
-p.add=[];
+p.addSpecification={};
 p.orientation='v';
 p.shortObservations = -1;
-p.type='';
 p.fontSize='';
 
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
-for pair = reshape(varargin(3:end),2,[]) % pair is {propName;propValue}
-    if ~any(strcmp(pair{1},strtrim(pNames))) % , length(pair{1})
+for pair = reshape(varargin(3:end),2,[])
+    if ~any(strcmp(pair{1},strtrim(pNames))) 
         error(['Error: ' pair{1} ' is not a valid parameter']);
     end
     p.(pair{1}) = pair{2};
+end
+
+if ischar(p.step)
+ind = find(config.stepName, p.step)
+if isempty(p.step)
+error(['Unable to find ' p.step ' as a name of processing step.']);
+else
+p.step = ind;
+end
 end
 
 if p.step && p.step ~= length(config.stepName)
@@ -131,15 +188,6 @@ end
 
 % if any(p.integrate) && p.expand
 %    error('Cannot use intergate and expand at the same time.');
-% end
-
-% if any(p.percent)
-%     for k=1:length(p.percent)
-%         if p.percent(k) <= size(data.meanData, 2)
-%             data.meanData(:, p.percent(k)) =  data.meanData(:, p.percent(k))*100;
-%             data.varData(:, p.percent(k)) =  data.varData(:, p.percent(k))*100;
-%         end
-%     end
 % end
 
 if any(p.percent>0)
@@ -245,36 +293,6 @@ if p.expand
     p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
 end
 
-%
-% if p.expand || any(p.integrate)
-%     if ~p.integrate
-%         p.legendNames = config.step.oriFactors.values{p.expand};
-%     end
-%     if ~ischar(p.legendNames)
-%         if isnumeric(p.legendNames{1})
-%             p.xAxis = cell2mat(config.step.factors.set{p.expand});
-%         else
-%             p.xAxis = 1:length(p.legendNames);
-%         end
-%         p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
-%     end
-%     p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
-%    % p.columnNames = [config.step.factors.names; p.legendNames]'; % (data.factorSelector)
-%     p.methodLabel = config.evaluation.observations(p.obs);
-% if p.expand
-%     p.xName = p.expandName;
-% else
-%      p.xName = p.integrateName;
-% end
-%     p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
-% else
-%     p.xName='';
-%     p.columnNames = [config.step.factors.names(data.factorSelector)' evaluationObservations];
-%     p.methodLabel = '';
-%     p.xAxis='';
-%     p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector);
-% end
-
 if p.total
     for k=1:size(p.rowNames, 2)
         if k==1
@@ -293,7 +311,6 @@ for k=1:config.step.nbSettings
 end
 p.axisLabels = evaluationObservations;
 
-% displayData = config.displayData;
 if p.variance == 0
     p.variance = 1:size(data.varData, 2);
 end
@@ -362,7 +379,7 @@ else
     end
     
 end
-% config = expDisplay(config, p);
+
 config = feval(exposeType, config, data, p);
 
 if any(p.put==[0 2])

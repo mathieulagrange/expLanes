@@ -1,11 +1,18 @@
 function expCreate(projectName, stepNames, codePath, dataPath)
-% expCreate(projectName, stepNames, codePath, dataPath)
-%   create an expCode project
+% expCreate create an expCode project
+%	expCreate(projectName, stepNames, codePath, dataPath)
+%	- projectName: name of the project
+%	- stepNames: cell array of strings defining the names
+%	 of the different processing steps
+%	- codePath: path for code storage
+%	- dataPath: path for data storage
 %
-%   projectName: the name of the project
-%   stepNames: cell array of names of the steps  (default value set in expCodeConfig.txt)
-%   codePath: path for code storage (default value set in expCodeConfig.txt)
-%   dataPath: path for data storage (default value set in expCodeConfig.txt)
+%	Default values and other settings can be set in your configuration file
+% 	located in your home in the .expCode directory. This file serves
+%	as the initial config file for your expCode projects
+
+%	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
+%	See licence.txt for more information.
 
 % TODO remove expPath
 

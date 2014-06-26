@@ -35,7 +35,7 @@ switch p.put
         if ~isempty(config.displayData.cellData)
             config.displayData.table(end+1).caption = p.caption;
             config.displayData.table(end).multipage = p.multipage;
-            config.displayData.table(end).landscape = p.landscape;
+            config.displayData.table(end).landscape = p.orientation == 'h';
             config.displayData.table(end).table = config.displayData.cellData;
             config.displayData.table(end).data = config.data;
             config.displayData.table(end).label = p.label;
