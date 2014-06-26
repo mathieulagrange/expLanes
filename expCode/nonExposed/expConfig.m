@@ -17,7 +17,7 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % FIXME missing info in confusion Matrix
 
-% TODO help command
+% TODO help command for root and expExpose
 
 % FIXME exclude report of code sync ?
 
