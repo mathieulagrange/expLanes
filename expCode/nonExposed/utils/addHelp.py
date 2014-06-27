@@ -25,7 +25,7 @@ for line in open(sys.argv[1], 'r'):
 		inputs =  filter(None, re.split('[\W]+', fm.group(3)))
 		file.write('% '+name+'\n%\t'+out+name+'('+fm.group(3)+')\n')
                 for i in inputs:
-                        file.write('%\t- '+i+': \n')
+                        file.write('%\t- '+i+': \n')lolo
                 for o in outputs:
                         if o not in inputs:
                                 file.write('%\t-- '+o+': \n')
