@@ -1,6 +1,6 @@
 % This is the README for the experiment similarityDemo
                                                       
-% Created on 31-Oct-2013 by lagrange                  
+% Created on 30-Jun-2014 by lagrange                  
                                                       
 % Purpose:                                            
                                                       
@@ -23,14 +23,7 @@
 % specific parameters that need to be set and tested for every
 % configurations of your algorithm under evaluation.
 
-% The evaluation workflow is broken into 3 main steps:
-%   Processing
-%   Evaluation
-%   Display
-% For each of those, a specific function has been created that needs to be
-% filled.
-
-% The steps can be conviently managed with the Run function.
+% The processing steps can be conviently managed with the Run function.
 
 % More information can be found in the documentation of expCode.
 

@@ -31,6 +31,8 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % FIXME remove test for addSpecification
 
+% TODO sur lesmails d'indiquer en toutes lettres les factors qui ne sont pas fixes genre :
+
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
     config = commands{1};
     commands = commands(2:end);
@@ -111,7 +113,7 @@ end
 
 config.localHostName = char(getHostName(java.net.InetAddress.getLocalHost));
 % disp(['detectedHostName: ' config.localHostName]);
-
+config.hostName = config.localHostName;
 config = expDesign(config);
 if nargin<1 || config.host==0
     config.host = 0;
@@ -124,7 +126,8 @@ if nargin<1 || config.host==0
         end
     end
     if config.host==0
-        error(['Unable to find the detected host ' config.localHostName  ' in the machineNames field of your configuration file. Either explicitely set the host number (''host'', <value>) or add ' config.localHostName ' to the list of your machines in your config file.']);
+        fprintf(2, ['Unable to find the detected host ' config.localHostName  ' in the machineNames field of your configuration file. \nEither explicitely set the host number (''host'', <value>) or  add ' config.localHostName ' to the list of your machines \n in your config file: ' config.configFileName '\n']);
+        config.host=1;
     end
 else
     if config.host>0
@@ -164,12 +167,16 @@ if isempty(config.obsPath), config.obsPath = config.dataPath; end
 
 if iscell(config.codePath)
     if length(config.codePath)>=config.hostGroup
-        config.projectPath = expandHomePath(strtrim(config.codePath{config.hostGroup}));
+        projectPath = expandHomePath(strtrim(config.codePath{config.hostGroup}));
     else
-        config.projectPath = expandHomePath(strtrim(config.codePath{end})); % convention add the last parameter
+        projectPath = expandHomePath(strtrim(config.codePath{end})); % convention add the last parameter
     end
 else
-    config.projectPath = expandHomePath(strtrim(config.codePath));
+    projectPath = expandHomePath(strtrim(config.codePath));
+end
+
+if ~isempty(projectPath)
+    config.projectPath = projectPath;
 end
 
 config = expandPath(config, config.projectPath);

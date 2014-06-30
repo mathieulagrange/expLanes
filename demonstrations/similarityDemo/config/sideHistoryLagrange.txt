@@ -1,8 +1,6 @@
 similarityDemo('do', 0);
-similarityDemo('do', 0, 'host', 2);
-similarityDemo('do', 0, 'host', 2, 'parallel', 1);
-similarityDemo('show', 1);
-config=similarityDemo('show', 1);
-similarityDemo('do', 0)
-similarityDemo('do', 1, 'redo', 0);
-similarityDemo('do', 1, 'redo', 0, 'display', 't');
+similarityDemo('do', 2, 'parallel', 1, 'redo', 0);
+similarityDemo('do', 0, 'parallel', 0, 'redo', 0);
+similarityDemo('do', 0, 'parallel', 1, 'redo', 0);
+similarityDemo('do', 0, 'parallel', 1, 'redo', 1);
+similarityDemo('do', 0, 'parallel', 0, 'redo', 1);

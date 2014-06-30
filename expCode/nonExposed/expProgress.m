@@ -7,7 +7,7 @@ config.progressId = config.progressId+1;
 
 progress = ceil(100*config.progressId/config.step.nbSettings);
 
-if config.progress == 1 && config.host == 0 && config.parallel(config.step.id) == 0
+if config.progress == 1 && config.attachedMode && config.parallel(config.step.id) == 0
     %     waitbar(progress/100);
     if isempty(config.waitBar)
         config.waitBar = waitbar(0,config.step.setting.infoString,'Name',['Step ' config.step.idName ' of ' config.projectName],...

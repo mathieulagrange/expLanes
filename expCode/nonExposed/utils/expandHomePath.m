@@ -19,6 +19,6 @@ if ~isempty(in) && strcmp(in(1), '~')
        homePath= getenv('HOME');
    end
    out = strrep(in, '~', homePath);
-else
+else    
     out = in;
 end
