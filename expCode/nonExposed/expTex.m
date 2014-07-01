@@ -19,19 +19,19 @@ end
 
 config.latexFileName = [latexPath config.projectName reportName]; % '.tex'
 
-for k=1:length(config.stepName)
-    copyfile([config.codePath config.shortProjectName num2str(k) config.stepName{k} '.m'], [config.reportPath 'tex/' config.shortProjectName num2str(k) config.stepName{k} '.m']);
-end
-copyfile([config.codePath config.shortProjectName 'Init.m'], [config.reportPath 'tex/' config.shortProjectName 'Init.m']);
-copyfile([config.codePath config.shortProjectName 'Report.m'], [config.reportPath 'tex/' config.shortProjectName 'Report.m']);
+% for k=1:length(config.stepName)
+%     copyfile([config.codePath config.shortProjectName num2str(k) config.stepName{k} '.m'], [config.reportPath 'tex/' config.shortProjectName num2str(k) config.stepName{k} '.m']);
+% end
+% copyfile([config.codePath config.shortProjectName 'Init.m'], [config.reportPath 'tex/' config.shortProjectName 'Init.m']);
+% copyfile([config.codePath config.shortProjectName 'Report.m'], [config.reportPath 'tex/' config.shortProjectName 'Report.m']);
 
-if ~exist([config.codePath config.projectName reportName '.tex'], 'file')
-    config.latex = LatexCreator([config.codePath filesep config.projectName reportName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName, 1, 1, slides);
+if ~exist([config.reportPath config.projectName reportName '.tex'], 'file')
+    config.latex = LatexCreator([config.reportPath filesep config.projectName reportName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName, 1, 1, slides);
 end
-copyfile([config.codePath config.projectName reportName '.tex'], [config.latexFileName '.tex']);
+copyfile([config.reportPath config.projectName reportName '.tex'], [config.latexFileName '.tex']);
 copyfile([fileparts(mfilename('fullpath')) filesep 'utils/mcode.sty'], [config.reportPath 'tex/']);
 
-config.pdfFileName = [config.reportPath config.projectName '_' reportName '_v' num2str(config.versionName) '_' config.userName  '_' date '_' strrep(config.message, ' ', '-') '.pdf'];
+config.pdfFileName = [config.reportPath 'reports/' config.projectName '_' reportName '_v' num2str(config.versionName) '_' config.userName  '_' date '_' strrep(config.message, ' ', '-') '.pdf'];
 
 config.latex = LatexCreator([config.latexFileName '.tex'], 1, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName, 1, 0, slides);
 

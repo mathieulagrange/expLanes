@@ -154,8 +154,6 @@ if config.showTiming && ~isfield(storeObs, 'time')
     storeObs.time = toc(ticId);
 end
 
-
-
 if ~isempty(storeData)
     expSave(config, storeData, 'data');
 end

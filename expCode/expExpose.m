@@ -9,7 +9,7 @@ function config = expExpose(varargin)
 %			-1: no variance
 %			0: variance for every observations
 %			[1, 3]: variance for the first and third observations
-%		'highlight': highlight settings that are not significantly 
+%		'highlight': highlight settings that are not significantly
 %			different from the best performing setting
 %			selector is the same as 'variance'
 %		'title': title of display as string
@@ -27,26 +27,26 @@ function config = expExpose(varargin)
 %		'save': save the display
 %			0: no saving
 %			1: save to a file with the masked settings description as name
-%			'name': save to a file with 'name' as name 
+%			'name': save to a file with 'name' as name
 %		'report': generate report
 %			<=-3: no report
 %			-2: verbose tex report
 %			-1: generation of tex report
 %			0; generate outputs
 %			1: generate outputs and generation of tex report
-%			2: display figures and verbose tex report 
+%			2: display figures and verbose tex report
 %		'percent': display observations in percent
 %			selector is the same as 'variance'
 %		'legendLocation': location of the legend (default 'BestOutSide')
 %		'integrate': factor(s) to integrate
 %		'total': display average values for observations
-%		'addSpecification': add display specification to plot directive 
+%		'addSpecification': add display specification to plot directive
 %			as ('parameter' / value) pairs
 %		'orientation': display orientation
 %			'v': vertical (default)
 %			'h': horizontal
 %		'shortObservations': compact observation names
-%		'fontSize': set the font size of LaTEX tables (default 'normal')	
+%		'fontSize': set the font size of LaTEX tables (default 'normal')
 %	-- config: expCode configuration
 
 %	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
@@ -83,19 +83,19 @@ p.fontSize='';
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
 for pair = reshape(varargin(3:end),2,[])
-    if ~any(strcmp(pair{1},strtrim(pNames))) 
+    if ~any(strcmp(pair{1},strtrim(pNames)))
         error(['Error: ' pair{1} ' is not a valid parameter']);
     end
     p.(pair{1}) = pair{2};
 end
 
 if ischar(p.step)
-ind = find(config.stepName, p.step)
-if isempty(p.step)
-error(['Unable to find ' p.step ' as a name of processing step.']);
-else
-p.step = ind;
-end
+    ind = find(config.stepName, p.step);
+    if isempty(p.step)
+        error(['Unable to find ' p.step ' as a name of processing step.']);
+    else
+        p.step = ind;
+    end
 end
 
 if p.step && p.step ~= length(config.stepName)
@@ -131,14 +131,16 @@ if ~expCheckMask(config.factors, config.mask)
     config.mask = {mask};
 end
 
+
 config.step = expStepSetting(config.factors, config.mask, config.step.id);
 
 config = expReduce(config);
 
-if isempty(config.evaluation) || isempty(config.evaluation.data)  || isempty(config.evaluation.data{1})
+if ~isfield(config, 'evaluation') || isempty(config.evaluation) || isempty(config.evaluation.data)  || isempty(config.evaluation.data{1})
     disp('No observations to display.');
     return
 end
+
 if ischar(p.obs)
     p.obs = find(strcmp(config.evaluation.observations, p.obs));
     if isempty(p.obs), disp(['Unable to find observation with name' p.obs]); end
@@ -324,7 +326,7 @@ end
 config.data = data;
 
 config.displayData.cellData=[];
-if length(exposeType)==1
+if length(exposeType)<=1
     switch exposeType
         case '>'
             exposeType = 'exposeTable';
@@ -344,6 +346,7 @@ if length(exposeType)==1
             exposeType = 'exposeBoxPlot';
         case 'a'
             exposeType = 'exposeAnova';
+        case ''
         otherwise
             error(['unknown display type: ' exposeType]);
     end
@@ -354,7 +357,7 @@ else
     if ~strcmp(exposeType(1:min(6, length(exposeType))), 'expose')
         exposeType = ['expose' upper(exposeType(1)) exposeType(2:end)];
         
-        if exist(exposeType) ~= 2
+        if ~exist(exposeType, 'file')
             disp(['Unable to find ' exposeType  ' in your path. This function is needed to display the observation ' exposeType(7:end) '.']);
             if inputQuestion('Do you want to create it ?');
                 functionString = char({...
@@ -380,7 +383,9 @@ else
     
 end
 
-config = feval(exposeType, config, data, p);
+if ~isempty(exposeType)
+    config = feval(exposeType, config, data, p);
+end
 
 if any(p.put==[0 2])
     config = expDisplay(config, p);

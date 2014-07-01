@@ -173,8 +173,18 @@ CONSTRUCTOR(varargin{:});
         
         
         if ( ~exist(Data.Dir,'dir')); mkdir(Data.Dir); end
-        if ( ~noFigDir && ~exist([Data.Dir '/figures'],'dir')); mkdir([Data.Dir '/figures']); end
+        if ( ~noFigDir && ~exist([Data.Dir '/figures'],'dir'))
+            mkdir([Data.Dir '/figures']);
+            fid = fopen([fileparts(tex_file) '/exposeTmp.tex'], 'wt');
+        end
         if ( ~keep || ~exist(Data.FullTexFn,'file')), createTemplate(template); end
+     %   if exist([fileparts(tex_file) '/exposeTmp.tex'], 'file')
+    %    fclose(fid);
+      %  end
+        if ~exist([fileparts(tex_file) '/tex'], 'dir')
+            mkdir([fileparts(tex_file) '/tex']);
+            copyfile([fileparts(tex_file) '/exposeTmp.tex'], [fileparts(tex_file) '/tex/exposeTmp.tex']);
+        end
         
         set_Default_CONFIG();
         set_CONFIG_from_file();
@@ -317,11 +327,20 @@ CONSTRUCTOR(varargin{:});
         %         copyfile(Data.FullTexFn,[Data.FullTexFn '~']);
         
         TEX=textread(Data.FullTexFn,'%s','delimiter','\n');
-        FIND_FLAG_c=strfind(TEX,'expDisplayInsertionFlag');
+
+         for pos=1:length(TEX),
+            if ~isempty(strfind(TEX{pos}, '\lstinputlisting')) && isempty(strfind(TEX{pos}, '../..')) && isempty(strfind(TEX{pos}, '..\..'))
+                TEX{pos} = strrep(TEX{pos}, '{../', '{../../');
+                TEX{pos} = strrep(TEX{pos}, '{..\', '{..\..\');
+            end
+         end
+        
+        
+        FIND_FLAG_c=strfind(TEX,'expCodeInsertionFlag');
         flag_test=0;
         
         for pos_flag=1:length(FIND_FLAG_c)
-            
+           
             if(~isempty(FIND_FLAG_c{pos_flag})),flag_test=1;break,end
             
         end
@@ -347,12 +366,12 @@ CONSTRUCTOR(varargin{:});
         if ( flag_test == 0 ),disp('LatexCreator/writeLatexFile() Error : Bad Latex format, missing \end{document}');return; end
         
         [fid,res]=fopen(Data.FullTexFn,'wt');
+        [fidTmp,res]=fopen([fileparts(Data.FullTexFn) 'exposeTmp.tex'],'at');
         
         
         % Ecriture premiere partie
         
         for no_line=1:pos_flag-1
-            
             fprintf(fid,'%s \n',TEX{no_line});
             
         end
@@ -362,27 +381,27 @@ CONSTRUCTOR(varargin{:});
         for no_line=1:length(Data.tex)
             
             fprintf(fid,'%s \n',Data.tex{no_line});
+            fprintf(fidTmp,'%s \n',Data.tex{no_line});
             
         end %-----------------------------------------------------
         
         % Ecriture Flag ------------------------------------------
         
-        fprintf(fid,'%s \n','% expDisplayInsertionFlag DO NOT CLEAR (but move it where you want the code to be inserted)');
+        fprintf(fid,'%s \n','\input{tex/exposeTmp} % expCodeInsertionFlag DO NOT CLEAR (but move it where you want the generated temporary LaTEX code to be inserted)');
         
         %---------------------------------------------------------
         
         % Ecriture seconde partie --------------------------------
         for no_line=pos_flag+1: length(TEX)
-            
+           
             fprintf(fid,'%s \n',TEX{no_line});
-            
         end %-----------------------------------------------------
         
         
         
         
         fclose(fid);
-        
+        fclose(fidTmp);
         
         status=1;
     end
@@ -472,7 +491,7 @@ CONSTRUCTOR(varargin{:});
                 Data.tex{end+1}='% mcode options for matlab code insertion bw (for printing), numbered (line numbers), framed (frame around code blocks), useliterate (convert Matlab expressions to Latex ones), autolinebreaks (automatic code wraping, use it with caution';
                 Data.tex{end+1}='\usepackage[literate]{mcode}';
                 
-                Data.tex{end+1}='\graphicspath{{../figures/}{../../figures/}{../../}} ';
+                Data.tex{end+1}='\graphicspath{{figures/}{report/figures/}{../figures/}{../../}} ';
                 Data.tex{end+1}=['\title{' Data.title '}'];
                 Data.tex{end+1}=['\author{ ' Data.author ' }'];
                 Data.tex{end+1}=' ';
@@ -481,13 +500,13 @@ CONSTRUCTOR(varargin{:});
                 Data.tex{end+1}='\maketitle';
                 Data.tex{end+1}=' ';
                 Data.tex{end+1}= '%Please use this file to document your experiment';
-                Data.tex{end+1}= '%You can compile the report by setting the option ''report'' to 1 (silent mode) or 2 (verbose mode) with generation of figures and table or -1 (silent mode) or -2 (verbose mode) for latex compilation only.';
+                Data.tex{end+1}= '%You can compile the report by setting the option ''report'' as detailed in your expCode configuration file.';
                 Data.tex{end+1}=' ';
                 if ~Data.slides
                     Data.tex{end+1}= ['This is the report to document the expCode project ' Data.projectName ' using \LaTeX.'];
                 end
                 Data.tex{end+1}=' ';
-                Data.tex{end+1}='% expDisplayInsertionFlag DO NOT CLEAR (but move it where you want the code to be inserted) ';
+                Data.tex{end+1}='\input{tex/exposeTmp} % expCodeInsertionFlag DO NOT CLEAR (but move it where you want the generated temporary LaTEX code to be inserted)';
                 Data.tex{end+1}=' ';
                 Data.tex{end+1}=' ';
                 Data.tex{end+1}='%\bibliographystyle{abbrvnat}';
@@ -496,7 +515,7 @@ CONSTRUCTOR(varargin{:});
                 Data.tex{end+1}='\end{document}';
                 
             else
-                Data.tex{end+1}='% expDisplayInsertionFlag DO NOT CLEAR (but move it where you want the code to be inserted) ';
+                Data.tex{end+1}='\input{tex/exposeTmp} % expCodeInsertionFlag DO NOT CLEAR (but move it where you want the generated temporary LaTEX code to be inserted)';
             end
             
             
@@ -809,6 +828,11 @@ CONSTRUCTOR(varargin{:});
         TEX=textread(filein,'%s','delimiter','\n');
         
         for pos=1:length(TEX),
+            if strfind(TEX{pos}, '\lstinputlisting') && ~(strfind(TEX{pos}, '../..') || strfind(TEX{pos}, '..\..'))
+                TEX{pos} = strrep(TEX{pos}, '{../', '{../../');
+                TEX{pos} = strrep(TEX{pos}, '{..\', '{..\..\');
+            end
+            
             res=strfind(TEX{pos},'\end{Verbatim}');
             
             if (~isempty(res))
@@ -816,6 +840,7 @@ CONSTRUCTOR(varargin{:});
             end
         end
         
+        Data.TEX = TEX;
         
         
         Data.tex=[];

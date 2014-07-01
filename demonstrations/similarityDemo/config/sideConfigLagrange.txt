@@ -15,7 +15,7 @@ completeName  = Mathieu Lagrange
 %% HOSTNAMES AND PATHS
 
 % names of the machines
-machineNames  = {{ 'pc-lagrange', 'dodo', 'toto'}, {'pc-adtsi-sunda.irccyn.ec-nantes.fr', 'pc-adtsi-optimed.irccyn.ec-nantes.fr'}}
+machineNames  = {{ 'pc-lagrange', 'dodo', 'toto', 'lolo.local'}, {'pc-adtsi-sunda.irccyn.ec-nantes.fr', 'pc-adtsi-optimed.irccyn.ec-nantes.fr'}}
 % path to input data
 inputPath  = ~/data/databases
 % path to the code repository of the project
@@ -119,7 +119,7 @@ showFactorsInReport  = 4
 % style of the factor graph: 0 no propagation of factors, 1 propagation of factors, 2 propagation of factors with an "all steps" node
 factorDisplayStyle  = 0
 % delete the tex directory where actual LaTex compilation is performed
-deleteTexDirectory  = 1
+deleteTexDirectory  = 0
 
 %% MISC
 

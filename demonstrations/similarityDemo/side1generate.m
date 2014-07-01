@@ -11,7 +11,7 @@ function [config, store, obs] = side1generate(config, setting, data)
 % Date: 30-Jun-2014                                                 
                                                                     
 % Set behavior for debug mode.                                      
-if nargin==0, similarityDemo('do', 1, 'mask', {}); return; end      
+if nargin==0, similarityDemo('do', 1, 'mask', {0 3 1 10}, 'plot', 1); return; end      
                                                                     
 store=[];                                                           
 obs=[];                                                             
@@ -23,7 +23,11 @@ for k=1:setting.nbRealizations
         classData = [classData; repmat(m*setting.spread/20, setting.nbElementsPerClass, setting.nbDimensions)+randn(setting.nbElementsPerClass, setting.nbDimensions)];
         class = [class; m*ones(setting.nbElementsPerClass, 1)];
     end
-    %     scatter(classData(:, 1), classData(:, 2), 50, class, 'filled');
+    
+    if k==1 && isfield(config, 'plot')
+        scatter(classData(:, 1), classData(:, 2), 50, class, 'filled');
+        config = expExpose(config, '', 'save', 'scatter');
+    end
     
     store.elements{k} =  classData;
     store.class{k} = class;

@@ -16,7 +16,7 @@ end
 texFileName = [latexPath config.shortProjectName 'Factors.tex'];
 pdfFileName = [config.reportPath 'figures/' config.shortProjectName 'Factors.pdf'];
 
-copyfile([p '/nonExposed/utils/headerFactorDisplay.tex'], texFileName);
+copyfile([p '/utils/headerFactorDisplay.tex'], texFileName);
 
 
 if style > 1

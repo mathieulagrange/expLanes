@@ -11,6 +11,7 @@ if ~exist([config.reportPath 'figures'], 'dir'), mkdir([config.reportPath 'figur
 if ~exist([config.reportPath 'tables'], 'dir'), mkdir([config.reportPath 'tables']); end
 if ~exist([config.reportPath 'tex'], 'dir'), mkdir([config.reportPath 'tex']); end
 if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']); end
+if ~exist([config.reportPath 'reports'], 'dir'), mkdir([config.reportPath 'reports']); end
 
 expToolPath(config);
 if config.probe
@@ -28,7 +29,7 @@ if config.generateRootFile
     expCreateRootFile(config, projectName, shortProjectName, expCodePath);
 end
 
-config.logFileName = [config.reportPath 'log_' num2str(config.runId) '.txt'];
+config.logFileName = [config.reportPath 'reports/log_' num2str(config.runId) '.txt'];
 config.errorDataFileName = {};
 if exist(config.logFileName, 'file')
     delete(config.logFileName);
@@ -37,7 +38,7 @@ if ~exist(config.reportPath, 'dir')
     mkdir(config.reportPath);
 end
 
-config.logFile = fopen([config.reportPath 'config.txt'], 'w');
+config.logFile = fopen([config.reportPath 'reports/config.txt'], 'w');
 fprintf(config.logFile, '\n%s\n', evalc('disp(config)'));
 fclose(config.logFile);
 
