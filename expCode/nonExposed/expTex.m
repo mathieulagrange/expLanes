@@ -27,6 +27,7 @@ config.latexFileName = [latexPath config.projectName reportName]; % '.tex'
 
 if ~exist([config.reportPath config.projectName reportName '.tex'], 'file')
     config.latex = LatexCreator([config.reportPath filesep config.projectName reportName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName, 1, 1, slides);
+    copyfile([fileparts(mfilename('fullpath')) filesep 'utils/mcode.sty'], config.reportPath);
 end
 copyfile([config.reportPath config.projectName reportName '.tex'], [config.latexFileName '.tex']);
 copyfile([fileparts(mfilename('fullpath')) filesep 'utils/mcode.sty'], [config.reportPath 'tex/']);

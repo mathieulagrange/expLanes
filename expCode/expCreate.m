@@ -24,6 +24,7 @@ if ~exist('projectName', 'var')
 elseif ~ischar(projectName)
     error('The projectName must be a string');
 end
+if ~exist('stepNames', 'var'), stepNames = 'process'; end
 
 if ~iscell(stepNames), stepNames = {stepNames}; end
 
@@ -148,7 +149,7 @@ fclose(fid);
 expCreateRootFile(config, projectName, shortProjectName, expCodePath);
 
 
-config.latex = LatexCreator([config.codePath '/' config.projectName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], projectName, 1, 1);
+%config.latex = LatexCreator([config.codePath '/' config.projectName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], projectName, 1, 1);
 
 % create project functions
 % TODO add some comments
