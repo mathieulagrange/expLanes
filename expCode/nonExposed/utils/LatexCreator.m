@@ -178,9 +178,10 @@ CONSTRUCTOR(varargin{:});
             fid = fopen([fileparts(tex_file) '/exposeTmp.tex'], 'wt');
         end
         if ( ~keep || ~exist(Data.FullTexFn,'file')), createTemplate(template); end
-     %   if exist([fileparts(tex_file) '/exposeTmp.tex'], 'file')
-    %    fclose(fid);
-      %  end
+        if exist([fileparts(tex_file) '/exposeTmp.tex'], 'file')
+      fid = fopen([fileparts(tex_file) '/exposeTmp.tex'], 'w');
+            fclose(fid);
+        end
         if ~exist([fileparts(tex_file) '/tex'], 'dir')
             mkdir([fileparts(tex_file) '/tex']);
             copyfile([fileparts(tex_file) '/exposeTmp.tex'], [fileparts(tex_file) '/tex/exposeTmp.tex']);
@@ -499,8 +500,8 @@ CONSTRUCTOR(varargin{:});
                 Data.tex{end+1}=' ';
                 Data.tex{end+1}='\maketitle';
                 Data.tex{end+1}=' ';
-                Data.tex{end+1}= '%Please use this file to document your experiment';
-                Data.tex{end+1}= '%You can compile the report by setting the option ''report'' as detailed in your expCode configuration file.';
+                Data.tex{end+1}= '% Please use this file to document your experiment';
+                Data.tex{end+1}= '% You can compile the report by setting the option ''report'' as detailed in your expCode configuration file.';
                 Data.tex{end+1}=' ';
                 if ~Data.slides
                     Data.tex{end+1}= ['This is the report to document the expCode project ' Data.projectName ' using \LaTeX.'];
@@ -605,7 +606,7 @@ CONSTRUCTOR(varargin{:});
         
         
         Data.tex{end+1}='\begin{center}';
-        Data.tex{end+1}='\begin{figure}[h]';
+        Data.tex{end+1}='\begin{figure}';
         Data.tex{end+1}='\centering';
         Data.tex{end+1}=['\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{./figures/Fig' num2str(Data.figure_number) '.pdf}']; % \width = width
         if ~Data.slides
@@ -644,7 +645,7 @@ CONSTRUCTOR(varargin{:});
         Data.tex=[];
         Data.tex{end+1}=' ';
         Data.tex{end+1}='\begin{center}';
-        Data.tex{end+1}='\begin{figure}[h]';
+        Data.tex{end+1}='\begin{figure}';
         Data.tex{end+1}='\caption{}' ;
         Data.tex{end+1}='\label{}' ;
         Data.tex{end+1}='\centering';

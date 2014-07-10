@@ -55,7 +55,7 @@ if config.showFactorsInReport
     end
     
     config.latex.addLine('\begin{center}');
-    config.latex.addLine('\begin{figure}[ht]');
+    config.latex.addLine('\begin{figure}');
     config.latex.addLine(['\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{' expandHomePath(pdfFileName) '}']);
     config.latex.addLine('\label{factorFlowGraph}');
     if~slides
