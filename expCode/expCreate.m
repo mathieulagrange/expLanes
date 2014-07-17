@@ -169,11 +169,8 @@ for k=1:length(stepNames)
         ['% Copyright: ' config.completeName];
         ['% Date: ' date()];
         '';
-        '% Set behavior for debug mode.';
-        ['if nargin==0, ' , projectName '(''do'', ' num2str(k) ', ''mask'', {}); return; end'];
-        '';
-        'store=[];';
-        'obs=[];';
+        '% Set behavior for debug mode';
+        ['if nargin==0, ' , projectName '(''do'', ' num2str(k) ', ''mask'', {}); return; else store=[]; obs=[]; end'];
         });
     dlmwrite([config.codePath '/' functionName '.m'], functionString,'delimiter','');
 end

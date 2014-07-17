@@ -18,21 +18,14 @@ for k=1:length(config.stepName)
         mkdir(stepPath);
     end
 end
-    %     copyfile([fileparts(mfilename('fullpath')) filesep 'utils/mcode.sty'], [config.reportPath 'tex/']);
-
-% expDependencies(config);
-
-
 
 config.step.setting = [];
 
-% step = config.step;
-
 tic
 try
-    [config config.initStore] = feval([config.shortProjectName 'Init'], config);
+    [config, config.initStore] = feval([config.shortProjectName 'Init'], config);
 catch error
-    if config.host == 0
+    if config.attachedMode
         rethrow(error);
     else
         config = expLog(config, error, 3, 1);
@@ -58,11 +51,11 @@ if all(config.do>0)
             if config.parallel(config.do(k))>0 % ~= 1 % length(config.stepName)
                 settingStatus = config.settingStatus;
                 parfor l=1:length(config.step.sequence)
-                   [~, settingStatus(l)] =  expProcessOne(config, l);
+                    [~, settingStatus(l)] =  expProcessOne(config, l);
                 end
                 for l=1:length(config.step.sequence)
-                config.settingStatus.success = config.settingStatus.success+settingStatus(l).success;
-                config.settingStatus.failed = config.settingStatus.failed+settingStatus(l).failed;
+                    config.settingStatus.success = config.settingStatus.success+settingStatus(l).success;
+                    config.settingStatus.failed = config.settingStatus.failed+settingStatus(l).failed;
                 end
             else
                 for l=1:length(config.step.sequence)
@@ -73,11 +66,11 @@ if all(config.do>0)
         end
         if sum(abs(config.parallel))
             config.parallel = matlabpool('size');
-           % matlabpool('close');
+            % matlabpool('close');
         end
     else
         for k=1:length(config.do)
-           config.step = config.stepSettings{config.do(k)}; % remove reduceData
+            config.step = config.stepSettings{config.do(k)}; % remove reduceData
             reduceDataFileName = [config.obsPath config.stepName{config.step.id} filesep 'reduceData.mat'];
             if exist(reduceDataFileName, 'file')
                 delete(reduceDataFileName);
@@ -91,7 +84,7 @@ end
 
 config.runDuration=ceil(toc/60);
 
-function [config settingStatus] = expProcessOne(config, sequence)
+function [config, settingStatus] = expProcessOne(config, sequence)
 
 config.step.idName = config.stepName{config.step.id};
 
@@ -100,7 +93,7 @@ config.sequentialData = [];
 for k=1:length(config.step.sequence{sequence})
     config.step.setting = expSetting(config.step, config.step.sequence{sequence}(k));
     success=1;
-    if config.host == 0
+    if config.attachedMode
         config = expProcessOneSub(config);
     else
         try
@@ -123,8 +116,8 @@ function config = expProcessOneSub(config)
 functionName = [config.shortProjectName num2str(config.step.id) config.stepName{config.step.id}];
 
 if config.redo==0 && (exist(expSave(config, [], 'data'), 'file') || exist(expSave(config, [], 'obs'), 'file'))
-   % disp(['skipping ' config.step.idName ' ' config.step.setting.infoString]);
-   return
+    % disp(['skipping ' config.step.idName ' ' config.step.setting.infoString]);
+    return
 end
 
 loadedData = [];
@@ -148,9 +141,10 @@ end
 ticId = tic;
 
 config = expProgress(config);
-[config storeData storeObs] = feval(functionName, config, config.step.setting, loadedData);
 
-if config.showTiming && ~isfield(storeObs, 'time')
+[config, storeData, storeObs] = feval(functionName, config, config.step.setting, loadedData);
+
+if config.recordTiming && ~isfield(storeObs, 'time')
     storeObs.time = toc(ticId);
 end
 

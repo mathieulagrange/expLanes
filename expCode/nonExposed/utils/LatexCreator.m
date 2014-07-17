@@ -179,10 +179,10 @@ CONSTRUCTOR(varargin{:});
         end
         if ( ~keep || ~exist(Data.FullTexFn,'file')), createTemplate(template); end
         if exist([fileparts(tex_file) '/exposeTmp.tex'], 'file')
-      fid = fopen([fileparts(tex_file) '/exposeTmp.tex'], 'w');
+            fid = fopen([fileparts(tex_file) '/exposeTmp.tex'], 'w');
             fclose(fid);
         end
-        if ~exist([fileparts(tex_file) '/tex'], 'dir')
+        if ~noFigDir && ~exist([fileparts(tex_file) '/tex'], 'dir')
             mkdir([fileparts(tex_file) '/tex']);
             copyfile([fileparts(tex_file) '/exposeTmp.tex'], [fileparts(tex_file) '/tex/exposeTmp.tex']);
         end
@@ -328,20 +328,20 @@ CONSTRUCTOR(varargin{:});
         %         copyfile(Data.FullTexFn,[Data.FullTexFn '~']);
         
         TEX=textread(Data.FullTexFn,'%s','delimiter','\n');
-
-         for pos=1:length(TEX),
+        
+        for pos=1:length(TEX),
             if ~isempty(strfind(TEX{pos}, '\lstinputlisting')) && isempty(strfind(TEX{pos}, '../..')) && isempty(strfind(TEX{pos}, '..\..'))
                 TEX{pos} = strrep(TEX{pos}, '{../', '{../../');
                 TEX{pos} = strrep(TEX{pos}, '{..\', '{..\..\');
             end
-         end
+        end
         
         
         FIND_FLAG_c=strfind(TEX,'expCodeInsertionFlag');
         flag_test=0;
         
         for pos_flag=1:length(FIND_FLAG_c)
-           
+            
             if(~isempty(FIND_FLAG_c{pos_flag})),flag_test=1;break,end
             
         end
@@ -367,8 +367,11 @@ CONSTRUCTOR(varargin{:});
         if ( flag_test == 0 ),disp('LatexCreator/writeLatexFile() Error : Bad Latex format, missing \end{document}');return; end
         
         [fid,res]=fopen(Data.FullTexFn,'wt');
-        [fidTmp,res]=fopen([fileparts(Data.FullTexFn) 'exposeTmp.tex'],'at');
-        
+        if exist([fileparts(Data.FullTexFn) 'exposeTmp.tex'], 'file')
+            [fidTmp,res]=fopen([fileparts(Data.FullTexFn) 'exposeTmp.tex'],'at');
+        else
+            fidTmp = [];
+        end
         
         % Ecriture premiere partie
         
@@ -382,7 +385,9 @@ CONSTRUCTOR(varargin{:});
         for no_line=1:length(Data.tex)
             
             fprintf(fid,'%s \n',Data.tex{no_line});
-            fprintf(fidTmp,'%s \n',Data.tex{no_line});
+            if ~isempty(fidTmp)
+                fprintf(fidTmp,'%s \n',Data.tex{no_line});
+            end
             
         end %-----------------------------------------------------
         
@@ -394,7 +399,7 @@ CONSTRUCTOR(varargin{:});
         
         % Ecriture seconde partie --------------------------------
         for no_line=pos_flag+1: length(TEX)
-           
+            
             fprintf(fid,'%s \n',TEX{no_line});
         end %-----------------------------------------------------
         
@@ -402,7 +407,9 @@ CONSTRUCTOR(varargin{:});
         
         
         fclose(fid);
-        fclose(fidTmp);
+        if ~isempty(fidTmp)
+            fclose(fidTmp);
+        end
         
         status=1;
     end
@@ -483,7 +490,7 @@ CONSTRUCTOR(varargin{:});
                 %           Data.tex{end+1}='\usepackage[latin1]{inputenc}';
                 %           Data.tex{end+1}='\usepackage[french]{babel}';
                 Data.tex{end+1}='\usepackage{graphicx}';
-                 Data.tex{end+1}='\usepackage{morefloats}';
+                Data.tex{end+1}='\usepackage{morefloats}';
                 %   Data.tex{end+1}='\usepackage[colorlinks=true,urlcolor=blue,citecolor=blue]{hyperref} ';
                 Data.tex{end+1}='\usepackage{amsmath}';
                 Data.tex{end+1}='\usepackage{amssymb}';

@@ -129,11 +129,11 @@ if p.highlight ~= -1
         p.highlight = 1:size(sData, 2);
     end
     for k=1:length(p.obs)
-        %  col = round(sData(:, k)*10^config.displayDigitPrecision); % FIXME
+        %  col = round(sData(:, k)*10^config.tableDigitPrecision); % FIXME
         %  why ?
         if any(p.highlight==k)
             col = sData(:, k);
-            [maxValue maxIndex] = max(col);
+            [maxValue, maxIndex] = max(col);
             if any(vData(:, k))
                 for m=1:length(data)
                     if ~isempty(data{m}) && ~isempty(data{m}.(observations{p.obs(k)}))
@@ -149,8 +149,8 @@ if p.highlight ~= -1
         end
     end
     if p.total
-        col = round(sData(end, :)*10^config.displayDigitPrecision);
-        [maxValue maxIndex] = max(col);
+        col = round(sData(end, :)*10^config.tableDigitPrecision);
+        [maxValue, maxIndex] = max(col);
         
         if any(vData(end, :))
             for m=1:length(col)
@@ -202,7 +202,7 @@ dataDisplay.meanData = sData(select, :);
 dataDisplay.highlights = highlights(select, :);
 dataDisplay.factorSelector = factorSelector;
 % dataDisplay.p.expand = p.expand;
-% dataDisplay.p.obs = p.obs;
+% dataDisplay.obs = p.obs;
 dataDisplay.varData = vData(select, :);
 dataDisplay.selector = select;
 if isempty(settingSelector)

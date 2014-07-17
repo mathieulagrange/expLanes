@@ -1,20 +1,17 @@
-function [config, store, obs] = clde1generateData(config, setting, data)
-% clde1generateData GENERATEDATA step of the expCode project clusteringDemo
-%    [config, store, obs] = clde1generateData(config, setting, data)
-%       config : expCode configuration state
-%       setting: current set of parameters
-%       data   : processing data stored during the previous step
-%
-%       store  : processing data to be saved for the other steps
-%       obs: performance measures to be saved for obs
+function [config, store, obs] = clde1generate(config, setting, data)
+% clde1generateData GENERAT step of the expCode project clusteringDemo
+%    [config, store, obs] = clde1generate(config, setting, data)
+%     - config : expCode configuration state
+%     - setting   : set of factors to be evaluated
+%     - data   : processing data stored during the previous step
+%     -- store  : processing data to be saved for the other steps
+%     -- obs    : observations to be saved for analysis
 
-% Copyright lagrange
+% Copyright: Mathieu Lagrange
 % Date 22-Nov-2013
 
-if nargin==0, clusteringDemo('do', 1, 'mask', {{0 0 0 3}}); return; end
-
-store=[];
-obs=[];
+% Set behavior for debug mode
+if nargin==0, clusteringDemo('do', 1, 'mask', {{0 0 0 3}}); return; else store=[]; obs=[]; end
 
 switch setting.dataType
     case 'spherical'
@@ -42,7 +39,6 @@ switch setting.dataType
         setting.nbClasses = 2;
     case 'gaussian'
         data = [];
-        class = [];
         for m=1:setting.nbClasses
             data = [data; repmat(m*2.5, setting.nbElementsPerClass, 2)+randn(setting.nbElementsPerClass, 2)];
         end
@@ -53,8 +49,10 @@ for k = 1 : setting.nbClasses
     class = [class; k*ones(setting.nbElementsPerClass, 1)];
 end
 
-store.samples = data;
+store.elements = data;
 store.class = class;
 
-% figure();
-scatter(data(:, 1), data(:, 2), 20, class, 'filled')
+if isfield(config, 'plot')
+    scatter(data(:, 1), data(:, 2), 20, class, 'filled')
+    config = expExpose(config, '', 'save', 'scatter');
+end

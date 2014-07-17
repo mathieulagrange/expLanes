@@ -10,11 +10,8 @@ function [config, store, obs] = side2similarity(config, setting, data)
 % Copyright: Mathieu Lagrange                                          
 % Date: 30-Jun-2014                                                    
                                                                        
-% Set behavior for debug mode.                                         
-if nargin==0, similarityDemo('do', 2, 'mask', {}); return; end         
-                                                                       
-store=[];                                                              
-obs=[];                                                                
+% Set behavior for debug mode                                         
+if nargin==0, similarityDemo('do', 2, 'mask', {}); return; else store=[]; obs=[]; end                                                                                                                                             
 
 for k=1:setting.nbRealizations
     elts = data.elements{k};

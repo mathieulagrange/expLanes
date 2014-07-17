@@ -11,3 +11,11 @@ similarityDemo('report', -1);
 similarityDemo('report', 1, 'deleteTexDirectory', 0);
 similarityDemo('report', 1);
 similarityDemo('report', 2);
+similarityDemo('do', 1)
+similarityDemo('do', 1);
+similarityDemo('show', 1, 'expose', {'l', 'save', 'toto'});
+similarityDemo('obs', 1, 'expose', {'l', 'save', 'toto'});
+similarityDemo('obs', 1, 'display', {'l', 'save', 'toto'});
+similarityDemo('obs', 1, 'display', {'l', 'save', 'toto', 'highlight', 0});
+similarityDemo('obs', 1, 'display', {'l', 'save', 'toto', 'highlight', -1});
+similarityDemo('obs', 1, 'expose', {'l', 'save', 'toto', 'highlight', -1});

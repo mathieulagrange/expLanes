@@ -68,7 +68,8 @@ log  = 1
 progress  = 1
 % exit matlab at the end of the computation
 exitMatlab  = 0
-
+% show timing observations
+recordTiming = 1
 
 %% DATA
 
@@ -88,18 +89,17 @@ bundle  =
 clean  = 
 
 
-%% DISPLAY
+%% EXPOSITION
 
 % step for which to display observations: -1 none, 0 last processed step if any, >0 specific step
 obs  = 0
 % specify default display of observations (>: prompt, t: table, p:plot)
-display  = >
+expose  = >
 % mantissa precision for the display of observations
-displayDigitPrecision  = 2
+tableDigitPrecision  = 2
 % font size for the display of observations
 displayFontSize  = 16
-% show timing observations
-showTiming  = 1
+
 
 
 %% REPORT
@@ -133,6 +133,3 @@ probe  = 0
 generateRootFile  = 0
 
 
-projectName = similarityDemo
-shortProjectName = side
-userName = lagrange

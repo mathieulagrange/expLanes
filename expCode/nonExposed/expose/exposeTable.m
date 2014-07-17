@@ -2,7 +2,7 @@ function config = exposeTable(config, data, p)
 
 if isstruct(data)
     numeric=1;
-   inputCell = expNumToCell(data.meanData, data.varData, config.displayDigitPrecision, p.put, data.highlights);
+   inputCell = expNumToCell(data.meanData, data.varData, config.tableDigitPrecision, p.put, data.highlights);
 else
     numeric = 0;
     inputCell = data;
