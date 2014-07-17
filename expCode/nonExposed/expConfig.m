@@ -33,11 +33,15 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO sur lesmails d'indiquer en toutes lettres les factors qui ne sont pas fixes genre :
 
+expCodePath = fileparts(fileparts(mfilename('fullpath')));
+
+
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
     config = commands{1};
     commands = commands(2:end);
 else
     configFileName = getUserFileName(shortProjectName, projectName, projectPath);
+    expUserDefaultConfig(expCodePath);
     config = expUpdateConfig(configFileName);
     if isempty(config), return; end;
     
@@ -218,6 +222,7 @@ config.loadFileInfo.dateNum = [Inf, 0];
 
 config.settingStatus.success = 0;
 config.settingStatus.failed = 0;
+config.expCodePath = expCodePath;
 
 if ~exist(config.reportPath, 'dir'), mkdir(config.reportPath); end
 if ~exist([config.reportPath 'figures'], 'dir'), mkdir([config.reportPath 'figures']); end

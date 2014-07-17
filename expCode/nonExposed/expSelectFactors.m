@@ -27,11 +27,11 @@ if ~isempty(factors.selectFactors)
             s2mask{m} = 0;
         end
         
-%         if mask{1}{s} == -1 % s ??
-%             s1mask{p}=-1;
-%         else
+        if mask{1}{s} == -1 % s ?? %FIXME was commented
+            s1mask{p}=-1; %FIXME was commented
+        else %FIXME was commented
             s1mask{p}=ps;
-%         end
+        end %FIXME was commented
         s1mask{s}=ss;
         
         myMask = expMergeMask(mask, s1mask, factors.values, mode);

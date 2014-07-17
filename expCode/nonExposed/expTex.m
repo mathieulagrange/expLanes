@@ -102,21 +102,7 @@ for k=1:length(command)
                 return
             end
         case 'v'
-            cmd = [];
-            if ~isempty(config.pdfViewer)
-                cmd=[config.pdfViewer ' ', config.pdfFileName, ' &'];
-            else
-                if ismac
-                    cmd=['open -a Preview ', config.pdfFileName, ' &'];
-                elseif isunix
-                    cmd=['evince ', config.pdfFileName, ' &'];
-                end
-            end
-            if isempty(cmd)
-                open(config.pdfFileName);
-            else
-                system(cmd);
-            end
+           expShowPdf(config, config.pdfFileName);
     end
 end
 

@@ -34,7 +34,7 @@ if config.progress == 1 && config.attachedMode && config.parallel(config.step.id
         save(config.staticDataFileName, 'waitbarId', '-append');
     end
 elseif config.parallel(config.step.id) > 0 || config.progress == 1
-      disp([config.step.idName ': ' config.step.setting.infoString]);  
+      disp([upper(config.step.idName(1)) config.step.idName(2:end) ' -> ' config.step.setting.infoString]);  
 elseif config.progress == 2
     disp([config.step.idName '(' num2str(progress) '%): ' config.step.setting.infoString]);
 elseif config.progress == 3

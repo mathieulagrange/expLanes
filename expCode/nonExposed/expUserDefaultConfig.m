@@ -1,6 +1,6 @@
-function [userDefaultConfigFileName userDir] = expUserDefaultConfig(expCodePath)
+function [userDefaultConfigFileName, userDir] = expUserDefaultConfig(expCodePath)
 
-if ~exist(expCodePath), return; end % FIXME
+if ~exist(expCodePath, 'dir'), return; end % FIXME
 
 if ispc, userDir= getenv('USERPROFILE');
 else userDir= getenv('HOME');

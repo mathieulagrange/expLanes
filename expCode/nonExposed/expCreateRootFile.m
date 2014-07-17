@@ -6,7 +6,7 @@ rootString = char({...
     '% Please DO NOT modify this file unless you have a precise intent.';
     '';
     ['shortProjectName = ''' shortProjectName ''';'];
-    '[p projectName] = fileparts(mfilename(''fullpath''));';
+    '[p, projectName] = fileparts(mfilename(''fullpath''));';
     'if nargin>0 && isstruct(varargin{1})';
     ' config = varargin{1};';
     'else';

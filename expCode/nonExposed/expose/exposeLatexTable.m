@@ -1,6 +1,6 @@
 function displayData = exposeLatexTable(config, displayData, data, p)
 
-numCell = expNumToCell(data.meanData, data.varData, config.displayDigitPrecision, 1); % TODO being able to remove variance
+numCell = expNumToCell(data.meanData, data.varData, config.tableDigitPrecision, 1); % TODO being able to remove variance
 if p.highlight
     numCell(data.highlights==1) = strcat('\textbf{', numCell(data.highlights==1), '}');
 end

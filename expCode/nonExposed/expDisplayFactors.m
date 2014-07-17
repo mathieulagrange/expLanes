@@ -18,7 +18,6 @@ pdfFileName = [config.reportPath 'figures/' config.shortProjectName 'Factors.pdf
 
 copyfile([p '/utils/headerFactorDisplay.tex'], texFileName);
 
-
 if style > 1
     % all steps
     allIndex = cellfun(@isempty, config.factors.step);
@@ -104,17 +103,7 @@ else
     return
 end
 if show
-    if ~isempty(config.pdfViewer)
-        cmd=[config.pdfViewer ' ', pdfFileName, ' &'];
-    else
-        if ismac
-            cmd=['open -a Preview ', pdfFileName, ' &'];
-        else
-            open(pdfFileName);
-            return;
-        end
-    end
-    system(cmd);
+           expShowPdf(config, pdfFileName);
 end
 
 function functionCell = displayNode(config, factorIndex, stepId, style, infoType)

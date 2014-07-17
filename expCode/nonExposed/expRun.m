@@ -1,11 +1,9 @@
 function config = expRun(projectPath, projectName, shortProjectName, commands)
 
 beep off
-expCodePath = fileparts(mfilename('fullpath'));
 config = expHistory(projectPath, projectName, shortProjectName, commands);
 
 if isempty(config), return; end;
-
 
 expToolPath(config);
 if config.probe
@@ -20,7 +18,7 @@ elseif~expCheckMask(config.factors, config.mask)
 end
 
 if config.generateRootFile
-    expCreateRootFile(config, projectName, shortProjectName, expCodePath);
+    expCreateRootFile(config, projectName, shortProjectName, config.expCodePath);
 end
 
 config.logFileName = [config.reportPath 'reports/log_' num2str(config.runId) '.txt'];
@@ -209,12 +207,9 @@ elseif config.report>-3
     end
 end
 
-
-% switch config.host
-%     case {-1, -2}
 if config.sendMail
     if ~config.useExpCodeSmtp
-        [p i]= regexp(config.hostName, '\.', 'split');
+        [p, i]= regexp(config.hostName, '\.', 'split');
         if ~isempty(i)
             setpref('Internet', 'SMTP_Server', ['smtp' config.hostName(i(1):end)]);
             setpref('Internet', 'E_mail', [config.userName '@' config.hostName(i(1)+1:end)]);
@@ -267,12 +262,7 @@ if config.sendMail
         end
         message = [message sprintf('\n\n -------------------------------------- \n')];
         config.mailAttachment = {[config.reportPath 'config.txt']};
-        %             if exist(config.configMatName, 'file') % FIXME
-        %                 config.mailAttachment{end+1} = config.configMatName;
-        %             end
-        %             if exist(config.logFileName, 'file')
-        %                 config.mailAttachment{end+1} = config.logFileName;
-        %             end
+      
         for k=1:length(config.errorDataFileName)
             if exist(config.errorDataFileName{k}, 'file')
                 config.mailAttachment{end+1} = config.errorDataFileName{k};
@@ -299,15 +289,13 @@ if config.exitMatlab
     exit();
 end
 
-
-
 function config = exposeObservations(config)
 
 for k=1:length(config.obs)
     config.step = config.stepSettings{config.obs(k)};
-    if iscell(config.display)
-        config = expExpose(config, config.display{:});
+    if iscell(config.expose)
+        config = expExpose(config, config.expose{:});
     else
-        config = expExpose(config, config.display);
+        config = expExpose(config, config.expose);
     end
 end
