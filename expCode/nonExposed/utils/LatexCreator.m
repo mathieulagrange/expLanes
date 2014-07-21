@@ -485,7 +485,7 @@ CONSTRUCTOR(varargin{:});
                     Data.tex{end+1}=' \setbeamertemplate{navigation symbols}{}';
                     Data.tex{end+1}=' \setbeamertemplate{footline}[frame number]';
                 else
-                    Data.tex{end+1}='\documentclass[10pt,a4paper,fleqn]{article}';
+                    Data.tex{end+1}='\documentclass[12pt,a4paper,fleqn]{article}';
                 end
                 %           Data.tex{end+1}='\usepackage[latin1]{inputenc}';
                 %           Data.tex{end+1}='\usepackage[french]{babel}';
@@ -499,7 +499,7 @@ CONSTRUCTOR(varargin{:});
                 Data.tex{end+1}='% mcode options for matlab code insertion bw (for printing), numbered (line numbers), framed (frame around code blocks), useliterate (convert Matlab expressions to Latex ones), autolinebreaks (automatic code wraping, use it with caution';
                 Data.tex{end+1}='\usepackage[literate]{mcode}';
                 
-                Data.tex{end+1}='\graphicspath{{figures/}{report/figures/}{../figures/}{../../}} ';
+                Data.tex{end+1}='\graphicspath{{figures/}{report/figures/}{../figures/}{../../}{../}} ';
                 Data.tex{end+1}=['\title{' Data.title '}'];
                 Data.tex{end+1}=['\author{ ' Data.author ' }'];
                 Data.tex{end+1}=' ';

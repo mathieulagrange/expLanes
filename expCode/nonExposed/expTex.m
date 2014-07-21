@@ -28,9 +28,20 @@ config.latexFileName = [latexPath config.projectName reportName]; % '.tex'
 if ~exist([config.reportPath config.projectName reportName '.tex'], 'file')
     config.latex = LatexCreator([config.reportPath filesep config.projectName reportName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName, 1, 1, slides);
     copyfile([fileparts(mfilename('fullpath')) filesep 'utils/mcode.sty'], config.reportPath);
+    copyfile([fileparts(mfilename('fullpath')) filesep 'utils/tufte-handout.cls'], config.reportPath);
 end
-copyfile([config.reportPath config.projectName reportName '.tex'], [config.latexFileName '.tex']);
-copyfile([fileparts(mfilename('fullpath')) filesep 'utils/mcode.sty'], [config.reportPath 'tex/']);
+
+% copy any tex related files
+extensions = {'tex', 'bib', 'sty', 'cls'};
+files = [dir([config.reportPath, '*tex']); dir([config.reportPath, '*bib']); dir([config.reportPath, '*sty']); dir([config.reportPath, '*cls'])   ];
+for k=1:length(files)
+    if ~files(k).isdir
+        copyfile([config.reportPath files(k).name], [config.reportPath 'tex/']);
+    end
+end
+
+% copyfile([config.reportPath config.projectName reportName '.tex'], [config.latexFileName '.tex']);
+% copyfile([fileparts(mfilename('fullpath')) filesep 'utils/mcode.sty'], [config.reportPath 'tex/']);
 
 config.pdfFileName = [config.reportPath 'reports/' config.projectName '_' reportName '_v' num2str(config.versionName) '_' config.userName  '_' date '_' strrep(config.message, ' ', '-') '.pdf'];
 
@@ -51,7 +62,7 @@ if config.showFactorsInReport
     end
     
     if slides
-        config.latex.addLine('\begin{frame}\frametitle{Factors flow graph}');       
+        config.latex.addLine('\begin{frame}\frametitle{Factors flow graph}');
     end
     
     config.latex.addLine('\begin{center}');
@@ -102,7 +113,7 @@ for k=1:length(command)
                 return
             end
         case 'v'
-           expShowPdf(config, config.pdfFileName);
+            expShowPdf(config, config.pdfFileName);
     end
 end
 

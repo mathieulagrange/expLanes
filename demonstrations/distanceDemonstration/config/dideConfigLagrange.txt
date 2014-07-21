@@ -15,11 +15,11 @@ completeName  = Mathieu Lagrange
 %% HOSTNAMES AND PATHS
 
 % names of the machines
-machineNames  = {{'lolo.local', 'mo-lagrange.irccyn.ec-nantes.fr'}, 'pc-adtsi-sunda.irccyn.ec-nantes.fr', 'pc-adtsi-optimed.irccyn.ec-nantes.fr'}
+machineNames  = {{'lolo.local', 'mo-lagrange.irccyn.ec-nantes.fr', 'dodo'}, 'pc-adtsi-sunda.irccyn.ec-nantes.fr', 'pc-adtsi-optimed.irccyn.ec-nantes.fr'}
 % path to input data
 inputPath  = ~/data/databases
 % path to the code repository of the project
-codePath  = /Users/lagrange/projects/houle/dev/tools/expCode/demonstrations/distanceDemonstration
+codePath  = ~/projects/houle/dev/tools/expCode/demonstrations/distanceDemonstration
 % path to the data repository of the project for stored data
 dataPath  = ~/data/projects/distanceDemonstration
 % path to the data repository of the project for observation data (same as dataPath if left blank)
@@ -68,7 +68,8 @@ log  = 1
 progress  = 1
 % exit matlab at the end of the computation
 exitMatlab  = 0
-
+% show timing observations
+recordTiming  = 1
 
 %% DATA
 
@@ -88,18 +89,17 @@ bundle  =
 clean  = 
 
 
-%% DISPLAY
+%% EXPOSITION
 
 % step for which to display observations: -1 none, 0 last processed step if any, >0 specific step
 obs  = 0
 % specify default display of observations (>: prompt, t: table, p:plot)
-display  = >
+expose  = >
 % mantissa precision for the display of observations
-displayDigitPrecision  = 2
+tableDigitPrecision  = 2
 % font size for the display of observations
 displayFontSize  = 16
-% show timing observations
-showTiming  = 1
+
 
 
 %% REPORT
@@ -108,6 +108,8 @@ showTiming  = 1
 report  = -3
 % type of report: empty (default), if containing the word slides or Slides, use the beamer presentation mode
 reportName  = 
+% style of latex document
+latexDocumentClass = tufte-handout
 % memo message for the generation of reports
 message  = default
 % path to the pdf viewer (try to locate one if left empty)
@@ -133,6 +135,3 @@ probe  = 0
 generateRootFile  = 0
 
 
-projectName = distanceDemonstration
-shortProjectName = dide
-userName = lagrange

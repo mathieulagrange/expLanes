@@ -1,2 +1,6 @@
 distanceDemonstration('report', 1);
 distanceDemonstration('do', 0)
+distanceDemonstration('report', 1)
+distanceDemonstration('do', 0);
+distanceDemonstration('do', 2);
+distanceDemonstration('report', 2);

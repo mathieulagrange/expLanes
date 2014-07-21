@@ -1,5 +1,5 @@
   
-\documentclass[10pt,a4paper,fleqn]{article} 
+\documentclass[12pt,a4paper,fleqn]{tufte-handout} 
 \usepackage{graphicx} 
 \usepackage{morefloats} 
 \usepackage{amsmath} 
@@ -7,7 +7,7 @@
 \usepackage{rotating} 
 % mcode options for matlab code insertion bw (for printing), numbered (line numbers), framed (frame around code blocks), useliterate (convert Matlab expressions to Latex ones), autolinebreaks (automatic code wraping, use it with caution 
 \usepackage[literate]{mcode} 
-\graphicspath{{figures/}{report/figures/}{../figures/}{../../}}  
+\graphicspath{{figures/}{report/figures/}{../figures/}{../../}{../}}  
 \title{distanceDemonstration} 
 \author{ Mathieu Lagrange } 
   
@@ -24,7 +24,7 @@ This document documents the first demonstration of the use of the expCode framew
 
 \section{Design}
 
- The project is divided in two processing steps:
+ The project is divided into two processing steps:
 \begin{enumerate}
 \item \textbf{generate}: generation of the synthetic datasets
 \item \textbf{compute}: computation of the distances over those datasets and performance metrics
@@ -41,13 +41,13 @@ Each dataset comprises a set of points in a space of given dimensionality. Those
 \item the number of data points per class.
 \end{enumerate}
 
-This step outputs for each dataset the location of the data points (elements) as well as the class to which they belong to (class). An example of dataset is given on Figure \ref{scatter}.
-
-\begin{figure}
+\begin{marginfigure}
 \includegraphics[width=\textwidth]{figures/scatter}
 \caption{A dataset with maximal spread.}
 \label{scatter}
-\end{figure}
+\end{marginfigure}
+
+This step outputs for each dataset the location of the data points (elements) as well as the class to which they belong to (class).
 
 \subsection{Computation of distances}
 
@@ -80,7 +80,7 @@ Each processing step his implemented in a given file.
 \subsection{Step 1: generate}
 
 The datasets are generated with the following code:
-\lstinputlisting[firstline=22, lastline=25]{../dide1generate.m}
+\lstinputlisting[firstline=20, lastline=26]{../dide1generate.m}
 
 \subsection{Step 2: compute} 
 

@@ -18,15 +18,15 @@ obs=[];
 
 for k=1:setting.nbRealizations
     elts = data.elements{k};
-    if strcmp(setting.similarity, 'seuclidean')
+    if strcmp(setting.distance, 'seuclidean')
         elts = bsxfun(@rdivide, elts, std(elts));
     end
-    if strcmp(setting.similarity, 'cosine')
+    if strcmp(setting.distance, 'cosine')
         elts = bsxfun(@rdivide, elts, sqrt(sum(elts.^2, 2)));
     end
     for m=1:size(elts, 1)
         for n=m:size(elts, 1)
-            switch setting.similarity
+            switch setting.distance
                 case {'euclidean', 'seuclidean'}
                     d(m, n) =  norm(elts(m, :)-elts(n, :));          
                 case 'cosine'
@@ -37,5 +37,5 @@ for k=1:setting.nbRealizations
     end
     p = rankingMetrics(d, data.class{k});
     obs.map(k) = p.meanAveragePrecision;
-    obs.precision(k) = p.precisionAtRank;
+    obs.precision(k) = p.precisionAt5;
 end

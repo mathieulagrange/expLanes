@@ -20,12 +20,15 @@ for k=1:setting.nbRealizations
     elements = [];
     class = [];
     for m=1:setting.nbClasses
-        elements = [elements; repmat(m*setting.spread/50, setting.nbElementsPerClass, setting.nbDimensions)+randn(setting.nbElementsPerClass, setting.nbDimensions)];
+        elements = [elements; repmat(m*setting.spread/50, setting.nbElementsPerClass, setting.nbDimensions)...
+            + randn(setting.nbElementsPerClass, setting.nbDimensions)];
         class = [class; m*ones(setting.nbElementsPerClass, 1)];
     end
     
     if k==1 && isfield(config, 'plot')
         scatter(elements(:, 1), elements(:, 2), 50, class, 'filled');
+        axis off
+        axis tight
         config = expExpose(config, '', 'save', 'scatter');
     end
     
