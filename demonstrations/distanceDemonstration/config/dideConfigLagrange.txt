@@ -117,7 +117,7 @@ pdfViewer  =
 % threshold for statistical significance testing
 significanceThreshold  = 0.05
 % show the factors graph in the report: 1 simple display, 2 show stored data, 3 show observations, 4 show stored data and observations
-showFactorsInReport  = 4
+showFactorsInReport  = 0
 % style of the factor graph: 0 no propagation of factors, 1 propagation of factors, 2 propagation of factors with an "all steps" node
 factorDisplayStyle  = 0
 % delete the tex directory where actual LaTex compilation is performed

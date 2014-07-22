@@ -1,4 +1,4 @@
-function expDisplayFactors(config, infoType, style, silent, show)
+function expFactorDisplay(config, infoType, style, silent, show)
 % style 0: no propagation, 1: propagation, 2: all steps node
 
 if ~exist('silent', 'var'), silent=1; end
@@ -13,8 +13,8 @@ if ~exist(latexPath, 'dir')
     mkdir(latexPath);
 end
 
-texFileName = [latexPath config.shortProjectName 'Factors.tex'];
-pdfFileName = [config.reportPath 'figures/' config.shortProjectName 'Factors.pdf'];
+texFileName = [latexPath  'factors.tex'];
+pdfFileName = [config.reportPath 'figures/factors.pdf'];
 
 copyfile([p '/utils/headerFactorDisplay.tex'], texFileName);
 

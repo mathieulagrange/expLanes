@@ -30,7 +30,7 @@ This document documents the first demonstration of the use of the expCode framew
 \item \textbf{compute}: computation of the distances over those datasets and performance metrics
 \end{enumerate}
 
-\subsection{Generation of synthetic datasets}
+\subsection{\textbf{Generate step}: generation of synthetic datasets}
 
 Each dataset comprises a set of points in a space of given dimensionality. Those points are grouped into classes whose centroid are spread along the diagonal. The degree of overlap between classes is controlled by the spread of the points with respect to the centroid of its class. The needed factors of variability that are to be tested are:
 \begin{enumerate}
@@ -49,7 +49,7 @@ Each dataset comprises a set of points in a space of given dimensionality. Those
 
 This step outputs for each dataset the location of the data points (elements) as well as the class to which they belong to (class).
 
-\subsection{Computation of distances}
+\subsection{\textbf{Compute step}: Computation of distances}
 
 Once the datasets are generated, we can compute the distances between all points of a given dataset. The factor for this step is then:
 \begin{enumerate}
@@ -71,8 +71,12 @@ Those factors and their corresponding modalities are defined in the file named \
 
 Please note the 2 between the first two equals of the factor definition of factor \textit{distance} which specify that this factor is needed only for the second processing step. Most the factor design diccused above is compactly displayed in Figure \ref{factorFlowGraph}. \texttt{nbRealizations} and \texttt{nbElementsPerClass} are fixed modalities.
 
-\input{tex/exposeTmp} % expCodeInsertionFlag DO NOT CLEAR (but move it where you want the generated temporary LaTEX code to be inserted) 
-  
+\begin{figure}
+\includegraphics[width=\textwidth]{figures/factors}
+\caption{A dataset with maximal spread.}
+\label{scatter}
+\end{figure}
+
 \section{Implementation}
 
 Each processing step his implemented in a given file.
@@ -94,6 +98,11 @@ Since the complete distance matrix is symmetric, only half the values are comput
 
 The observations are generated and stored as follows:
   \lstinputlisting[firstline=38, lastline=40]{../dide2compute.m} 
+
+\section{Results}
+
+  
+\input{tex/exposeTmp} % expCodeInsertionFlag DO NOT CLEAR (but move it where you want the generated temporary LaTEX code to be inserted) 
   
   
 %\bibliographystyle{abbrvnat} 

@@ -1,4 +1,4 @@
-function config = expHistory(projectPath, projectName, shortProjectName, commands)
+function config = expInit(projectPath, projectName, shortProjectName, commands)
 
 if length(commands)<1, % default config
     config = expConfig(projectPath, shortProjectName, shortProjectName, commands);
@@ -66,11 +66,11 @@ elseif ischar(commands{1})
         case 'f'
             config = expConfig(projectPath, projectName, shortProjectName);
             if isempty(config), return; end;
-            expDisplayFactors(config, config.showFactorsInReport, config.factorDisplayStyle);
+            expFactorDisplay(config, config.showFactorsInReport, config.factorDisplayStyle);
         case 'F'
             config = expConfig(projectPath, projectName, shortProjectName);
             if isempty(config), return; end;
-            expDisplayFactors(config, config.showFactorsInReport, config.factorDisplayStyle, 0);
+            expFactorDisplay(config, config.showFactorsInReport, config.factorDisplayStyle, 0);
         otherwise
             error('Unable to handle command');
     end

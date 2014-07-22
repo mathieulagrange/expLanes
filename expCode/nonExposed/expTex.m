@@ -32,7 +32,6 @@ if ~exist([config.reportPath config.projectName reportName '.tex'], 'file')
 end
 
 % copy any tex related files
-extensions = {'tex', 'bib', 'sty', 'cls'};
 files = [dir([config.reportPath, '*tex']); dir([config.reportPath, '*bib']); dir([config.reportPath, '*sty']); dir([config.reportPath, '*cls'])   ];
 for k=1:length(files)
     if ~files(k).isdir
@@ -46,9 +45,10 @@ end
 config.pdfFileName = [config.reportPath 'reports/' config.projectName '_' reportName '_v' num2str(config.versionName) '_' config.userName  '_' date '_' strrep(config.message, ' ', '-') '.pdf'];
 
 config.latex = LatexCreator([config.latexFileName '.tex'], 1, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName, 1, 0, slides);
-
+config.latex.addLine(''); % mandatory
+    
 if config.showFactorsInReport
-    pdfFileName = [config.reportPath 'figures/' config.shortProjectName 'Factors.pdf'];
+    pdfFileName = [config.reportPath 'figures/factors.pdf'];
     a=dir(pdfFileName);
     b=dir([config.codePath config.shortProjectName 'Factors.txt']);
     for k=1:length(config.stepName)
@@ -58,7 +58,7 @@ if config.showFactorsInReport
         end
     end
     if ~exist(pdfFileName, 'file')  || a.datenum < b.datenum
-        expDisplayFactors(config, config.showFactorsInReport, config.factorDisplayStyle, ~(abs(config.report)-1), 0);
+        expFactorDisplay(config, config.showFactorsInReport, config.factorDisplayStyle, ~(abs(config.report)-1), 0);
     end
     
     if slides
@@ -67,15 +67,14 @@ if config.showFactorsInReport
     
     config.latex.addLine('\begin{center}');
     config.latex.addLine('\begin{figure}');
-    config.latex.addLine(['\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{' expandHomePath(pdfFileName) '}']);
+    config.latex.addLine(['\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{../figures/factors.pdf}']);
     config.latex.addLine('\label{factorFlowGraph}');
     if~slides
         config.latex.addLine('\caption{Factors flow graph for the experiment.}');
     end
     config.latex.addLine('\end{figure}');
     config.latex.addLine('\end{center}');
-    if slides, config.latex.addLine('\end{frame}');end
-    
+    if slides, config.latex.addLine('\end{frame}');end    
 end
 
 % add table
@@ -96,7 +95,7 @@ for k=1:length(config.displayData.figure)
     end
 end
 
-data = config.displayData;
+data = config.displayData; %#ok<NASGU>
 save(strrep(config.pdfFileName, '.pdf', '.mat'), 'data');
 
 for k=1:length(command)

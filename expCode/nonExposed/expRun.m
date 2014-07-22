@@ -1,7 +1,7 @@
 function config = expRun(projectPath, projectName, shortProjectName, commands)
 
 beep off
-config = expHistory(projectPath, projectName, shortProjectName, commands);
+config = expInit(projectPath, projectName, shortProjectName, commands);
 
 if isempty(config), return; end;
 
