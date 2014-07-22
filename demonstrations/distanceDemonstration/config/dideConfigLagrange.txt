@@ -104,12 +104,14 @@ displayFontSize  = 16
 
 %% REPORT
 
-% generate report: <=-3 none -2 verbose tex report -1 generation of tex report, 0 display figures, 1 display figures and generation of tex report, 2 display figures and verbose tex report >=3 none
-report  = -3
+% generate report: combination of r (run report), c (LaTEX compilation), and d (compilation debug informations)
+report  =  rc
 % type of report: empty (default), if containing the word slides or Slides, use the beamer presentation mode
 reportName  = 
+% launch external pdf viewer after successful compilation
+viewReport = 1
 % style of latex document
-latexDocumentClass = tufte-handout
+latexDocumentClass  = article
 % memo message for the generation of reports
 message  = default
 % path to the pdf viewer (try to locate one if left empty)

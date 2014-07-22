@@ -14,6 +14,8 @@ function config = expExpose(varargin)
 %			selector is the same as 'variance'
 %		'title': title of display as string
 %			symbol + gets replaced by a description of the settings
+%		'name': name of exported file as string
+%			symbol + gets replaced by a compact description of the settings
 %		'caption': caption of display as string
 %			symbol + gets replaced by a description of the settings
 %		'multipage': activate the multipage to the LaTEX table
@@ -62,6 +64,7 @@ p.obs = 0;
 p.variance = 0;
 p.highlight=0;
 p.title='+';
+p.name='+';
 p.caption='+';
 p.multipage=0;
 p.sort=-1;
@@ -215,7 +218,7 @@ end
 
 if p.expand,
     if (isnumeric(p.expand) && length(p.expand)>1) || iscell(p.expand), error('Please choose only one factor to expand.'); end
-    [config p.expand p.expandName] = expModifyExposition(config, p.expand);
+    [config, p.expand, p.expandName] = expModifyExposition(config, p.expand);
     
     pe=p;
     pe.integrate = 0;
@@ -231,6 +234,7 @@ if ~p.sort && isfield(config, 'sortDisplay')
 end
 
 p.title = strrep(p.title, '+', config.step.setting.infoStringMask); % TODO not meaningful anymore
+p.name = strrep(p.name, '+', config.step.setting.infoShortStringMask); % TODO not meaningful anymore
 p.caption = strrep(p.caption, '=', p.title);
 p.caption = strrep(p.caption, '+', config.step.setting.infoStringMask);
 p.caption = strrep(p.caption, '_', '\_');
@@ -305,12 +309,17 @@ if p.total
     end
 end
 
-for k=1:config.step.nbSettings
-    d = expSetting(config.step, k);
-    if ~isempty(d.infoShortStringMasked)
-        p.labels{k} = strrep(d.infoShortStringMasked, '_', ' '); % (data.settingSelector)
+if config.step.nbSettings == 1
+    p.labels = '';
+else
+    for k=1:config.step.nbSettings
+        d = expSetting(config.step, k);
+        if ~isempty(d.infoShortStringMasked)
+            p.labels{k} = strrep(d.infoShortStringMasked, '_', ' '); % (data.settingSelector)
+        end
     end
 end
+
 p.axisLabels = evaluationObservations;
 
 if p.variance == 0
@@ -336,6 +345,9 @@ if length(exposeType)<=1
             p.put=2;
         case 't'
             exposeType = 'exposeTable';
+%             if strfind(config.report, 'c')
+%                 p.put=2;
+%             end
         case 'b'
             exposeType = 'exposeBar';
         case 'p'
@@ -376,6 +388,8 @@ else
                     '';
                     });
                 dlmwrite([config.codePath '/' exposeType '.m'], functionString,'delimiter','');
+            else
+                exposeType = '';
             end
         end
         
@@ -384,6 +398,13 @@ else
 end
 
 if ~isempty(exposeType)
+    if strcmp(exposeType, 'exposeTable')
+        put = p.put;
+        p.put = 2;
+        config = feval(exposeType, config, data, p);
+        config = expDisplay(config, p);
+        p.put=put;
+    end
     config = feval(exposeType, config, data, p);
 end
 
@@ -394,13 +415,13 @@ if p.save ~= 0
     if ischar(p.save)
         name = p.save;
     else
-        name = strrep(p.title, ' ', '_');
+        name = strrep(p.name, ' ', '_');
     end
-    switch(p.put)
-        case 1
-            expSaveFig(strrep([config.reportPath 'figures/' name], ' ', '_'), gcf);
-        case 2
-            expSaveTable([config.reportPath 'tables/' name '.tex'], config.displayData.table(end));
+    if p.put == 1
+        expSaveFig(strrep([config.reportPath 'figures/' name], ' ', '_'), gcf);
+    end
+    if p.put ==  2 || strcmp(exposeType, 'exposeTable')
+        expSaveTable([config.reportPath 'tables/' name '.tex'], config.displayData.table(end));
     end
     save([config.reportPath 'data/' name '.mat'], 'data');
 end

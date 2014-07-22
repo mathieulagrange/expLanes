@@ -20,7 +20,7 @@ vSpec.step = vSpec.step(order);
 % vSpec.selectFactors = sf;
 
 select = vSpec.selectFactors;
-[null io] = sort(order);
+[null, io] = sort(order);
 for k=1:length(select)
     c = regexp(select{k}, '/', 'split');
     select{k} = [num2str(io(str2num(c{1}))) '/' num2str(io(str2num(c{2}))) '/' c{3}];

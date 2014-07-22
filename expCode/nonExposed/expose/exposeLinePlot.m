@@ -11,9 +11,9 @@ end
 set(gca,'xtick', 1:length(p.legendNames));
 set(gca, 'xticklabel', p.legendNames);
 set(gca, 'fontsize', config.displayFontSize);
-if p.legend ~= 0
+if any(p.legendLocation ~= 0) && ~isempty(p.labels)
     if ischar(p.legendLocation)
-        legend(p.labels(data.selector), 'Location', p.legend);
+        legend(p.labels(data.selector), 'Location', p.legendLocation);
     else
         legend(p.labels(data.selector));
     end

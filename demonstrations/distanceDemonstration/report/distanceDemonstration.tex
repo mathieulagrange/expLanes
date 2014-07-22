@@ -58,7 +58,7 @@ Once the datasets are generated, we can compute the distances between all points
 
 \subsection{Observations}
 
-Since we consider distances between data points that each belong to a given class, ranking metrics are appropriate to evaluate the performance of those distances on the generated datasets. More precisely, we consider the following metrics:
+Since we consider distances between data points that each belong to a given class, ranking metrics are appropriate to evaluate the performance of those distances on the generated datasets \cite{manning2008introduction}. More precisely, we consider the following metrics:
 \begin{enumerate}
 \item map: mean average precision
 \item precision: precision at rank 5.
@@ -69,7 +69,7 @@ Since we consider distances between data points that each belong to a given clas
 Those factors and their corresponding modalities are defined in the file named \texttt{dideFactors.txt} whose content is the following:
 \lstinputlisting{../dideFactors.txt}
 
-Please note the 2 between the first two equals of the factor definition of factor \textit{distance} which specify that this factor is needed only for the second processing step. Most the factor design diccused above is compactly displayed in Figure \ref{factorFlowGraph}. \texttt{nbRealizations} and \texttt{nbElementsPerClass} are fixed modalities.
+Please note the 2 between the first two equals of the factor definition of factor \textit{distance} which specify that this factor is needed only for the second processing step. Most the factor design diccused above is compactly displayed in Figure \ref{factorFlowGraph}. Modalities\texttt{nbRealizations} and \texttt{nbElementsPerClass} are fixed .
 
 \begin{figure}
 \includegraphics[width=\textwidth]{figures/factors}
@@ -96,7 +96,7 @@ Then, the actual distances are computed as follows:
 \lstinputlisting[firstline=27, lastline=37]{../dide2compute.m} 
 Since the complete distance matrix is symmetric, only half the values are computed.
 
-The observations are generated and stored as follows:
+The observations, namely the 2 metrics  are generated and stored as follows:
   \lstinputlisting[firstline=38, lastline=40]{../dide2compute.m} 
 
 \section{Results}
@@ -105,7 +105,7 @@ The observations are generated and stored as follows:
 \input{tex/exposeTmp} % expCodeInsertionFlag DO NOT CLEAR (but move it where you want the generated temporary LaTEX code to be inserted) 
   
   
-%\bibliographystyle{abbrvnat} 
-%\bibliography{} 
+\bibliographystyle{abbrvnat} 
+\bibliography{bib} 
   
 \end{document} 

@@ -201,7 +201,7 @@ functionString = char({...
     ['% Copyright: ' config.completeName];
     ['% Date: ' date()];
     '';
-    ['if nargin==0, ' , projectName '(''report'', 0); return; end'];
+    ['if nargin==0, ' , projectName '(''report'', ''r''); return; end'];
     });
 dlmwrite([config.codePath '/' shortProjectName 'Report.m'], functionString,'delimiter','');
 

@@ -18,6 +18,7 @@ end
 
 
 m={};
+sm={};
 invFilter=[];
 invFilterMask=[];
 filterMask = [];
@@ -27,8 +28,10 @@ for k=1:length(mask)
         if length(mask(k))==1 && mask(k) >0
             if isnumeric(vSpec.values{k}{1})
                 m{k} = sprintf('%s: %g, ', vSpec.names{k}, vSpec.values{k}{mask(k)});
+               sm{k} = sprintf('%s%s%g', upper(vSpec.shortNames{k}(1)), vSpec.shortNames{k}(2:end), vSpec.shortValues{k}{mask(k)});
             else
                 m{k} = sprintf('%s: %s, ', vSpec.names{k}, vSpec.values{k}{mask(k)});
+                sm{k} = sprintf('%s%s%s', upper(vSpec.shortNames{k}(1)), vSpec.shortNames{k}(2:end), vSpec.shortValues{k}{mask(k)});
             end
             filterMask(end+1) = k;
         else
@@ -39,12 +42,16 @@ end
 
 if isempty(m)
     maskInfo='all, ';
+    maskInfoShort = 'all';
 else
     maskInfo = sprintf('%s', m{:});
+    maskInfoShort = sprintf('%s', sm{:});
 end
+maskInfoShort(1) = lower(maskInfoShort(1));
 
 % maskFilter.m = m;
 maskFilter.maskInfo = maskInfo;
+maskFilter.shortMaskInfo= maskInfoShort;
 % maskFilter.filterMask = filterMask;
 maskFilter.invFilter = invFilter;
 maskFilter.invFilterMask = invFilterMask;

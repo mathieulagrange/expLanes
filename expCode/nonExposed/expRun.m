@@ -181,7 +181,7 @@ if config.obs ~= -1
     end
 end
 
-if config.report>-1
+if strfind(config.report, 'r')
     config.step.id = length(config.stepName);
     if config.attachedMode
         config = feval([config.shortProjectName 'Report'], config);
@@ -189,7 +189,7 @@ if config.report>-1
         try
             config = feval([config.shortProjectName 'Report'], config);
         catch error
-            config.report=-1;
+            config.report='';
             if config.attachedMode
                 rethrow(error);
             else
@@ -199,7 +199,7 @@ if config.report>-1
     end
     displayData = config.displayData; %#ok<NASGU>
     save(config.staticDataFileName, 'displayData', '-append');
-elseif config.report>-3
+else
     vars = whos('-file', config.staticDataFileName);
     if ismember('displayData', {vars.name})
         data = load(config.staticDataFileName, 'displayData');
@@ -227,9 +227,7 @@ if config.sendMail
         props.setProperty('mail.smtp.socketFactory.class', ...
             'javax.net.ssl.SSLSocketFactory');
         props.setProperty('mail.smtp.socketFactory.port','465');
-    end
-    
-    
+    end    
     
     if ~isempty(regexp(config.emailAddress, '[a-z_]+@[a-z]+\.[a-z]+', 'match'))
         message = config.runInfo;
@@ -268,7 +266,7 @@ if config.sendMail
                 config.mailAttachment{end+1} = config.errorDataFileName{k};
             end
         end
-        if config.report~=0 && abs(config.report)<3
+        if strfind(config.report, 'c')
             config = expTex(config, 'c');
             config.mailAttachment = [{config.pdfFileName} config.mailAttachment];
         end
@@ -278,8 +276,13 @@ if config.sendMail
     end
     expConfigMatSave(config.configMatName);
 else
-    if config.report~=0 && abs(config.report)<3  % FIXME
-        config = expTex(config);
+    if strfind(config.report, 'c')
+        if config.viewReport
+            command = 'cv';
+        else
+            command = 'c';
+        end
+        config = expTex(config, command);
     end
 end
 if config.waitBar

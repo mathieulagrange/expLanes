@@ -1,6 +1,6 @@
 function config = expTex(config, command)
 
-if nargin<2, command= 'cv'; end
+if ~exist('command', 'var'), command= 'cv'; end
 
 latexPath = [config.reportPath 'tex/'];
 if ~exist(latexPath, 'dir')
@@ -13,7 +13,7 @@ if ~isempty(config.reportName)
     reportName = [upper(config.reportName(1)), config.reportName(2:end)];
     
     if strfind(lower(config.reportName), 'slides')
-        slides = 1;
+        config.latexDocumentClass = 'beamer';
     end
 end
 
@@ -26,9 +26,9 @@ config.latexFileName = [latexPath config.projectName reportName]; % '.tex'
 % copyfile([config.codePath config.shortProjectName 'Report.m'], [config.reportPath 'tex/' config.shortProjectName 'Report.m']);
 
 if ~exist([config.reportPath config.projectName reportName '.tex'], 'file')
-    config.latex = LatexCreator([config.reportPath filesep config.projectName reportName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName, 1, 1, slides);
+    config.latex = LatexCreator([config.reportPath filesep config.projectName reportName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName, 1, 1, config.latexDocumentClass);
     copyfile([fileparts(mfilename('fullpath')) filesep 'utils/mcode.sty'], config.reportPath);
-    copyfile([fileparts(mfilename('fullpath')) filesep 'utils/tufte-handout.cls'], config.reportPath);
+%     copyfile([fileparts(mfilename('fullpath')) filesep 'utils/tufte-handout.cls'], config.reportPath);
 end
 
 % copy any tex related files
@@ -44,9 +44,9 @@ end
 
 config.pdfFileName = [config.reportPath 'reports/' config.projectName '_' reportName '_v' num2str(config.versionName) '_' config.userName  '_' date '_' strrep(config.message, ' ', '-') '.pdf'];
 
-config.latex = LatexCreator([config.latexFileName '.tex'], 1, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName, 1, 0, slides);
+config.latex = LatexCreator([config.latexFileName '.tex'], 1, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName, 1, 0, config.latexDocumentClass);
 config.latex.addLine(''); % mandatory
-    
+
 if config.showFactorsInReport
     pdfFileName = [config.reportPath 'figures/factors.pdf'];
     a=dir(pdfFileName);
@@ -74,7 +74,7 @@ if config.showFactorsInReport
     end
     config.latex.addLine('\end{figure}');
     config.latex.addLine('\end{center}');
-    if slides, config.latex.addLine('\end{frame}');end    
+    if slides, config.latex.addLine('\end{frame}');end
 end
 
 % add table
@@ -103,7 +103,12 @@ for k=1:length(command)
         case 'c'
             oldFolder = cd(latexPath);
             disp('generating latex report. Press x enter if locked for too long (use report=2 for debug info)');
-            res = config.latex.createPDF(~(abs(config.report)-1));
+            if strfind(config.report, 'd')
+                silent = 0;
+            else
+                silent = 1;
+            end
+            res = config.latex.createPDF(silent);
             cd(oldFolder);
             if ~res
                 copyfile([config.latexFileName '.pdf'], config.pdfFileName);

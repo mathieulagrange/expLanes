@@ -141,7 +141,7 @@ CONSTRUCTOR(varargin{:});
         LengthStr=length(TmpCell);
         
         Data.projectName = projectName;
-        Data.slides = slides;
+        Data.style = slides;
         if LengthStr == 0, disp('LatexCreator() Error : Bad file name argument'); return ; end
         
         if LengthStr == 1,
@@ -475,7 +475,8 @@ CONSTRUCTOR(varargin{:});
             if style
                 
                 Data.tex{1}=' ';
-                if Data.slides
+                switch(Data.style)
+                    case 'beamer'
                     Data.tex{end+1}='\documentclass{beamer}';
                     Data.tex{end+1}=' \usepackage{beamerthemedefault, multimedia}';
                     
@@ -484,8 +485,8 @@ CONSTRUCTOR(varargin{:});
                     Data.tex{end+1}=' \setbeamercovered{transparent}';
                     Data.tex{end+1}=' \setbeamertemplate{navigation symbols}{}';
                     Data.tex{end+1}=' \setbeamertemplate{footline}[frame number]';
-                else
-                    Data.tex{end+1}='\documentclass[12pt,a4paper,fleqn]{article}';
+                    otherwise
+                    Data.tex{end+1}= ['\documentclass[12pt,a4paper,fleqn]{' Data.style '}'];
                 end
                 %           Data.tex{end+1}='\usepackage[latin1]{inputenc}';
                 %           Data.tex{end+1}='\usepackage[french]{babel}';
@@ -510,7 +511,7 @@ CONSTRUCTOR(varargin{:});
                 Data.tex{end+1}= '% Please use this file to document your experiment';
                 Data.tex{end+1}= '% You can compile the report by setting the option ''report'' as detailed in your expCode configuration file.';
                 Data.tex{end+1}=' ';
-                if ~Data.slides
+                if strcmp(Data.style, 'beamer')
                     Data.tex{end+1}= ['This is the report to document the expCode project ' Data.projectName ' using \LaTeX.'];
                 end
                 Data.tex{end+1}=' ';
@@ -607,7 +608,7 @@ CONSTRUCTOR(varargin{:});
         Data.tex{end+1}=' ';
         
         % sldie header
-        if Data.slides
+        if  strcmp(Data.style, 'beamer')
             Data.tex{end+1}=['\begin{frame}\frametitle{\small ' caption '}'];
         end
         
@@ -616,7 +617,7 @@ CONSTRUCTOR(varargin{:});
         Data.tex{end+1}='\begin{figure}';
         Data.tex{end+1}='\centering';
         Data.tex{end+1}=['\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{./figures/Fig' num2str(Data.figure_number) '.pdf}']; % \width = width
-        if ~Data.slides
+        if ~ strcmp(Data.style, 'beamer')
             if (~isempty(caption)), Data.tex{end+1}=['\caption{' caption '}' ]; end;
         end
         Data.tex{end+1}=['\label{' label '}'];
@@ -624,7 +625,7 @@ CONSTRUCTOR(varargin{:});
         Data.tex{end+1}='\end{center}';
         Data.tex{end+1}=' ';
         Data.tex{end+1}=' ';
-        if Data.slides, Data.tex{end+1}='\end{frame} '; end
+        if  strcmp(Data.style, 'beamer'), Data.tex{end+1}='\end{frame} '; end
         writeLatexFile();
         
     end
@@ -750,7 +751,7 @@ CONSTRUCTOR(varargin{:});
         % Table Header
         Data.tex=[];
         % sldie header
-        if Data.slides
+        if  strcmp(Data.style, 'beamer')
             Data.tex{end+1}=['\begin{frame}\frametitle{' caption '}'];
         end
         
@@ -810,7 +811,7 @@ CONSTRUCTOR(varargin{:});
         
         Data.tex{end+1}='\end{tabular}';
         Data.tex{end+1}='\end{center}';
-        if ~Data.slides
+        if ~ strcmp(Data.style, 'beamer')
             Data.tex{end+1}=['\caption{' caption '}' ];
         end
         Data.tex{end+1}=['\label{' label '}'];
@@ -822,7 +823,7 @@ CONSTRUCTOR(varargin{:});
         end
         
         Data.tex{end+1}='';
-        if Data.slides, Data.tex{end+1}='\end{frame} '; end
+        if  strcmp(Data.style, 'beamer'), Data.tex{end+1}='\end{frame} '; end
         
         writeLatexFile();
         

@@ -30,7 +30,7 @@ error(nargoutchk(0, 1, nargout))%correct number of output arguements??
 if NumberOfPlots<1
     ColorSet=[];
 elseif NumberOfPlots==1
-    ColorSet=[0 1 0];
+    ColorSet=[0 0 0];
 elseif NumberOfPlots==2
     ColorSet=[0 1 0; 0 1 1];
 elseif NumberOfPlots==3

@@ -88,6 +88,7 @@ setting.infoShortStringMasked = [f{:}];
 
 
 setting.infoStringMask = maskFilter.maskInfo(1:end-2);
+setting.infoShortStringMask = maskFilter.shortMaskInfo;
 
 f = vSpec.names(filterMask).';
 f(2, :) = {', '}; f(2, end) = {''};
