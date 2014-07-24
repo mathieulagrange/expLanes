@@ -16,6 +16,7 @@ function config = expExpose(varargin)
 %			symbol + gets replaced by a description of the settings
 %		'name': name of exported file as string
 %			symbol + gets replaced by a compact description of the settings
+%		'label': label of display as string (equal to the name if left empty)
 %		'caption': caption of display as string
 %			symbol + gets replaced by a description of the settings
 %		'multipage': activate the multipage to the LaTEX table
@@ -49,6 +50,7 @@ function config = expExpose(varargin)
 %			'h': horizontal
 %		'shortObservations': compact observation names
 %		'fontSize': set the font size of LaTEX tables (default 'normal')
+%       'visible': show the figure (default except when in save mode)
 %	-- config: expCode configuration
 
 %	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
@@ -82,6 +84,7 @@ p.addSpecification={};
 p.orientation='v';
 p.shortObservations = -1;
 p.fontSize='';
+p.visible = -1;
 
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
@@ -90,6 +93,12 @@ for pair = reshape(varargin(3:end),2,[])
         error(['Error: ' pair{1} ' is not a valid parameter']);
     end
     p.(pair{1}) = pair{2};
+end
+
+if any(p.save ~= 0) && p.visible ~= 1
+    p.visible = 0;
+elseif p.visible == -1
+    p.visible = 1;
 end
 
 if ischar(p.step)
@@ -233,8 +242,11 @@ if ~p.sort && isfield(config, 'sortDisplay')
     p.sort = config.sortDisplay;
 end
 
-p.title = strrep(p.title, '+', config.step.setting.infoStringMask); % TODO not meaningful anymore
-p.name = strrep(p.name, '+', config.step.setting.infoShortStringMask); % TODO not meaningful anymore
+p.title = strrep(p.title, '+', config.step.setting.infoStringMask); 
+p.name = strrep(p.name, '+', config.step.setting.infoShortStringMask); 
+if isempty(p.label)
+    p.label = p.name;
+end
 p.caption = strrep(p.caption, '=', p.title);
 p.caption = strrep(p.caption, '+', config.step.setting.infoStringMask);
 p.caption = strrep(p.caption, '_', '\_');
@@ -330,7 +342,6 @@ for k=1:size(data.varData, 2)
         data.varData(:, k) = 0;
     end
 end
-
 
 config.data = data;
 

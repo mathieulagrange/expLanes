@@ -11,7 +11,7 @@ function [config, store, obs] = dide1generate(config, setting, data)
 % Date: 03-Jul-2014                                                       
                                                                           
 % Set behavior for debug mode.                                            
-if nargin==0, distanceDemonstration('do', 1, 'mask', {3 1 11}, 'plot', 1); return; end      
+if nargin==0, distanceDemonstration('do', 1, 'mask', {3 1 7}, 'plot', 1); return; end      
                                                                     
 store=[];                                                           
 obs=[];                                                             
@@ -20,12 +20,13 @@ for k=1:setting.nbRealizations
     elements = [];
     class = [];
     for m=1:setting.nbClasses
-        elements = [elements; repmat(m*setting.spread/50, setting.nbElementsPerClass, setting.nbDimensions)...
-            + randn(setting.nbElementsPerClass, setting.nbDimensions)];
+        elements = [elements; repmat(m, setting.nbElementsPerClass, setting.nbDimensions)...
+            + randn(setting.nbElementsPerClass, setting.nbDimensions)*(setting.spread/100)];
         class = [class; m*ones(setting.nbElementsPerClass, 1)];
     end
     
     if k==1 && isfield(config, 'plot')
+        clf
         scatter(elements(:, 1), elements(:, 2), 50, class, 'filled');
         axis off
         axis tight

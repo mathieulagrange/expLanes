@@ -105,7 +105,7 @@ displayFontSize  = 16
 %% REPORT
 
 % generate report: combination of r (run report), c (LaTEX compilation), and d (compilation debug informations)
-report  =  rc
+report  =  
 % type of report: empty (default), if containing the word slides or Slides, use the beamer presentation mode
 reportName  = 
 % launch external pdf viewer after successful compilation

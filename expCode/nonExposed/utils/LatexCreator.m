@@ -500,7 +500,7 @@ CONSTRUCTOR(varargin{:});
                 Data.tex{end+1}='% mcode options for matlab code insertion bw (for printing), numbered (line numbers), framed (frame around code blocks), useliterate (convert Matlab expressions to Latex ones), autolinebreaks (automatic code wraping, use it with caution';
                 Data.tex{end+1}='\usepackage[literate]{mcode}';
                 
-                Data.tex{end+1}='\graphicspath{{figures/}{report/figures/}{../figures/}{../../}{../}} ';
+                Data.tex{end+1}='\graphicspath{{figures/}{tex}{../figures/}{../../}{../}} ';
                 Data.tex{end+1}=['\title{' Data.title '}'];
                 Data.tex{end+1}=['\author{ ' Data.author ' }'];
                 Data.tex{end+1}=' ';
@@ -679,6 +679,7 @@ CONSTRUCTOR(varargin{:});
         fontSize='';
         bold=[];
         label = [];
+        nbFactors = 0;
         Mat_m=varargin{1}; % La matrice
         [nb_ligne,nb_colone]=size(Mat_m);
         
@@ -694,6 +695,7 @@ CONSTRUCTOR(varargin{:});
             if ( isfield(arg,'landscape')), landscape=arg.landscape; end;
             if ( isfield(arg,'label')), label=arg.label; end;
             if ( isfield(arg,'fontSize')), fontSize=arg.fontSize; end;
+             if ( isfield(arg,'nbFactors')), nbFactors=arg.nbFactors; end;
         end
         
         % ----------------------------------------------------------------
@@ -764,10 +766,14 @@ CONSTRUCTOR(varargin{:});
         end
         Data.tex{end+1}='\begin{center}';
         Data.tex{end+1}=['\' fontSize];
-        tmp_line='\begin{tabular}{|';
+        tmp_line='\begin{tabular}{';
         
         for pos_c =1 : nb_colone,
-            tmp_line=[tmp_line 'c|'];
+            if pos_c<=nbFactors
+                   tmp_line=[tmp_line 'l'];
+            else
+            tmp_line=[tmp_line 'c'];                
+            end
         end
         
         tmp_line=[tmp_line '}'];
@@ -778,20 +784,20 @@ CONSTRUCTOR(varargin{:});
         % Legend
         
         if (~isempty(legend))
-            Data.tex{end+1}='\hline';
+ %           Data.tex{end+1}='\hline';
             tmp_line=legend{1};
             for pos_c =2 : nb_colone,
                 tmp_line=[tmp_line ' & ' legend{pos_c}];
             end
             tmp_line=[tmp_line ' \\'];
             Data.tex{end+1}=tmp_line;
-            Data.tex{end+1}='\hline';
+  %          Data.tex{end+1}='\hline';
         end
         
         %%-------------------------------------------------
         % Table
         
-        Data.tex{end+1}='\hline';
+  %      Data.tex{end+1}='\hline';
         
         for pos_l=1:nb_ligne
             tmp_line=Mat_c{pos_l,1};
@@ -805,7 +811,7 @@ CONSTRUCTOR(varargin{:});
             end
             
             Data.tex{end+1} = [ tmp_line ' \\' ];
-            Data.tex{end+1}='\hline';
+   if pos_l==1,          Data.tex{end+1}='\hline'; end
             
         end
         

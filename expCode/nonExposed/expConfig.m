@@ -166,6 +166,7 @@ end
 config.waitBar = [];
 config.progressId = 0;
 config.displayData.prompt = [];
+config.displayData.style = [];
 
 if isempty(config.obsPath), config.obsPath = config.dataPath; end
 

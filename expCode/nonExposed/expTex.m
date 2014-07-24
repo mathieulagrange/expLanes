@@ -77,23 +77,30 @@ if config.showFactorsInReport
     if slides, config.latex.addLine('\end{frame}');end
 end
 
-% add table
-for k=1:length(config.displayData.table)
-    config.latex.addTable(config.displayData.table(k).table, 'caption', config.displayData.table(k).caption, 'multipage', config.displayData.table(k).multipage, 'landscape', config.displayData.table(k).landscape, 'label', config.displayData.table(k).label, 'fontSize', config.displayData.table(k).fontSize);
-    if ~mod(k, 10)
-        config.latex.addLine('\clearpage');
+t=1;
+l=1;
+for k=config.displayData.style
+    if k
+        % add table
+        config.latex.addTable(config.displayData.table(t).table, 'caption', config.displayData.table(t).caption, 'multipage', config.displayData.table(t).multipage, 'landscape', config.displayData.table(t).landscape, 'label', config.displayData.table(t).label, 'fontSize', config.displayData.table(t).fontSize, 'nbFactors', config.displayData.table(t).nbFactors);
+        if ~mod(t, 10)
+            config.latex.addLine('\clearpage');
+        end
+        t=t+1;
+    else
+        % add figure
+        % for k=1:length(config.displayData.figure)
+        if config.displayData.figure(l).taken && config.displayData.figure(l).report
+            config.latex.addFigure(config.displayData.figure(l).handle, 'caption', config.displayData.figure(l).caption, 'label', config.displayData.figure(l).label);
+            if ~mod(l, 10)
+                config.latex.addLine('\clearpage');
+            end
+        end
+        l=l+1;
     end
 end
 
-% add figure
-for k=1:length(config.displayData.figure)
-    if config.displayData.figure(k).taken && config.displayData.figure(k).report
-        config.latex.addFigure(config.displayData.figure(k).handle, 'caption', config.displayData.figure(k).caption, 'label', config.displayData.figure(k).label);
-        if ~mod(k, 10)
-            config.latex.addLine('\clearpage');
-        end
-    end
-end
+
 
 data = config.displayData; %#ok<NASGU>
 save(strrep(config.pdfFileName, '.pdf', '.mat'), 'data');
@@ -102,7 +109,7 @@ for k=1:length(command)
     switch command(k)
         case 'c'
             oldFolder = cd(latexPath);
-            disp('generating latex report. Press x enter if locked for too long (use report=2 for debug info)');
+            disp('generating latex report. Press x enter if locked for too long (use report with ''d'' option for debug info)');
             if strfind(config.report, 'd')
                 silent = 0;
             else
