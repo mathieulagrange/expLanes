@@ -37,3 +37,5 @@ distanceDemonstration('do', 1)
 distanceDemonstration('do', 2)
 distanceDemonstration('obs', 2, 'expose', {'t', 'mask', {3 2 7}})
 distanceDemonstration('obs', 2, 'expose', {'t', 'mask', {3 2 7}});
+distanceDemonstration('obs', 2, 'expose', {'t', 'mask', {3 2 0 1 0 0}, 'sort', -1});
+distanceDemonstration('obs', 2, 'expose', {'t', 'mask', {3 2 0 1 0 0}});

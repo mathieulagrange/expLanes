@@ -102,8 +102,9 @@ end
 
 
 
+
 settingSpec.values = values;
-settingSpec.stringValues = strtrim(stringValues);
+settingSpec.stringValues = stringValues; % TODO may be problematic settingSpec.stringValues = strtrim(stringValues);
 settingSpec.names = names;
 settingSpec.shortNames = shortNames;
 settingSpec.shortValues = shortValues;

@@ -45,9 +45,9 @@ switch p.put
                 p.columnNames = p.columnNames(1, :);
             end
             if ~isempty(p.addSpecification)
-                hTable=uitable('Data', dataCell, 'columnName', p.columnNames, 'fontName','courier', 'fontSize', 14, p.addSpecification{:});
+                hTable=uitable('Data', dataCell, 'columnName', p.columnNames, 'fontName','Monospaced', 'fontSize', 14, p.addSpecification{:});
             else
-                hTable=uitable('Data', dataCell, 'columnName', p.columnNames, 'fontName','courier', 'fontSize', 14);
+                hTable=uitable('Data', dataCell, 'columnName', p.columnNames, 'fontName','Monospaced', 'fontSize', 14);
             end
             set(hTable, 'units', get(gcf, 'units'));
             set(hTable, 'position', [margin margin fPos(3:4)-2*margin]); % , 'position', [30 30 600 600]

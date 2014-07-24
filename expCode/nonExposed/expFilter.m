@@ -53,13 +53,14 @@ if  p.expand ~= 0
     fData = data;
     observation = observations(p.obs);
     observations = strrep(config.step.oriFactors.values{p.expand}, '-', 'expCodeMinus');
+    observations = strrep(observations, ' ', '');
     met={};
     met2={};
     ind = [];
     for m=1:length(observations)
         for k=1:length(observation)
             met = [met [observations{m} observation{k}]];
-            met2 = [met2 observation{k}];
+            met2 = [met2 strtrim(observation{k})];
             ind(end+1) = m;
         end
     end

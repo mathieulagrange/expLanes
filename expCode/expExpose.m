@@ -20,7 +20,8 @@ function config = expExpose(varargin)
 %		'caption': caption of display as string
 %			symbol + gets replaced by a description of the settings
 %		'multipage': activate the multipage to the LaTEX table
-%		'sort': sort settings acording to the specified observation
+%		'sort': sort settings acording to the specified observation if
+%           positive or to the specified factor if negative
 %		'mask': selection of the settings to be displayed
 %		'step': name or index of the processing step
 %		'put': specify display output
@@ -69,7 +70,7 @@ p.title='+';
 p.name='+';
 p.caption='+';
 p.multipage=0;
-p.sort=-1;
+p.sort=0;
 p.mask={};
 p.step=0;
 p.label='';
