@@ -1,10 +1,10 @@
 dataType === {'spiral', 'spherical', 'gaussian'}
-method =2== {'kMeans', 'kernelKmeans', 'kMedoids'}
-kernel =2=2/2= {'linear', 'polynomial', 'exponential'}
-exponentialKernelSigma =2=3/3= .1:.1:1
-similarity =2=2/3= {'euclidean', 'seuclidean', 'cosine'} 
 nbClasses ==1/0/1,1/[2 3]/2= [2,3]
-nbElementsPerClass === 500
+method =2== {'kMeans', 'kernelKmeans', 'kMedoids', 'chance'}
+kernel =2=3/2= {'linear', 'polynomial', 'exponential'}
+sigma =2=4/3= .2:.2:1
+similarity =2=3/3= {'euclidean', 'seuclidean', 'cosine'} 
+nbElementsPerClass === 300
 nbRuns =2== 10
-nbReplicates =2== 10
+nbReplicates =2== 5
 nbIterations =2== 200

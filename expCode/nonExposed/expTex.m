@@ -22,6 +22,8 @@ config.latexFileName = [latexPath config.projectName reportName];
 if ~exist([config.reportPath config.projectName reportName '.tex'], 'file')
     config.latex = LatexCreator([config.reportPath filesep config.projectName reportName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName, 1, 1, config.latexDocumentClass);
     copyfile([fileparts(mfilename('fullpath')) filesep 'utils/mcode.sty'], config.reportPath);
+    fid=fopen([config.reportPath 'bib.bib'], 'w');
+    fclose(fid);
 end
 
 % copy any tex related files
@@ -42,7 +44,7 @@ end
 config.latex = LatexCreator([config.latexFileName '.tex'], keep, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' reportName], config.projectName, 1, 0, config.latexDocumentClass);
 config.latex.addLine(''); % mandatory
 
-if config.showFactorsInReport
+if abs(config.showFactorsInReport)
     pdfFileName = [config.reportPath 'figures/factors.pdf'];
     a=dir(pdfFileName);
     b=dir([config.codePath config.shortProjectName 'Factors.txt']);
@@ -53,9 +55,9 @@ if config.showFactorsInReport
         end
     end
     if ~exist(pdfFileName, 'file')  || a.datenum < b.datenum
-        expFactorDisplay(config, config.showFactorsInReport, config.factorDisplayStyle, ~(abs(config.report)-1), 0);
+        expFactorDisplay(config, abs(config.showFactorsInReport), config.factorDisplayStyle, isempty(strfind(config.report, 'd')), 0);
     end
-    
+   if  config.showFactorsInReport > 0 
     if slides
         config.latex.addLine('\begin{frame}\frametitle{Factors flow graph}');
     end
@@ -70,6 +72,7 @@ if config.showFactorsInReport
     config.latex.addLine('\end{figure}');
     config.latex.addLine('\end{center}');
     if slides, config.latex.addLine('\end{frame}');end
+   end
 end
 
 t=1;

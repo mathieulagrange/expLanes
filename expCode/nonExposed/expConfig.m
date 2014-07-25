@@ -33,6 +33,13 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO sur lesmails d'indiquer en toutes lettres les factors qui ne sont pas fixes genre :
 
+% TODO python integration : append setting and config in data stored pass
+% it to python that writes data and obs, launch python code with echo $!, monitor pid
+
+% FIXME issue with complex expand when expand field is not sorted (what hapenned to the variance ?)
+
+% SORT do not work with highlights on
+
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
 

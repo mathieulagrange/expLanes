@@ -523,8 +523,8 @@ CONSTRUCTOR(varargin{:});
                 Data.tex{end+1}='\input{tex/exposeTmp} % expCodeInsertionFlag DO NOT CLEAR (but move it where you want the generated temporary LaTEX code to be inserted)';
                 Data.tex{end+1}=' ';
                 Data.tex{end+1}=' ';
-                Data.tex{end+1}='%\bibliographystyle{abbrvnat}';
-                Data.tex{end+1}='%\bibliography{}';
+                Data.tex{end+1}='\bibliographystyle{abbrvnat}';
+                Data.tex{end+1}='\bibliography{bib}';
                 Data.tex{end+1}=' ';
                 Data.tex{end+1}='\end{document}';
                 

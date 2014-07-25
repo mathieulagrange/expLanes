@@ -11,7 +11,7 @@ function [config, store, obs] = dide1generate(config, setting, data)
 % Date: 03-Jul-2014                                                       
                                                                           
 % Set behavior for debug mode.                                            
-if nargin==0, distanceDemonstration('do', 1, 'mask', {3 1 7}, 'plot', 1); return; end      
+if nargin==0, distanceDemonstration('do', 1, 'mask', {3 1 7}); return; end      
                                                                     
 store=[];                                                           
 obs=[];                                                             
@@ -25,7 +25,7 @@ for k=1:setting.nbRealizations
         class = [class; m*ones(setting.nbElementsPerClass, 1)];
     end
     
-    if all(setting.infoId(1:3) == [3 1 7]) && k==1 && isfield(config, 'plot')
+    if all(setting.infoId(1:3) == [3 1 7]) && k==1
         clf
         scatter(elements(:, 1), elements(:, 2), 50, class, 'filled');
         axis off

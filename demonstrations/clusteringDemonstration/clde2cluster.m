@@ -11,7 +11,7 @@ function [config, store, obs] = clde2cluster(config, setting, data)
 % Date 22-Nov-2013
 
 % Set behavior for debug mode
-if nargin==0, clusteringDemo('do', 2, 'mask', {{1, 3, 0, 3, 0, 0, 0, 0, 10}}); return; else store=[]; obs=[]; end
+if nargin==0, clusteringDemonstration('do', 2, 'mask', {{1 1 2 3 4}}); return; else store=[]; obs=[]; end
 
 expRandomSeed();
 
@@ -26,7 +26,7 @@ if ~isnan(setting.kernel)
             %             sigma = .1;
             S1S2 = -2 * (x * x');
             SS = sum(x.^2,2);
-            K = exp(- (S1S2 + repmat(SS, 1, length(SS)) + repmat(SS', length(SS), 1)) / (2 * setting.exponentialKernelSigma^2));
+            K = exp(- (S1S2 + repmat(SS, 1, length(SS)) + repmat(SS', length(SS), 1)) / (2 * setting.sigma^2));
         otherwise
             error('Unknown kernel.');
     end
@@ -38,7 +38,6 @@ for k=1:setting.nbRuns
             opts = statset('MaxIter', setting.nbIterations);
             clusters = kmeans(data.elements, setting.nbClasses, 'replicates', setting.nbReplicates, 'options', opts);
         case 'kernelKmeans'
-            
             for l=1:setting.nbReplicates
                 [clusters(l, :), energy(l)] = knkmeans(K, setting.nbClasses, setting.nbIterations);
             end
@@ -65,15 +64,21 @@ for k=1:setting.nbRuns
             %         Y = X ./ repmat(sqrt(sum(X.^2, 2)), 1, setting.nbClasses);
             %         opts = statset('MaxIter', setting.nbIterations);
             %         clusters = kmeans(Y, setting.nbClasses, 'replicates', setting.nbRuns, 'options', opts);
-            
+        case 'chance'
+            clusters = ceil(rand(1, length( data.elements))*length(unique(data.class)));
         otherwise
             error('Unknown method.');
     end
     
-    obs.nmi(k) = nmi(clusters, data.class);
+    metrics = clusteringMetrics(clusters, data.class);
+    obs.accuracy(k) = metrics.accuracy;
+    obs.nmi(k) = metrics.nmi;
 end
 
-if isfield(config, 'plot')
-    scatter(data.elements(:, 1), data.elements(:, 2), 20, clusters, 'filled')
-    config = expExpose(config, '', 'save', 'scatter');
+if all(setting.infoId(1:5) == [1 1 2 3 4])
+    clf
+    scatter(data.elements(:, 1), data.elements(:, 2), 20, clusters, 'filled');
+    axis off
+    axis tight
+    config = expExpose(config, '', 'save', 'clustering');
 end

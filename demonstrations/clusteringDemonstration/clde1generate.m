@@ -11,7 +11,7 @@ function [config, store, obs] = clde1generate(config, setting, data)
 % Date 22-Nov-2013
 
 % Set behavior for debug mode
-if nargin==0, clusteringDemo('do', 1, 'mask', {{0 0 0 3}}); return; else store=[]; obs=[]; end
+if nargin==0, clusteringDemonstration('do', 1, 'plot', 1); return; else store=[]; obs=[]; end
 
 switch setting.dataType
     case 'spherical'
@@ -52,7 +52,10 @@ end
 store.elements = data;
 store.class = class;
 
-if isfield(config, 'plot')
+if isfield(config, 'plot') 
+    clf
     scatter(data(:, 1), data(:, 2), 20, class, 'filled')
-    config = expExpose(config, '', 'save', 'scatter');
+    axis off
+    axis tight
+    config = expExpose(config, '', 'save', ['scatter' num2str(setting.infoId(1))]);
 end

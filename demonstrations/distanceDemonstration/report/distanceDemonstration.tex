@@ -35,13 +35,16 @@ This document documents the first demonstration of the use of the expCode framew
 \subsection{\textbf{Generate step}: generation of synthetic datasets}
 
 Each dataset comprises a set of points in a space of given dimensionality. Those points are grouped into classes whose centroid are spread along the diagonal. The degree of overlap between classes is controlled by the spread of the points with respect to the centroid of its class. The needed factors of variability that are to be tested are:
-\begin{enumerate}
+\begin{itemize}
 \item the number of classes
 \item the dimensionality of the space
 \item the spread of the data points of a given class
+\end{itemize}
+Some other factors are set to be constant (only one modality):
+\begin{itemize}
 \item the number of replications
 \item the number of data points per class.
-\end{enumerate}
+\end{itemize}
 
 \begin{marginfigure}
 \includegraphics[width=\textwidth]{figures/scatter}
@@ -67,8 +70,8 @@ $$
 
 Since we consider distances between data points that each belong to a given class, ranking metrics are appropriate to evaluate the performance of those distances on the generated datasets \cite{manning2008introduction}. More precisely, we consider the following metrics:
 \begin{enumerate}
-\item map: mean average precision
-\item precision: precision at rank 5.
+\item \textbf{map}: mean average precision
+\item \textbf{precision}: precision at rank 5.
 \end{enumerate}
 
 \section{Definition of factors}
@@ -76,17 +79,17 @@ Since we consider distances between data points that each belong to a given clas
 Those factors and their corresponding modalities are defined in the file named \texttt{dideFactors.txt} whose content is the following:
 \lstinputlisting{../dideFactors.txt}
 
-Please note the 2 between the first two equals of the factor definition of factor \textit{distance} which specify that this factor is needed only for the second processing step. Most the factor design diccused above is compactly displayed in Figure \ref{factorFlowGraph}. Modalities\texttt{nbRealizations} and \texttt{nbElementsPerClass} are fixed .
+Please note the 2 between the first two equals of the factor definition of factor \mcode{distance} which specify that this factor is needed only for the second processing step. Most the factor design discussed above is compactly displayed in Figure \ref{factorFlowGraph}. Modalities\texttt{nbRealizations} and \texttt{nbElementsPerClass} are fixed.
 
 \begin{figure}
 \includegraphics[width=\textwidth]{figures/factors}
-\caption{A dataset with maximal spread.}
+\caption{Factor and data flow graph.}
 \label{scatter}
 \end{figure}
 
 \section{Implementation}
 
-Each processing step his implemented in a given file.
+Each processing step is implemented in a given file.
 
 \subsection{Step 1: generate}
 

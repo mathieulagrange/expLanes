@@ -192,6 +192,7 @@ if ~isempty(p.order) || any(p.expand ~= 0)
         order = 1:length(config.factors.names);
     end
     if any(p.expand ~= 0)
+        
         [null, expand] = expModifyExposition(config, p.expand);
         if order(end) ~= expand
             order(expand) = length(order);

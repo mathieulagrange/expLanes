@@ -267,7 +267,7 @@ if config.sendMail
             end
         end
         if strfind(config.report, 'c')
-            config = expTex(config, 'c');
+            config = expTex(config, config.report);
             config.mailAttachment = [{config.pdfFileName} config.mailAttachment];
         end
         % sendMail does not like tilde
@@ -275,7 +275,7 @@ if config.sendMail
         sendmail(config.emailAddress, ['[expCode] ' config.projectName ' ' num2str(config.runId) ' is over on ' config.hostName], message, config.mailAttachment);
     end
     expConfigMatSave(config.configMatName);
-else
+elseif strfind(config.report, 'c')
     config = expTex(config, config.report);
 end
 if config.waitBar

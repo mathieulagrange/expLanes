@@ -8,5 +8,5 @@ function [config, store] = cldeInit(config)
 % Copyright lagrange                                             
 % Date 22-Nov-2013                                               
                                                                  
-if nargin==0, clusteringDemo(); return; end                      
-store=[];                                                        
+if nargin==0, clusteringDemonstration(); return; else store=[]; end                      
+                                                        

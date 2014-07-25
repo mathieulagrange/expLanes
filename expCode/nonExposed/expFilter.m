@@ -50,9 +50,16 @@ if  p.expand ~= 0
     if length(config.evaluation.observations)==1
         p.obs=1;
     end
-    fData = data;
+    
     observation = observations(p.obs);
-    observations = strrep(config.step.oriFactors.values{p.expand}, '-', 'expCodeMinus');
+    observations = config.step.oriFactors.values{p.expand};
+    fData = data;
+    
+%     observations = sort(config.step.oriFactors.values{p.expand});
+%     [null, io] = sort(config.step.oriFactors.list(:, p.expand));
+%     fData = data(io);
+    
+    observations = strrep(observations, '-', 'expCodeMinus');
     observations = strrep(observations, ' ', '');
     met={};
     met2={};

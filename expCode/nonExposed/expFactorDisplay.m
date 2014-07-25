@@ -93,7 +93,7 @@ functionString = char(functionCell);
 dlmwrite(texFileName, functionString,'delimiter','', '-append');
 
 oldFolder = cd(latexPath);
-disp('generating latex figure. Press x enter if locked for too long');
+disp('generating Factors figure. Press x enter if locked for too long.');
 res = system(['pdflatex ' texFileName silentString]); %
 cd(oldFolder);
 if ~res
