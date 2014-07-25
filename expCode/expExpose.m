@@ -410,7 +410,7 @@ else
 end
 
 if ~isempty(exposeType)
-    if strcmp(exposeType, 'exposeTable')
+    if p.put==1 && strcmp(exposeType, 'exposeTable')
         put = p.put;
         p.put = 2;
         config = feval(exposeType, config, data, p);

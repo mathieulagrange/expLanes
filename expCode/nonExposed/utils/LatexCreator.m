@@ -169,24 +169,29 @@ CONSTRUCTOR(varargin{:});
         
         Data.TexFn=TmpCell{end};
         Data.FullTexFn=[Data.Dir '/' Data.TexFn ];
-        
+        Data.keep = keep;
         
         
         if ( ~exist(Data.Dir,'dir')); mkdir(Data.Dir); end
         if ( ~noFigDir && ~exist([Data.Dir '/figures'],'dir'))
             mkdir([Data.Dir '/figures']);
-            fid = fopen([fileparts(tex_file) '/exposeTmp.tex'], 'wt');
         end
-        if ( ~keep || ~exist(Data.FullTexFn,'file')), createTemplate(template); end
-        if exist([fileparts(tex_file) '/exposeTmp.tex'], 'file')
+        if ( ~Data.keep || ~exist(Data.FullTexFn,'file')), createTemplate(template); end
+        if ~noFigDir && Data.keep~=2 %&& exist([fileparts(tex_file) '/exposeTmp.tex'], 'file')
             fid = fopen([fileparts(tex_file) '/exposeTmp.tex'], 'w');
             fclose(fid);
         end
-        if ~noFigDir && ~exist([fileparts(tex_file) '/tex'], 'dir')
-            mkdir([fileparts(tex_file) '/tex']);
-            copyfile([fileparts(tex_file) '/exposeTmp.tex'], [fileparts(tex_file) '/tex/exposeTmp.tex']);
+        if ~noFigDir
+            if~exist([fileparts(tex_file) '/tex'], 'dir')
+                mkdir([fileparts(tex_file) '/tex']);
+            end
+            if  exist([fileparts(tex_file) '/exposeTmp.tex'], 'file')
+                copyfile([fileparts(tex_file) '/exposeTmp.tex'], [fileparts(tex_file) '/tex/exposeTmp.tex']);
+            else
+%                 fid = fopen([fileparts(tex_file) '/tex/exposeTmp.tex'], 'w');
+%                 fclose(fid);
+            end
         end
-        
         set_Default_CONFIG();
         set_CONFIG_from_file();
         
@@ -367,7 +372,7 @@ CONSTRUCTOR(varargin{:});
         if ( flag_test == 0 ),disp('LatexCreator/writeLatexFile() Error : Bad Latex format, missing \end{document}');return; end
         
         [fid,res]=fopen(Data.FullTexFn,'wt');
-        if exist([fileparts(Data.FullTexFn) 'exposeTmp.tex'], 'file')
+        if Data.keep~=2 && exist([fileparts(Data.FullTexFn) 'exposeTmp.tex'], 'file')
             [fidTmp,res]=fopen([fileparts(Data.FullTexFn) 'exposeTmp.tex'],'at');
         else
             fidTmp = [];
@@ -477,16 +482,16 @@ CONSTRUCTOR(varargin{:});
                 Data.tex{1}=' ';
                 switch(Data.style)
                     case 'beamer'
-                    Data.tex{end+1}='\documentclass{beamer}';
-                    Data.tex{end+1}=' \usepackage{beamerthemedefault, multimedia}';
-                    
-                    Data.tex{end+1}=' \useoutertheme{smoothbars}';
-                    Data.tex{end+1}=' \useinnertheme[shadow=true]{rounded}';
-                    Data.tex{end+1}=' \setbeamercovered{transparent}';
-                    Data.tex{end+1}=' \setbeamertemplate{navigation symbols}{}';
-                    Data.tex{end+1}=' \setbeamertemplate{footline}[frame number]';
+                        Data.tex{end+1}='\documentclass{beamer}';
+                        Data.tex{end+1}=' \usepackage{beamerthemedefault, multimedia}';
+                        
+                        Data.tex{end+1}=' \useoutertheme{smoothbars}';
+                        Data.tex{end+1}=' \useinnertheme[shadow=true]{rounded}';
+                        Data.tex{end+1}=' \setbeamercovered{transparent}';
+                        Data.tex{end+1}=' \setbeamertemplate{navigation symbols}{}';
+                        Data.tex{end+1}=' \setbeamertemplate{footline}[frame number]';
                     otherwise
-                    Data.tex{end+1}= ['\documentclass[12pt,a4paper,fleqn]{' Data.style '}'];
+                        Data.tex{end+1}= ['\documentclass[12pt,a4paper,fleqn]{' Data.style '}'];
                 end
                 %           Data.tex{end+1}='\usepackage[latin1]{inputenc}';
                 %           Data.tex{end+1}='\usepackage[french]{babel}';
@@ -695,7 +700,7 @@ CONSTRUCTOR(varargin{:});
             if ( isfield(arg,'landscape')), landscape=arg.landscape; end;
             if ( isfield(arg,'label')), label=arg.label; end;
             if ( isfield(arg,'fontSize')), fontSize=arg.fontSize; end;
-             if ( isfield(arg,'nbFactors')), nbFactors=arg.nbFactors; end;
+            if ( isfield(arg,'nbFactors')), nbFactors=arg.nbFactors; end;
         end
         
         % ----------------------------------------------------------------
@@ -770,9 +775,9 @@ CONSTRUCTOR(varargin{:});
         
         for pos_c =1 : nb_colone,
             if pos_c<=nbFactors
-                   tmp_line=[tmp_line 'l'];
+                tmp_line=[tmp_line 'l'];
             else
-            tmp_line=[tmp_line 'c'];                
+                tmp_line=[tmp_line 'c'];
             end
         end
         
@@ -784,20 +789,20 @@ CONSTRUCTOR(varargin{:});
         % Legend
         
         if (~isempty(legend))
- %           Data.tex{end+1}='\hline';
+            %           Data.tex{end+1}='\hline';
             tmp_line=legend{1};
             for pos_c =2 : nb_colone,
                 tmp_line=[tmp_line ' & ' legend{pos_c}];
             end
             tmp_line=[tmp_line ' \\'];
             Data.tex{end+1}=tmp_line;
-  %          Data.tex{end+1}='\hline';
+            %          Data.tex{end+1}='\hline';
         end
         
         %%-------------------------------------------------
         % Table
         
-  %      Data.tex{end+1}='\hline';
+        %      Data.tex{end+1}='\hline';
         
         for pos_l=1:nb_ligne
             tmp_line=Mat_c{pos_l,1};
@@ -811,7 +816,7 @@ CONSTRUCTOR(varargin{:});
             end
             
             Data.tex{end+1} = [ tmp_line ' \\' ];
-   if pos_l==1,          Data.tex{end+1}='\hline'; end
+            if pos_l==1,          Data.tex{end+1}='\hline'; end
             
         end
         

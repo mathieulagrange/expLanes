@@ -1,7 +1,6 @@
 distanceDemonstration('report', 1);
 distanceDemonstration('report', 1)
 distanceDemonstration('do', 0);
-distanceDemonstration('do', 2);
 distanceDemonstration('report', 2);
 distanceDemonstration('obs', 1);
 distanceDemonstration('obs', 2, 'expose', 't');
@@ -39,3 +38,17 @@ distanceDemonstration('obs', 2, 'expose', {'t', 'mask', {3 2 7}})
 distanceDemonstration('obs', 2, 'expose', {'t', 'mask', {3 2 7}});
 distanceDemonstration('obs', 2, 'expose', {'t', 'mask', {3 2 0 1 0 0}, 'sort', -1});
 distanceDemonstration('obs', 2, 'expose', {'t', 'mask', {3 2 0 1 0 0}});
+distanceDemonstration('do', 1);
+distanceDemonstration('report', 'cc');
+distanceDemonstration('report', 'rcc');
+distanceDemonstration('report', 'c');
+distanceDemonstration('report', 'r');
+distanceDemonstration('report', 'rc');
+distanceDemonstration('report', 'rcdv');
+distanceDemonstration('report', 'v');
+distanceDemonstration('report', 'rcv');
+distanceDemonstration('report', 'rccv');
+distanceDemonstration('do', 2);
+distanceDemonstration('do', 0, 'report', 'rccv');
+distanceDemonstration('do', 0, 'report', 'cv');
+distanceDemonstration('report', 'cv');

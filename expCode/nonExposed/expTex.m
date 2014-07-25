@@ -32,9 +32,14 @@ for k=1:length(files)
     end
 end
 
-config.pdfFileName = [config.reportPath 'reports/' config.projectName '_' reportName '_v' num2str(config.versionName) '_' config.userName  '_' date '_' strrep(config.message, ' ', '-') '.pdf'];
+if  ~isempty(reportName), reportName(end+1) = '_'; end
+config.pdfFileName = [config.reportPath 'reports/' reportName config.projectName   upper(config.userName(1)) config.userName(2:end)   date  '.pdf'];
 
-config.latex = LatexCreator([config.latexFileName '.tex'], 1, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName, 1, 0, config.latexDocumentClass);
+keep=1;
+if isempty(strfind(command, 'r'))
+    keep = 2;
+end
+config.latex = LatexCreator([config.latexFileName '.tex'], keep, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' reportName], config.projectName, 1, 0, config.latexDocumentClass);
 config.latex.addLine(''); % mandatory
 
 if config.showFactorsInReport

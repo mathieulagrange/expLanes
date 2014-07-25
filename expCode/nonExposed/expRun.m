@@ -145,7 +145,7 @@ if isfield(config, 'serverConfig')
         expConfigMatSave(config.configMatName);
         % genpath dependencies ; addpath(ans);
         command = ['ssh ' config.hostName ' screen -m -d ''' config.serverConfig.matlabPath 'matlab -nodesktop -nosplash -r  "cd ' config.serverConfig.codePath ' ; load ' config.serverConfig.configMatName '; ' config.projectName '(config);"''']; % replace -d by -t in ssh for verbosity
-%         command = ['ssh ' config.hostName ' screen  -m -d ''' strrep(command, '''', '"''') ''''];
+        %         command = ['ssh ' config.hostName ' screen  -m -d ''' strrep(command, '''', '"''') ''''];
     else
         matConfig.localDependencies = 0;
         expConfigMatSave(expandHomePath(config.configMatName), matConfig);
@@ -156,8 +156,8 @@ if isfield(config, 'serverConfig')
     % if runnning with issues with ssh connection run ssh with -v and check
     % that the LC_MESSAGES and LANG encoding are available on the server (locale -a)
     % if not edit /var/lib/locales/supported.d/local to put the needed ones
-    % and run sudo dpkg-reconfigure locales or locales-gen   
-
+    % and run sudo dpkg-reconfigure locales or locales-gen
+    
     system(command);
     fprintf('\nExperiment launched.\n');
     return;
@@ -227,7 +227,7 @@ if config.sendMail
         props.setProperty('mail.smtp.socketFactory.class', ...
             'javax.net.ssl.SSLSocketFactory');
         props.setProperty('mail.smtp.socketFactory.port','465');
-    end    
+    end
     
     if ~isempty(regexp(config.emailAddress, '[a-z_]+@[a-z]+\.[a-z]+', 'match'))
         message = config.runInfo;
@@ -260,7 +260,7 @@ if config.sendMail
         end
         message = [message sprintf('\n\n -------------------------------------- \n')];
         config.mailAttachment = {[config.reportPath 'config.txt']};
-      
+        
         for k=1:length(config.errorDataFileName)
             if exist(config.errorDataFileName{k}, 'file')
                 config.mailAttachment{end+1} = config.errorDataFileName{k};
@@ -276,14 +276,7 @@ if config.sendMail
     end
     expConfigMatSave(config.configMatName);
 else
-    if strfind(config.report, 'c')
-        if config.viewReport
-            command = 'cv';
-        else
-            command = 'c';
-        end
-        config = expTex(config, command);
-    end
+    config = expTex(config, config.report);
 end
 if config.waitBar
     delete(config.waitBar);

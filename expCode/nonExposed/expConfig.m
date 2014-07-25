@@ -66,7 +66,7 @@ end
 
 config.factorFileName = [config.projectPath '/' config.shortProjectName 'Factors.txt'];
 config.stepName = expStepName(config.projectPath, config.shortProjectName);
-config.factors = expFactorParse(config.factorFileName, length(config.stepName));
+config.factors = expFactorParse(config.factorFileName);
 
 % checking maximal length of data files
 fileLength = 0;

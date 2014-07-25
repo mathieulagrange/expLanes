@@ -25,7 +25,7 @@ for k=1:setting.nbRealizations
         class = [class; m*ones(setting.nbElementsPerClass, 1)];
     end
     
-    if k==1 && isfield(config, 'plot')
+    if all(setting.infoId(1:3) == [3 1 7]) && k==1 && isfield(config, 'plot')
         clf
         scatter(elements(:, 1), elements(:, 2), 50, class, 'filled');
         axis off

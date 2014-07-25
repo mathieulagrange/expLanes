@@ -8,8 +8,8 @@ function config = dideReport(config)
 
 if nargin==0, distanceDemonstration('report', 'rc'); return; end
 
-config = expExpose(config, 'table', 'mask', {0 2 7 1}, 'obs', [1 2], 'save', 1);
-config = expExpose(config, 'table', 'mask', {3 0 7 1}, 'obs', [1 2], 'save', 1);
-config = expExpose(config, 'linePlot', 'mask', {3 2 0 1 0 0}, 'obs', 1, 'expand', 'spread', 'save', 1);
+config = expExpose(config, 'table', 'mask', {0 2 7 1}, 'obs', [1 2]);
+config = expExpose(config, 'table', 'mask', {3 0 7 1}, 'obs', [1 2]);
+config = expExpose(config, 'linePlot', 'mask', {3 2 0 1 0 0}, 'obs', 1, 'expand', 'spread');
 
-config = expExpose(config, 'table', 'mask', {3 2 7}, 'obs', [1 2], 'save', 1);
+config = expExpose(config, 'table', 'mask', {3 2 7}, 'obs', [1 2]);

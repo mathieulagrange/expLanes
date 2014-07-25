@@ -108,8 +108,6 @@ displayFontSize = 16
 report = 
 % type of report: empty (default), if containing the word slides or Slides, use the beamer presentation mode
 reportName =
-% launch external pdf viewer after successful compilation
-viewReport = 1
 % style of latex document (warning: this parameter is taken into account only at the creation of the LaTEX report file)
 latexDocumentClass = tufte-handout 
 % memo message for the generation of reports

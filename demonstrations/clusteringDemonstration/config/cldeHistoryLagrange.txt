@@ -67,3 +67,7 @@ clusteringDemo('obs', 2, 'expose',  't', 'mask', {2});
 clusteringDemo('do', 2, 'plot',  1, 'mask', {2 2 3 6 0 1});
 clusteringDemo('do', 2, 'parallel', 1);
 clusteringDemonstration('do', 2, 'plot',  1, 'mask', {2 2 3 6 0 1});
+clusteringDemonstration('do', 0)
+clusteringDemonstration('do', 1)
+clusteringDemonstration('do', 1);
+clusteringDemonstration('do', 0);
