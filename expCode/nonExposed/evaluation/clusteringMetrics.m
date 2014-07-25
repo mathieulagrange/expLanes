@@ -9,6 +9,6 @@ metrics.nmi= nmi(target, prediction);
 [metrics.adjustedRandIndex, metrics.unadjustedRandIndex, metrics.mirkinIndex, metrics.hubertsIndex] = randIndex(target, prediction);
 
 if ~noAccuracy
-    [metrics.accuracy metrics.classMatching] = accuracy(target, prediction);
+    [metrics.accuracy, metrics.classMatching] = accuracy(target, prediction);
 end
 

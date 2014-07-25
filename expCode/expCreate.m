@@ -33,7 +33,7 @@ shortProjectName = shortProjectName{1};
 
 % load default config
 
-[userDefaultConfigFileName userDir] = expUserDefaultConfig(expCodePath);
+[userDefaultConfigFileName, userDir] = expUserDefaultConfig(expCodePath);
 
 configFile=fopen(userDefaultConfigFileName);
 configCell=textscan(configFile,'%s%s', 'CommentStyle', '%', 'delimiter', '=');
@@ -119,21 +119,11 @@ p = [p; find(~cellfun(@isempty, strfind(n, 'Name')))];
 p = [p; setdiff(1:length(n), p)'];
 config = orderfields(config, p);
 
-configFile=fopen([expCodePath '/expCodeConfig.txt']);
-configCell=textscan(configFile,'%s', 'delimiter', '\n');
-fclose(configFile);
-
 % create config file
 fid = fopen([configPath '/' config.shortProjectName 'ConfigDefault.txt'], 'w');
 fprintf(fid, '%% Config file for the %s project\n%% Adapt at your convenience\n\n', config.shortProjectName);
 configFields = fieldnames(config);
 for k=1:length(configFields)
-%     comment='%';
-%     fieldIndex = find(~cellfun('isempty',regexp(configCell{1}, ['^' configFields{k} '* ='])));
-%     %     fieldIndex  = fieldIndex(end);
-%     if ~isempty(fieldIndex) && ~isempty(configCell{1}{fieldIndex-1}) && configCell{1}{fieldIndex-1}(1) == '%'
-%         comment = configCell{1}{fieldIndex-1};
-%     end
     fprintf(fid, '%s = %s\n', configFields{k}, char(config.(configFields{k})));
 end
 fclose(fid);
@@ -211,11 +201,11 @@ dlmwrite([config.codePath '/README.txt'], readmeString, 'delimiter', '')
 % append remaining of the file
 dlmwrite([config.codePath '/README.txt'], fileread([expCodePath '/nonExposed/README.txt']), '-append', 'delimiter', '')
 
-runId=1;
+runId=1; %#ok<NASGU>
 save([configPath config.shortProjectName], 'runId');
 
 % copy depencies if necessary
-if str2num(config.localDependencies) >= 1
+if str2double(config.localDependencies) >= 1
     config.dependencies = eval(config.dependencies);
     keep =   config.localDependencies;
     config.localDependencies = 2;

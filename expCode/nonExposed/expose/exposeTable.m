@@ -55,7 +55,7 @@ switch p.put
             % adjust size
             jScroll = findjobj(hTable);
             if isempty(jScroll)
-                disp('Unable to get java handler for the table. Is the figure docked ?');;
+                disp('Unable to get java handler for the table. Is the figure docked ?');
             else
                 jTable = jScroll.getViewport.getView;
                 jTable.setAutoResizeMode(jTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);

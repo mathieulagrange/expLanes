@@ -1,7 +1,6 @@
-function [settingSpec] = expFactorParse(fileName, nbSteps)
+function [settingSpec] = expFactorParse(fileName)
 
 settingSpec = [];
-if ~exist('nbSteps', 'var'), nbSteps=0; end
 
 fid =fopen(fileName);
 C = textscan(fid,'%s%s%s%s', 'commentstyle', '%', 'delimiter', '=');
@@ -18,8 +17,7 @@ end
 
 selectAll = {};
 deselectAll = {};
-for k=1:length(names)
-    
+for k=1:length(names)   
     if isempty(values{k})
         fprintf(2, ['Factors definition, missing definition of modalities for factor: ' names{k} '\n']);
         return;
@@ -80,7 +78,6 @@ end
 
 if seq>1, fprintf(2,'Factors definition, only one sequential factor is allowed');  return; end
 
-
 values=values';
 shortNames=names2shortNames(names);
 
@@ -99,9 +96,6 @@ for k=1:size(values, 2)
         stringValues(k) = values(k);
     end
 end
-
-
-
 
 settingSpec.values = values;
 settingSpec.stringValues = stringValues; % TODO may be problematic settingSpec.stringValues = strtrim(stringValues);

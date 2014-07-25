@@ -9,7 +9,6 @@ clear d
 tic
 for k=1:length(nbClusters)
     for j=1:nbRuns
-        ind =  ceil(rand(1, nbElts)*nbClusters(k));
         ind = labels;
         indr = rand(1, length(ind))>j/nbRuns;
         ind(indr) = ceil(rand(1, sum(indr))*nbClusters(k));

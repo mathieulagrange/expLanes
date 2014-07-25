@@ -13,7 +13,7 @@ function fileName = expSave(config, data, extension)
 if ~exist('extension', 'var')
     extension = '.mat';
 else
-    [p n e] = fileparts(extension);
+    [p, n] = fileparts(extension);
     extension = ['_' n '.mat'];
 end
 
@@ -41,8 +41,8 @@ if config.dummy
 end
 
 if exist('data', 'var') && ~isempty(data)
-    runId = config.runId;
-    setting = config.step.setting;
+    runId = config.runId; %#ok<NASGU>
+    setting = config.step.setting; %#ok<NASGU>
     save([path name  extension ], 'data', 'stepName', 'runId', 'setting', ['-v' num2str(config.encodingVersion)]);
 end
 

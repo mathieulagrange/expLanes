@@ -1,4 +1,4 @@
-function [names structId] = expGetStepVariables(config, stepId, type)
+function [names, structId] = expGetStepVariables(config, stepId, type)
 
 stepFileName = [config.codePath config.shortProjectName num2str(stepId) config.stepName{stepId} '.m'];
 

@@ -1,4 +1,4 @@
-function syncDependencies(config, serverConfig)
+function expSyncDependencies(config, serverConfig)
 
 fprintf('Performing DEPENDENCIES sync \n');
 
@@ -34,7 +34,7 @@ for k=1:length(config.dependencies)
     if ~any(strcmp({'/', '\', '~'}, dependency(1)))
         dependency = [config.codePath filesep dependency];
     end
-    [p n]=fileparts(dependency);
+    [p, n]=fileparts(dependency);
     dep(strcmp(n, dep))=[];
     if serverConfig.host < 2
         syncString = 'rsync -arC --delete-after --exclude=.git ';

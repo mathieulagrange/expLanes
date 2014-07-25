@@ -19,7 +19,7 @@ end
 
 if ~exist('force', 'var'), force=0; end
 
-[p f] = fileparts(fileName);
+[p, f] = fileparts(fileName);
 toolName = [f '.' mexext];
 
 initPath = cd([config.codePath mexPath]);

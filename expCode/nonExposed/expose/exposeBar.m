@@ -12,4 +12,4 @@ else
     feval(barCommand, data.meanData);
 end
 
-expSetAxes(config, data, p)
+expSetAxes(config, p);

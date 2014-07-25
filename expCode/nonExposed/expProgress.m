@@ -23,14 +23,14 @@ if config.progress == 1 && config.attachedMode && config.parallel(config.step.id
     if getappdata(config.waitBar,'canceling')
         delete(config.waitBar);
         config.waitBar = [];
-        waitbarId = [];
+        waitbarId = []; %#ok<*NASGU>
         save(config.staticDataFileName, 'waitbarId', '-append');
         error('Stopping execution upon user request.');
     end
     if progress==100
         delete(config.waitBar);
         config.waitBar = [];
-        waitbarId = [];
+        waitbarId = []; %#ok<NASGU>
         save(config.staticDataFileName, 'waitbarId', '-append');
     end
 elseif config.parallel(config.step.id) > 0 || config.progress == 1

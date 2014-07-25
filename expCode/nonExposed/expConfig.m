@@ -55,13 +55,10 @@ end
 
 config.staticDataFileName = [projectPath '/config' '/' shortProjectName];
 if ~exist(config.staticDataFileName, 'file')
-    runId=1;
+    runId=1; %#ok<NASGU>
     save(config.staticDataFileName, 'runId');
 end
 staticData = load(config.staticDataFileName);
-[p, projectName] = fileparts(projectPath);
-
-
 
 if isempty(config.completeName)
     config.completeName = config.userName;
@@ -155,7 +152,7 @@ config.hostGroup = floor(config.host);
 % else
 config.runId = staticData.runId;
 if config.host
-    runId = config.runId+1; %#ok<NASGU>
+    runId = config.runId+1; 
     save(config.staticDataFileName, 'runId', '-append');
     config.runId = runId;
 end
@@ -252,7 +249,7 @@ for k=1:length(config.dependencies) % FIXME may be wrong
         field = field(1:end-1);
     end
     if ~config.attachedMode && ~strcmp(config.hostName, config.localHostName)
-        [p field] = fileparts(field);
+        [p, field] = fileparts(field);
         field = ['dependencies' '/' field];
     end
     config.dependencies{k} = field;

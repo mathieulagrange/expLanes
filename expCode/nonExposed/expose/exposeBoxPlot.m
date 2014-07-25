@@ -13,4 +13,4 @@ else
 boxplot(data.filteredData','notch','on'); % , 'plotstyle', 'compact' % TODO ability to add something to the matlabplot command    
 end
 
-expSetAxes(config, data, p);
+expSetAxes(config, p);

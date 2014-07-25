@@ -149,7 +149,7 @@ for k=1:length(factorIndex)
 end
 functionCell{end+1} = '\endtabular};';
 if infoType>2
-    [obsNames structId] = expGetStepVariables(config, stepId, 'obs');
+    [obsNames, structId] = expGetStepVariables(config, stepId, 'obs');
     for k=1:length(obsNames)
         if structId(k)
             obsNames{k} = ['\textbf{' obsNames{k} '}'];

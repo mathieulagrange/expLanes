@@ -26,7 +26,8 @@ for k=1:length(data)
             if ~ischar(data(1).classNames)
                 classNames = cellfun(@num2str, data(1).classNames, 'UniformOutput', false)';
             end
-            config.displayData.cellData = [{'' classNames{:}}; classNames numCell];
+            %             config.displayData.cellData = [{'' classNames{:}}; classNames numCell];
+            config.displayData.cellData = [[{''} classNames]; classNames numCell];
             config = expDisplay(config, p);
         case 1
             p.title = config.settings(k).infoStringMasked;
@@ -40,7 +41,8 @@ for k=1:length(data)
             colormap('gray');
         case 2
             numCell = expNumToCell(c, [], 0, 1, eye(length(classNames)));
-            config.displayData.cellData = [{'' classNames{:}}; classNames numCell];
+%             config.displayData.cellData = [{'' classNames{:}}; classNames numCell];
+            config.displayData.cellData = [[{''} classNames]; classNames numCell];
             config = expDisplay(config, p);
     end
     

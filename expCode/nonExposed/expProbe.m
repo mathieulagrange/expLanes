@@ -18,10 +18,10 @@ for k=1:length(commands)
         case {'pdflatex', 'rsync'}
             status = system([commands{k} ' --help > ' null]);
         case 'ssh'
-            [ status message] = system([commands{k} ' -V > ' null]);
+            [ status, message] = system([commands{k} ' -V > ' null]);
             if status, ssh=0;else ssh=1;end
         case 'screen'
-            [status message] = system([commands{k} ' -v']);
+            [status, message] = system([commands{k} ' -v']);
             if strfind(message, 'Screen'), status = 0; end
     end
     if status
@@ -51,7 +51,7 @@ if ssh
     disp(' ');
     for k=1:length(config.machineNames)
         if ~iscell(config.machineNames{k})
-            config.machineNames{k} = {config.machineNames{k}};
+            config.machineNames{k} = config.machineNames(k); %  {config.machineNames{k}};
         end
         for m=1:length(config.machineNames{k})
             status = system(['ssh ' config.machineNames{k}{m}  ' exit ']);

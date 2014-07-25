@@ -4,10 +4,7 @@ function config = expDesign(config)
 % seed is useful for one factor at time type of design
 
 design = cellifydesign(config);
-if isempty(design)
-    mask = {};
-    return;
-end
+if isempty(design), return; end
 
 % select factors
 factors = design{1};

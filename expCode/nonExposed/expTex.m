@@ -14,21 +14,14 @@ if ~isempty(config.reportName)
     
     if strfind(lower(config.reportName), 'slides')
         config.latexDocumentClass = 'beamer';
+        slides = 1;
     end
 end
 
-config.latexFileName = [latexPath config.projectName reportName]; % '.tex'
-
-% for k=1:length(config.stepName)
-%     copyfile([config.codePath config.shortProjectName num2str(k) config.stepName{k} '.m'], [config.reportPath 'tex/' config.shortProjectName num2str(k) config.stepName{k} '.m']);
-% end
-% copyfile([config.codePath config.shortProjectName 'Init.m'], [config.reportPath 'tex/' config.shortProjectName 'Init.m']);
-% copyfile([config.codePath config.shortProjectName 'Report.m'], [config.reportPath 'tex/' config.shortProjectName 'Report.m']);
-
+config.latexFileName = [latexPath config.projectName reportName];
 if ~exist([config.reportPath config.projectName reportName '.tex'], 'file')
     config.latex = LatexCreator([config.reportPath filesep config.projectName reportName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName, 1, 1, config.latexDocumentClass);
     copyfile([fileparts(mfilename('fullpath')) filesep 'utils/mcode.sty'], config.reportPath);
-%     copyfile([fileparts(mfilename('fullpath')) filesep 'utils/tufte-handout.cls'], config.reportPath);
 end
 
 % copy any tex related files
@@ -38,9 +31,6 @@ for k=1:length(files)
         copyfile([config.reportPath files(k).name], [config.reportPath 'tex/']);
     end
 end
-
-% copyfile([config.reportPath config.projectName reportName '.tex'], [config.latexFileName '.tex']);
-% copyfile([fileparts(mfilename('fullpath')) filesep 'utils/mcode.sty'], [config.reportPath 'tex/']);
 
 config.pdfFileName = [config.reportPath 'reports/' config.projectName '_' reportName '_v' num2str(config.versionName) '_' config.userName  '_' date '_' strrep(config.message, ' ', '-') '.pdf'];
 
@@ -67,7 +57,7 @@ if config.showFactorsInReport
     
     config.latex.addLine('\begin{center}');
     config.latex.addLine('\begin{figure}');
-    config.latex.addLine(['\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{../figures/factors.pdf}']);
+    config.latex.addLine('\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{../figures/factors.pdf}');
     config.latex.addLine('\label{factorFlowGraph}');
     if~slides
         config.latex.addLine('\caption{Factors flow graph for the experiment.}');
@@ -89,7 +79,6 @@ for k=config.displayData.style
         t=t+1;
     else
         % add figure
-        % for k=1:length(config.displayData.figure)
         if config.displayData.figure(l).taken && config.displayData.figure(l).report
             config.latex.addFigure(config.displayData.figure(l).handle, 'caption', config.displayData.figure(l).caption, 'label', config.displayData.figure(l).label);
             if ~mod(l, 10)
@@ -99,8 +88,6 @@ for k=config.displayData.style
         l=l+1;
     end
 end
-
-
 
 data = config.displayData; %#ok<NASGU>
 save(strrep(config.pdfFileName, '.pdf', '.mat'), 'data');
@@ -129,10 +116,10 @@ for k=1:length(command)
 end
 
 if config.deleteTexDirectory
-    warning off
+    warning('off', 'MATLAB:RMDIR:NoDirectoriesRemoved');
     rmdir(latexPath, 's');
     mkdir(latexPath);
-    warning on
+    warning('on', 'MATLAB:RMDIR:NoDirectoriesRemoved');
 end
 
 

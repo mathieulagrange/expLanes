@@ -19,7 +19,7 @@ while length(defaultValues)<length(defaultNames), defaultValues{end+1} = ''; end
 
 if layout==1
     
-    [newNames newIndex] = setdiff(defaultNames, names);
+    [newNames, newIndex] = setdiff(defaultNames, names);
     
     fid = fopen(configFileName, 'a');
     fprintf(fid, '\n\n');
@@ -54,7 +54,7 @@ else
         end
     end
     % copy
-    [newNames newIndex] = setdiff(names, defaultNames);
+    [newNames, newIndex] = setdiff(names, defaultNames);
     for k=1:length(newNames)
         if ~prompt || inputQuestion([ newNames{k} ' is not in the default Config File of expCode. Keep it ?'])
             fprintf(fid, '%s = %s\n', newNames{k}, values{newIndex(k)});

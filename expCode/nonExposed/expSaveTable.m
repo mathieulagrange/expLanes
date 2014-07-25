@@ -13,7 +13,7 @@ try
 catch
 end
 catch
-    fprintf(2, ['Unable to generate Matlab dataset for export.\n']);
+    fprintf(2, 'Unable to generate Matlab dataset for export.\n');
 end
 
 latex.addTable(table.table, 'caption', table.caption, 'multipage', table.multipage, 'landscape', table.landscape, 'label', table.label)

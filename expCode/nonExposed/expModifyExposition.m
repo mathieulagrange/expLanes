@@ -1,4 +1,4 @@
-function [config factors factorsName] = expModifyExposition(config, factors)
+function [config, factors, factorsName] = expModifyExposition(config, factors)
 
 if ~isnumeric(factors)
     if ~iscell(factors)

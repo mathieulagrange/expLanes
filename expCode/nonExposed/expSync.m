@@ -27,14 +27,14 @@ if ~isfield(config, 'syncMode') || strcmp(config.syncMode(1), '0')
             config.syncMode = [config.syncMode sprintf('%d%s ', k, dType)];
         end
     else
-    config.syncMode = sprintf('%d ', 1:length(config.stepName));
+        config.syncMode = sprintf('%d ', 1:length(config.stepName));
     end
 end
 
 if ~exist('delete', 'var'), delete = 0; end
 
 if ~exist('syncDestination', 'var'),
-        syncDestination = 2;
+    syncDestination = 2;
 end
 
 if isstruct(syncDestination)
@@ -53,7 +53,7 @@ if syncDestination==-1
     fieldNames=fieldnames(serverConfig);
     for k=1:length(fieldNames)
         if any(~cellfun(@isempty, strfind({'dataPath', 'inputPath'}, fieldNames{k}))) % && isempty(strfind(fieldNames{k}, 'data'))
-            serverConfig.(fieldNames{k}) =  [config.bundlePath config.projectName '/' fieldNames{k}(1:end-4) '/']; 
+            serverConfig.(fieldNames{k}) =  [config.bundlePath config.projectName '/' fieldNames{k}(1:end-4) '/'];
         end
     end
     serverConfig.codePath = [config.bundlePath config.projectName '/'];
@@ -84,23 +84,23 @@ for k=1:length(tokens)
         else
             detach = 0;
         end
-    end   
+    end
     
     if isletter(tokens{k})
         switch tokens{k}
             case 'd'
-                syncDependencies(config, serverConfig);
+                expSyncDependencies(config, serverConfig);
             case 'c'
-                syncDirectory(config, serverConfig, 'code', delete, detach);
+                expSyncDirectory(config, serverConfig, 'code', delete, detach);
             case 'i'
                 dataBaseSettingIndex = find(strcmp(config.factors.names, 'dataBase'));
                 if ~isempty(dataBaseSettingIndex)
                     dataBases = config.factors.values{dataBaseSettingIndex};
-                    for k=1:length(dataBases)
-                        syncDirectory(config, serverConfig, 'input', delete, detach, dataBases{k});
+                    for l=1:length(dataBases)
+                        expSyncDirectory(config, serverConfig, 'input', delete, detach, dataBases{l});
                     end
                 else
-                    syncDirectory(config, serverConfig, 'input', delete, detach);
+                    expSyncDirectory(config, serverConfig, 'input', delete, detach);
                 end
             otherwise
                 disp('Wrong request');
@@ -113,10 +113,10 @@ for k=1:length(tokens)
             selector = [];
         end
         if isempty(selector) || selector == 'd'
-            syncDirectory(config, serverConfig, config.stepName{str2double(tokens{k})}, delete, detach, '', 'd');
+            expSyncDirectory(config, serverConfig, config.stepName{str2double(tokens{k})}, delete, detach, '', 'd');
         end
         if isempty(selector) || selector == 'o'
-            syncDirectory(config, serverConfig, config.stepName{str2double(tokens{k})}, delete, detach, '', 'o');
+            expSyncDirectory(config, serverConfig, config.stepName{str2double(tokens{k})}, delete, detach, '', 'o');
         end
     end
 end
@@ -129,18 +129,17 @@ if syncDestination==-1
     end
     files = dir([serverConfig.codePath 'config/*Config*.txt']);
     for k=1:length(files)
-       movefile([serverConfig.codePath 'config/' files(k).name], [serverConfig.codePath 'config/savedConfigFiles']); 
+        movefile([serverConfig.codePath 'config/' files(k).name], [serverConfig.codePath 'config/savedConfigFiles']);
     end
     %  create bundle config
     bundleConfig = expBundleConfig(config.configFileName);
     expConfigStringSave(bundleConfig, [serverConfig.codePath '/config/' serverConfig.projectName 'ConfigDefault.txt']);
     
-    
     bundleName = [config.projectName '_' num2str(config.versionName) '_' date() '.tgz' ];
-    system(['cd ' config.bundlePath ' && tar czf '  bundleName ' ' config.projectName]);  
-    warning off;
+    system(['cd ' config.bundlePath ' && tar czf '  bundleName ' ' config.projectName]);
+    warning('off', 'MATLAB:RMDIR:NoDirectoriesRemoved');
     rmdir([config.bundlePath config.projectName], 's');
-    warning on;
+    warning('on', 'MATLAB:RMDIR:NoDirectoriesRemoved');
 end
 
 

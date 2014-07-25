@@ -98,7 +98,6 @@ end
 
 sData = [];
 vData = [];
-fData = [];
 nbData = 0;
 for m=1:length(p.obs)
     for k=1:length(data)

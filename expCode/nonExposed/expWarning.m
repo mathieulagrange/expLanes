@@ -1,4 +1,4 @@
-function [fileName errorStruct]= expWarning(config, id, debugData)
+function [fileName, errorStruct]= expWarning(config, id, debugData)
 
 if nargin<2, id=''; end
 

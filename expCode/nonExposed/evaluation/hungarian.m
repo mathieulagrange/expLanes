@@ -1,4 +1,4 @@
-function [Matching,Cost] = Hungarian(Perf)
+function [Matching,Cost] = hungarian(Perf)
 %
 % [MATCHING,COST] = Hungarian_New(WEIGHTS)
 %

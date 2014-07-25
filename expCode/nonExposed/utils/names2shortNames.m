@@ -20,8 +20,7 @@ else
             end
             % seek for capitalized
             if length(r)==1
-                r=regexp(names{k}, '[A-Z]', 'split');
-                [r,matchend,tokenindices,matchstring,tokenstring, tokenname,splitstring] =regexp(names{k}, '[A-Z]', 'split');
+                [r,matchend,tokenindices,matchstring,tokenstring] =regexp(names{k}, '[A-Z]', 'split');
                 if ~isempty(tokenstring)
                     if length(r)==length(tokenstring)
                         delay=0;

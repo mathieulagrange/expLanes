@@ -8,7 +8,7 @@ if ~isempty(factors.selectFactors)
     k=1;
     doit=0;
     c1mask = {};
-    while ~isempty(factors.selectFactors) && (k==1 || p == str2num(factors.selectFactors{1}(1)))
+    while ~isempty(factors.selectFactors) && (k==1 || p == str2num(factors.selectFactors{1}(1))) %#ok<NODEF>
         c = regexp(factors.selectFactors{1}, '/', 'split');
         if length(c)==3
             c{4} = '0';

@@ -1,4 +1,4 @@
-function syncDirectory(config, serverConfig, directoryName, deleteOld, detach, extensionPath, selector)
+function expSyncDirectory(config, serverConfig, directoryName, deleteOld, detach, extensionPath, selector)
 
 if nargin<4, deleteOld=0; end
 if nargin<5, detach=0; end

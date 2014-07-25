@@ -1,4 +1,4 @@
-function [config data] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
+function [config, data] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
 % expLoad load data from the repository of the specified processing step
 %	[config data] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
 %	- config: expCode configuration
@@ -19,7 +19,7 @@ if nargin<3 || isempty(stepId), stepId=config.step.id-1; end
 if nargin<4 || isempty(extension),
     extension = '_data';
 else
-    [p n] = fileparts(extension); % FIXME may be fragile
+    [p, n] = fileparts(extension); % FIXME may be fragile
     extension = ['_' n];
 end
 if ~exist('contracting', 'var'), contracting = 1; end
@@ -30,7 +30,7 @@ elseif ~iscell(fieldSelector) && ~isempty(fieldSelector)
 end
 
 if ~isempty(name)
-    [p n e] = fileparts(name);
+    [p, n, e] = fileparts(name);
     name = [p '/' n];
 else
     p=[];
@@ -211,7 +211,5 @@ try
             config.load.fid=fid;
         end
     end
-catch err
-    %     disp(err.message);
 end
 

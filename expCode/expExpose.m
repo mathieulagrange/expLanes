@@ -192,7 +192,7 @@ if ~isempty(p.order) || any(p.expand ~= 0)
         order = 1:length(config.factors.names);
     end
     if any(p.expand ~= 0)
-        [null expand] = expModifyExposition(config, p.expand);
+        [null, expand] = expModifyExposition(config, p.expand);
         if order(end) ~= expand
             order(expand) = length(order);
             order(end) = expand;
@@ -218,7 +218,7 @@ end
 
 data = {};
 if iscell(p.integrate) || any(p.integrate ~= 0),
-    [config p.integrate p.integrateName] = expModifyExposition(config, p.integrate);
+    [config, p.integrate, p.integrateName] = expModifyExposition(config, p.integrate);
     pi=p;
     pi.expand = 0;
     data = expFilter(config, pi);
