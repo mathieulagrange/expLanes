@@ -42,6 +42,8 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % FIXME negative factor selector
 
+%
+
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
 
