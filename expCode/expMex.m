@@ -14,7 +14,7 @@ function expMex(config, mexPath, fileName, command, force)
 %	See licence.txt for more information.
 
 if ~exist('command', 'var')
-    command = ['mex(' fileName ')'];
+    command = ['mex ' fileName];
 end
 
 if ~exist('force', 'var'), force=0; end

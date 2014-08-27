@@ -40,6 +40,8 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % SORT do not work with highlights on
 
+% FIXME negative factor selector
+
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
 
@@ -139,7 +141,7 @@ if nargin<1 || config.host==0
     end
 else
     if config.host>0
-        config.attachedMode = 0;
+        config.attachedMode = -1;
     end
     config.host = abs(config.host);
     if config.host == floor(config.host)

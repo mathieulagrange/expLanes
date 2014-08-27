@@ -93,16 +93,15 @@ config.sequentialData = [];
 for k=1:length(config.step.sequence{sequence})
     config.step.setting = expSetting(config.step, config.step.sequence{sequence}(k));
     success=1;
-    if config.attachedMode
+    try
         config = expProcessOneSub(config);
-    else
-        try
-            config = expProcessOneSub(config);
-        catch error
-            config.settingStatus.failed = config.settingStatus.failed+1;
-            config = expLog(config, error, 2, 1);
-            success = 0;
+    catch error
+        if config.attachedMode
+            rethrow(error);
         end
+        config.settingStatus.failed = config.settingStatus.failed+1;
+        config = expLog(config, error, 2, 1);
+        success = 0;
     end
     if success
         config.settingStatus.success = config.settingStatus.success+1;
@@ -115,46 +114,41 @@ function config = expProcessOneSub(config)
 
 functionName = [config.shortProjectName num2str(config.step.id) config.stepName{config.step.id}];
 
-if config.redo==0 && (exist(expSave(config, [], 'data'), 'file') || exist(expSave(config, [], 'obs'), 'file'))
-    % disp(['skipping ' config.step.idName ' ' config.step.setting.infoString]);
-    return
-end
-
-loadedData = [];
-if config.store > -1
-    if config.step.id>1
-        config = expLoad(config, [], [], 'data');
-        if ~isempty(config.load)
-            loadedData = config.load;
+if config.redo || ~(exist(expSave(config, [], 'data'), 'file') || exist(expSave(config, [], 'obs'), 'file'))
+      
+    loadedData = [];
+    if config.store > -1
+        if config.step.id>1
+            config = expLoad(config, [], [], 'data');
+            if ~isempty(config.load)
+                loadedData = config.load;
+            end
+        else
+            loadedData = config.initStore;
         end
-    else
-        loadedData = config.initStore;
+    end
+    if config.store < 1
+        config = expLoad(config, [], config.step.id, 'data');
+        if ~isempty(config.load)
+            loadedData.store = config.load.data;
+        end
+    end
+    
+    ticId = tic;
+    config = expProgress(config);
+    
+    [config, storeData, storeObs] = feval(functionName, config, config.step.setting, loadedData);
+    
+    if config.recordTiming && ~isfield(storeObs, 'time')
+        storeObs.time = toc(ticId);
+    end
+    
+    if ~isempty(storeData)
+        expSave(config, storeData, 'data');
+    end
+    if ~isempty(storeObs)
+        expSave(config, storeObs, 'obs');
     end
 end
-if config.store < 1
-    config = expLoad(config, [], config.step.id, 'data');
-    if ~isempty(config.load)
-        loadedData.store = config.load.data;
-    end
-end
-
-ticId = tic;
-
-config = expProgress(config);
-
-[config, storeData, storeObs] = feval(functionName, config, config.step.setting, loadedData);
-
-if config.recordTiming && ~isfield(storeObs, 'time')
-    storeObs.time = toc(ticId);
-end
-
-if ~isempty(storeData)
-    expSave(config, storeData, 'data');
-end
-if ~isempty(storeObs)
-    expSave(config, storeObs, 'obs');
-end
-
-
 
 

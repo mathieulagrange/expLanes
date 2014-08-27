@@ -114,11 +114,13 @@ end
 % end
 
 if isfield(config, 'serverConfig')
+%     config.host
+%     config.attachedMode
     if ~inputQuestion(), fprintf(' Bailing out ...\n'); return; end
     
     matConfig = config.serverConfig;
-    %     matConfig.host = -1;
-    matConfig.attachedMode = 1;
+        matConfig.host = 0;
+     matConfig.attachedMode = 0;
     matConfig.exitMatlab = 1;
     matConfig.sendMail = 1;
     matConfig.runInfo = config.runInfo;
@@ -166,35 +168,27 @@ else
 end
 
 if config.obs ~= -1
-    if config.attachedMode
+    try
         config = exposeObservations(config);
-    else
-        try
-            config = exposeObservations(config);
-        catch error
-            if config.attachedMode
-                rethrow(error);
-            else
-                explog(config, error, 3, 1);
-            end
+    catch error
+        if config.attachedMode
+            rethrow(error);
+        else
+            explog(config, error, 3, 1);
         end
     end
 end
 
 if strfind(config.report, 'r')
     config.step.id = length(config.stepName);
-    if config.attachedMode
+    try
         config = feval([config.shortProjectName 'Report'], config);
-    else
-        try
-            config = feval([config.shortProjectName 'Report'], config);
-        catch error
-            config.report='';
-            if config.attachedMode
-                rethrow(error);
-            else
-                expLog(config, error, 3, 1);
-            end
+    catch error
+        config.report='';
+        if config.attachedMode
+            rethrow(error);
+        else
+            expLog(config, error, 3, 1);
         end
     end
     displayData = config.displayData; %#ok<NASGU>
@@ -259,7 +253,7 @@ if config.sendMail
             end
         end
         message = [message sprintf('\n\n -------------------------------------- \n')];
-        config.mailAttachment = {[config.reportPath 'config.txt']};
+        config.mailAttachment = {[config.reportPath 'reports/config.txt']};
         
         for k=1:length(config.errorDataFileName)
             if exist(config.errorDataFileName{k}, 'file')
