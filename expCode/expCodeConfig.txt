@@ -1,9 +1,3 @@
-%% PROJECT
-
-% version of the experiment
-versionName = 0.1
-
-
 %% USER
 
 % email address ticked when processing is done server side (leave empty for no mailing service), can be a cell array of email adresses
@@ -39,7 +33,8 @@ toolPath =
 dependencies = {} 
 % dependencies (including expCode) can be part of the project: 0 do not use local versions, 1 use local versions, 2 update local versions
 localDependencies = 0 
-
+% version tag
+codeVersion = 0.1
 
 %% COMPUTING
 
@@ -110,8 +105,6 @@ report =
 reportName =
 % style of latex document (warning: this parameter is taken into account only at the creation of the LaTEX report file)
 latexDocumentClass = tufte-handout 
-% memo message for the generation of reports
-message = default 
 % path to the pdf viewer (try to locate one if left empty)
 pdfViewer = 
 % threshold for statistical significance testing

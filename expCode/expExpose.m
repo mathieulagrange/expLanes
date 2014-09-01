@@ -2,28 +2,36 @@ function config = expExpose(varargin)
 % expExpose display observations
 %	config = expExpose(varargin)
 %	- varargin: sequence of ('parameter', value) pairs where the parameter is of
-%		'order': numeric array ordering the observations
+%		'addSpecification': add display specification to plot directive
+%			as ('parameter' / value) pairs
+%		'caption': caption of display as string
+%			symbol + gets replaced by a description of the settings
 %		'expand': name or index of the factor to expand
-%		'obs': name(s) or index(es) of the observations to retain
-%		'variance': display variance
-%			-1: no variance
-%			0: variance for every observations
-%			[1, 3]: variance for the first and third observations
+%		'fontSize': set the font size of LaTEX tables (default 'normal')
 %		'highlight': highlight settings that are not significantly
 %			different from the best performing setting
 %			selector is the same as 'variance'
-%		'title': title of display as string
-%			symbol + gets replaced by a description of the settings
+%		'integrate': factor(s) to integrate
+%		'label': label of display as string (equal to the name if left empty)
+%		'legendLocation': location of the legend (default 'BestOutSide')
+%		'mask': selection of the settings to be displayed
+%		'multipage': activate the multipage to the LaTEX table
 %		'name': name of exported file as string
 %			symbol + gets replaced by a compact description of the settings
-%		'label': label of display as string (equal to the name if left empty)
-%		'caption': caption of display as string
-%			symbol + gets replaced by a description of the settings
-%		'multipage': activate the multipage to the LaTEX table
-%		'sort': sort settings acording to the specified observation if
-%           positive or to the specified factor if negative
-%		'mask': selection of the settings to be displayed
-%		'step': name or index of the processing step
+%		'report': generate report
+%			<=-3: no report
+%			-2: verbose tex report
+%			-1: generation of tex report
+%			0; generate outputs
+%			1: generate outputs and generation of tex report
+%			2: display figures and verbose tex report
+%		'obs': name(s) or index(es) of the observations to retain
+%		'order': numeric array ordering the observations
+%		'orientation': display orientation
+%			'v': vertical (default)
+%			'h': horizontal
+%		'percent': display observations in percent
+%			selector is the same as 'variance'
 %		'put': specify display output
 %			0: ouput to command prompt
 %			1: output to figure
@@ -32,25 +40,17 @@ function config = expExpose(varargin)
 %			0: no saving
 %			1: save to a file with the masked settings description as name
 %			'name': save to a file with 'name' as name
-%		'report': generate report
-%			<=-3: no report
-%			-2: verbose tex report
-%			-1: generation of tex report
-%			0; generate outputs
-%			1: generate outputs and generation of tex report
-%			2: display figures and verbose tex report
-%		'percent': display observations in percent
-%			selector is the same as 'variance'
-%		'legendLocation': location of the legend (default 'BestOutSide')
-%		'integrate': factor(s) to integrate
-%		'total': display average values for observations
-%		'addSpecification': add display specification to plot directive
-%			as ('parameter' / value) pairs
-%		'orientation': display orientation
-%			'v': vertical (default)
-%			'h': horizontal
 %		'shortObservations': compact observation names
-%		'fontSize': set the font size of LaTEX tables (default 'normal')
+%		'sort': sort settings acording to the specified observation if
+%           positive or to the specified factor if negative
+%		'step': name or index of the processing step
+%		'title': title of display as string
+%			symbol + gets replaced by a description of the settings
+%		'total': display average values for observations
+%		'variance': display variance
+%			-1: no variance
+%			0: variance for all observations
+%			[1, 3]: variance for the first and third observations
 %       'visible': show the figure (default except when in save mode)
 %	-- config: expCode configuration
 
@@ -86,6 +86,7 @@ p.orientation='v';
 p.shortObservations = -1;
 p.fontSize='';
 p.visible = -1;
+p.number = 1;
 
 pNames = fieldnames(p);
 % overwrite default factors with command line ones

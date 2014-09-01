@@ -135,7 +135,7 @@ if syncDestination==-1
     bundleConfig = expBundleConfig(config.configFileName);
     expConfigStringSave(bundleConfig, [serverConfig.codePath '/config/' serverConfig.projectName 'ConfigDefault.txt']);
     
-    bundleName = [config.projectName '_' num2str(config.versionName) '_' date() '.tgz' ];
+    bundleName = [config.projectName '_' num2str(config.codeVersion) '_' date() '.tgz' ];
     system(['cd ' config.bundlePath ' && tar czf '  bundleName ' ' config.projectName]);
     warning('off', 'MATLAB:RMDIR:NoDirectoriesRemoved');
     rmdir([config.bundlePath config.projectName], 's');

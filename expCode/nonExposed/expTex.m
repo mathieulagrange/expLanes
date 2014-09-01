@@ -20,7 +20,7 @@ end
 
 config.latexFileName = [latexPath config.projectName reportName];
 if ~exist([config.reportPath config.projectName reportName '.tex'], 'file')
-    config.latex = LatexCreator([config.reportPath filesep config.projectName reportName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName, 1, 1, config.latexDocumentClass);
+    config.latex = LatexCreator([config.reportPath filesep config.projectName reportName '.tex'], 0, config.completeName, [config.projectName reportName], config.projectName, 1, 1, config.latexDocumentClass);
 end
 if ~exist([config.reportPath 'mcode.sty'], 'file')
     copyfile([fileparts(mfilename('fullpath')) filesep 'utils/mcode.sty'], config.reportPath);
@@ -45,7 +45,7 @@ keep=1;
 if isempty(strfind(command, 'r'))
     keep = 2;
 end
-config.latex = LatexCreator([config.latexFileName '.tex'], keep, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' reportName], config.projectName, 1, 0, config.latexDocumentClass);
+config.latex = LatexCreator([config.latexFileName '.tex'], keep, config.completeName, [config.projectName reportName], config.projectName, 1, 0, config.latexDocumentClass);
 config.latex.addLine(''); % mandatory
 
 if abs(config.showFactorsInReport)
