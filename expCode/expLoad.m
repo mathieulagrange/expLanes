@@ -22,7 +22,7 @@ else
     [p, n] = fileparts(extension); % FIXME may be fragile
     extension = ['_' n];
 end
-if ~exist('contracting', 'var'), contracting = 1; end
+if ~exist('contracting', 'var'), contracting = 0; end
 if ~exist('fieldSelector', 'var')
     fieldSelector=[];
 elseif ~iscell(fieldSelector) && ~isempty(fieldSelector)
@@ -68,6 +68,9 @@ if nargin<2 || isempty(name)
     else
         settings{1} = config.step.setting;
     end
+    
+%     settings{k}.infoString
+    
     for k=1:length(settings)
         switch config.namingConventionForFiles
             case 'short'

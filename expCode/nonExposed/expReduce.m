@@ -16,6 +16,8 @@ if exist(reduceFileName, 'file')
     end
 end
 
+% data = [];
+
 if isempty(data)
 %     config.step.id = config.step.id+1; % FIX ME fragile
     
@@ -25,7 +27,7 @@ if isempty(data)
     for k=1:config.step.nbSettings
         config.step.setting = expSetting(config.step, k);
         
-        config = expLoad(config, [], config.step.id, 'obs', [], 1);
+        config = expLoad(config, [], config.step.id, 'obs', [], 0);
         if ~isempty(config.load)
             data{k} = config.load;
         else
