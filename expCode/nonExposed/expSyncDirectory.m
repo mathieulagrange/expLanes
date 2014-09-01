@@ -164,6 +164,6 @@ for k=1:length(fieldNames)
     pathName = eval(['config.' fieldNames{k} 'Path']);
     index = strfind(pathName, directoryPath);
     if  ~strcmp(pathName, directoryPath) && ~isempty(index)
-        excludeString = [excludeString ' --filter=''- ' pathName(length(directoryPath):end)  ''''];
+        excludeString = [excludeString ' --filter=''- ' pathName(length(directoryPath)+1:end)  ''''];
     end
 end
