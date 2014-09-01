@@ -121,7 +121,7 @@ if isfield(config, 'serverConfig')
     matConfig = config.serverConfig;
         matConfig.host = 0;
      matConfig.attachedMode = 0;
-    matConfig.exitMatlab = 1;
+%     matConfig.exitMatlab = 1;
     matConfig.sendMail = 1;
     matConfig.runInfo = config.runInfo;
     matConfig.staticDataFileName = [config.serverConfig.codePath '/config' '/' shortProjectName];

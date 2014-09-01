@@ -44,9 +44,6 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO ability to run only what is needed to display
 
-% TODO table display add a column with number
-
-
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})

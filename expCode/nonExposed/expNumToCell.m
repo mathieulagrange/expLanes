@@ -4,6 +4,7 @@ if ~exist('dataVar', 'var'), dataVar = []; end
 if ~exist('displayDigitPrecision', 'var'), displayDigitPrecision=0; end
 if ~exist('put', 'var'), put=0; end
 if ~exist('highlight', 'var'), highlight=0; end
+if ~exist('number', 'var'), number=0; end
 
 if put==2
     og = '$\\pm$';
@@ -39,4 +40,5 @@ if any(highlight(:))
         resultCell(highlight==2) = strcat('<html><font color="red"><b>', resultCell(highlight==2), '</font></html>');
     end
 end
+    
 

@@ -27,6 +27,10 @@ switch p.put
             p.report=0;
             config = expDisplay(config, p);
             dataCell = [p.rowNames inputCell];
+            if p.number
+                 dataCell = [cellstr([num2str([1:size(dataCell, 1)]')]) dataCell];
+                 p.columnNames = [{''} p.columnNames];
+            end
             if numeric, dataCell = expSortData(dataCell, p, data.factorSelector, config); end
             if p.total
                 el = cell(1, length(p.columnNames));

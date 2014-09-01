@@ -22,7 +22,7 @@ else
     [p, n] = fileparts(extension); % FIXME may be fragile
     extension = ['_' n];
 end
-if ~exist('contracting', 'var'), contracting = 0; end
+if ~exist('contracting', 'var'), contracting = 1; end
 if ~exist('fieldSelector', 'var')
     fieldSelector=[];
 elseif ~iscell(fieldSelector) && ~isempty(fieldSelector)

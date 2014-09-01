@@ -18,6 +18,7 @@ function config = expExpose(varargin)
 %		'multipage': activate the multipage to the LaTEX table
 %		'name': name of exported file as string
 %			symbol + gets replaced by a compact description of the settings
+%       'number': add a line number for each setting in tables
 %		'report': generate report
 %			<=-3: no report
 %			-2: verbose tex report

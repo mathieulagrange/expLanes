@@ -16,10 +16,11 @@ else
                  message = message.message;
     end
 end
+
 if nargin<3, expInfo = 0; end
 if nargin<4, codeLocation = 0; end
 if nargin<5
-    if config.host
+    if ~config.attachedMode
         destination = 'both';
     else
         destination = 'prompt';
