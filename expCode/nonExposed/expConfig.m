@@ -42,10 +42,9 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % FIXME negative factor selector
 
-%
+% TODO ability to run only what is needed to display
 
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
-
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
     config = commands{1};
@@ -288,7 +287,7 @@ end
 for k=1:length(fieldNames)
     if ~isempty(strfind(fieldNames{k}, 'Path'))
         field = config.(fieldNames{k});
-        if config.attachedMode
+        if config.attachedMode == 1
             field = expandHomePath(config.(fieldNames{k}));
         end
         % if relative add projectPath

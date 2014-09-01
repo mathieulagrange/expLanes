@@ -21,7 +21,11 @@ end
 config.latexFileName = [latexPath config.projectName reportName];
 if ~exist([config.reportPath config.projectName reportName '.tex'], 'file')
     config.latex = LatexCreator([config.reportPath filesep config.projectName reportName '.tex'], 0, config.completeName, [config.projectName ' version ' num2str(config.versionName) '\\ ' config.message], config.projectName, 1, 1, config.latexDocumentClass);
+end
+if ~exist([config.reportPath 'mcode.sty'], 'file')
     copyfile([fileparts(mfilename('fullpath')) filesep 'utils/mcode.sty'], config.reportPath);
+end
+if ~exist([config.reportPath 'bib.bib'], 'file')
     fid=fopen([config.reportPath 'bib.bib'], 'w');
     fclose(fid);
 end
@@ -125,8 +129,10 @@ end
 
 if config.deleteTexDirectory
     warning('off', 'MATLAB:RMDIR:NoDirectoriesRemoved');
+    warning('off', 'MATLAB:RMDIR:RemovedFromPath');
     rmdir(latexPath, 's');
     mkdir(latexPath);
+        warning('on', 'MATLAB:RMDIR:RemovedFromPath');
     warning('on', 'MATLAB:RMDIR:NoDirectoriesRemoved');
 end
 

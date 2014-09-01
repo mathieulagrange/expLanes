@@ -168,12 +168,12 @@ else
 end
 
 if config.obs ~= -1
-    try
-        config = exposeObservations(config);
-    catch error
-        if config.attachedMode
-            rethrow(error);
-        else
+    if config.attachedMode
+                    config = exposeObservations(config);
+    else
+        try
+            config = exposeObservations(config);
+        catch error
             explog(config, error, 3, 1);
         end
     end
@@ -181,13 +181,13 @@ end
 
 if strfind(config.report, 'r')
     config.step.id = length(config.stepName);
-    try
+    if config.attachedMode
         config = feval([config.shortProjectName 'Report'], config);
-    catch error
-        config.report='';
-        if config.attachedMode
-            rethrow(error);
-        else
+    else
+        try
+            config = feval([config.shortProjectName 'Report'], config);
+        catch error
+            config.report='';
             expLog(config, error, 3, 1);
         end
     end

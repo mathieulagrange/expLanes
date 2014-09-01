@@ -8,7 +8,7 @@
 % mcode options for matlab code insertion bw (for printing), numbered (line numbers), framed (frame around code blocks), useliterate (convert Matlab expressions to Latex ones), autolinebreaks (automatic code wraping, use it with caution 
 \usepackage[literate]{mcode} 
 \graphicspath{{figures/}{tex}{../figures/}{../../}{../}}  
-\title{clusteringDemonstration} 
+\title[clustering]{clusteringDemonstration} 
 \author{ Mathieu Lagrange } 
   
 \begin{document} 
@@ -85,7 +85,7 @@ Please note the \mcode{2/2} between the last two equals of the factor definition
 \begin{figure}
 \includegraphics[width=\textwidth]{figures/factors}
 \caption{Factor and data flow graph.}
-\label{scatter}
+\label{factorFlowGraph}
 \end{figure}
 
 \section{Results}
@@ -120,8 +120,7 @@ The average computation time for the different clustering methods can be display
 \lstinputlisting[firstline=16, lastline=17]{../cldeReport.m}
 The results shown on Table \ref{all} reflect well the ranking of the different methods in terms of computational complexity.
 
-  
-  
+
 \input{tex/exposeTmp} % expCodeInsertionFlag DO NOT CLEAR (but move it where you want the generated temporary LaTEX code to be inserted) 
   
   

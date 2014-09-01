@@ -25,7 +25,7 @@ end
 if duration >= 1
     nbMinutes = floor(duration);
     if nbMinutes == 1
-        time = [time num2str(nbMinutes) ' minute'];
+        time = [time num2str(nbMinutes) ' minute '];
     else
         time = [time num2str(nbMinutes) ' minutes '];
     end

@@ -149,7 +149,7 @@ config.step = expStepSetting(config.factors, config.mask, config.step.id);
 
 config = expReduce(config);
 
-if ~isfield(config, 'evaluation') || isempty(config.evaluation) || isempty(config.evaluation.data)  || isempty(config.evaluation.data{1})
+if ~isfield(config, 'evaluation') || isempty(config.evaluation) || isempty(config.evaluation.data) %  || isempty(config.evaluation.data{1}) % TODO check if all data are empty
     disp('No observations to display.');
     return
 end

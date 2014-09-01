@@ -22,12 +22,12 @@ end
 config.step.setting = [];
 
 tic
-try
+if config.attachedMode
     [config, config.initStore] = feval([config.shortProjectName 'Init'], config);
-catch error
-    if config.attachedMode
-        rethrow(error);
-    else
+else
+    try
+        [config, config.initStore] = feval([config.shortProjectName 'Init'], config);
+    catch error
         config = expLog(config, error, 3, 1);
     end
 end
@@ -93,15 +93,16 @@ config.sequentialData = [];
 for k=1:length(config.step.sequence{sequence})
     config.step.setting = expSetting(config.step, config.step.sequence{sequence}(k));
     success=1;
-    try
+    if config.attachedMode
         config = expProcessOneSub(config);
-    catch error
-        if config.attachedMode
-            rethrow(error);
+    else
+        try
+            config = expProcessOneSub(config);
+        catch error
+            config.settingStatus.failed = config.settingStatus.failed+1;
+            config = expLog(config, error, 2, 1);
+            success = 0;
         end
-        config.settingStatus.failed = config.settingStatus.failed+1;
-        config = expLog(config, error, 2, 1);
-        success = 0;
     end
     if success
         config.settingStatus.success = config.settingStatus.success+1;
@@ -115,7 +116,7 @@ function config = expProcessOneSub(config)
 functionName = [config.shortProjectName num2str(config.step.id) config.stepName{config.step.id}];
 
 if config.redo || ~(exist(expSave(config, [], 'data'), 'file') || exist(expSave(config, [], 'obs'), 'file'))
-      
+    
     loadedData = [];
     if config.store > -1
         if config.step.id>1
