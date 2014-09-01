@@ -8,10 +8,15 @@ else
     inputCell = data;
 end
 
+dataCell = [p.rowNames inputCell];
+if numeric, dataCell = expSortData(dataCell, p, data.factorSelector, config); end % FIXME not done in put=1 ?
+if p.number
+    dataCell = [cellstr([num2str([1:size(dataCell, 1)]')]) dataCell];
+    p.columnNames = [{''} p.columnNames];
+end
+
 switch p.put
     case 0
-        dataCell = [p.rowNames inputCell]; % config.step.factors.list(data.settingSelector, data.factorSelector)
-        if numeric, dataCell = expSortData(dataCell, p, data.factorSelector, config); end
         el = cell(1, length(p.columnNames));
         [el{:}] = deal('---');
         if p.total
@@ -26,11 +31,6 @@ switch p.put
         if p.visible
             p.report=0;
             config = expDisplay(config, p);
-            dataCell = [p.rowNames inputCell];
-            if p.number
-                 dataCell = [cellstr([num2str([1:size(dataCell, 1)]')]) dataCell];
-                 p.columnNames = [{''} p.columnNames];
-            end
             if numeric, dataCell = expSortData(dataCell, p, data.factorSelector, config); end
             if p.total
                 el = cell(1, length(p.columnNames));
@@ -77,8 +77,6 @@ switch p.put
             end
         end
     case 2
-        dataCell = [p.rowNames inputCell];
-        if numeric, dataCell = expSortData(dataCell, p, data.factorSelector, config); end
         allCell = [p.columnNames; dataCell];
         allCell = strrep(allCell, '_', '\_');
         allCell = strrep(allCell, '%', '\%');
