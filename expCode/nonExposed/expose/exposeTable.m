@@ -2,7 +2,7 @@ function config = exposeTable(config, data, p)
 
 if isstruct(data)
     numeric=1;
-    inputCell = expNumToCell(data.meanData, data.varData, config.tableDigitPrecision, p.put, data.highlights);
+    inputCell = expNumToCell(data.meanData, data.varData, p.precision, p.put, data.highlights);
 else
     numeric = 0;
     inputCell = data;
@@ -10,7 +10,7 @@ end
 
 dataCell = [p.rowNames inputCell];
 if numeric, dataCell = expSortData(dataCell, p, data.factorSelector, config); end % FIXME not done in put=1 ?
-if p.number
+if ~isempty(dataCell) && p.number
     dataCell = [cellstr([num2str([1:size(dataCell, 1)]')]) dataCell];
     p.columnNames = [{''} p.columnNames];
 end

@@ -156,7 +156,7 @@ if p.highlight ~= -1
         end
     end
     if p.total
-        col = round(sData(end, :)*10^config.tableDigitPrecision);
+        col = round(sData(end, :)*10^p.precision);
         [maxValue, maxIndex] = max(col);
         
         if any(vData(end, :))
@@ -205,6 +205,10 @@ dataDisplay.filteredData = squeeze(fData);
 % if isvector(dataDisplay.filteredData)
 %     dataDisplay.filteredData = dataDisplay.filteredData(:).';
 % end
+if p.showMissingSettings
+    select(:)=1;
+end
+
 dataDisplay.meanData = sData(select, :);
 dataDisplay.highlights = highlights(select, :);
 dataDisplay.factorSelector = factorSelector;

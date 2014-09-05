@@ -131,7 +131,7 @@ if config.redo || ~(exist(expSave(config, [], 'data'), 'file') || exist(expSave(
     if config.store < 1
         config = expLoad(config, [], config.step.id, 'data');
         if ~isempty(config.load)
-            loadedData.store = config.load.data;
+            loadedData.store = config.load;
         end
     end
     

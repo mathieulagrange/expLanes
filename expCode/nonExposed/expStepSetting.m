@@ -5,7 +5,11 @@ vSet = expSettingSet(vSpec, mask, currentStep);
 maskFilter = expMaskFilter(vSpec, vSet);
 % settings = expSettingBuild(vSpec, vSet);
 
-sequence = expSettingSequence(vSpec, vSet);
+if isempty(vSet)
+    sequence = [];
+else
+    sequence = expSettingSequence(vSpec, vSet);
+end
 
 stepSetting.nbSettings = size(vSet, 2);
 stepSetting.maskFilter = maskFilter;

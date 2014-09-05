@@ -84,15 +84,17 @@ if config.do>-1
     fprintf('Project %s: running on host %s \n', config.projectName, config.hostName);
     for k=1:length(config.do)
         [config.stepSettings{config.do(k)}] = expStepSetting(config.factors, config.mask, config.do(k));
-        runInfo = sprintf(' - step %s, ', config.stepName{config.do(k)});
-        if ~strcmp(config.stepSettings{config.do(k)}.setting.infoStringMask, 'all')
-            runInfo = [runInfo sprintf('factors with fixed modalities: %s', config.stepSettings{config.do(k)}.setting.infoStringMask)];
+        if isfield(config.stepSettings{config.do(k)}, 'setting')
+            runInfo = sprintf(' - step %s, ', config.stepName{config.do(k)});
+            if ~strcmp(config.stepSettings{config.do(k)}.setting.infoStringMask, 'all')
+                runInfo = [runInfo sprintf('factors with fixed modalities: %s', config.stepSettings{config.do(k)}.setting.infoStringMask)];
+            end
+            if config.stepSettings{config.do(k)}.nbSettings>1
+                runInfo = [runInfo sprintf('\n     %d settings with the factors: %s', config.stepSettings{config.do(k)}.nbSettings, config.stepSettings{config.do(k)}.setting.infoStringFactors)];
+            end
+            config.runInfo{k} = runInfo;
+            config = expLog(config, [config.runInfo{k} '\n']);
         end
-        if config.stepSettings{config.do(k)}.nbSettings>1
-            runInfo = [runInfo sprintf('\n     %d settings with the factors: %s', config.stepSettings{config.do(k)}.nbSettings, config.stepSettings{config.do(k)}.setting.infoStringFactors)];
-        end
-        config.runInfo{k} = runInfo;
-        config = expLog(config, [config.runInfo{k} '\n']);
     end
     if config.obs>0
         rem = setdiff(config.obs, config.do);
@@ -114,14 +116,14 @@ end
 % end
 
 if isfield(config, 'serverConfig')
-%     config.host
-%     config.attachedMode
+    %     config.host
+    %     config.attachedMode
     if ~inputQuestion(), fprintf(' Bailing out ...\n'); return; end
     
     matConfig = config.serverConfig;
-        matConfig.host = 0;
-     matConfig.attachedMode = 0;
-%     matConfig.exitMatlab = 1;
+    matConfig.host = 0;
+    matConfig.attachedMode = 0;
+    matConfig.exitMatlab = 1;
     matConfig.sendMail = 1;
     matConfig.runInfo = config.runInfo;
     matConfig.staticDataFileName = [config.serverConfig.codePath '/config' '/' shortProjectName];
@@ -169,7 +171,7 @@ end
 
 if config.obs ~= -1
     if config.attachedMode
-                    config = exposeObservations(config);
+        config = exposeObservations(config);
     else
         try
             config = exposeObservations(config);

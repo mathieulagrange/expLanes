@@ -44,6 +44,13 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO ability to run only what is needed to display
 
+% TODO have a way to handle p of expose similar to config default in
+% expcode in home 
+
+% TODO close progress bar at opening
+
+% TODO precision can be an array
+
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})

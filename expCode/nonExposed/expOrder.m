@@ -22,13 +22,24 @@ vSpec.step = vSpec.step(order);
 select = vSpec.selectFactors;
 [null, io] = sort(order);
 for k=1:length(select)
-    c = regexp(select{k}, '/', 'split');
+    c = regexp(select{k}, '/', 'split'); % TODO parse [] 
     select{k} = [num2str(io(str2num(c{1}))) '/' num2str(io(str2num(c{2}))) '/' c{3}];
     if length(c)==4
         select{k} = [select{k}  '/' c{4}];
     end
 end
 vSpec.selectFactors = select;
+
+deselect = vSpec.deselectFactors;
+for k=1:length(deselect)
+    c = regexp(deselect{k}, '/', 'split'); % TODO parse [] 
+    
+   deselect{k} = [num2str(io(str2num(c{1}))) '/-' c{2} '/' num2str(io(str2num(c{3})))]; 
+    if length(c)==4
+        deselect{k} = [deselect{k}  '/' c{4}];
+    end
+end
+vSpec.deselectFactors = deselect;
 
 vSet = config.step.set;
 mask =  config.mask{1};

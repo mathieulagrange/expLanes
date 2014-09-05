@@ -1,6 +1,6 @@
 function expSaveTable(fileName, table)
 
-latex = LatexCreator(fileName, 1, '', '', '', 0, 1);
+latex = LatexCreator(fileName, 0, '', '', '', 0, 1);
 
 try
 dataset = mat2dataset(table.table(2:end, :));
@@ -16,4 +16,4 @@ catch
     fprintf(2, 'Unable to generate Matlab dataset for export.\n');
 end
 
-latex.addTable(table.table, 'caption', table.caption, 'multipage', table.multipage, 'landscape', table.landscape, 'label', table.label)
+latex.addTable(table.table, 'caption', table.caption, 'multipage', table.multipage, 'landscape', table.landscape, 'label', table.label, 'fontSize', table.fontSize, 'nbFactors', table.nbFactors)

@@ -33,6 +33,7 @@ function config = expExpose(varargin)
 %			'h': horizontal
 %		'percent': display observations in percent
 %			selector is the same as 'variance'
+%		'precision': overwrite value given by config field tableDigitPrecision  if ~-1 (default do not overwrite)
 %		'put': specify display output
 %			0: ouput to command prompt
 %			1: output to figure
@@ -42,6 +43,7 @@ function config = expExpose(varargin)
 %			1: save to a file with the masked settings description as name
 %			'name': save to a file with 'name' as name
 %		'shortObservations': compact observation names
+%		'showMissingSetting': show missing settings (default 0)
 %		'sort': sort settings acording to the specified observation if
 %           positive or to the specified factor if negative
 %		'step': name or index of the processing step
@@ -87,7 +89,9 @@ p.orientation='v';
 p.shortObservations = -1;
 p.fontSize='';
 p.visible = -1;
-p.number = 1;
+p.number = 0;
+p.showMissingSettings = 0;
+p.precision = -1;
 
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
@@ -96,6 +100,10 @@ for pair = reshape(varargin(3:end),2,[])
         error(['Error: ' pair{1} ' is not a valid parameter']);
     end
     p.(pair{1}) = pair{2};
+end
+
+if p.precision==-1
+    p.precision = config.tableDigitPrecision;
 end
 
 if any(p.save ~= 0) && p.visible ~= 1
@@ -165,6 +173,7 @@ if ~p.obs
 end
 evaluationObservations = config.evaluation.observations;
 if p.percent ~= -1
+    p.precision = min(p.precision-2, 0);
     if p.percent==0
         p.percent = 1:length(evaluationObservations);
     end

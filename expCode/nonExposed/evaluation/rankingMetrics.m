@@ -49,7 +49,7 @@ for k=1:nbElts
         c = sum(ind);
         if c>1
             ind = ind(si(filter~=filter(k), k));
-            iRank = min(rank, length(ind));
+            iRank = min(rank, sum(ind));
             n(l) = mean(ind(1:iRank));
             
             pk = cumsum(ind)./(1:size(ind, 1)).';
