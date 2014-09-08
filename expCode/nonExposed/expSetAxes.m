@@ -1,11 +1,18 @@
 function expSetAxes(config, p)
 
-if strcmpi(p.orientation(1), 'h')
-    if length(p.legendNames)>1
-        legend(p.legendNames);
+if  length(p.legendNames)>1
+    if p.legend
+    if ischar(p.legendLocation)
+        legend(p.legendNames, 'Location', p.legendLocation);
     else
-        xlabel(p.legendNames);
+        legend(p.legendNames);
     end
+    end
+else
+    xlabel(p.legendNames);
+end
+
+if strcmpi(p.orientation(1), 'h')
     set(gca,'ytick', 1:length(p.labels));
     set(gca, 'yticklabel', p.labels);
     xlabel(p.methodLabel, 'fontsize', config.displayFontSize);

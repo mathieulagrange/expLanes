@@ -1,7 +1,5 @@
 function vSet = expSettingSet(vSpec, mask, currentStep)
 
-
-
 vSet=[];
 for k=1:length(mask)
     vSet = [vSet expSettingSetMask(vSpec, mask{k}, currentStep)];
@@ -17,7 +15,7 @@ for k=1:length(vSpec.deselectFactors)
 end
 
 % prune vSet for repetition
-[newmat,index] = unique(vSet','rows','first');  % Finds indices of unique rows
+[newmat, index] = unique(vSet','rows','first');  % Finds indices of unique rows
 vSet(:, setdiff(1:size(vSet,2),index))=[];
 % prune for emptiness
 vSet(:, sum(vSet)==0)=[];

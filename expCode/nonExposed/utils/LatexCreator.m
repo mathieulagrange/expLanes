@@ -771,6 +771,7 @@ CONSTRUCTOR(varargin{:});
         end
         Data.tex{end+1}='\begin{center}';
         Data.tex{end+1}=['\' fontSize];
+       Data.tex{end+1}=' \setlength{\tabcolsep}{.16667em}';      
         tmp_line='\begin{tabular}{';
         
         for pos_c =1 : nb_colone,

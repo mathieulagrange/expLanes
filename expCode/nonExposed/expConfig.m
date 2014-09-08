@@ -51,6 +51,10 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO precision can be an array
 
+% FIME bar plot on analysedcase
+
+% TODO specificy legend
+
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})

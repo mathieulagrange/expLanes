@@ -29,4 +29,3 @@ end
 oriStep = config.step;
 config.step = expStepSetting(config.factors, mask, config.step.id);
 config.step.oriFactors = oriStep.factors;
-% config.step.oriSet = oriStep.set;

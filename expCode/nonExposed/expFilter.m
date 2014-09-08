@@ -9,7 +9,6 @@ observations = config.evaluation.observations;
 
 settingSelector = 1:config.step.nbSettings;
 
-
 if isnumeric(p.integrate) && all(p.integrate ~= 0)
     fData = data;
     factors = 1:length(config.step.oriFactors.names);
@@ -52,12 +51,9 @@ if  p.expand ~= 0
     end
     
     observation = observations(p.obs);
-    observations = config.step.oriFactors.values{p.expand};
+    expandNames = config.step.oriFactors.values{p.expand};
+   observations = config.step.oriFactors.values{p.expand};
     fData = data;
-    
-%     observations = sort(config.step.oriFactors.values{p.expand});
-%     [null, io] = sort(config.step.oriFactors.list(:, p.expand));
-%     fData = data(io);
     
     observations = strrep(observations, '-', 'expCodeMinus');
     observations = strrep(observations, ' ', '');
@@ -74,14 +70,31 @@ if  p.expand ~= 0
     fSize = length(fData)/length(observations);
     observations = met;
     p.obs = 1:length(observations);
+    
+    %%%%%%%%%%%%%%% % TODO issue with empty to be replaced with none, may
+    %%%%%%%%%%%%%%% be not necessary
+    for m=1:size(config.step.oriFactors.list, 1)
+        filter = config.step.maskFilter.maskFilter;
+        filter(end) = 1;
+        olist{m} =  [config.step.oriFactors.list{m, filter}];
+    end
+    for m=1:size(config.step.factors.list, 1)
+        list{m} =  [config.step.factors.list{m, :}];
+    end
+    
+    %%%%%%%%%%%%%%%%
+    
     data={};
     for m=1:length(observations)
         observations{m} = [config.step.oriFactors.names{p.expand} observations{m}];
         for k=1:fSize
-            if isempty(fData{(k-1)*length(observations)/length(observation)+ind(m)})
+            index = find(strcmp(olist, [list{k} expandNames{m}]));
+
+            if isempty(fData{index}) % (k-1)*length(observations)/length(observation)+ind(m)
                 data{k}.(observations{m}) = NaN;
             else
-                data{k}.(observations{m}) = fData{(k-1)*length(observations)/length(observation)+ind(m)}.(met2{m});
+%                 data{k}.(observations{m}) = fData{(k-1)*length(observations)/length(observation)+ind(m)}.(met2{m});
+                data{k}.(observations{m}) = fData{index}.(met2{m});
             end
         end
     end
@@ -208,6 +221,8 @@ dataDisplay.filteredData = squeeze(fData);
 if p.showMissingSettings
     select(:)=1;
 end
+
+
 
 dataDisplay.meanData = sData(select, :);
 dataDisplay.highlights = highlights(select, :);

@@ -13,6 +13,7 @@ function config = expExpose(varargin)
 %			selector is the same as 'variance'
 %		'integrate': factor(s) to integrate
 %		'label': label of display as string (equal to the name if left empty)
+%		'legend': display and/or specify legend
 %		'legendLocation': location of the legend (default 'BestOutSide')
 %		'mask': selection of the settings to be displayed
 %		'multipage': activate the multipage to the LaTEX table
@@ -27,17 +28,24 @@ function config = expExpose(varargin)
 %			1: generate outputs and generation of tex report
 %			2: display figures and verbose tex report
 %		'obs': name(s) or index(es) of the observations to retain
-%		'order': numeric array ordering the observations
+%		'order': numeric array ordering the factors
 %		'orientation': display orientation
 %			'v': vertical (default)
 %			'h': horizontal
 %		'percent': display observations in percent
 %			selector is the same as 'variance'
-%		'precision': overwrite value given by config field tableDigitPrecision  if ~-1 (default do not overwrite)
+%		'precision': mantissa precision of data
+%           -1: take value of config field tableDigitPrecision (default)
+%           0: no mantissa
 %		'put': specify display output
 %			0: ouput to command prompt
 %			1: output to figure
 %			2: output to LaTEX
+%		'show': display
+%           'data': actual observations (default)
+%           'rank': ranking among settings
+%           'best': select best approaches
+%           'Best': select the significantly best approach (if any)
 %		'save': save the display
 %			0: no saving
 %			1: save to a file with the masked settings description as name
@@ -50,6 +58,8 @@ function config = expExpose(varargin)
 %		'title': title of display as string
 %			symbol + gets replaced by a description of the settings
 %		'total': display average values for observations
+%           1: average
+%           2: sum
 %		'variance': display variance
 %			-1: no variance
 %			0: variance for all observations
@@ -59,6 +69,8 @@ function config = expExpose(varargin)
 
 %	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
 %	See licence.txt for more information.
+
+% TODO check for implemented specifs
 
 oriConfig = varargin{1};
 config = varargin{1};
@@ -81,6 +93,7 @@ p.put=1;
 p.save=0;
 p.report=1;
 p.percent=-1;
+p.legend = 1;
 p.legendLocation='BestOutSide';
 p.integrate=0;
 p.total=0;
@@ -92,6 +105,8 @@ p.visible = -1;
 p.number = 0;
 p.showMissingSettings = 0;
 p.precision = -1;
+p.show = 'data';
+p.numericObservations = 0;
 
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
@@ -173,7 +188,7 @@ if ~p.obs
 end
 evaluationObservations = config.evaluation.observations;
 if p.percent ~= -1
-    p.precision = min(p.precision-2, 0);
+    p.precision = max(p.precision-2, 0);
     if p.percent==0
         p.percent = 1:length(evaluationObservations);
     end
@@ -195,6 +210,9 @@ if p.shortObservations ~= -1
         evaluationObservations(p.shortObservations(k)) =  names2shortNames(evaluationObservations(p.shortObservations(k)), 3);
     end
 end
+if p.numericObservations
+    evaluationObservations = num2cell(1:length(evaluationObservations));
+end
 
 if ~isempty(p.order) || any(p.expand ~= 0)
     if ~isempty(p.order)
@@ -203,7 +221,6 @@ if ~isempty(p.order) || any(p.expand ~= 0)
         order = 1:length(config.factors.names);
     end
     if any(p.expand ~= 0)
-        
         [null, expand] = expModifyExposition(config, p.expand);
         if order(end) ~= expand
             order(expand) = length(order);
@@ -211,6 +228,7 @@ if ~isempty(p.order) || any(p.expand ~= 0)
         end
     end
     config = expOrder(config, order);
+    % sort data and settings
 end
 
 % if any(p.integrate) && p.expand
@@ -251,12 +269,35 @@ if p.expand,
     end
 end
 
+if ~strcmp(p.show, 'data')
+    data.varData(:)=0;
+    p.precision = 0;
+    switch p.show
+        case 'rank'
+            data.meanData  = tiedrank(-data.meanData);
+        case 'best'
+            [null, index] = max(data.meanData);
+            for k=1:size(data.meanData, 2)
+                data.meanData(:, k) = 0;
+                data.meanData(index(k), k) = 1;
+            end
+        case 'Best'
+            [null, index] = max(data.meanData);
+            for k=1:size(data.meanData, 2)
+                data.meanData(:, k) = 0;
+                if sum(data.highlights(:, k))==2
+                    data.meanData(index(k), k) = 1;
+                end
+            end
+    end
+end
+
 if ~p.sort && isfield(config, 'sortDisplay')
     p.sort = config.sortDisplay;
 end
 
-p.title = strrep(p.title, '+', config.step.setting.infoStringMask); 
-p.name = strrep(p.name, '+', config.step.setting.infoShortStringMask); 
+p.title = strrep(p.title, '+', config.step.setting.infoStringMask);
+p.name = strrep(p.name, '+', config.step.setting.infoShortStringMask);
 if isempty(p.label)
     p.label = p.name;
 end
@@ -291,25 +332,35 @@ if p.integrate
 end
 
 if p.expand
-    if length(p.obs)>1
         nbModalities = length(config.step.oriFactors.values{p.expand});
-        for k=1:nbModalities
+     
+    if length(p.obs)>1
+       for k=1:nbModalities
             for m=1:length(p.obs)
                 p.legendNames(1, (k-1)*length(p.obs)+m) = {''};
                 p.legendNames(2, (k-1)*length(p.obs)+m) = evaluationObservations(m);
             end
-            p.legendNames(1, (k-1)*length(p.obs)+floor(length(p.obs)/2)) = config.step.oriFactors.values{p.expand}(k);
+            if p.numericObservations
+                p.legendNames(1, (k-1)*length(p.obs)+floor(length(p.obs)/2)) = k;
+            else
+                p.legendNames(1, (k-1)*length(p.obs)+floor(length(p.obs)/2)) = config.step.oriFactors.values{p.expand}(k);
+            end
         end
     else
-        p.legendNames = config.step.oriFactors.values{p.expand};
+        if p.numericObservations
+            p.legendNames = num2cell(1:nbModalities);
+            p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
+        else
+            p.legendNames = config.step.oriFactors.values{p.expand};
+        end
     end
     if ~ischar(p.legendNames)
         if isnumeric(p.legendNames{1})
-            p.xAxis = cell2mat(config.step.factors.set{p.expand});
+            p.xAxis = cell2mat(config.step.oriFactors.values{p.expand}); % FIXME use to be set instead of values
         else
             p.xAxis = 1:length(p.legendNames);
         end
-        p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
+        p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false);
     end
     if length(p.obs)>1
         el = cell(1, length(config.step.factors.names(data.factorSelector)));
@@ -327,7 +378,11 @@ end
 if p.total
     for k=1:size(p.rowNames, 2)
         if k==1
-            p.rowNames{end+1, k} = 'Average';
+            if p.total == 1
+                p.rowNames{end+1, k} = 'Average';
+            else
+                p.rowNames{end+1, k} = 'Count';
+            end
         else
             p.rowNames{end, k} = '';
         end
@@ -369,9 +424,9 @@ if length(exposeType)<=1
             p.put=2;
         case 't'
             exposeType = 'exposeTable';
-%             if strfind(config.report, 'c')
-%                 p.put=2;
-%             end
+            %             if strfind(config.report, 'c')
+            %                 p.put=2;
+            %             end
         case 'b'
             exposeType = 'exposeBar';
         case 'p'
@@ -382,6 +437,8 @@ if length(exposeType)<=1
             exposeType = 'exposeBoxPlot';
         case 'a'
             exposeType = 'exposeAnova';
+        case 'i'
+            exposeType = 'exposeImage';
         case ''
         otherwise
             error(['unknown display type: ' exposeType]);
