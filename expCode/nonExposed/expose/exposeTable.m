@@ -19,7 +19,7 @@ switch p.put
     case 0
         el = cell(1, length(p.columnNames));
         [el{:}] = deal('---');
-        if p.total
+        if lower(p.total)=='v'
             e2 = cell(1, length(p.columnNames));
             [e2{:}] = deal('');
             e2{1} = '---';
@@ -32,7 +32,7 @@ switch p.put
             p.report=0;
             config = expDisplay(config, p);
             if numeric, dataCell = expSortData(dataCell, p, data.factorSelector, config); end
-            if p.total
+            if lower(p.total)=='v'
                 el = cell(1, length(p.columnNames));
                 [el{:}] = deal('');
                 dataCell = [dataCell(1:end-1, :); el;  dataCell(end, :)];

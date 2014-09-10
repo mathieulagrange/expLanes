@@ -246,6 +246,10 @@ if any(p.percent>0)
     end
 end
 
+if strcmp(p.show, 'Best')
+    p.highlight = 0;
+end
+
 data = {};
 if iscell(p.integrate) || any(p.integrate ~= 0),
     [config, p.integrate, p.integrateName] = expModifyExposition(config, p.integrate);
@@ -281,6 +285,7 @@ if ~strcmp(p.show, 'data')
                 data.meanData(:, k) = 0;
                 data.meanData(index(k), k) = 1;
             end
+            data.highlights(:)=0;
         case 'Best'
             [null, index] = max(data.meanData);
             for k=1:size(data.meanData, 2)
@@ -289,6 +294,7 @@ if ~strcmp(p.show, 'data')
                     data.meanData(index(k), k) = 1;
                 end
             end
+            data.highlights(:)=0;
     end
 end
 
@@ -332,10 +338,10 @@ if p.integrate
 end
 
 if p.expand
-        nbModalities = length(config.step.oriFactors.values{p.expand});
-     
+    nbModalities = length(config.step.oriFactors.values{p.expand});
+    
     if length(p.obs)>1
-       for k=1:nbModalities
+        for k=1:nbModalities
             for m=1:length(p.obs)
                 p.legendNames(1, (k-1)*length(p.obs)+m) = {''};
                 p.legendNames(2, (k-1)*length(p.obs)+m) = evaluationObservations(m);
@@ -375,18 +381,23 @@ if p.expand
     p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
 end
 
-if p.total
-    for k=1:size(p.rowNames, 2)
-        if k==1
-            if p.total == 1
-                p.rowNames{end+1, k} = 'Average';
+switch p.total
+    case {'v', 'V'}
+        for k=1:size(p.rowNames, 2)
+            if k==1
+                if p.total == 1
+                    p.rowNames{end+1, k} = 'Average';
+                else
+                    p.rowNames{end+1, k} = 'Count';
+                end
             else
-                p.rowNames{end+1, k} = 'Count';
+                p.rowNames{end, k} = '';
             end
-        else
-            p.rowNames{end, k} = '';
         end
-    end
+    case {'h'}
+        p.columnNames{end+1} = 'Total';
+    case {'H'}
+        p.columnNames = [p.factorNames 'Total']; % TODO recall observation name
 end
 
 if config.step.nbSettings == 1

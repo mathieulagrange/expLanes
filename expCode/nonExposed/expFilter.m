@@ -102,7 +102,8 @@ end
 
 nbSettings = length(data);
 
-if p.total
+switch p.total
+    case {'v', 'V'}
     for m=1:length(p.obs)
         for k=1:nbSettings
             if ~isempty(data{k})
@@ -114,6 +115,25 @@ if p.total
             end
         end
     end
+    case {'h', 'H'}
+      for m=1:length(p.obs)
+        for k=1:nbSettings
+            if ~isempty(data{k})
+                if isfield(data{k}, 'total')
+                    data{k}.total = [data{k}.total data{k}.(observations{p.obs(m)})];
+                else
+                    data{k}.total = data{k}.(observations{p.obs(m)});
+                end
+            end
+        end
+      end
+      
+      observations{end+1} = 'total';
+      if strcmp(p.total, 'H')
+          p.obs=length(observations);
+      else
+          p.obs(end+1) = length(observations);
+      end
 end
 
 sData = [];
@@ -221,8 +241,6 @@ dataDisplay.filteredData = squeeze(fData);
 if p.showMissingSettings
     select(:)=1;
 end
-
-
 
 dataDisplay.meanData = sData(select, :);
 dataDisplay.highlights = highlights(select, :);
