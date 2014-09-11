@@ -90,11 +90,12 @@ if  p.expand ~= 0
         for k=1:fSize
             index = find(strcmp(olist, [list{k} expandNames{m}]));
 
-            if isempty(fData{index}) % (k-1)*length(observations)/length(observation)+ind(m)
+            if isempty(fData(index)) % (k-1)*length(observations)/length(observation)+ind(m)
                 data{k}.(observations{m}) = NaN;
             else
 %                 data{k}.(observations{m}) = fData{(k-1)*length(observations)/length(observation)+ind(m)}.(met2{m});
-                data{k}.(observations{m}) = fData{index}.(met2{m});
+fdi = fData{index};                
+data{k}.(observations{m}) = fdi.(met2{m});
             end
         end
     end
@@ -129,7 +130,7 @@ switch p.total
       end
       
       observations{end+1} = 'total';
-      if strcmp(p.total, 'H')
+      if strcmp(p.total, 'H') && strcmp(p.show, 'data')
           p.obs=length(observations);
       else
           p.obs(end+1) = length(observations);
@@ -188,7 +189,7 @@ if p.highlight ~= -1
             end
         end
     end
-    if p.total
+    if lower(p.total) == 'v'
         col = round(sData(end, :)*10^p.precision);
         [maxValue, maxIndex] = max(col);
         

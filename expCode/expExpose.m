@@ -273,6 +273,7 @@ if p.expand,
     end
 end
 
+totalName = 'Average';
 if ~strcmp(p.show, 'data')
     data.varData(:)=0;
     p.precision = 0;
@@ -285,7 +286,8 @@ if ~strcmp(p.show, 'data')
                 data.meanData(:, k) = 0;
                 data.meanData(index(k), k) = 1;
             end
-            data.highlights(:)=0;
+            data = expShowBest(data, p);
+            totalName = 'Count';
         case 'Best'
             [null, index] = max(data.meanData);
             for k=1:size(data.meanData, 2)
@@ -294,7 +296,8 @@ if ~strcmp(p.show, 'data')
                     data.meanData(index(k), k) = 1;
                 end
             end
-            data.highlights(:)=0;
+            data = expShowBest(data, p);
+            totalName = 'Count';
     end
 end
 
@@ -355,34 +358,35 @@ if p.expand
     else
         if p.numericObservations
             p.legendNames = num2cell(1:nbModalities);
-            p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
+            p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false);
         else
             p.legendNames = config.step.oriFactors.values{p.expand};
         end
     end
-    if ~ischar(p.legendNames)
-        if isnumeric(p.legendNames{1})
-            p.xAxis = cell2mat(config.step.oriFactors.values{p.expand}); % FIXME use to be set instead of values
-        else
-            p.xAxis = 1:length(p.legendNames);
-        end
-        p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false);
-    end
+%     if ~ischar(p.legendNames)
+%         if isnumeric(p.legendNames{1})
+%             p.xAxis = cell2mat(config.step.oriFactors.values{p.expand}); % FIXME use to be set instead of values
+%         else
+%             p.xAxis = 1:length(p.legendNames);
+%         end
+%         p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
+%     end
     if length(p.obs)>1
         el = cell(1, length(config.step.factors.names(data.factorSelector)));
         [el{:}] = deal('');
         p.columnNames = [[el; config.step.factors.names(data.factorSelector)'] p.legendNames']; % (data.factorSelector)
         %         p.factorNames = [el; config.step.factors.names(data.factorSelector)'];
     else
-        p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
+        p.columnNames = [config.step.factors.names(data.factorSelector)' p.legendNames]; % (data.factorSelector)
     end
     p.methodLabel = config.evaluation.observations(p.obs);
     p.xName = p.expandName;
     p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
 end
 
+
 switch p.total
-    case {'v', 'V'}
+    case 'v'
         for k=1:size(p.rowNames, 2)
             if k==1
                 if p.total == 1
@@ -394,10 +398,12 @@ switch p.total
                 p.rowNames{end, k} = '';
             end
         end
-    case {'h'}
-        p.columnNames{end+1} = 'Total';
-    case {'H'}
-        p.columnNames = [p.factorNames 'Total']; % TODO recall observation name
+    case 'V'
+        p.rowNames = {totalName};
+    case 'h'
+        p.columnNames{end+1} = totalName;
+    case 'H'
+        p.columnNames = [p.factorNames totalName]; % TODO recall observation name
 end
 
 if config.step.nbSettings == 1
@@ -521,3 +527,6 @@ end
 displayData = config.displayData;
 config = oriConfig;
 config.displayData = displayData;
+
+
+
