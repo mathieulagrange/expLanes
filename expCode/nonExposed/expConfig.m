@@ -75,7 +75,7 @@ end
 
 
 config.staticDataFileName = [projectPath '/config' '/' shortProjectName];
-if ~exist(config.staticDataFileName, 'file')
+if ~exist([config.staticDataFileName '.mat'], 'file')
     runId=1; %#ok<NASGU>
     save(config.staticDataFileName, 'runId');
 end
@@ -172,7 +172,7 @@ config.hostGroup = floor(config.host);
 %     config.runId = config.resume;
 % else
 config.runId = staticData.runId;
-if config.host
+if config.attachedMode
     runId = config.runId+1; 
     save(config.staticDataFileName, 'runId', '-append');
     config.runId = runId;

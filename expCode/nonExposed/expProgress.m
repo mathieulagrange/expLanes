@@ -3,9 +3,16 @@ function config = expProgress(config)
 if ~config.progress, return; end
 
 % TODO use rewind feed
-config.progressId = config.progressId+1;
 
-progress = ceil(100*config.progressId/config.step.nbSettings);
+
+if config.parallel(config.step.id) > 0
+    config.progressId = length(dir([tempdir '/expCode/' config.projectName '_' num2str(config.runId) '*' ]));
+    progress = ceil(100*config.progressId/length(config.step.sequence));
+else
+    config.progressId = config.progressId+1;
+    progress = ceil(100*config.progressId/config.step.nbSettings);
+
+end
 
 if config.progress == 1 && config.attachedMode && config.parallel(config.step.id) == 0
     if isempty(config.waitBar)
@@ -30,10 +37,10 @@ if config.progress == 1 && config.attachedMode && config.parallel(config.step.id
         waitbarId = []; %#ok<NASGU>
         save(config.staticDataFileName, 'waitbarId', '-append');
     end
-elseif config.parallel(config.step.id) > 0 || config.progress == 1
+elseif 0 %config.progress == 1 % config.parallel(config.step.id) > 0 || 
     disp([upper(config.step.idName(1)) config.step.idName(2:end) ' -> ' config.step.setting.infoString]);
-elseif config.progress == 2
-    disp([config.step.idName '(' num2str(progress) '%): ' config.step.setting.infoString]);
+elseif config.progress < 3
+    disp([upper(config.step.idName(1)) config.step.idName(2:end) ' ->  (' num2str(progress) '%): ' config.step.setting.infoString]);
 elseif config.progress == 3
     disp(['Step ' num2str(config.step.id) ': ' num2str(progress) '% done.']);
 end

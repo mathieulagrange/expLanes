@@ -51,6 +51,7 @@ if all(config.do>0)
             if config.parallel(config.do(k))>0 % ~= 1 % length(config.stepName)
                 settingStatus = config.settingStatus;
                 parfor l=1:length(config.step.sequence)
+                    
                     [~, settingStatus(l)] =  expProcessOne(config, l);
                 end
                 for l=1:length(config.step.sequence)
@@ -86,6 +87,8 @@ config.runDuration=ceil(toc/60);
 
 function [config, settingStatus] = expProcessOne(config, sequence)
 
+
+
 config.step.idName = config.stepName{config.step.id};
 
 config.sequentialData = [];
@@ -111,7 +114,17 @@ end
 
 settingStatus = config.settingStatus;
 
+if  config.parallel(config.step.id) > 0
+    if ~exist([tempdir 'expCode'], 'dir')
+        mkdir([tempdir 'expCode']);
+    end
+    fid = fopen([tempdir 'expCode/' config.projectName '_' num2str(config.runId) '_' num2str(sequence) '_done'],'w');
+    fclose(fid);
+end
+
 function config = expProcessOneSub(config)
+
+
 
 functionName = [config.shortProjectName num2str(config.step.id) config.stepName{config.step.id}];
 
@@ -136,9 +149,10 @@ if config.redo || ~(exist(expSave(config, [], 'data'), 'file') || exist(expSave(
     end
     
     ticId = tic;
-    config = expProgress(config);
     
     [config, storeData, storeObs] = feval(functionName, config, config.step.setting, loadedData);
+    
+    config = expProgress(config);
     
     if config.recordTiming && ~isfield(storeObs, 'time')
         storeObs.time = toc(ticId);
