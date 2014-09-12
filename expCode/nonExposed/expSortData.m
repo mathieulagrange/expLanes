@@ -1,21 +1,23 @@
-function data = expSortData(data, p, factorSelector, config)
+function [data, ind] = expSortData(data, p, factorSelector, config)
 
 if ~isempty(factorSelector)
     if p.sort
         flip=0;
         if isnumeric(p.sort)
-            if p.sort<0
-                if abs(p.sort)>length(factorSelector)
-                    error('can not find corresponding factor to sort');
+            if iscell(data)
+                if p.sort<0
+                    if abs(p.sort)>length(factorSelector)
+                        error('can not find corresponding factor to sort');
+                    else
+                        p.sort = abs(p.sort);
+                    end
                 else
-                    p.sort = abs(p.sort);
-                end
-            else
-                flip=1;
-                if p.sort>length(factorSelector)
-                    error('can not find corresponding factor to sort');
-                else
-                    p.sort = p.sort+length(factorSelector);
+                    flip=1;
+                    if p.sort>length(factorSelector)
+                        error('can not find corresponding factor to sort');
+                    else
+                        p.sort = p.sort+length(factorSelector);
+                    end
                 end
             end
         elseif ischar(p.sort)
@@ -37,20 +39,25 @@ if ~isempty(factorSelector)
         end
         
         col = data(:, p.sort);
-        for k=1:length(col)
-            c = regexp(col{k}, '(', 'split');
-            %             col{k} = strtrim(c{1});
-            col{k} = c{1};
+        if iscell(col)
+            for k=1:length(col)
+                c = regexp(col{k}, '(', 'split');
+                %             col{k} = strtrim(c{1});
+                col{k} = c{1};
+            end
         end
-        if p.total
+        if lower(p.total) ==  'v'
             [bin, ind] = sort(col(1:end-1));
         else
             [bin, ind] = sort(col);
         end
-        if flip
-            ind = flipud(ind);
+        if ~strcmp(p.show, 'data')
+            flip=1;
         end
-        if p.total
+        if flip
+            ind = flipud(ind')';
+        end
+        if lower(p.total) == 'v'
             ind = [ind; size(data, 1)];
         end
         data = data(ind, :);

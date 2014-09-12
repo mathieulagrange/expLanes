@@ -445,7 +445,7 @@ if length(exposeType)<=1
             %                 p.put=2;
             %             end
         case 'b'
-            exposeType = 'exposeBar';
+            exposeType = 'exposeBarPlot';
         case 'p'
             exposeType = 'exposeLinePlot';
         case 's'

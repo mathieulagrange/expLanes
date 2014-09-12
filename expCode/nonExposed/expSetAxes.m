@@ -2,11 +2,11 @@ function expSetAxes(config, p)
 
 if  length(p.legendNames)>1
     if p.legend
-    if ischar(p.legendLocation)
-        legend(p.legendNames, 'Location', p.legendLocation);
-    else
-        legend(p.legendNames);
-    end
+        if ischar(p.legendLocation)
+            legend(p.legendNames, 'Location', p.legendLocation);
+        else
+            legend(p.legendNames);
+        end
     end
 else
     xlabel(p.legendNames);
@@ -23,10 +23,10 @@ else
     b=get(gca,'XTick');
     %     c=get(gca,'YTick');
     c=axis; c=c(3:4);
-    th=text(b,repmat(c(1)-.05*(c(2)-c(1)),length(b),1),p.labels,'HorizontalAlignment','right','rotation',45);
+    th=text(b,repmat(c(1)-.05*(c(2)-c(1)),length(b),1),p.labels,'HorizontalAlignment','right','rotation',15);
     set(th, 'fontsize', config.displayFontSize);
     set(gca,'XTickLabel',{''});
 end
 set(gca, 'fontsize', config.displayFontSize);
 % title(p.title);
-% axis tight
+axis tight

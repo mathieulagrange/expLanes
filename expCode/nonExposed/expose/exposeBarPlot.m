@@ -1,4 +1,4 @@
-function config=exposeBar(config, data, p)
+function config=exposeBarPlot(config, data, p)
 
 config = expDisplay(config, p);
 if strcmpi(p.orientation(1), 'v')
