@@ -44,7 +44,7 @@ switch p.put
             config.displayData.style(end+1)=1;
             config.displayData.table(end+1).caption = p.caption;
             config.displayData.table(end).multipage = p.multipage;
-            config.displayData.table(end).landscape = p.orientation == 'h'; % TODO propagate only p
+            config.displayData.table(end).landscape = p.orientation(1) == 'h'; % TODO propagate only p
             config.displayData.table(end).table = config.displayData.cellData;
             config.displayData.table(end).data = config.data;
             config.displayData.table(end).label = p.label;

@@ -27,6 +27,9 @@ switch p.put
         else
             config.displayData.cellData = [p.columnNames; el; dataCell];
         end
+        if length(p.orientation)>1 && strcmp(p.orientation(2), 'i')
+            config.displayData.cellData = config.displayData.cellData';
+        end
     case 1
         if p.visible
             p.report=0;
@@ -81,4 +84,8 @@ switch p.put
         allCell = strrep(allCell, '_', '\_');
         allCell = strrep(allCell, '%', '\%');
         config.displayData.cellData = allCell;
+        
+        if length(p.orientation)>1 && strcmp(p.orientation(2), 'i')
+            config.displayData.cellData = config.displayData.cellData';
+        end
 end

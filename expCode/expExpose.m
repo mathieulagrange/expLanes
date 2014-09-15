@@ -32,6 +32,8 @@ function config = expExpose(varargin)
 %		'orientation': display orientation
 %			'v': vertical (default)
 %			'h': horizontal
+%           'i': as second letter invert the table for prompt and latext
+%           display
 %		'percent': display observations in percent
 %			selector is the same as 'variance'
 %		'precision': mantissa precision of data
