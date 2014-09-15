@@ -89,13 +89,13 @@ if  p.expand ~= 0
         observations{m} = [config.step.oriFactors.names{p.expand} observations{m}];
         for k=1:fSize
             index = find(strcmp(olist, [list{k} expandNames{m}]));
-
+            
             if isempty(fData(index)) % (k-1)*length(observations)/length(observation)+ind(m)
                 data{k}.(observations{m}) = NaN;
             else
-%                 data{k}.(observations{m}) = fData{(k-1)*length(observations)/length(observation)+ind(m)}.(met2{m});
-fdi = fData{index};                
-data{k}.(observations{m}) = fdi.(met2{m});
+                %                 data{k}.(observations{m}) = fData{(k-1)*length(observations)/length(observation)+ind(m)}.(met2{m});
+                fdi = fData{index};
+                data{k}.(observations{m}) = fdi.(met2{m});
             end
         end
     end
@@ -174,17 +174,37 @@ if p.highlight ~= -1
         %  why ?
         if any(p.highlight==k)
             col = sData(:, k);
-            [maxValue, maxIndex] = max(col);
+            if p.better
+                maxIndex=p.better;
+                maxValue=NaN;
+            else
+                [maxValue, maxIndex] = max(col);
+            end
+            
             if any(vData(:, k))
                 for m=1:length(data)
                     if ~isempty(data{m}) && ~isempty(data{m}.(observations{p.obs(k)}))
                         rejection = ttest2(double(data{m}.(observations{p.obs(k)})), double(data{maxIndex}.(observations{p.obs(k)})));
                         if isnan(rejection), rejection = 0; end
+                        
+                        
                         highlights(m, k) = ~rejection;
+                        % better than handling
+                        if p.better
+                            if rejection && mean(double(data{m}.(observations{p.obs(k)}))) > mean(double(data{maxIndex}.(observations{p.obs(k)})))
+                                 highlights(m, k) = 2;
+                            end
+                            if m==maxIndex
+                                 highlights(m, k)=0;
+                            end
+                         end
+                        
                     end
                 end
-                highlights(col==maxValue, k) = 2;
-            else
+                if ~p.better
+                 highlights(col==maxValue, k) = 2;
+                end
+            elseif ~p.better
                 highlights(:, k) =  (col==maxValue)*2;
             end
         end
@@ -192,7 +212,7 @@ if p.highlight ~= -1
     if lower(p.total) == 'v'
         col = round(sData(end, :)*10^p.precision);
         [maxValue, maxIndex] = max(col);
-        
+%              if length(col) > 4, maxIndex = 5; end
         if any(vData(end, :))
             for m=1:length(col)
                 if ~isempty(data{end}.(observations{p.obs(m)}))

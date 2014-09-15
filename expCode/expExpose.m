@@ -117,6 +117,13 @@ for pair = reshape(varargin(3:end),2,[])
     p.(pair{1}) = pair{2};
 end
 
+if strcmp(lower(p.show(1:4)), 'bett')
+    p.better = str2num(p.show(7:end));
+    p.show = [p.show(1:2) 'st'];
+else
+    p.better = 0;
+end
+
 if p.precision==-1
     p.precision = config.tableDigitPrecision;
 end
@@ -212,6 +219,7 @@ if p.shortObservations ~= -1
 end
 if p.numericObservations
     evaluationObservations = num2cell(1:length(evaluationObservations));
+    evaluationObservations = cellfun(@num2str, evaluationObservations, 'UniformOutput', false);
 end
 
 if ~isempty(p.order) || any(p.expand ~= 0)
@@ -280,24 +288,35 @@ if ~strcmp(p.show, 'data')
     switch p.show
         case 'rank'
             data.meanData  = tiedrank(-data.meanData);
-        case 'best'
-            [null, index] = max(data.meanData);
+        case 'best'         
             for k=1:size(data.meanData, 2)
-                data.meanData(:, k) = 0;
-                data.meanData(index(k), k) = 1;
-            end
-            data = expShowBest(data, p);
-            totalName = 'Count';
-        case 'Best'
-            [null, index] = max(data.meanData);
-            for k=1:size(data.meanData, 2)
-                data.meanData(:, k) = 0;
-                if sum(data.highlights(:, k))==2
-                    data.meanData(index(k), k) = 1;
+                if p.better                                
+            totalName = 'better';
+                    index = or(data.meanData(:, k)>data.meanData(p.better, k), data.highlights(:, k)>0);
+                else                              
+            totalName = 'best';
+                    [null, index] = max(data.meanData(:, k));
                 end
+                data.meanData(:, k) = 0;
+                data.meanData(index, k) = 1;
             end
             data = expShowBest(data, p);
-            totalName = 'Count';
+
+        case 'Best'
+              if p.better                                
+            totalName = 'Better';
+                 else                              
+            totalName = 'Best';
+                end
+            %             [null, index] = max(data.meanData);
+            %             for k=1:size(data.meanData, 2)
+            %                 data.meanData(:, k) = 0;
+            %                 if sum(data.highlights(:, k))==2
+            %                     data.meanData(index(k), k) = 1;
+            %                 end
+            %             end
+            data.meanData = double(data.highlights==2);
+            data = expShowBest(data, p);
     end
 end
 
@@ -363,14 +382,14 @@ if p.expand
             p.legendNames = config.step.oriFactors.values{p.expand};
         end
     end
-%     if ~ischar(p.legendNames)
-%         if isnumeric(p.legendNames{1})
-%             p.xAxis = cell2mat(config.step.oriFactors.values{p.expand}); % FIXME use to be set instead of values
-%         else
-%             p.xAxis = 1:length(p.legendNames);
-%         end
-%         p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
-%     end
+    %     if ~ischar(p.legendNames)
+    %         if isnumeric(p.legendNames{1})
+    %             p.xAxis = cell2mat(config.step.oriFactors.values{p.expand}); % FIXME use to be set instead of values
+    %         else
+    %             p.xAxis = 1:length(p.legendNames);
+    %         end
+    %         p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
+    %     end
     if length(p.obs)>1
         el = cell(1, length(config.step.factors.names(data.factorSelector)));
         [el{:}] = deal('');

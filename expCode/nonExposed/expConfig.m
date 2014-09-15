@@ -110,6 +110,7 @@ if fileLength && fileLength>512
 end
 
 config.attachedMode = 1;
+config.run = 1;
 if nargin>3,
     configOri = config;
     %     if ~mod(nargin, 2)
@@ -172,7 +173,7 @@ config.hostGroup = floor(config.host);
 %     config.runId = config.resume;
 % else
 config.runId = staticData.runId;
-if config.attachedMode
+if config.run
     runId = config.runId+1; 
     save(config.staticDataFileName, 'runId', '-append');
     config.runId = runId;

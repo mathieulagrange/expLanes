@@ -96,7 +96,7 @@ config.sequentialData = [];
 for k=1:length(config.step.sequence{sequence})
     config.step.setting = expSetting(config.step, config.step.sequence{sequence}(k));
     success=1;
-    if config.attachedMode
+    if config.attachedMode && ~config.parallel(config.step.id)
         config = expProcessOneSub(config);
     else
         try

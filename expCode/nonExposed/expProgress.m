@@ -40,7 +40,7 @@ if config.progress == 1 && config.attachedMode && config.parallel(config.step.id
 elseif 0 %config.progress == 1 % config.parallel(config.step.id) > 0 || 
     disp([upper(config.step.idName(1)) config.step.idName(2:end) ' -> ' config.step.setting.infoString]);
 elseif config.progress < 3
-    disp([upper(config.step.idName(1)) config.step.idName(2:end) ' ->  (' num2str(progress) '%): ' config.step.setting.infoString]);
+    disp([upper(config.step.idName(1)) config.step.idName(2:end) ' (' num2str(progress) ' %)  ->   ' config.step.setting.infoString]);
 elseif config.progress == 3
-    disp(['Step ' num2str(config.step.id) ': ' num2str(progress) '% done.']);
+    disp(['Step ' num2str(config.step.id) ': ' num2str(progress) ' % done.']);
 end
