@@ -127,13 +127,13 @@ for k=1:length(command)
     end
 end
 
-if config.deleteTexDirectory
-    warning('off', 'MATLAB:RMDIR:NoDirectoriesRemoved');
-    warning('off', 'MATLAB:RMDIR:RemovedFromPath');
-    rmdir(latexPath, 's');
-    mkdir(latexPath);
-        warning('on', 'MATLAB:RMDIR:RemovedFromPath');
-    warning('on', 'MATLAB:RMDIR:NoDirectoriesRemoved');
-end
+% if config.deleteTexDirectory
+%     warning('off', 'MATLAB:RMDIR:NoDirectoriesRemoved');
+%     warning('off', 'MATLAB:RMDIR:RemovedFromPath');
+%     rmdir(latexPath, 's');
+%     mkdir(latexPath);
+%         warning('on', 'MATLAB:RMDIR:RemovedFromPath');
+%     warning('on', 'MATLAB:RMDIR:NoDirectoriesRemoved');
+% end
 
 

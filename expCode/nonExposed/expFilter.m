@@ -270,6 +270,7 @@ dataDisplay.factorSelector = factorSelector;
 % dataDisplay.obs = p.obs;
 dataDisplay.varData = vData(select, :);
 dataDisplay.selector = select;
+dataDisplay.observations = p.obs;
 if isempty(settingSelector)
     dataDisplay.settingSelector = [];
 else

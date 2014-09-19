@@ -505,7 +505,7 @@ CONSTRUCTOR(varargin{:});
                 Data.tex{end+1}='% mcode options for matlab code insertion bw (for printing), numbered (line numbers), framed (frame around code blocks), useliterate (convert Matlab expressions to Latex ones), autolinebreaks (automatic code wraping, use it with caution';
                 Data.tex{end+1}='\usepackage[literate]{mcode}';
                 
-                Data.tex{end+1}='\graphicspath{{figures/}{tex}{../figures/}{../../}{../}} ';
+                Data.tex{end+1}='\graphicspath{{figures/}{tex/}{../figures/}{../../}{../}} ';
                 Data.tex{end+1}=['\title{' Data.title '}'];
                 Data.tex{end+1}=['\author{ ' Data.author ' }'];
                 Data.tex{end+1}=' ';

@@ -9,7 +9,7 @@ else
 end
 
 dataCell = [p.rowNames inputCell];
-if numeric, dataCell = expSortData(dataCell, p, data.factorSelector, config); end % FIXME not done in put=1 ?
+if numeric, dataCell = expSortData(dataCell, p, data.factorSelector, config, data); end % FIXME not done in put=1 ?
 if ~isempty(dataCell) && p.number
     dataCell = [cellstr([num2str([1:size(dataCell, 1)]')]) dataCell];
     p.columnNames = [{''} p.columnNames];
@@ -34,7 +34,7 @@ switch p.put
         if p.visible
             p.report=0;
             config = expDisplay(config, p);
-            if numeric, dataCell = expSortData(dataCell, p, data.factorSelector, config); end
+            if numeric, dataCell = expSortData(dataCell, p, data.factorSelector, config, data); end
             if lower(p.total)=='v'
                 el = cell(1, length(p.columnNames));
                 [el{:}] = deal('');
@@ -51,11 +51,7 @@ switch p.put
                 dataCell = [p.columnNames(2, :); dataCell];
                 p.columnNames = p.columnNames(1, :);
             end
-            if ~isempty(p.addSpecification)
-                hTable=uitable('Data', dataCell, 'columnName', p.columnNames, 'fontName','Monospaced', 'fontSize', 12, p.addSpecification{:});
-            else
-                hTable=uitable('Data', dataCell, 'columnName', p.columnNames, 'fontName','Monospaced', 'fontSize', 12);
-            end
+            hTable=uitable('Data', dataCell, 'columnName', p.columnNames, 'fontName','Monospaced', 'fontSize', 12, p.addSpecification{:});
             set(hTable, 'units', get(gcf, 'units'));
             set(hTable, 'position', [margin margin fPos(3:4)-2*margin]); % , 'position', [30 30 600 600]
             

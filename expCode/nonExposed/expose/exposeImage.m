@@ -3,7 +3,7 @@ function config = exposeImage(config, data, p)
 config = expDisplay(config, p);
 
 if p.sort
-    [data.meanData, ind] = expSortData(data.meanData, p, 0, config);
+    [data.meanData, ind] = expSortData(data.meanData, p, 0, config, data);
     labels = flipud(p.rowNames(ind));
 else
     labels = flipud(p.rowNames);

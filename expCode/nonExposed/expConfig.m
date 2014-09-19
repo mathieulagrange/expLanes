@@ -2,14 +2,9 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO command to purge server code base
 
-% TODO default still in title
-% TODO seed index after resampling ?
 % TODO expCreate diamond ??
-% TODO symbolic link to data, issue with rsync and issues with path generation ?
 % TODO renaming .mat function when adding factor
 % TODO convert disp by expLog
-
-% FIXME fails to attach config file
 
 % FIXME store dependency string and force localDep = 2 if different
 
@@ -17,11 +12,7 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % FIXME missing info in confusion Matrix
 
-% TODO help command for root and expExpose
-
-% FIXME exclude report of code sync ?
-
-% FIXME issue with toolpath on server mode
+% TODO help command for root -> expCreate in root comment
 
 % FIXME number of succesful settings wrong
 
@@ -29,31 +20,18 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO display variance and highlight in every plot
 
-% FIXME remove test for addSpecification
-
-% TODO sur lesmails d'indiquer en toutes lettres les factors qui ne sont pas fixes genre :
-
 % TODO python integration : append setting and config in data stored pass
 % it to python that writes data and obs, launch python code with echo $!, monitor pid
 
 % FIXME issue with complex expand when expand field is not sorted (what hapenned to the variance ?)
 
-% SORT do not work with highlights on
-
 % FIXME negative factor selector
 
-% TODO ability to run only what is needed to display
-
-% TODO have a way to handle p of expose similar to config default in
-% expcode in home 
-
-% TODO close progress bar at opening
+% TODO ability to run only what is needed to display -> p.do 0 not 1 redo=0
+% 2 redo=1
 
 % TODO precision can be an array
 
-% FIME bar plot on analysedcase
-
-% TODO specificy legend
 
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
@@ -135,6 +113,7 @@ if iscell(config.mask)
 end
 
 config.localHostName = char(getHostName(java.net.InetAddress.getLocalHost));
+config.localHostName = strrep(config.localHostName, '.local', '');
 % disp(['detectedHostName: ' config.localHostName]);
 config.hostName = config.localHostName;
 config = expDesign(config);
@@ -174,7 +153,7 @@ config.hostGroup = floor(config.host);
 % else
 config.runId = staticData.runId;
 if config.run
-    runId = config.runId+1; 
+    runId = config.runId+1;
     save(config.staticDataFileName, 'runId', '-append');
     config.runId = runId;
 end

@@ -6,6 +6,8 @@ function config = expExpose(varargin)
 %			as ('parameter' / value) pairs
 %		'caption': caption of display as string
 %			symbol + gets replaced by a description of the settings
+%       'compactLabels": shorten labels by removing common substrings
+%           (default 0)
 %		'expand': name or index of the factor to expand
 %		'fontSize': set the font size of LaTEX tables (default 'normal')
 %		'highlight': highlight settings that are not significantly
@@ -109,6 +111,7 @@ p.showMissingSettings = 0;
 p.precision = -1;
 p.show = 'data';
 p.numericObservations = 0;
+p.compactLabels = 0;
 
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
@@ -290,26 +293,26 @@ if ~strcmp(p.show, 'data')
     switch p.show
         case 'rank'
             data.meanData  = tiedrank(-data.meanData);
-        case 'best'         
+        case 'best'
             for k=1:size(data.meanData, 2)
-                if p.better                                
-            totalName = 'better';
+                if p.better
+                    totalName = 'better';
                     index = or(data.meanData(:, k)>data.meanData(p.better, k), data.highlights(:, k)>0);
-                else                              
-            totalName = 'best';
+                else
+                    totalName = 'best';
                     [null, index] = max(data.meanData(:, k));
                 end
                 data.meanData(:, k) = 0;
                 data.meanData(index, k) = 1;
             end
             data = expShowBest(data, p);
-
+            
         case 'Best'
-              if p.better                                
-            totalName = 'Better';
-                 else                              
-            totalName = 'Best';
-                end
+            if p.better
+                totalName = 'Better';
+            else
+                totalName = 'Best';
+            end
             %             [null, index] = max(data.meanData);
             %             for k=1:size(data.meanData, 2)
             %                 data.meanData(:, k) = 0;
@@ -449,6 +452,10 @@ for k=1:size(data.varData, 2)
     end
 end
 
+if p.compactLabels
+    p = expCompactLabels(p);
+end
+
 config.data = data;
 
 config.displayData.cellData=[];
@@ -548,6 +555,4 @@ end
 displayData = config.displayData;
 config = oriConfig;
 config.displayData = displayData;
-
-
 

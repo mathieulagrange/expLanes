@@ -1,4 +1,6 @@
-function [data, ind] = expSortData(data, p, factorSelector, config)
+function [data, ind] = expSortData(data, p, factorSelector, config, numData)
+
+if ~exist('numData', 'var'), numData = []; end
 
 if ~isempty(factorSelector)
     if p.sort
@@ -28,7 +30,7 @@ if ~isempty(factorSelector)
                 flip=1;
                 ind = find(strcmp(p.sort, config.evaluation.observations));
                 if ~isempty(ind)
-                    p.sort = ind;
+                    p.sort = ind+length(factorSelector);
                 else
                     error('can not find corresponding factor to sort');
                 end
@@ -37,13 +39,22 @@ if ~isempty(factorSelector)
         else
             error('unkown sort type');
         end
-        
-        col = data(:, p.sort);
+        if p.sort > length(factorSelector)
+            col = numData.meanData(:, p.sort-length(factorSelector));
+        else
+            col = data(:, p.sort);            
+        end
         if iscell(col)
             for k=1:length(col)
                 c = regexp(col{k}, '(', 'split');
                 %             col{k} = strtrim(c{1});
                 col{k} = c{1};
+%                 c = regexp(col{k}, '\$\\pm\$', 'split');
+%                 %             col{k} = strtrim(c{1});
+%                 col{k} = c{1};
+%                 c = regexp(col{k}, '{', 'split');
+%                 %             col{k} = strtrim(c{1});
+%                 col{k} = strtrim(c{end});
             end
         end
         if lower(p.total) ==  'v'
