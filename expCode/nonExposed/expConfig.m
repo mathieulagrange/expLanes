@@ -32,6 +32,8 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO precision can be an array
 
+% fixme progress box does not show
+
 
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
