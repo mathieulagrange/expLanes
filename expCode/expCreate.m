@@ -88,7 +88,15 @@ if ~any(strcmp(config.codePath(1), {'~', '/', '\'}))
     config.codePath = fullfile(pwd(), config.codePath);
 end
 
-config.dependencies = [config.dependencies(1:end-1) ' ''' expCodePath '''}']; % TODO zhy (1:find(expCodePath=='/',1,'last'))
+if isempty(config.dependencies)
+    config.dependencies = ['{''' expCodePath '''}'];
+elseif isempty(strfind(config.dependencies, 'expCode'))
+    if strcmp(config.dependencies(1), '{')
+        config.dependencies = [config.dependencies(1:end-1) ' ''' expCodePath '''}'];
+    else
+        config.dependencies = ['{''' config.dependencies ''', ''' expCodePath '''}'];
+    end
+end
 
 % prompt
 fprintf('You are about to create an experiment called %s with short name %s and steps: ', projectName, shortProjectName);
