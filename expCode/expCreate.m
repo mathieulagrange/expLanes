@@ -33,7 +33,7 @@ shortProjectName = shortProjectName{1};
 
 % load default config
 
-[userDefaultConfigFileName, userDir] = expUserDefaultConfig(expCodePath);
+[userDefaultConfigFileName, userDir] = expUserDefaultConfig([expCodePath '/expCodeConfig.txt']);
 
 configFile=fopen(userDefaultConfigFileName);
 configCell=textscan(configFile,'%s%s', 'CommentStyle', '%', 'delimiter', '=');

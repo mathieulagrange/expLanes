@@ -32,7 +32,9 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO precision can be an array
 
-% fixme progress box does not show
+% FIXME expCode appears multiple times in deps
+
+% FIXME try / catch every opening of file
 
 
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
@@ -41,8 +43,8 @@ if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
     config = commands{1};
     commands = commands(2:end);
 else
-    configFileName = getUserFileName(shortProjectName, projectName, projectPath);
-    expUserDefaultConfig(expCodePath);
+    configFileName = getUserFileName(shortProjectName, projectName, projectPath, expCodePath);
+    expUserDefaultConfig([expCodePath '/expCodeConfig.txt']);
     config = expUpdateConfig(configFileName);
     if isempty(config), return; end;
     

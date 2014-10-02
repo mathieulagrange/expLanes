@@ -1,15 +1,23 @@
-function configFileName = getUserFileName(shortProjectName, projectName, projectPath)
+function configFileName = getUserFileName(shortProjectName, projectName, projectPath, expCodePath)
 
 % shortProjectName = names2shortNames(projectName);
 % shortProjectName = shortProjectName{1};
+
+if ~exist('expCodePath', 'var'), expCodePath = []; end
 
 userName = getUserName();
 
 configFileName = [projectPath '/config' filesep shortProjectName 'Config' [upper(userName(1)) userName(2:end)] '.txt'];
 
 if ~exist(configFileName, 'file')
-    userDefaultConfigFileName = expUserDefaultConfig();
-    fprintf('Copying default config file for user %s.\n', userName);
+    if isempty(expCodePath)
+        files = dir([projectPath '/config/*Config*.txt']);
+        defaultFileName = [projectPath '/config/' files(1).name];
+    else
+        defaultFileName = [expCodePath '/expCodeConfig.txt'];
+    end
+    fprintf('Copying default config file for user %s from %s .\n', userName, defaultFileName);
+    userDefaultConfigFileName = expUserDefaultConfig(defaultFileName);
     
     fid = fopen(userDefaultConfigFileName, 'rt');
     fidw = fopen(configFileName, 'w');
@@ -23,7 +31,11 @@ if ~exist(configFileName, 'file')
         end
     end
     fclose(fid);
-    fclose(fidw);    
-    open(configFileName);
-    disp(['Please update the file ' configFileName ' to suit your needs.']);    
+    fclose(fidw);
+    try
+        open(configFileName);
+    catch
+        fprintf(2, 'Unable to open config file.');
+    end
+    disp(['Please update the file ' configFileName ' to suit your needs.']);
 end

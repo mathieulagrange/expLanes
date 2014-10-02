@@ -1,6 +1,6 @@
-function [userDefaultConfigFileName, userDir] = expUserDefaultConfig(expCodePath)
+function [userDefaultConfigFileName, userDir] = expUserDefaultConfig(defaultFileName)
 
-if ~exist(expCodePath, 'dir'), return; end % FIXME
+% if ~exist(expCodePath, 'dir'), return; end % FIXME
 
 if ispc, userDir= getenv('USERPROFILE');
 else userDir= getenv('HOME');
@@ -13,8 +13,10 @@ end
 userDefaultConfigFileName = [userDir filesep '.expCode' filesep getUserName() 'Config.txt'];
 if ~exist(userDefaultConfigFileName, 'file')
     disp(['Creating default config in ' userDir filesep '.expCode' filesep]);
-    copyfile([expCodePath '/expCodeConfig.txt'], userDefaultConfigFileName);
+    copyfile(defaultFileName, userDefaultConfigFileName);
 else
-    expUpdateConfig(userDefaultConfigFileName);
+    try
+        expUpdateConfig(userDefaultConfigFileName);
+    end
 end
 
