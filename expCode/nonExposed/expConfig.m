@@ -121,6 +121,10 @@ config.localHostName = strrep(config.localHostName, '.local', '');
 % disp(['detectedHostName: ' config.localHostName]);
 config.hostName = config.localHostName;
 config = expDesign(config);
+if ~isempty(config.machineNames) && ~iscell(config.machineNames{1})
+    config.machineNames = {config.machineNames};
+end
+
 if nargin<1 || config.host==0
     config.host = 0;
     for k=1:length(config.machineNames)
