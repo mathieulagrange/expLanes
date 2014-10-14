@@ -19,7 +19,13 @@ if ~exist(configFileName, 'file')
     fprintf('Copying default config file for user %s from %s .\n', userName, defaultFileName);
     userDefaultConfigFileName = expUserDefaultConfig(defaultFileName);
     
+    if ~exist(userDefaultConfigFileName, 'file')
+        error(['Unable to find ' userDefaultConfigFileName '\n']);
+    end
     fid = fopen(userDefaultConfigFileName, 'rt');
+    if ~exist(configFileName, 'file')
+        error(['Unable to find ' configFileName '\n']);
+    end
     fidw = fopen(configFileName, 'w');
     while ~feof(fid)
         text = fgetl(fid);

@@ -30,7 +30,9 @@ if ~exist(config.reportPath, 'dir')
     mkdir(config.reportPath);
 end
 
-config.logFile = fopen([config.reportPath 'reports/config.txt'], 'w');
+logFileName = [config.reportPath 'reports/config.txt'];
+config.logFile = fopen(logFileName, 'w');
+if config.logFile == -1, error(['Unable to write to ' logFileName]); end
 fprintf(config.logFile, '\n%s\n', evalc('disp(config)'));
 fclose(config.logFile);
 

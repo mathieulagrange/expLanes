@@ -3,6 +3,7 @@ function expConfigMerge(configFileName, defaultConfigFileName, layout, prompt)
 if ~exist('layout', 'var'), layout = 1; end
 if ~exist('prompt', 'var'), prompt = 1; end
 
+if ~exist(configFileName, 'file'), error(['Unable to open ' configFileName]); end
 configFile=fopen(configFileName);
 configCell=textscan(configFile,'%s%s ', 'commentStyle', '%', 'delimiter', '=');
 fclose(configFile);
@@ -10,6 +11,7 @@ names = strtrim(configCell{1});
 values = strtrim(configCell{2});
 while length(values)<length(names), values{end+1} = ''; end
 
+if ~exist(defaultConfigFileName, 'file'), error(['Unable to open ' defaultConfigFileName]); end
 defaultConfigFile=fopen(defaultConfigFileName);
 configCell=textscan(defaultConfigFile,'%s%s ', 'commentStyle', '%', 'delimiter', '=');
 fclose(defaultConfigFile);
