@@ -11,7 +11,9 @@ elseif length(commands)>1 % command line processing
 elseif isnumeric(commands{1})
     config = expConfig(projectPath, projectName, shortProjectName);
     if isempty(config), return; end;
-    fid = fopen([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt'], 'rt');
+    historyFileName = expandHomePath([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt']);
+    if ~exist(historyFileName, 'file'), error(['Unable to open ' historyFileName]); end
+    fid = fopen(historyFileName, 'rt');
     foundCommand = '';
     if fid>0
         k=0;
@@ -38,7 +40,9 @@ elseif ischar(commands{1})
             % TODO display help
         case 'p'
             fprintf('---------------------------\nHistory: \n');
-            fid = fopen([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt'], 'rt');
+            historyFileName = expandHomePath([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt']);
+            if ~exist(historyFileName, 'file'), error(['Unable to open ' historyFileName]); end
+            fid = fopen(historyfileName, 'rt');
             if fid>0
                 lastCommands={};
                 while ~feof(fid)
@@ -100,7 +104,9 @@ else
     lastCommand = [];
 end
 if ~isempty(strfind(lastCommand, ''''))
-    fid = fopen([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt'], 'rt');
+    historyFileName = expandHomePath([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt']);
+    if ~exist(historyFileName, 'file'), error(['Unable to open ' historyFileName]); end
+    fid = fopen(historyFileName, 'rt');
     commands = {};
     if fid>0
         while ~feof(fid)
@@ -112,7 +118,9 @@ if ~isempty(strfind(lastCommand, ''''))
         fclose(fid);
     end
     
-    fid = fopen(expandHomePath([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt']), 'w');
+    historyFileName = expandHomePath([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt']);
+    if ~exist(historyFileName, 'file'), error(['Unable to open ' historyFileName]); end
+    fid = fopen(historyFileName, 'w');
     for k=1:length(commands)
         fprintf(fid, '%s\n', commands{k});
     end

@@ -34,7 +34,9 @@ shortProjectName = shortProjectName{1};
 % load default config
 
 [userDefaultConfigFileName, userDir] = expUserDefaultConfig([expCodePath '/expCodeConfig.txt']);
-
+if ~exist(userDefaultConfigFileName, 'file')
+    error(['Unable to find ' userDefaultConfigFileName '\n']);
+end
 configFile=fopen(userDefaultConfigFileName);
 configCell=textscan(configFile,'%s%s', 'CommentStyle', '%', 'delimiter', '=');
 fclose(configFile);
@@ -128,7 +130,10 @@ p = [p; setdiff(1:length(n), p)'];
 config = orderfields(config, p);
 
 % create config file
-fid = fopen([configPath '/' config.shortProjectName 'ConfigDefault.txt'], 'w');
+configFileName = [configPath '/' config.shortProjectName 'ConfigDefault.txt'];
+fid = fopen(configFileName, 'w');
+if fid == -1, error(['Unable to open ' configFileName]); end
+
 fprintf(fid, '%% Config file for the %s project\n%% Adapt at your convenience\n\n', config.shortProjectName);
 configFields = fieldnames(config);
 for k=1:length(configFields)
@@ -136,11 +141,15 @@ for k=1:length(configFields)
 end
 fclose(fid);
 
-expConfigMerge([configPath '/' config.shortProjectName 'ConfigDefault.txt'], [expCodePath '/expCodeConfig.txt'], 2, 0);
-movefile([configPath '/' config.shortProjectName 'ConfigDefault.txt'], [configPath '/' config.shortProjectName 'Config' [upper(config.userName(1)) config.userName(2:end)] '.txt']);
+% expConfigMerge([configPath '/' config.shortProjectName 'ConfigDefault.txt'], [expCodePath '/expCodeConfig.txt'], 2, 0);
+% movefile([configPath '/' config.shortProjectName 'ConfigDefault.txt'], [configPath '/' config.shortProjectName 'Config' [upper(config.userName(1)) config.userName(2:end)] '.txt']);
+% FIXME should not be used anymore
 
 % create factors file
-fid = fopen([config.codePath '/' config.shortProjectName 'Factors.txt'], 'w');
+factorFileName = [config.codePath '/' config.shortProjectName 'Factors.txt'];
+fid = fopen(factorFileName, 'w');
+if fid == -1, error(['Unable to open ' factorFileName]); end
+
 fprintf(fid, 'method =1== {''methodOne'', ''methodTwo'', ''methodThree''} % method will be defined for step 1 only \nthreshold =s1:=1/[1 3]= [0:10] % threshold is defined for step 1 and the remaining steps, will be sequenced and valid for the 1st and 3rd value of the 1st factor (methodOne and methodThree) \n\n%% Settings file for the %s project\n%% Adapt at your convenience\n', config.shortProjectName);
 fclose(fid);
 

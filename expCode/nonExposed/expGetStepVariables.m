@@ -4,6 +4,7 @@ stepFileName = [config.codePath config.shortProjectName num2str(stepId) config.s
 
 names = {};
 structNames = {};
+if ~exist(stepFileName, 'file'), error(['Unable to open ' stepFileName]); end
 fid = fopen(stepFileName);
 while ~feof(fid)
     line = fgetl(fid);

@@ -61,6 +61,7 @@ if config.log >= level
     
     if any(strcmp({'file', 'both'}, destination))
         logFile = fopen(config.logFileName, 'a');
+        if logFile == -1, error(['Unable to write to ' config.logFileName]); end
         fprintf(logFile, [message '\n\n']);
 %         fprintf('%s', message);
         fclose(logFile);

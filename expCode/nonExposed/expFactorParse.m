@@ -1,7 +1,7 @@
 function [settingSpec] = expFactorParse(fileName)
 
 settingSpec = [];
-
+if ~exist(fileName, 'file'), error(['Unable to open ' fileName]); end
 fid =fopen(fileName);
 C = textscan(fid,'%s%s%s%s', 'commentstyle', '%', 'delimiter', '=');
 fclose(fid);
