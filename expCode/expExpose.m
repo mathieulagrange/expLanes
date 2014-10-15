@@ -6,7 +6,7 @@ function config = expExpose(varargin)
 %			as ('parameter' / value) pairs
 %		'caption': caption of display as string
 %			symbol + gets replaced by a description of the settings
-%       'compactLabels": shorten labels by removing common substrings
+%       'compactLabels': shorten labels by removing common substrings
 %           (default 0)
 %		'expand': name or index of the factor to expand
 %		'fontSize': set the font size of LaTEX tables (default 'normal')
