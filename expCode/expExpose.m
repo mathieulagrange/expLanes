@@ -13,6 +13,15 @@ function config = expExpose(varargin)
 %		'highlight': highlight settings that are not significantly
 %			different from the best performing setting
 %			selector is the same as 'variance'
+%       'highlightStyle': type of highlighting
+%           'better': highlight best and equivalents (default)
+%           'best': highlight best
+%           'Best': highlight only the best if significantly better than
+%           the others
+%           'BEst': highlight only the best if significantly better than
+%           the others and show only this one
+%       'highlightColor': use color to show highlights (default 1), -1 do
+%       not use *
 %		'integrate': factor(s) to integrate
 %		'label': label of display as string (equal to the name if left empty)
 %		'legend': display and/or specify legend
@@ -22,6 +31,9 @@ function config = expExpose(varargin)
 %		'name': name of exported file as string
 %			symbol + gets replaced by a compact description of the settings
 %       'number': add a line number for each setting in tables
+%           1: add setting number
+%           2: remove setting factors with number
+%           3: remove setting factors without number
 %		'report': generate report
 %			<=-3: no report
 %			-2: verbose tex report
@@ -34,7 +46,7 @@ function config = expExpose(varargin)
 %		'orientation': display orientation
 %			'v': vertical (default)
 %			'h': horizontal
-%           'i': as second letter invert the table for prompt and latext
+%           'i': as second letter invert the table for prompt and latex
 %           display
 %		'percent': display observations in percent
 %			selector is the same as 'variance'
@@ -112,6 +124,8 @@ p.precision = -1;
 p.show = 'data';
 p.numericObservations = 0;
 p.compactLabels = 0;
+p.highlightStyle = 'better';
+p.highlightColor = 1;
 
 pNames = fieldnames(p);
 % overwrite default factors with command line ones

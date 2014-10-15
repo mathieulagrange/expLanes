@@ -52,7 +52,7 @@ if  p.expand ~= 0
     
     observation = observations(p.obs);
     expandNames = config.step.oriFactors.values{p.expand};
-   observations = config.step.oriFactors.values{p.expand};
+    observations = config.step.oriFactors.values{p.expand};
     fData = data;
     
     observations = strrep(observations, '-', 'expCodeMinus');
@@ -105,36 +105,36 @@ nbSettings = length(data);
 
 switch p.total
     case {'v', 'V'}
-    for m=1:length(p.obs)
-        for k=1:nbSettings
-            if ~isempty(data{k})
-                if length(data)>nbSettings && ~isempty(data{nbSettings+1}) && isfield(data{nbSettings+1}, observations{p.obs(m)})
-                    data{nbSettings+1}.(observations{p.obs(m)}) = [data{nbSettings+1}.(observations{p.obs(m)}) data{k}.(observations{p.obs(m)})];
-                else
-                    data{nbSettings+1}.(observations{p.obs(m)}) = data{k}.(observations{p.obs(m)});
+        for m=1:length(p.obs)
+            for k=1:nbSettings
+                if ~isempty(data{k})
+                    if length(data)>nbSettings && ~isempty(data{nbSettings+1}) && isfield(data{nbSettings+1}, observations{p.obs(m)})
+                        data{nbSettings+1}.(observations{p.obs(m)}) = [data{nbSettings+1}.(observations{p.obs(m)}) data{k}.(observations{p.obs(m)})];
+                    else
+                        data{nbSettings+1}.(observations{p.obs(m)}) = data{k}.(observations{p.obs(m)});
+                    end
                 end
             end
         end
-    end
     case {'h', 'H'}
-      for m=1:length(p.obs)
-        for k=1:nbSettings
-            if ~isempty(data{k})
-                if isfield(data{k}, 'total')
-                    data{k}.total = [data{k}.total data{k}.(observations{p.obs(m)})];
-                else
-                    data{k}.total = data{k}.(observations{p.obs(m)});
+        for m=1:length(p.obs)
+            for k=1:nbSettings
+                if ~isempty(data{k})
+                    if isfield(data{k}, 'total')
+                        data{k}.total = [data{k}.total data{k}.(observations{p.obs(m)})];
+                    else
+                        data{k}.total = data{k}.(observations{p.obs(m)});
+                    end
                 end
             end
         end
-      end
-      
-      observations{end+1} = 'total';
-      if strcmp(p.total, 'H') && strcmp(p.show, 'data')
-          p.obs=length(observations);
-      else
-          p.obs(end+1) = length(observations);
-      end
+        
+        observations{end+1} = 'total';
+        if strcmp(p.total, 'H') && strcmp(p.show, 'data')
+            p.obs=length(observations);
+        else
+            p.obs(end+1) = length(observations);
+        end
 end
 
 sData = [];
@@ -164,7 +164,7 @@ for m=1:length(p.obs)
     end
 end
 
-highlights = zeros(size(sData));
+highlights = zeros(size(sData))-3;
 if p.highlight ~= -1
     if ~p.highlight
         p.highlight = 1:size(sData, 2);
@@ -192,17 +192,17 @@ if p.highlight ~= -1
                         % better than handling
                         if p.better
                             if rejection && mean(double(data{m}.(observations{p.obs(k)}))) > mean(double(data{maxIndex}.(observations{p.obs(k)})))
-                                 highlights(m, k) = 2;
+                                highlights(m, k) = 2;
                             end
                             if m==maxIndex
-                                 highlights(m, k)=0;
+                                highlights(m, k)=0;
                             end
-                         end
+                        end
                         
                     end
                 end
                 if ~p.better
-                 highlights(col==maxValue, k) = 2;
+                    highlights(col==maxValue, k) = 2;
                 end
             elseif ~p.better
                 highlights(:, k) =  (col==maxValue)*2;
@@ -212,7 +212,7 @@ if p.highlight ~= -1
     if lower(p.total) == 'v'
         col = round(sData(end, :)*10^p.precision);
         [maxValue, maxIndex] = max(col);
-%              if length(col) > 4, maxIndex = 5; end
+        %              if length(col) > 4, maxIndex = 5; end
         if any(vData(end, :))
             for m=1:length(col)
                 if ~isempty(data{end}.(observations{p.obs(m)}))
@@ -225,6 +225,24 @@ if p.highlight ~= -1
             highlights(end, :) =  col==maxValue;
         end
     end
+end
+
+switch p.highlightStyle
+    case 'best'
+        highlights(highlights==1) = 0;
+        %         highlights(highlights==2) = 1;
+    case 'Better'
+        idx = find(sum(highlights==1));
+        highlights(highlights==1) = 0;
+        for k=1:length(idx)
+            highlights(highlights(:, idx(k))==2, idx(k)) = 1;
+        end
+    case 'BEtter'
+        idx = find(sum(highlights==1));
+        highlights(highlights==1) = 0;
+        for k=1:length(idx)
+            highlights(highlights(:, idx(k))==2, idx(k)) = 0;
+        end
 end
 
 if size(sData, 2) == 1

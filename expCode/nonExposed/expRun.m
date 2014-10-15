@@ -177,8 +177,8 @@ if config.obs ~= -1
     else
         try
             config = exposeObservations(config);
-        catch error
-            explog(config, error, 3, 1);
+        catch catchedError
+            explog(config, catchedError, 3, 1);
         end
     end
 end
@@ -190,9 +190,9 @@ if strfind(config.report, 'r')
     else
         try
             config = feval([config.shortProjectName 'Report'], config);
-        catch error
+        catch catchedError
             config.report='';
-            expLog(config, error, 3, 1);
+            expLog(config, catchedError, 3, 1);
         end
     end
     displayData = config.displayData; %#ok<NASGU>

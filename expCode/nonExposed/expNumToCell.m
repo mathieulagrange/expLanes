@@ -1,4 +1,4 @@
-function resultCell = expNumToCell(dataMean, dataVar, displayDigitPrecision, put, highlight)
+function resultCell = expNumToCell(dataMean, dataVar, displayDigitPrecision, put, highlight, highlightColor)
 
 if ~exist('dataVar', 'var'), dataVar = []; end
 if ~exist('displayDigitPrecision', 'var'), displayDigitPrecision=0; end
@@ -27,18 +27,25 @@ for k=1:size(dataMean, 2)
         col = cellstr(num2str(dataMean(:, k), ['%10.' num2str(displayDigitPrecision) 'f\n']));
     end
     col = regexprep(col, 'NaN', '-');
-     resultCell(:, k) = regexprep(col, ' \(-\)', '');
+    resultCell(:, k) = regexprep(col, ' \(-\)', '');
 end
 
 if any(highlight(:))
     if put == 2
-        resultCell(highlight==1) = strcat('\textbf{', resultCell(highlight==1), '}');
-        resultCell(highlight==2) = strcat('\textbf{\textcolor{red}{', resultCell(highlight==2), '}}');
+             resultCell(highlight==1) = strcat('\textbf{', resultCell(highlight==1), '}');
+      switch highlightColor
+          case 1
+             resultCell(highlight==2) = strcat('\textbf{\textcolor{red}{', resultCell(highlight==2), '}}');
+          case 0
+             resultCell(highlight==2) = strcat('\textbf{', resultCell(highlight==2), '$^*$}');
+           case -1
+             resultCell(highlight==2) = strcat('\textbf{', resultCell(highlight==2), '}');
+      end
     elseif put == 1
-%         resultCell(highlight==0) = strcat('<html><font color="black"><b>', resultCell(highlight==0), '</font></html>');
+        %         resultCell(highlight==0) = strcat('<html><font color="black"><b>', resultCell(highlight==0), '</font></html>');
         resultCell(highlight==1) = strcat('<html><font color="blue"><b>', resultCell(highlight==1), '</font></html>');
         resultCell(highlight==2) = strcat('<html><font color="red"><b>', resultCell(highlight==2), '</font></html>');
     end
 end
-    
+
 

@@ -2,15 +2,21 @@ function config = exposeTable(config, data, p)
 
 if isstruct(data)
     numeric=1;
-    inputCell = expNumToCell(data.meanData, data.varData, p.precision, p.put, data.highlights);
+    inputCell = expNumToCell(data.meanData, data.varData, p.precision, p.put, data.highlights, p.highlightColor);
 else
     numeric = 0;
     inputCell = data;
 end
 
-dataCell = [p.rowNames inputCell];
+if p.number < 2
+    dataCell = [p.rowNames inputCell];
+else
+    dataCell = inputCell;
+    p.columnNames = p.columnNames(size(p.rowNames, 2)+1:end);
+end
+
 if numeric, dataCell = expSortData(dataCell, p, data.factorSelector, config, data); end % FIXME not done in put=1 ?
-if ~isempty(dataCell) && p.number
+if ~isempty(dataCell) && p.number == 1
     dataCell = [cellstr([num2str([1:size(dataCell, 1)]')]) dataCell];
     p.columnNames = [{''} p.columnNames];
 end
