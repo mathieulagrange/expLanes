@@ -32,8 +32,6 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO precision can be an array
 
-% FIXME expCode appears multiple times in deps
-
 % FIXME try / catch every opening of file
 
 

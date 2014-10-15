@@ -17,6 +17,8 @@ if ~exist(userDefaultConfigFileName, 'file')
 else
     try
         expUpdateConfig(userDefaultConfigFileName);
+    catch
+        fprintf(2, 'Unable to update the default Config\n');
     end
 end
 
