@@ -45,7 +45,15 @@ switch p.put
             config.displayData.table(end+1).caption = p.caption;
             config.displayData.table(end).multipage = p.multipage;
             config.displayData.table(end).landscape = p.orientation(1) == 'h'; % TODO propagate only p
-            config.displayData.table(end).table = config.displayData.cellData;
+            if length(config.displayData.table)>1 && ~isempty(p.mergeDisplay)
+                if p.mergeDisplay == 'h'
+                    config.displayData.table(end).table = [config.displayData.table(end-1).table; config.displayData.cellData];
+                else
+                    config.displayData.table(end).table = [config.displayData.table(end-1).table; config.displayData.cellData];
+                end
+            else
+                config.displayData.table(end).table = config.displayData.cellData;
+            end
             config.displayData.table(end).data = config.data;
             config.displayData.table(end).label = p.label;
             config.displayData.table(end).fontSize = p.fontSize;

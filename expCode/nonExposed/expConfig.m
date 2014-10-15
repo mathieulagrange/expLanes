@@ -34,7 +34,7 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO replace LatexCreator with Datatable ??
 
-
+% TODO values of factors are sorted by default: CHANGE !!
 
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 

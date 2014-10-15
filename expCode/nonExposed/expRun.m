@@ -21,7 +21,10 @@ if config.generateRootFile
     expCreateRootFile(config, projectName, shortProjectName, config.expCodePath);
 end
 
-config.logFileName = [config.reportPath 'reports/log_' num2str(config.runId) '.txt'];
+if ~exist([config.reportPath 'logs'], 'dir')
+    mkdir([config.reportPath 'logs']);
+end
+config.logFileName = [config.reportPath 'logs/log_' num2str(config.runId) '.txt'];
 config.errorDataFileName = {};
 if exist(config.logFileName, 'file')
     delete(config.logFileName);
@@ -30,7 +33,7 @@ if ~exist(config.reportPath, 'dir')
     mkdir(config.reportPath);
 end
 
-logFileName = [config.reportPath 'reports/config.txt'];
+logFileName = [config.reportPath 'logs/config.txt'];
 config.logFile = fopen(logFileName, 'w');
 if config.logFile == -1, error(['Unable to write to ' logFileName]); end
 fprintf(config.logFile, '\n%s\n', evalc('disp(config)'));
@@ -257,7 +260,7 @@ if config.sendMail
             end
         end
         message = [message sprintf('\n\n -------------------------------------- \n')];
-        config.mailAttachment = {[config.reportPath 'reports/config.txt']};
+        config.mailAttachment = {[config.reportPath 'logs/config.txt']};
         
         for k=1:length(config.errorDataFileName)
             if exist(config.errorDataFileName{k}, 'file')

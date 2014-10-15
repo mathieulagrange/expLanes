@@ -127,7 +127,7 @@ CONSTRUCTOR(varargin{:});
 
 
 
-    function CONSTRUCTOR(tex_file, keep, author_name, title, projectName, template, noFigDir, slides)
+    function CONSTRUCTOR(tex_file, keep, author_name, title, projectName, template, noFigDir, slides, noFlag)
         
         Data.TexFn=tex_file;
         if nargin>2, Data.author=author_name; end
@@ -135,6 +135,7 @@ CONSTRUCTOR(varargin{:});
         if nargin<6, template=1; end
         if nargin<7, noFigDir=0; end
         if nargin<8, slides=0; end
+         if nargin<9, Data.noFlag=0; else Data.noFlag=noFlag; end
         
         % extraction nom repertoire et nom de fichier
         TmpCell=strread(Data.TexFn,'%s','delimiter','/');
@@ -397,9 +398,9 @@ CONSTRUCTOR(varargin{:});
         end %-----------------------------------------------------
         
         % Ecriture Flag ------------------------------------------
-        
+        if ~Data.noFlag
         fprintf(fid,'%s \n','\input{tex/exposeTmp} % expCodeInsertionFlag DO NOT CLEAR (but move it where you want the generated temporary LaTEX code to be inserted)');
-        
+        end
         %---------------------------------------------------------
         
         % Ecriture seconde partie --------------------------------

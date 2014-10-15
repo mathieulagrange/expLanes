@@ -27,6 +27,10 @@ function config = expExpose(varargin)
 %		'legend': display and/or specify legend
 %		'legendLocation': location of the legend (default 'BestOutSide')
 %		'mask': selection of the settings to be displayed
+%       'mergeDisplay': concatenate current display with the previous one
+%           '': no merge (default)
+%           'h': horizontal concatenation
+%           'v': vertical concatenation
 %		'multipage': activate the multipage to the LaTEX table
 %		'name': name of exported file as string
 %			symbol + gets replaced by a compact description of the settings
@@ -126,6 +130,7 @@ p.numericObservations = 0;
 p.compactLabels = 0;
 p.highlightStyle = 'better';
 p.highlightColor = 1;
+p.mergeDisplay = '';
 
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
