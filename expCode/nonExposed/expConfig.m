@@ -36,6 +36,9 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO values of factors are sorted by default: CHANGE !!
 
+% TODO change the way store is created. sotre shall be part of data and
+% data passed through the module
+
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})

@@ -16,8 +16,6 @@ if exist(reduceFileName, 'file')
     end
 end
 
-% data = [];
-
 if isempty(data)
 %     config.step.id = config.step.id+1; % FIX ME fragile
     

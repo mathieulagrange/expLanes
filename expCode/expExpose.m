@@ -35,9 +35,8 @@ function config = expExpose(varargin)
 %		'name': name of exported file as string
 %			symbol + gets replaced by a compact description of the settings
 %       'number': add a line number for each setting in tables
-%           1: add setting number
-%           2: remove setting factors with number
-%           3: remove setting factors without number
+%       'noFactor' : remove setting factors 
+%       'noObservation': remove observations
 %		'report': generate report
 %			<=-3: no report
 %			-2: verbose tex report
@@ -46,7 +45,8 @@ function config = expExpose(varargin)
 %			1: generate outputs and generation of tex report
 %			2: display figures and verbose tex report
 %		'obs': name(s) or index(es) of the observations to retain
-%		'order': numeric array ordering the factors
+%		'orderFactor': numeric array ordering the factors
+%		'orderSetting': numeric array ordering the settings
 %		'orientation': display orientation
 %			'v': vertical (default)
 %			'h': horizontal
@@ -96,7 +96,8 @@ oriConfig = varargin{1};
 config = varargin{1};
 exposeType = varargin{2};
 
-p.order = [];
+p.orderFactor = [];
+p.orderSetting = [];
 p.expand = 0;
 p.obs = 0;
 p.variance = 0;
@@ -131,6 +132,8 @@ p.compactLabels = 0;
 p.highlightStyle = 'better';
 p.highlightColor = 1;
 p.mergeDisplay = '';
+p.noFactor = 0;
+p.noObservation = 0;
 
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
@@ -246,9 +249,9 @@ if p.numericObservations
     evaluationObservations = cellfun(@num2str, evaluationObservations, 'UniformOutput', false);
 end
 
-if ~isempty(p.order) || any(p.expand ~= 0)
-    if ~isempty(p.order)
-        order = p.order;
+if ~isempty(p.orderFactor) || any(p.expand ~= 0)
+    if ~isempty(p.orderFactor)
+        order = p.orderFactor;
     else
         order = 1:length(config.factors.names);
     end
@@ -303,6 +306,15 @@ if p.expand,
     else
         data = expFilter(config, pe);
     end
+end
+
+if ~isempty(p.orderSetting) && length(p.orderSetting) == config.step.nbSettings
+data.settingSelector = data.settingSelector(p.orderSetting);
+data.highlights = data.highlights(p.orderSetting, :);
+data.rawData = data.rawData(p.orderSetting);
+data.varData = data.varData(p.orderSetting, :);
+data.meanData = data.meanData(p.orderSetting, :);
+data.filteredData = data.filteredData(p.orderSetting, :);
 end
 
 totalName = 'Average';

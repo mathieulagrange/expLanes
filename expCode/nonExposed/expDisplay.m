@@ -46,10 +46,32 @@ switch p.put
             config.displayData.table(end).multipage = p.multipage;
             config.displayData.table(end).landscape = p.orientation(1) == 'h'; % TODO propagate only p
             if length(config.displayData.table)>1 && ~isempty(p.mergeDisplay)
-                if p.mergeDisplay == 'h'
-                    config.displayData.table(end).table = [config.displayData.table(end-1).table; config.displayData.cellData];
-                else
-                    config.displayData.table(end).table = [config.displayData.table(end-1).table; config.displayData.cellData];
+                previous = config.displayData.table(end-1).table;
+                next = config.displayData.cellData;
+                
+                if size(previous, 1) > size(next, 1)
+                    padding = cell(size(previous, 1)-size(next, 1), size(previous, 2));
+                    padding(:) = {''};
+                    next = [padding; next] ;
+                elseif size(previous, 1) < size(next, 1)
+                    padding = cell(size(next, 1)-size(previous, 1), size(previous, 2));
+                    padding(:) = {''};
+                    previous = [padding; previous] ;
+                end
+                if size(previous, 2) > size(next, 2)
+                    padding = cell(size(previous, 1), size(previous, 2)-size(next, 2));
+                    padding(:) = {''};
+                    next = [padding next] ;
+                elseif size(previous, 2) < size(next, 2)
+                    padding = cell(size(previous, 1), size(next, 2)-size(previous, 2));
+                    padding(:) = {''};
+                    previous = [padding previous] ;
+                end
+                
+                if p.mergeDisplay == 'v'
+                    config.displayData.table(end).table = [previous; next];
+                else                   
+                    config.displayData.table(end).table = [previous next];
                 end
             else
                 config.displayData.table(end).table = config.displayData.cellData;

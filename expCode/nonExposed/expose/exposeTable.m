@@ -8,11 +8,11 @@ else
     inputCell = data;
 end
 
-if p.number < 2
-    dataCell = [p.rowNames inputCell];
-else
+if p.noFactor
     dataCell = inputCell;
     p.columnNames = p.columnNames(size(p.rowNames, 2)+1:end);
+else
+    dataCell = [p.rowNames inputCell];
 end
 
 if numeric, dataCell = expSortData(dataCell, p, data.factorSelector, config, data); end % FIXME not done in put=1 ?
@@ -82,7 +82,11 @@ switch p.put
             end
         end
     case 2
-        allCell = [p.columnNames; dataCell];
+        if p.noObservation
+            allCell = dataCell;
+        else
+            allCell = [p.columnNames; dataCell];
+        end
         allCell = strrep(allCell, '_', '\_');
         allCell = strrep(allCell, '%', '\%');
         config.displayData.cellData = allCell;
