@@ -12,7 +12,7 @@ elseif isnumeric(commands{1})
     config = expConfig(projectPath, projectName, shortProjectName);
     if isempty(config), return; end;
     historyFileName = expandHomePath([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt']);
-     fid = fopen(historyFileName, 'rt');
+    fid = fopen(historyFileName, 'rt');
     foundCommand = '';
     if fid>0
         k=0;
@@ -40,7 +40,7 @@ elseif ischar(commands{1})
         case 'p'
             fprintf('---------------------------\nHistory: \n');
             historyFileName = expandHomePath([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt']);
-           fid = fopen(historyfileName, 'rt');
+            fid = fopen(historyfileName, 'rt');
             if fid>0
                 lastCommands={};
                 while ~feof(fid)
@@ -116,14 +116,15 @@ if ~isempty(strfind(lastCommand, ''''))
     end
     
     historyFileName = expandHomePath([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt']);
-   fid = fopen(historyFileName, 'w');
-   if fid == -1, error(['Unable to open ' historyFileName]); end
-  
+    fid = fopen(historyFileName, 'w');
+    if fid == -1, error(['Unable to open ' historyFileName]); end
+    
     for k=1:length(commands)
         fprintf(fid, '%s\n', commands{k});
         ends
-    fprintf(fid, '%s\n', lastCommand);
-    fclose(fid);
+        fprintf(fid, '%s\n', lastCommand);
+        fclose(fid);
+    end
 end
 
 function showFactors(fileName)
