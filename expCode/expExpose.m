@@ -8,6 +8,7 @@ function config = expExpose(varargin)
 %			symbol + gets replaced by a description of the settings
 %       'compactLabels': shorten labels by removing common substrings
 %           (default 0)
+%       'data': specify data to be stored (default empty)
 %		'expand': name or index of the factor to expand
 %		'fontSize': set the font size of LaTEX tables (default 'normal')
 %		'highlight': highlight settings that are not significantly
@@ -35,7 +36,7 @@ function config = expExpose(varargin)
 %		'name': name of exported file as string
 %			symbol + gets replaced by a compact description of the settings
 %       'number': add a line number for each setting in tables
-%       'noFactor' : remove setting factors 
+%       'noFactor' : remove setting factors
 %       'noObservation': remove observations
 %		'report': generate report
 %			<=-3: no report
@@ -134,7 +135,7 @@ p.highlightColor = 1;
 p.mergeDisplay = '';
 p.noFactor = 0;
 p.noObservation = 0;
-
+p.data = [];
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
 for pair = reshape(varargin(3:end),2,[])
@@ -203,366 +204,366 @@ if ~expCheckMask(config.factors, config.mask)
     config.mask = {mask};
 end
 
-
-config.step = expStepSetting(config.factors, config.mask, config.step.id);
-
-config = expReduce(config);
+if ~isempty(exposeType)
+    config.step = expStepSetting(config.factors, config.mask, config.step.id);
+    
+    config = expReduce(config);
+end
 
 if ~isfield(config, 'evaluation') || isempty(config.evaluation) || isempty(config.evaluation.data) %  || isempty(config.evaluation.data{1}) % TODO check if all data are empty
     disp('No observations to display.');
-    return
-end
-
-if ischar(p.obs)
-    p.obs = find(strcmp(config.evaluation.observations, p.obs));
-    if isempty(p.obs), disp(['Unable to find observation with name' p.obs]); end
-end
-if ~p.obs
-    p.obs = 1:length(config.evaluation.observations);
-end
-evaluationObservations = config.evaluation.observations;
-if p.percent ~= -1
-    p.precision = max(p.precision-2, 0);
-    if p.percent==0
-        p.percent = 1:length(evaluationObservations);
+else
+    if ischar(p.obs)
+        p.obs = find(strcmp(config.evaluation.observations, p.obs));
+        if isempty(p.obs), disp(['Unable to find observation with name' p.obs]); end
     end
-    for k=1:length(p.percent)
-        if p.percent(k) <= length(evaluationObservations)
-            evaluationObservations{p.percent(k)} =  [evaluationObservations{p.percent(k)} ' (%)'];
+    if ~p.obs
+        p.obs = 1:length(config.evaluation.observations);
+    end
+    evaluationObservations = config.evaluation.observations;
+    if p.percent ~= -1
+        p.precision = max(p.precision-2, 0);
+        if p.percent==0
+            p.percent = 1:length(evaluationObservations);
         end
-    end
-end
-if ~isempty(evaluationObservations)
-    evaluationObservations = evaluationObservations(p.obs);
-end
-
-if p.shortObservations == 0
-    p.shortObservations = 1:length(evaluationObservations);
-end
-if p.shortObservations ~= -1
-    for k=1:length(p.shortObservations)
-        evaluationObservations(p.shortObservations(k)) =  names2shortNames(evaluationObservations(p.shortObservations(k)), 3);
-    end
-end
-if p.numericObservations
-    evaluationObservations = num2cell(1:length(evaluationObservations));
-    evaluationObservations = cellfun(@num2str, evaluationObservations, 'UniformOutput', false);
-end
-
-if ~isempty(p.orderFactor) || any(p.expand ~= 0)
-    if ~isempty(p.orderFactor)
-        order = p.orderFactor;
-    else
-        order = 1:length(config.factors.names);
-    end
-    if any(p.expand ~= 0)
-        [null, expand] = expModifyExposition(config, p.expand);
-        if order(end) ~= expand
-            order(expand) = length(order);
-            order(end) = expand;
-        end
-    end
-    config = expOrder(config, order);
-    % sort data and settings
-end
-
-% if any(p.integrate) && p.expand
-%    error('Cannot use intergate and expand at the same time.');
-% end
-
-if any(p.percent>0)
-    observations = config.evaluation.observations;
-    for k=1:length(p.percent)
-        for m=1:length(config.evaluation.results)
-            if ~isempty(config.evaluation.results{m}) && all(config.evaluation.results{m}.(observations{p.percent(k)})<=1) % TODO remove when done
-                config.evaluation.results{m}.(observations{p.percent(k)}) = 100*config.evaluation.results{m}.(observations{p.percent(k)});
+        for k=1:length(p.percent)
+            if p.percent(k) <= length(evaluationObservations)
+                evaluationObservations{p.percent(k)} =  [evaluationObservations{p.percent(k)} ' (%)'];
             end
         end
     end
-end
-
-if strcmp(p.show, 'Best')
-    p.highlight = 0;
-end
-
-data = {};
-if iscell(p.integrate) || any(p.integrate ~= 0),
-    [config, p.integrate, p.integrateName] = expModifyExposition(config, p.integrate);
-    pi=p;
-    pi.expand = 0;
-    data = expFilter(config, pi);
-elseif isnumeric(p.expand) && ~p.expand
-    data = expFilter(config, p);
-end
-
-if p.expand,
-    if (isnumeric(p.expand) && length(p.expand)>1) || iscell(p.expand), error('Please choose only one factor to expand.'); end
-    [config, p.expand, p.expandName] = expModifyExposition(config, p.expand);
-    
-    pe=p;
-    pe.integrate = 0;
-    if ~isempty(data)
-        data = expFilter(config, pe, data.rawData);
-    else
-        data = expFilter(config, pe);
+    if ~isempty(evaluationObservations)
+        evaluationObservations = evaluationObservations(p.obs);
     end
-end
-
-if ~isempty(p.orderSetting) && length(p.orderSetting) == config.step.nbSettings
-data.settingSelector = data.settingSelector(p.orderSetting);
-data.highlights = data.highlights(p.orderSetting, :);
-data.rawData = data.rawData(p.orderSetting);
-data.varData = data.varData(p.orderSetting, :);
-data.meanData = data.meanData(p.orderSetting, :);
-data.filteredData = data.filteredData(p.orderSetting, :);
-end
-
-totalName = 'Average';
-if ~strcmp(p.show, 'data')
-    data.varData(:)=0;
-    p.precision = 0;
-    switch p.show
-        case 'rank'
-            data.meanData  = tiedrank(-data.meanData);
-        case 'best'
-            for k=1:size(data.meanData, 2)
+    
+    if p.shortObservations == 0
+        p.shortObservations = 1:length(evaluationObservations);
+    end
+    if p.shortObservations ~= -1
+        for k=1:length(p.shortObservations)
+            evaluationObservations(p.shortObservations(k)) =  names2shortNames(evaluationObservations(p.shortObservations(k)), 3);
+        end
+    end
+    if p.numericObservations
+        evaluationObservations = num2cell(1:length(evaluationObservations));
+        evaluationObservations = cellfun(@num2str, evaluationObservations, 'UniformOutput', false);
+    end
+    
+    if ~isempty(p.orderFactor) || any(p.expand ~= 0)
+        if ~isempty(p.orderFactor)
+            order = p.orderFactor;
+        else
+            order = 1:length(config.factors.names);
+        end
+        if any(p.expand ~= 0)
+            [null, expand] = expModifyExposition(config, p.expand);
+            if order(end) ~= expand
+                order(expand) = length(order);
+                order(end) = expand;
+            end
+        end
+        config = expOrder(config, order);
+        % sort data and settings
+    end
+    
+    % if any(p.integrate) && p.expand
+    %    error('Cannot use intergate and expand at the same time.');
+    % end
+    
+    if any(p.percent>0)
+        observations = config.evaluation.observations;
+        for k=1:length(p.percent)
+            for m=1:length(config.evaluation.results)
+                if ~isempty(config.evaluation.results{m}) && all(config.evaluation.results{m}.(observations{p.percent(k)})<=1) % TODO remove when done
+                    config.evaluation.results{m}.(observations{p.percent(k)}) = 100*config.evaluation.results{m}.(observations{p.percent(k)});
+                end
+            end
+        end
+    end
+    
+    if strcmp(p.show, 'Best')
+        p.highlight = 0;
+    end
+    
+    data = {};
+    if iscell(p.integrate) || any(p.integrate ~= 0),
+        [config, p.integrate, p.integrateName] = expModifyExposition(config, p.integrate);
+        pi=p;
+        pi.expand = 0;
+        data = expFilter(config, pi);
+    elseif isnumeric(p.expand) && ~p.expand
+        data = expFilter(config, p);
+    end
+    
+    if p.expand,
+        if (isnumeric(p.expand) && length(p.expand)>1) || iscell(p.expand), error('Please choose only one factor to expand.'); end
+        [config, p.expand, p.expandName] = expModifyExposition(config, p.expand);
+        
+        pe=p;
+        pe.integrate = 0;
+        if ~isempty(data)
+            data = expFilter(config, pe, data.rawData);
+        else
+            data = expFilter(config, pe);
+        end
+    end
+    
+    if ~isempty(p.orderSetting) && length(p.orderSetting) == config.step.nbSettings
+        data.settingSelector = data.settingSelector(p.orderSetting);
+        data.highlights = data.highlights(p.orderSetting, :);
+        data.rawData = data.rawData(p.orderSetting);
+        data.varData = data.varData(p.orderSetting, :);
+        data.meanData = data.meanData(p.orderSetting, :);
+        data.filteredData = data.filteredData(p.orderSetting, :);
+    end
+    
+    totalName = 'Average';
+    if ~strcmp(p.show, 'data')
+        data.varData(:)=0;
+        p.precision = 0;
+        switch p.show
+            case 'rank'
+                data.meanData  = tiedrank(-data.meanData);
+            case 'best'
+                for k=1:size(data.meanData, 2)
+                    if p.better
+                        totalName = 'better';
+                        index = or(data.meanData(:, k)>data.meanData(p.better, k), data.highlights(:, k)>0);
+                    else
+                        totalName = 'best';
+                        [null, index] = max(data.meanData(:, k));
+                    end
+                    data.meanData(:, k) = 0;
+                    data.meanData(index, k) = 1;
+                end
+                data = expShowBest(data, p);
+                
+            case 'Best'
                 if p.better
-                    totalName = 'better';
-                    index = or(data.meanData(:, k)>data.meanData(p.better, k), data.highlights(:, k)>0);
+                    totalName = 'Better';
                 else
-                    totalName = 'best';
-                    [null, index] = max(data.meanData(:, k));
+                    totalName = 'Best';
                 end
-                data.meanData(:, k) = 0;
-                data.meanData(index, k) = 1;
-            end
-            data = expShowBest(data, p);
-            
-        case 'Best'
-            if p.better
-                totalName = 'Better';
-            else
-                totalName = 'Best';
-            end
-            %             [null, index] = max(data.meanData);
-            %             for k=1:size(data.meanData, 2)
-            %                 data.meanData(:, k) = 0;
-            %                 if sum(data.highlights(:, k))==2
-            %                     data.meanData(index(k), k) = 1;
-            %                 end
-            %             end
-            data.meanData = double(data.highlights==2);
-            data = expShowBest(data, p);
-    end
-end
-
-if ~p.sort && isfield(config, 'sortDisplay')
-    p.sort = config.sortDisplay;
-end
-
-p.title = strrep(p.title, '+', config.step.setting.infoStringMask);
-p.name = strrep(p.name, '+', config.step.setting.infoShortStringMask);
-if isempty(p.label)
-    p.label = p.name;
-end
-p.caption = strrep(p.caption, '=', p.title);
-p.caption = strrep(p.caption, '+', config.step.setting.infoStringMask);
-p.caption = strrep(p.caption, '_', '\_');
-
-p.legendNames = evaluationObservations;
-
-p.xName='';
-p.columnNames = [config.step.factors.names(data.factorSelector)' evaluationObservations];
-p.factorNames = config.step.factors.names(data.factorSelector)';
-p.obsNames = evaluationObservations;
-p.methodLabel = '';
-p.xAxis='';
-p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector);
-
-if p.integrate
-    if ~ischar(p.legendNames)
-        if isnumeric(p.legendNames{1})
-            p.xAxis = cell2mat(config.step.factors.set{p.expand});
-        else
-            p.xAxis = 1:length(p.legendNames);
+                %             [null, index] = max(data.meanData);
+                %             for k=1:size(data.meanData, 2)
+                %                 data.meanData(:, k) = 0;
+                %                 if sum(data.highlights(:, k))==2
+                %                     data.meanData(index(k), k) = 1;
+                %                 end
+                %             end
+                data.meanData = double(data.highlights==2);
+                data = expShowBest(data, p);
         end
-        p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
     end
-    p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
-    p.obsNames = p.legendNames;
-    p.methodLabel = config.evaluation.observations(p.obs);
-    p.xName = p.integrateName;
-    p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
-end
-
-if p.expand
-    nbModalities = length(config.step.oriFactors.values{p.expand});
     
-    if length(p.obs)>1
-        for k=1:nbModalities
-            for m=1:length(p.obs)
-                p.legendNames(1, (k-1)*length(p.obs)+m) = {''};
-                p.legendNames(2, (k-1)*length(p.obs)+m) = evaluationObservations(m);
+    if ~p.sort && isfield(config, 'sortDisplay')
+        p.sort = config.sortDisplay;
+    end
+    
+    p.title = strrep(p.title, '+', config.step.setting.infoStringMask);
+    p.name = strrep(p.name, '+', config.step.setting.infoShortStringMask);
+    if isempty(p.label)
+        p.label = p.name;
+    end
+    p.caption = strrep(p.caption, '=', p.title);
+    p.caption = strrep(p.caption, '+', config.step.setting.infoStringMask);
+    p.caption = strrep(p.caption, '_', '\_');
+    
+    p.legendNames = evaluationObservations;
+    
+    p.xName='';
+    p.columnNames = [config.step.factors.names(data.factorSelector)' evaluationObservations];
+    p.factorNames = config.step.factors.names(data.factorSelector)';
+    p.obsNames = evaluationObservations;
+    p.methodLabel = '';
+    p.xAxis='';
+    p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector);
+    
+    if p.integrate
+        if ~ischar(p.legendNames)
+            if isnumeric(p.legendNames{1})
+                p.xAxis = cell2mat(config.step.factors.set{p.expand});
+            else
+                p.xAxis = 1:length(p.legendNames);
             end
+            p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
+        end
+        p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
+        p.obsNames = p.legendNames;
+        p.methodLabel = config.evaluation.observations(p.obs);
+        p.xName = p.integrateName;
+        p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
+    end
+    
+    if p.expand
+        nbModalities = length(config.step.oriFactors.values{p.expand});
+        
+        if length(p.obs)>1
+            for k=1:nbModalities
+                for m=1:length(p.obs)
+                    p.legendNames(1, (k-1)*length(p.obs)+m) = {''};
+                    p.legendNames(2, (k-1)*length(p.obs)+m) = evaluationObservations(m);
+                end
+                if p.numericObservations
+                    p.legendNames(1, (k-1)*length(p.obs)+floor(length(p.obs)/2)) = k;
+                else
+                    p.legendNames(1, (k-1)*length(p.obs)+floor(length(p.obs)/2)) = config.step.oriFactors.values{p.expand}(k);
+                end
+            end
+        else
             if p.numericObservations
-                p.legendNames(1, (k-1)*length(p.obs)+floor(length(p.obs)/2)) = k;
+                p.legendNames = num2cell(1:nbModalities);
+                p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false);
             else
-                p.legendNames(1, (k-1)*length(p.obs)+floor(length(p.obs)/2)) = config.step.oriFactors.values{p.expand}(k);
+                p.legendNames = config.step.oriFactors.values{p.expand};
             end
         end
-    else
-        if p.numericObservations
-            p.legendNames = num2cell(1:nbModalities);
-            p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false);
+        %     if ~ischar(p.legendNames)
+        %         if isnumeric(p.legendNames{1})
+        %             p.xAxis = cell2mat(config.step.oriFactors.values{p.expand}); % FIXME use to be set instead of values
+        %         else
+        %             p.xAxis = 1:length(p.legendNames);
+        %         end
+        %         p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
+        %     end
+        if length(p.obs)>1
+            el = cell(1, length(config.step.factors.names(data.factorSelector)));
+            [el{:}] = deal('');
+            p.columnNames = [[el; config.step.factors.names(data.factorSelector)'] p.legendNames']; % (data.factorSelector)
+            %         p.factorNames = [el; config.step.factors.names(data.factorSelector)'];
         else
-            p.legendNames = config.step.oriFactors.values{p.expand};
+            p.columnNames = [config.step.factors.names(data.factorSelector)' p.legendNames]; % (data.factorSelector)
         end
+        p.methodLabel = config.evaluation.observations(p.obs);
+        p.xName = p.expandName;
+        p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
     end
-    %     if ~ischar(p.legendNames)
-    %         if isnumeric(p.legendNames{1})
-    %             p.xAxis = cell2mat(config.step.oriFactors.values{p.expand}); % FIXME use to be set instead of values
-    %         else
-    %             p.xAxis = 1:length(p.legendNames);
-    %         end
-    %         p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
-    %     end
-    if length(p.obs)>1
-        el = cell(1, length(config.step.factors.names(data.factorSelector)));
-        [el{:}] = deal('');
-        p.columnNames = [[el; config.step.factors.names(data.factorSelector)'] p.legendNames']; % (data.factorSelector)
-        %         p.factorNames = [el; config.step.factors.names(data.factorSelector)'];
-    else
-        p.columnNames = [config.step.factors.names(data.factorSelector)' p.legendNames]; % (data.factorSelector)
-    end
-    p.methodLabel = config.evaluation.observations(p.obs);
-    p.xName = p.expandName;
-    p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
-end
-
-
-switch p.total
-    case 'v'
-        for k=1:size(p.rowNames, 2)
-            if k==1
-                if p.total == 1
-                    p.rowNames{end+1, k} = 'Average';
+    
+    
+    switch p.total
+        case 'v'
+            for k=1:size(p.rowNames, 2)
+                if k==1
+                    if p.total == 1
+                        p.rowNames{end+1, k} = 'Average';
+                    else
+                        p.rowNames{end+1, k} = 'Count';
+                    end
                 else
-                    p.rowNames{end+1, k} = 'Count';
+                    p.rowNames{end, k} = '';
                 end
-            else
-                p.rowNames{end, k} = '';
+            end
+        case 'V'
+            p.rowNames = {totalName};
+        case 'h'
+            p.columnNames{end+1} = totalName;
+        case 'H'
+            p.columnNames = [p.factorNames totalName]; % TODO recall observation name
+    end
+    
+    if config.step.nbSettings == 1
+        p.labels = '';
+    else
+        for k=1:config.step.nbSettings
+            d = expSetting(config.step, k);
+            if ~isempty(d.infoShortStringMasked)
+                p.labels{k} = strrep(d.infoShortStringMasked, '_', ' '); % (data.settingSelector)
             end
         end
-    case 'V'
-        p.rowNames = {totalName};
-    case 'h'
-        p.columnNames{end+1} = totalName;
-    case 'H'
-        p.columnNames = [p.factorNames totalName]; % TODO recall observation name
-end
-
-if config.step.nbSettings == 1
-    p.labels = '';
-else
-    for k=1:config.step.nbSettings
-        d = expSetting(config.step, k);
-        if ~isempty(d.infoShortStringMasked)
-            p.labels{k} = strrep(d.infoShortStringMasked, '_', ' '); % (data.settingSelector)
+    end
+    
+    p.axisLabels = evaluationObservations;
+    
+    if p.variance == 0
+        p.variance = 1:size(data.varData, 2);
+    end
+    for k=1:size(data.varData, 2)
+        if ~any(p.variance==k)
+            data.varData(:, k) = 0;
         end
     end
-end
-
-p.axisLabels = evaluationObservations;
-
-if p.variance == 0
-    p.variance = 1:size(data.varData, 2);
-end
-for k=1:size(data.varData, 2)
-    if ~any(p.variance==k)
-        data.varData(:, k) = 0;
+    
+    if p.compactLabels
+        p = expCompactLabels(p);
     end
-end
-
-if p.compactLabels
-    p = expCompactLabels(p);
-end
-
-config.data = data;
-
-config.displayData.cellData=[];
-if length(exposeType)<=1
-    switch exposeType
-        case '>'
-            exposeType = 'exposeTable';
-            p.put=0;
-        case 'l'
-            exposeType = 'exposeTable';
-            p.put=2;
-        case 't'
-            exposeType = 'exposeTable';
-            %             if strfind(config.report, 'c')
-            %                 p.put=2;
-            %             end
-        case 'b'
-            exposeType = 'exposeBarPlot';
-        case 'p'
-            exposeType = 'exposeLinePlot';
-        case 's'
-            exposeType = 'exposeScatter';
-        case 'x'
-            exposeType = 'exposeBoxPlot';
-        case 'a'
-            exposeType = 'exposeAnova';
-        case 'i'
-            exposeType = 'exposeImage';
-        case ''
-        otherwise
-            error(['unknown display type: ' exposeType]);
-    end
-else
-    if any(strcmp(exposeType, config.evaluation.structObservations))
-        data = config.evaluation.structResults.(exposeType);
-    end
-    if ~strcmp(exposeType(1:min(6, length(exposeType))), 'expose')
-        exposeType = ['expose' upper(exposeType(1)) exposeType(2:end)];
-        
-        if ~exist(exposeType, 'file')
-            disp(['Unable to find ' exposeType  ' in your path. This function is needed to display the observation ' exposeType(7:end) '.']);
-            if inputQuestion('Do you want to create it ?');
-                functionString = char({...
-                    ['function config = ' exposeType '(config, data, p)'];
-                    ['% ' exposeType ' EXPOSE of the expCode project ' config.projectName];
-                    ['%    config = ' exposeType '(config, data, p)'];
-                    '%       config : expCode configuration state';
-                    '%       data : observations as a struct array';
-                    '%       p : various display information';
-                    '';
-                    ['% Copyright: ' config.completeName];
-                    ['% Date: ' date()];
-                    '';
-                    'p';
-                    'data';
-                    '';
-                    });
-                dlmwrite([config.codePath '/' exposeType '.m'], functionString,'delimiter','');
-            else
-                exposeType = '';
+    
+    config.data = data;
+    
+    config.displayData.cellData=[];
+    if length(exposeType)<=1
+        switch exposeType
+            case '>'
+                exposeType = 'exposeTable';
+                p.put=0;
+            case 'l'
+                exposeType = 'exposeTable';
+                p.put=2;
+            case 't'
+                exposeType = 'exposeTable';
+                %             if strfind(config.report, 'c')
+                %                 p.put=2;
+                %             end
+            case 'b'
+                exposeType = 'exposeBarPlot';
+            case 'p'
+                exposeType = 'exposeLinePlot';
+            case 's'
+                exposeType = 'exposeScatter';
+            case 'x'
+                exposeType = 'exposeBoxPlot';
+            case 'a'
+                exposeType = 'exposeAnova';
+            case 'i'
+                exposeType = 'exposeImage';
+            case ''
+            otherwise
+                error(['unknown display type: ' exposeType]);
+        end
+    else
+        if any(strcmp(exposeType, config.evaluation.structObservations))
+            data = config.evaluation.structResults.(exposeType);
+        end
+        if ~strcmp(exposeType(1:min(6, length(exposeType))), 'expose')
+            exposeType = ['expose' upper(exposeType(1)) exposeType(2:end)];
+            
+            if ~exist(exposeType, 'file')
+                disp(['Unable to find ' exposeType  ' in your path. This function is needed to display the observation ' exposeType(7:end) '.']);
+                if inputQuestion('Do you want to create it ?');
+                    functionString = char({...
+                        ['function config = ' exposeType '(config, data, p)'];
+                        ['% ' exposeType ' EXPOSE of the expCode project ' config.projectName];
+                        ['%    config = ' exposeType '(config, data, p)'];
+                        '%       config : expCode configuration state';
+                        '%       data : observations as a struct array';
+                        '%       p : various display information';
+                        '';
+                        ['% Copyright: ' config.completeName];
+                        ['% Date: ' date()];
+                        '';
+                        'p';
+                        'data';
+                        '';
+                        });
+                    dlmwrite([config.codePath '/' exposeType '.m'], functionString,'delimiter','');
+                else
+                    exposeType = '';
+                end
             end
+            
         end
         
     end
     
-end
-
-if ~isempty(exposeType)
-    if p.put==1 && strcmp(exposeType, 'exposeTable')
-        put = p.put;
-        p.put = 2;
+    if ~isempty(exposeType)
+        if p.put==1 && strcmp(exposeType, 'exposeTable')
+            put = p.put;
+            p.put = 2;
+            config = feval(exposeType, config, data, p);
+            config = expDisplay(config, p);
+            p.put=put;
+        end
         config = feval(exposeType, config, data, p);
-        config = expDisplay(config, p);
-        p.put=put;
     end
-    config = feval(exposeType, config, data, p);
 end
 
 if any(p.put==[0 2])
@@ -579,6 +580,11 @@ if p.save ~= 0
     end
     if p.put ==  2 || strcmp(exposeType, 'exposeTable')
         expSaveTable([config.reportPath 'tables/' name '.tex'], config.displayData.table(end));
+    end
+    if ~exist('data', 'var')
+        data = p.data;
+    else
+        data.pData = p.data;
     end
     save([config.reportPath 'data/' name '.mat'], 'data');
 end
