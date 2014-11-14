@@ -41,6 +41,11 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO save data with figure display
 
+% FIXME creation of config for new user in existing project should only
+% copy existing config of other user
+
+% FIXME impossible to have floating value in factor to expand
+
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})

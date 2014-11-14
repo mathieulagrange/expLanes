@@ -121,7 +121,7 @@ if ~isempty(strfind(lastCommand, ''''))
     
     for k=1:length(commands)
         fprintf(fid, '%s\n', commands{k});
-        ends
+        %         ends
         fprintf(fid, '%s\n', lastCommand);
         fclose(fid);
     end

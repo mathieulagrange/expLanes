@@ -57,6 +57,7 @@ if  p.expand ~= 0
     
     observations = strrep(observations, '-', 'expCodeMinus');
     observations = strrep(observations, ' ', '');
+%     observations = strrep(observations, '.', 'expCodePoint');
     met={};
     met2={};
     ind = [];

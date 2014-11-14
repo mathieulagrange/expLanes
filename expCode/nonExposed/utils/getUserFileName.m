@@ -23,10 +23,11 @@ if ~exist(configFileName, 'file')
         error(['Unable to find ' userDefaultConfigFileName '\n']);
     end
     fid = fopen(userDefaultConfigFileName, 'rt');
-    if ~exist(configFileName, 'file')
-        error(['Unable to find ' configFileName '\n']);
-    end
+   
     fidw = fopen(configFileName, 'w');
+     if fidw < 0
+        error(['Unable to create ' configFileName '\n']);
+    end
     while ~feof(fid)
         text = fgetl(fid);
         if line ~= -1

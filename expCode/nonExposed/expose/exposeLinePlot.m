@@ -19,4 +19,4 @@ end
 % title(p.title);
 xlabel(p.xName);
 ylabel(p.methodLabel);
-% axis tight â
+axis tight
