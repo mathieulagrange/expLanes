@@ -130,7 +130,7 @@ p = [p; setdiff(1:length(n), p)'];
 config = orderfields(config, p);
 
 % create config file
-configFileName = [configPath '/' config.shortProjectName 'ConfigDefault.txt'];
+configFileName = [configPath '/' config.shortProjectName 'Config' [upper(config.userName(1)) config.userName(2:end)] '.txt']; % [configPath '/' config.shortProjectName 'ConfigDefault.txt'];
 fid = fopen(configFileName, 'w');
 if fid == -1, error(['Unable to open ' configFileName]); end
 
