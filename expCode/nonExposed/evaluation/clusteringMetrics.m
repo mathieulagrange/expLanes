@@ -22,3 +22,5 @@ if ~noAccuracy
     [metrics.accuracy, metrics.classMatching] = accuracy(target, prediction);
 end
 
+[metrics.pairwiseFmeasure, metrics.pairwisePrecision, metrics.pairwiseRecall] = pairWiseMatching(target, prediction);
+
