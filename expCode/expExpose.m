@@ -62,6 +62,7 @@ function config = expExpose(varargin)
 %			0: ouput to command prompt
 %			1: output to figure
 %			2: output to LaTEX
+%       'rotateAxis': rotate X axis labels (in degrees)
 %		'show': display
 %           'data': actual observations (default)
 %           'rank': ranking among settings
@@ -136,6 +137,7 @@ p.mergeDisplay = '';
 p.noFactor = 0;
 p.noObservation = 0;
 p.data = [];
+p.rotateAxis=0;
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
 for pair = reshape(varargin(3:end),2,[])

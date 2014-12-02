@@ -23,7 +23,7 @@ else
     b=get(gca,'XTick');
     %     c=get(gca,'YTick');
     c=axis; c=c(3:4);
-    th=text(b,repmat(c(1)-.05*(c(2)-c(1)),length(b),1),p.labels,'HorizontalAlignment','right','rotation',15);
+    th=text(b,repmat(c(1)-.05*(c(2)-c(1)),length(b),1),p.labels,'HorizontalAlignment','right','rotation', p.rotateAxis);
     set(th, 'fontsize', config.displayFontSize);
     set(gca,'XTickLabel',{''});
 end

@@ -6,8 +6,18 @@ hold on
 
 plot(data.meanData','linewidth', 1.1, p.addSpecification{:}); % TODO xAxis,
 
-set(gca,'xtick', 1:length(p.legendNames));
-set(gca, 'xticklabel', p.legendNames);
+% set(gca,'xtick', 1:length(p.legendNames));
+    set(gca,'xtick', 1:length(p.legendNames));
+%     set(gca, 'xticklabel', p.legendNames);
+b=get(gca,'XTick');
+%     c=get(gca,'YTick');
+c=axis; c=c(3:4);
+th=text(b,repmat(c(1)-.05*(c(2)-c(1)),length(b),1),p.legendNames,'HorizontalAlignment','right','rotation', p.rotateAxis);
+set(th, 'fontsize', config.displayFontSize);
+set(gca,'XTickLabel',{''});
+
+
+% set(gca, 'xticklabel', p.legendNames);
 set(gca, 'fontsize', config.displayFontSize);
 if any(p.legendLocation ~= 0) && ~isempty(p.labels)
     if ischar(p.legendLocation)
