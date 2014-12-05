@@ -9,6 +9,7 @@ function fileName = expSave(config, data, extension)
 %	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
 %	See licence.txt for more information.
 
+% TODO handle non matlab extensions
 
 if ~exist('extension', 'var')
     extension = '.mat';

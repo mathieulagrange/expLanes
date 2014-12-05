@@ -62,7 +62,7 @@ if ~isempty(f)
     f(2, :) = {', '}; f(2, end) = {''};
 end
 setting.infoString = [f{:}];
-
+setting.infoHash = DataHash(setting.infoString);
 
 f = st(factorOrder(filter));
 if ~isempty(skipIndex)
