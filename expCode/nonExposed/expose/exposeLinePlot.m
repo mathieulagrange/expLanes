@@ -4,8 +4,9 @@ config = expDisplay(config, p);
 set(gca, 'ColorOrder', varycolor(size(data.meanData, 1)));
 hold on
 
-plot(data.meanData','linewidth', 1.1, p.addSpecification{:}); % TODO xAxis,
-
+% plot(data.meanData','linewidth', 1.1, p.addSpecification{:}); % TODO xAxis,
+errorbar(data.meanData',data.varData','linewidth', 1.1, p.addSpecification{:}); % TODO xAxis,
+axis tight
 % set(gca,'xtick', 1:length(p.legendNames));
     set(gca,'xtick', 1:length(p.legendNames));
 %     set(gca, 'xticklabel', p.legendNames);
@@ -29,4 +30,3 @@ end
 % title(p.title);
 xlabel(p.xName);
 ylabel(p.methodLabel);
-axis tight

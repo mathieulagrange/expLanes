@@ -120,8 +120,8 @@ if  config.parallel(config.step.id) > 0
     end
     doneFileName = [tempdir 'expCode/' config.projectName '_' num2str(config.runId) '_' num2str(sequence) '_done'];
     fid = fopen(doneFileName,'w');
-     if fid == -1, error(['Unable to create ' doneFileName]); end
-       
+    if fid == -1, error(['Unable to create ' doneFileName]); end
+    
     fclose(fid);
 end
 

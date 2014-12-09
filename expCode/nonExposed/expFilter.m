@@ -57,7 +57,7 @@ if  p.expand ~= 0
     
     observations = strrep(observations, '-', 'expCodeMinus');
     observations = strrep(observations, ' ', '');
-%     observations = strrep(observations, '.', 'expCodePoint');
+    observations = strrep(observations, '.', 'expCodePoint');
     met={};
     met2={};
     ind = [];
@@ -96,7 +96,11 @@ if  p.expand ~= 0
             else
                 %                 data{k}.(observations{m}) = fData{(k-1)*length(observations)/length(observation)+ind(m)}.(met2{m});
                 fdi = fData{index};
+                if isempty(fdi)
+                    data{k}.(observations{m}) = NaN;
+                else
                 data{k}.(observations{m}) = fdi.(met2{m});
+                end
             end
         end
     end
