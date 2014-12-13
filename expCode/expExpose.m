@@ -4,8 +4,18 @@ function config = expExpose(varargin)
 %	- varargin: sequence of ('parameter', value) pairs where the parameter is of
 %		'addSpecification': add display specification to plot directive
 %			as ('parameter' / value) pairs
+%           value can be a cell array, in this case the cell array is split
+%           across plot items
+%		'addSettingSpecification': add display specification to plot
+%           directive relative to specific settings as ('parameter' / value) pairs
+%           value have to be a cell array which is split
+%           across plot items aka the settings
 %		'caption': caption of display as string
 %			symbol + gets replaced by a description of the settings
+%       'color': color of line
+%           1: default set of colors
+%           0: black
+%           {'r', ...}: user defined set of colors
 %       'compactLabels': shorten labels by removing common substrings
 %           (default 0)
 %       'data': specify data to be stored (default empty)
@@ -27,6 +37,10 @@ function config = expExpose(varargin)
 %		'label': label of display as string (equal to the name if left empty)
 %		'legend': display and/or specify legend
 %		'legendLocation': location of the legend (default 'BestOutSide')
+%       'marker': specification of markers for line plot
+%           1: (default)
+%           0: no markers
+%           {'', ...}: user defined cell aray of markers
 %		'mask': selection of the settings to be displayed
 %       'mergeDisplay': concatenate current display with the previous one
 %           '': no merge (default)
@@ -94,6 +108,8 @@ function config = expExpose(varargin)
 
 % TODO check for implemented specifs
 
+% TODO lastCommand
+
 oriConfig = varargin{1};
 config = varargin{1};
 exposeType = varargin{2};
@@ -121,6 +137,7 @@ p.legendLocation='BestOutSide';
 p.integrate=0;
 p.total=0;
 p.addSpecification={};
+p.addSettingSpecification={};
 p.orientation='v';
 p.shortObservations = -1;
 p.fontSize='';
@@ -138,6 +155,9 @@ p.noFactor = 0;
 p.noObservation = 0;
 p.data = [];
 p.rotateAxis=0;
+p.marker = 1;
+p.color = 1;
+
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
 for pair = reshape(varargin(3:end),2,[])
@@ -147,7 +167,7 @@ for pair = reshape(varargin(3:end),2,[])
     p.(pair{1}) = pair{2};
 end
 
-if strcmp(lower(p.show(1:4)), 'bett')
+if strcmpi(p.show(1:4), 'bett')
     p.better = str2num(p.show(7:end));
     p.show = [p.show(1:2) 'st'];
 else
@@ -179,6 +199,12 @@ end
 
 if ~isempty(p.mask) && ~isequal(p.mask, config.mask)
     config.mask = p.mask;
+end
+
+if p.marker == 1
+    p.marker = {'x', 'd', 'o', 's', '*', '+', '.', '^', '<', '>', 'v', 'h', 'p'};
+elseif p.marker == 0
+    p.marker = [];
 end
 
 if ischar(p.put)

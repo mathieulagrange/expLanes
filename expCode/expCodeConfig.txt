@@ -113,6 +113,10 @@ significanceThreshold = 0.05
 showFactorsInReport = -4
 % style of the factor graph: 0 no propagation of factors, 1 propagation of factors, 2 propagation of factors with an "all steps" node
 factorDisplayStyle = 0
+% path where saved figures are copied
+figureCopyPath =
+% path where saved tables are copied
+tableCopyPath =
 
 %% MISC
 

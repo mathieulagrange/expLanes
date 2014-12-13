@@ -4,7 +4,7 @@ fields = fieldnames(p);
 
 for k=1:length(fields)
     pf = p.(fields{k});
-    if iscell(pf) && length(pf)>1 && ischar(pf{1})
+    if iscell(pf) && length(pf)>1 && iscellstr(pf) % TODO check if strings all the time
         mLength = min(cellfun('length', pf));
         mLength = mLength(1);
         m = 1;

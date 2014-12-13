@@ -1,14 +1,42 @@
 function config = exposeLinePlot(config, data, p)
 
 config = expDisplay(config, p);
-set(gca, 'ColorOrder', varycolor(size(data.meanData, 1)));
-hold on
+colormap = varycolor(size(data.meanData, 1));
+% set(gca, 'ColorOrder', colormap);
 
-% plot(data.meanData','linewidth', 1.1, p.addSpecification{:}); % TODO xAxis,
-errorbar(data.meanData',data.varData','linewidth', 1.1, p.addSpecification{:}); % TODO xAxis,
+hold on
+for k=1:size(data.meanData, 1)
+    if sum(data.varData(:)==0)
+        plot(data.meanData(k, :),'linewidth', 1.1);
+    else
+        x = (1:size(data.meanData, 2))+.04*(k-size(data.meanData, 1)/2);
+        h = errorbar(x, data.meanData(k, :),data.varData(k, :));
+    end
+    if ~isempty(p.marker)
+        set(h, 'marker', p.marker{min(k, length(p.marker))}, 'markerSize', 10);
+    end
+    if iscell(p.color)
+        set(h, 'color', p.color{min(k, length(p.color))});
+    elseif p.color
+        set(h, 'color', colormap(k, :));
+    else
+        set(h, 'color', 'k');
+    end
+    
+   set(h, p.addSpecification{:});
+    
+    for m=1:2:length(p.addSettingSpecification)
+        set(h, p.addSettingSpecification{m}, p.addSettingSpecification{m+1}{min(k, length(p.addSettingSpecification{m+1}))}); % TODO handle cell array
+    end
+    
+  
+end
+hold off
+
 axis tight
+
 % set(gca,'xtick', 1:length(p.legendNames));
-    set(gca,'xtick', 1:length(p.legendNames));
+set(gca,'xtick', 1:length(p.legendNames));
 %     set(gca, 'xticklabel', p.legendNames);
 b=get(gca,'XTick');
 %     c=get(gca,'YTick');

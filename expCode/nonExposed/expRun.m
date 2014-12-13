@@ -200,6 +200,12 @@ if strfind(config.report, 'r')
     end
     displayData = config.displayData; %#ok<NASGU>
     save(config.staticDataFileName, 'displayData', '-append');
+    if ~strcmp(config.figureCopyPath, config.codePath) && exist(config.figureCopyPath, 'dir')
+       copyfile([config.reportPath 'figures/*'], config.figureCopyPath); 
+    end
+    if ~strcmp(config.tableCopyPath, config.codePath) && exist(config.tableCopyPath, 'dir')
+       copyfile([config.reportPath 'tables/*'], config.tableCopyPath); 
+    end
 else
     vars = whos('-file', config.staticDataFileName);
     if ismember('displayData', {vars.name})

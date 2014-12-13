@@ -46,6 +46,8 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % FIXME impossible to have floating value in factor to expand
 
+% TODO replace codePath with rootPath ?
+
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
