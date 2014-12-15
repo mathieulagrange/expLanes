@@ -48,6 +48,8 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO replace codePath with rootPath ?
 
+% FIXME machine names without full path not recognized
+
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
