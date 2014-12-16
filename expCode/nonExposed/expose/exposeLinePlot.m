@@ -23,27 +23,29 @@ for k=1:size(data.meanData, 1)
         set(h, 'color', 'k');
     end
     
-   set(h, p.addSpecification{:});
+    set(h, p.addSpecification{:});
     
     for m=1:2:length(p.addSettingSpecification)
         set(h, p.addSettingSpecification{m}, p.addSettingSpecification{m+1}{min(k, length(p.addSettingSpecification{m+1}))}); % TODO handle cell array
     end
     
-  
+    
 end
 hold off
 
 axis tight
 
-% set(gca,'xtick', 1:length(p.legendNames));
-set(gca,'xtick', 1:length(p.legendNames));
-%     set(gca, 'xticklabel', p.legendNames);
-b=get(gca,'XTick');
-%     c=get(gca,'YTick');
-c=axis; c=c(3:4);
-th=text(b,repmat(c(1)-.05*(c(2)-c(1)),length(b),1),p.legendNames,'HorizontalAlignment','right','rotation', p.rotateAxis);
-set(th, 'fontsize', config.displayFontSize);
-set(gca,'XTickLabel',{''});
+if ~p.rotateAxis
+    set(gca,'xtick', 1:length(p.legendNames));
+else
+    %     set(gca, 'xticklabel', p.legendNames);
+    b=get(gca,'XTick');
+    %     c=get(gca,'YTick');
+    c=axis; c=c(3:4);
+    th=text(b,repmat(c(1)-.05*(c(2)-c(1)),length(b),1),p.legendNames,'HorizontalAlignment','right','rotation', p.rotateAxis);
+    set(th, 'fontsize', config.displayFontSize);
+    set(gca,'XTickLabel',{''});
+end
 
 
 % set(gca, 'xticklabel', p.legendNames);
@@ -58,3 +60,5 @@ end
 % title(p.title);
 xlabel(p.xName);
 ylabel(p.methodLabel);
+
+

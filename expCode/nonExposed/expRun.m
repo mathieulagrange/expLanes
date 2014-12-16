@@ -201,10 +201,14 @@ if strfind(config.report, 'r')
     displayData = config.displayData; %#ok<NASGU>
     save(config.staticDataFileName, 'displayData', '-append');
     if ~strcmp(config.figureCopyPath, config.codePath) && exist(config.figureCopyPath, 'dir')
-       copyfile([config.reportPath 'figures/*'], config.figureCopyPath); 
+        try
+            copyfile([config.reportPath 'figures/*'], config.figureCopyPath);
+        end
     end
     if ~strcmp(config.tableCopyPath, config.codePath) && exist(config.tableCopyPath, 'dir')
-       copyfile([config.reportPath 'tables/*'], config.tableCopyPath); 
+        try
+            copyfile([config.reportPath 'tables/*'], config.tableCopyPath);
+        end
     end
 else
     vars = whos('-file', config.staticDataFileName);

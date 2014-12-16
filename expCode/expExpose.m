@@ -69,6 +69,10 @@ function config = expExpose(varargin)
 %           display
 %		'percent': display observations in percent
 %			selector is the same as 'variance'
+%       'plotCommand': set of command executed after the plotting
+%       directives as a cell array of commands
+%       'plotProperties': set of command executed after the plotting
+%       directives as a cell array of couple property / value
 %		'precision': mantissa precision of data
 %           -1: take value of config field tableDigitPrecision (default)
 %           0: no mantissa
@@ -157,6 +161,8 @@ p.data = [];
 p.rotateAxis=0;
 p.marker = 1;
 p.color = 1;
+p.plotCommand={};
+p.plotProperties={};
 
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
@@ -592,6 +598,13 @@ else
         end
         config = feval(exposeType, config, data, p);
     end
+end
+
+if ~isempty(p.plotProperties)
+    set(gca, p.plotProperties{:});
+end
+for k=1:length(p.plotCommand)
+    eval(p.plotCommand{k});
 end
 
 if any(p.put==[0 2])
