@@ -181,7 +181,7 @@ if config.obs ~= -1
         try
             config = exposeObservations(config);
         catch catchedError
-            explog(config, catchedError, 3, 1);
+            expLog(config, catchedError, 3, 1);
         end
     end
 end

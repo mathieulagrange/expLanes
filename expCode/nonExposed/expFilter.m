@@ -75,9 +75,11 @@ if  p.expand ~= 0
     %%%%%%%%%%%%%%% % TODO issue with empty to be replaced with none, may
     %%%%%%%%%%%%%%% be not necessary
     for m=1:size(config.step.oriFactors.list, 1)
+        %%% why filter is necessary ?
         filter = config.step.maskFilter.maskFilter;
         filter(end) = 1;
-        olist{m} =  [config.step.oriFactors.list{m, filter}];
+        %%%% 
+        olist{m} =  [config.step.oriFactors.list{m, :}];
     end
     for m=1:size(config.step.factors.list, 1)
         list{m} =  [config.step.factors.list{m, :}];
@@ -135,7 +137,7 @@ switch p.total
         end
         
         observations{end+1} = 'total';
-        if strcmp(p.total, 'H') && strcmp(p.show, 'data')
+        if strcmp(p.total, 'H')  && strcmp(p.show, 'data')
             p.obs=length(observations);
         else
             p.obs(end+1) = length(observations);
@@ -233,16 +235,16 @@ if p.highlight ~= -1
 end
 
 switch p.highlightStyle
-    case 'best'
+    case 'Best'
         highlights(highlights==1) = 0;
         %         highlights(highlights==2) = 1;
-    case 'Better'
+    case 'better'
         idx = find(sum(highlights==1));
         highlights(highlights==1) = 0;
         for k=1:length(idx)
             highlights(highlights(:, idx(k))==2, idx(k)) = 1;
         end
-    case 'BEtter'
+    case 'Better'
         idx = find(sum(highlights==1));
         highlights(highlights==1) = 0;
         for k=1:length(idx)

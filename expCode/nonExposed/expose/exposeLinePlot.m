@@ -6,8 +6,8 @@ colormap = varycolor(size(data.meanData, 1));
 
 hold on
 for k=1:size(data.meanData, 1)
-    if sum(data.varData(:)==0)
-        plot(data.meanData(k, :),'linewidth', 1.1);
+    if sum(data.varData(:))==0
+        h = plot(data.meanData(k, :),'linewidth', 1.1);
     else
         x = (1:size(data.meanData, 2))+.04*(k-size(data.meanData, 1)/2);
         h = errorbar(x, data.meanData(k, :),data.varData(k, :));
@@ -28,17 +28,15 @@ for k=1:size(data.meanData, 1)
     for m=1:2:length(p.addSettingSpecification)
         set(h, p.addSettingSpecification{m}, p.addSettingSpecification{m+1}{min(k, length(p.addSettingSpecification{m+1}))}); % TODO handle cell array
     end
-    
-    
 end
 hold off
 
 axis tight
 
-if ~p.rotateAxis
-    set(gca,'xtick', 1:length(p.legendNames));
-else
-    %     set(gca, 'xticklabel', p.legendNames);
+set(gca,'xtick', 1:length(p.legendNames));
+set(gca, 'xticklabel', p.legendNames);
+
+if p.rotateAxis
     b=get(gca,'XTick');
     %     c=get(gca,'YTick');
     c=axis; c=c(3:4);

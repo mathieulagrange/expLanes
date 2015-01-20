@@ -25,11 +25,11 @@ function config = expExpose(varargin)
 %			different from the best performing setting
 %			selector is the same as 'variance'
 %       'highlightStyle': type of highlighting
-%           'better': highlight best and equivalents (default)
-%           'best': highlight best
-%           'Best': highlight only the best if significantly better than
+%           'best': highlight best and equivalents (default)
+%           'Best': highlight only the best 
+%           'better': highlight only the best if significantly better than
 %           the others
-%           'BEst': highlight only the best if significantly better than
+%           'Better': highlight only the best if significantly better than
 %           the others and show only this one
 %       'highlightColor': use color to show highlights (default 1), -1 do
 %       not use *
@@ -97,9 +97,9 @@ function config = expExpose(varargin)
 %		'step': name or index of the processing step
 %		'title': title of display as string
 %			symbol + gets replaced by a description of the settings
-%		'total': display average values for observations
-%           1: average
-%           2: sum
+%		'total': display average  or summed values for observations
+%           'v', 'V': vertical with / without settings
+%           'h', 'H': horizontal with / without settings
 %		'variance': display variance
 %			-1: no variance
 %			0: variance for all observations
@@ -139,7 +139,7 @@ p.percent=-1;
 p.legend = 1;
 p.legendLocation='BestOutSide';
 p.integrate=0;
-p.total=0;
+p.total= 'none';
 p.addSpecification={};
 p.addSettingSpecification={};
 p.orientation='v';
@@ -152,7 +152,7 @@ p.precision = -1;
 p.show = 'data';
 p.numericObservations = 0;
 p.compactLabels = 0;
-p.highlightStyle = 'better';
+p.highlightStyle = 'best';
 p.highlightColor = 1;
 p.mergeDisplay = '';
 p.noFactor = 0;
@@ -478,126 +478,127 @@ else
         case 'v'
             for k=1:size(p.rowNames, 2)
                 if k==1
-                    if p.total == 1
-                        p.rowNames{end+1, k} = 'Average';
-                    else
-                        p.rowNames{end+1, k} = 'Count';
-                    end
+                    %                     if p.total == 1
+                    %                         p.rowNames{end+1, k} = 'Average';
+                    %                     else
+                    %                         p.rowNames{end+1, k} = 'Count';
+                    % end
+                    p.rowNames{end+1, k} = 'Total';
                 else
                     p.rowNames{end, k} = '';
-                end
             end
-        case 'V'
-            p.rowNames = {totalName};
+    end
+    case 'V'
+        p.rowNames = {totalName};
         case 'h'
             p.columnNames{end+1} = totalName;
-        case 'H'
-            p.columnNames = [p.factorNames totalName]; % TODO recall observation name
+            case 'H'
+                p.columnNames = [p.factorNames totalName]; % TODO recall observation name
+end
+
+if config.step.nbSettings == 1
+    p.labels = '';
+else
+    for k=1:config.step.nbSettings
+        d = expSetting(config.step, k);
+        if ~isempty(d.infoShortStringMasked)
+            p.labels{k} = strrep(d.infoShortStringMasked, '_', ' '); % (data.settingSelector)
+        end
     end
-    
-    if config.step.nbSettings == 1
-        p.labels = '';
-    else
-        for k=1:config.step.nbSettings
-            d = expSetting(config.step, k);
-            if ~isempty(d.infoShortStringMasked)
-                p.labels{k} = strrep(d.infoShortStringMasked, '_', ' '); % (data.settingSelector)
+end
+
+p.axisLabels = evaluationObservations;
+
+if p.variance == 0
+    p.variance = 1:size(data.varData, 2);
+end
+for k=1:size(data.varData, 2)
+    if ~any(p.variance==k)
+        data.varData(:, k) = 0;
+    end
+end
+
+if p.compactLabels
+    p = expCompactLabels(p);
+end
+
+config.data = data;
+
+config.displayData.cellData=[];
+if length(exposeType)<=1
+    switch exposeType
+        case '>'
+            exposeType = 'exposeTable';
+            p.put=0;
+        case 'l'
+            exposeType = 'exposeTable';
+            p.put=2;
+        case 't'
+            exposeType = 'exposeTable';
+            %             if strfind(config.report, 'c')
+            %                 p.put=2;
+            %             end
+        case 'b'
+            exposeType = 'exposeBarPlot';
+        case 'p'
+            exposeType = 'exposeLinePlot';
+        case 's'
+            exposeType = 'exposeScatter';
+        case 'x'
+            exposeType = 'exposeBoxPlot';
+        case 'a'
+            exposeType = 'exposeAnova';
+        case 'i'
+            exposeType = 'exposeImage';
+        case ''
+        otherwise
+            error(['unknown display type: ' exposeType]);
+    end
+else
+    if any(strcmp(exposeType, config.evaluation.structObservations))
+        data = config.evaluation.structResults.(exposeType);
+    end
+    if ~strcmp(exposeType(1:min(6, length(exposeType))), 'expose')
+        exposeType = ['expose' upper(exposeType(1)) exposeType(2:end)];
+        
+        if ~exist(exposeType, 'file')
+            disp(['Unable to find ' exposeType  ' in your path. This function is needed to display the observation ' exposeType(7:end) '.']);
+            if inputQuestion('Do you want to create it ?');
+                functionString = char({...
+                    ['function config = ' exposeType '(config, data, p)'];
+                    ['% ' exposeType ' EXPOSE of the expCode project ' config.projectName];
+                    ['%    config = ' exposeType '(config, data, p)'];
+                    '%       config : expCode configuration state';
+                    '%       data : observations as a struct array';
+                    '%       p : various display information';
+                    '';
+                    ['% Copyright: ' config.completeName];
+                    ['% Date: ' date()];
+                    '';
+                    'p';
+                    'data';
+                    '';
+                    });
+                dlmwrite([config.codePath '/' exposeType '.m'], functionString,'delimiter','');
+            else
+                exposeType = '';
             end
-        end
-    end
-    
-    p.axisLabels = evaluationObservations;
-    
-    if p.variance == 0
-        p.variance = 1:size(data.varData, 2);
-    end
-    for k=1:size(data.varData, 2)
-        if ~any(p.variance==k)
-            data.varData(:, k) = 0;
-        end
-    end
-    
-    if p.compactLabels
-        p = expCompactLabels(p);
-    end
-    
-    config.data = data;
-    
-    config.displayData.cellData=[];
-    if length(exposeType)<=1
-        switch exposeType
-            case '>'
-                exposeType = 'exposeTable';
-                p.put=0;
-            case 'l'
-                exposeType = 'exposeTable';
-                p.put=2;
-            case 't'
-                exposeType = 'exposeTable';
-                %             if strfind(config.report, 'c')
-                %                 p.put=2;
-                %             end
-            case 'b'
-                exposeType = 'exposeBarPlot';
-            case 'p'
-                exposeType = 'exposeLinePlot';
-            case 's'
-                exposeType = 'exposeScatter';
-            case 'x'
-                exposeType = 'exposeBoxPlot';
-            case 'a'
-                exposeType = 'exposeAnova';
-            case 'i'
-                exposeType = 'exposeImage';
-            case ''
-            otherwise
-                error(['unknown display type: ' exposeType]);
-        end
-    else
-        if any(strcmp(exposeType, config.evaluation.structObservations))
-            data = config.evaluation.structResults.(exposeType);
-        end
-        if ~strcmp(exposeType(1:min(6, length(exposeType))), 'expose')
-            exposeType = ['expose' upper(exposeType(1)) exposeType(2:end)];
-            
-            if ~exist(exposeType, 'file')
-                disp(['Unable to find ' exposeType  ' in your path. This function is needed to display the observation ' exposeType(7:end) '.']);
-                if inputQuestion('Do you want to create it ?');
-                    functionString = char({...
-                        ['function config = ' exposeType '(config, data, p)'];
-                        ['% ' exposeType ' EXPOSE of the expCode project ' config.projectName];
-                        ['%    config = ' exposeType '(config, data, p)'];
-                        '%       config : expCode configuration state';
-                        '%       data : observations as a struct array';
-                        '%       p : various display information';
-                        '';
-                        ['% Copyright: ' config.completeName];
-                        ['% Date: ' date()];
-                        '';
-                        'p';
-                        'data';
-                        '';
-                        });
-                    dlmwrite([config.codePath '/' exposeType '.m'], functionString,'delimiter','');
-                else
-                    exposeType = '';
-                end
-            end
-            
         end
         
     end
     
-    if ~isempty(exposeType)
-        if p.put==1 && strcmp(exposeType, 'exposeTable')
-            put = p.put;
-            p.put = 2;
-            config = feval(exposeType, config, data, p);
-            config = expDisplay(config, p);
-            p.put=put;
-        end
+end
+
+if ~isempty(exposeType)
+    if p.put==1 && strcmp(exposeType, 'exposeTable')
+        put = p.put;
+        p.put = 2;
         config = feval(exposeType, config, data, p);
+        config = expDisplay(config, p);
+        p.put=put;
     end
+    config = feval(exposeType, config, data, p);
+end
 end
 
 if ~isempty(p.plotProperties)
