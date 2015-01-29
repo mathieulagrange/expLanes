@@ -14,7 +14,7 @@ imagesc(flipud(data.meanData));
 axis xy
 p.orientation='v';
 p.labels = p.legendNames;
-p.legend=0;
+% p.legend=0;
 expSetAxes(config, p);
 
 set(gca, 'yticklabel', labels);

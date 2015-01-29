@@ -1,7 +1,7 @@
 function expSetAxes(config, p)
 
 if  length(p.legendNames)>1
-    if p.legend
+    if any(p.legendLocation ~= 0)
         if ischar(p.legendLocation)
             legend(p.legendNames, 'Location', p.legendLocation);
         else
