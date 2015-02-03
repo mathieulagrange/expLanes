@@ -23,4 +23,5 @@ if ~noAccuracy
 end
 
 [metrics.pairwiseFmeasure, metrics.pairwisePrecision, metrics.pairwiseRecall] = pairWiseMatching(target, prediction);
+[metrics.So,metrics.Su]=normCondEntropies(target,prediction);
 
