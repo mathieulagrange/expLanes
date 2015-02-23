@@ -590,7 +590,7 @@ else
     end
     
     if ~isempty(exposeType)
-        if p.put==1 && strcmp(exposeType, 'exposeTable')
+        if p.put==1 && (strcmp(exposeType, 'exposeTable') || strcmp(exposeType, 'exposeAnova')) %% TODO raise a flag
             put = p.put;
             p.put = 2;
             config = feval(exposeType, config, data, p);

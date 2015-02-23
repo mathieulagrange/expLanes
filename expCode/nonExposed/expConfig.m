@@ -50,6 +50,10 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % FIXME machine names without full path not recognized
 
+% FIXME rename config obs to obsStep
+
+% TODO warning with number of settings
+
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
