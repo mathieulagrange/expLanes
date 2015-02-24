@@ -54,6 +54,8 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO warning with number of settings
 
+% TODO do clean sync of code (with rm server side)
+
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
