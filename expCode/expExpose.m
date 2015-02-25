@@ -244,7 +244,7 @@ if ~isempty(exposeType)
     config = expReduce(config);
 end
 
-if ~isfield(config, 'evaluation') || isempty(config.evaluation) || isempty(config.evaluation.data) %  || isempty(config.evaluation.data{1}) % TODO check if all data are empty
+if ~isfield(config, 'evaluation') || isempty(config.evaluation) || isempty(config.evaluation.data)  || sum(cellfun(@isempty,config.evaluation.data))== length(config.evaluation.data) 
     disp('No observations to display.');
 else
     if ischar(p.obs)
