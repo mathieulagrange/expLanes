@@ -51,13 +51,6 @@ function config = expExpose(varargin)
 %       'number': add a line number for each setting in tables
 %       'noFactor' : remove setting factors
 %       'noObservation': remove observations
-%		'report': generate report
-%			<=-3: no report
-%			-2: verbose tex report
-%			-1: generation of tex report
-%			0; generate outputs
-%			1: generate outputs and generation of tex report
-%			2: display figures and verbose tex report
 %		'obs': name(s) or index(es) of the observations to retain
 %		'orderFactor': numeric array ordering the factors
 %		'orderSetting': numeric array ordering the settings
@@ -79,6 +72,13 @@ function config = expExpose(varargin)
 %			0: ouput to command prompt
 %			1: output to figure
 %			2: output to LaTEX
+%		'report': generate report
+%			<=-3: no report
+%			-2: verbose tex report
+%			-1: generation of tex report
+%			0; generate outputs
+%			1: generate outputs and generation of tex report
+%			2: display figures and verbose tex report
 %       'rotateAxis': rotate X axis labels (in degrees)
 %		'show': display
 %           'data': actual observations (default)
@@ -90,6 +90,7 @@ function config = expExpose(varargin)
 %			1: save to a file with the masked settings description as name
 %			'name': save to a file with 'name' as name
 %		'shortObservations': compact observation names
+%		'shortFactors': compact factor names
 %		'showMissingSetting': show missing settings (default 0)
 %		'sort': sort settings acording to the specified observation if
 %           positive or to the specified factor if negative
@@ -142,6 +143,7 @@ p.addSpecification={};
 p.addSettingSpecification={};
 p.orientation='v';
 p.shortObservations = -1;
+p.shortFactors = -1;
 p.fontSize='';
 p.visible = -1;
 p.number = 0;
@@ -166,7 +168,8 @@ pNames = fieldnames(p);
 % overwrite default factors with command line ones
 for pair = reshape(varargin(3:end),2,[])
     if ~any(strcmp(pair{1},strtrim(pNames)))
-        error(['Error: ' pair{1} ' is not a valid parameter']);
+        fprintf(2, [pair{1} ' is not a valid parameter. \n type help expExpose for available options.\n']);
+        return
     end
     p.(pair{1}) = pair{2};
 end
@@ -244,7 +247,7 @@ if ~isempty(exposeType)
     config = expReduce(config);
 end
 
-if ~isfield(config, 'evaluation') || isempty(config.evaluation) || isempty(config.evaluation.data)  || sum(cellfun(@isempty,config.evaluation.data))== length(config.evaluation.data) 
+if ~isfield(config, 'evaluation') || isempty(config.evaluation) || isempty(config.evaluation.data)  || sum(cellfun(@isempty,config.evaluation.data))== length(config.evaluation.data)
     disp('No observations to display.');
 else
     if ischar(p.obs)
@@ -405,8 +408,16 @@ else
     
     p.legendNames = evaluationObservations;
     
+    if p.shortFactors == 0
+        p.shortFactors = 1:length(data.factorSelector);
+    end
+    
     p.xName='';
-    p.columnNames = [config.step.factors.names(data.factorSelector)' evaluationObservations];
+    if p.shortFactors == -1
+        p.columnNames = [config.step.factors.names(data.factorSelector)' evaluationObservations];
+    else
+        p.columnNames = [names2shortNames(config.step.factors.names(data.factorSelector)', 3) evaluationObservations];
+    end
     p.factorNames = config.step.factors.names(data.factorSelector)';
     p.obsNames = evaluationObservations;
     p.methodLabel = '';
@@ -422,7 +433,12 @@ else
             end
             p.legendNames = cellfun(@num2str, p.legendNames, 'UniformOutput', false)';
         end
-        p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
+        if p.shortFactors == -1
+            p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]';
+        else
+            p.columnNames = [names2shortNames(config.step.factors.names(data.factorSelector)', 3); p.legendNames]';
+        end
+        %         p.columnNames = [config.step.factors.names(data.factorSelector); p.legendNames]'; % (data.factorSelector)
         p.obsNames = p.legendNames;
         p.methodLabel = config.evaluation.observations(p.obs);
         p.xName = p.integrateName;
@@ -463,10 +479,23 @@ else
         if length(p.obs)>1
             el = cell(1, length(config.step.factors.names(data.factorSelector)));
             [el{:}] = deal('');
-            p.columnNames = [[el; config.step.factors.names(data.factorSelector)'] p.legendNames']; % (data.factorSelector)
+            %             p.columnNames = [[el; config.step.factors.names(data.factorSelector)'] p.legendNames']; % (data.factorSelector)
+            
+            if p.shortFactors == -1
+                p.columnNames = [[el; config.step.factors.names(data.factorSelector)'] p.legendNames']
+            else
+                p.columnNames =[[el; names2shortNames(config.step.factors.names(data.factorSelector))'] p.legendNames']
+            end
+            
             %         p.factorNames = [el; config.step.factors.names(data.factorSelector)'];
         else
-            p.columnNames = [config.step.factors.names(data.factorSelector)' p.legendNames]; % (data.factorSelector)
+            %     p.columnNames = [config.step.factors.names(data.factorSelector)' p.legendNames]; % (data.factorSelector)
+            if p.shortFactors == -1
+                p.columnNames = [config.step.factors.names(data.factorSelector)' p.legendNames];
+            else
+                p.columnNames = [names2shortNames(config.step.factors.names(data.factorSelector)', 3) p.legendNames];
+            end
+            
         end
         p.methodLabel = config.evaluation.observations(p.obs);
         p.xName = p.expandName;
