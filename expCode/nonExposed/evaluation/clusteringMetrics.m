@@ -1,7 +1,13 @@
-function metrics = clusteringMetrics(target, prediction, noAccuracy)
+function metrics = clusteringMetrics(target, prediction, noAccuracy,noRandIndex,noNmi)
 
 if ~exist('noAccuracy', 'var')
     noAccuracy = 0;
+end
+if ~exist('noNmi', 'var')
+    noNmi = 0;
+end
+if ~exist('noRandIndex', 'var')
+    noRandIndex = 0;
 end
 
 target = target(:);
@@ -14,10 +20,12 @@ if min(prediction)<1
     prediction = prediction+1+abs(min(prediction));
 end
 
-metrics.nmi= real(nmi(target, prediction));
-
-[metrics.adjustedRandIndex, metrics.unadjustedRandIndex, metrics.mirkinIndex, metrics.hubertsIndex] = randIndex(target, prediction);
-
+if ~noNmi
+    metrics.nmi= real(nmi(target, prediction));
+end
+if ~noRandIndex
+    [metrics.adjustedRandIndex, metrics.unadjustedRandIndex, metrics.mirkinIndex, metrics.hubertsIndex] = randIndex(target, prediction);
+end
 if ~noAccuracy
     [metrics.accuracy, metrics.classMatching] = accuracy(target, prediction);
 end
