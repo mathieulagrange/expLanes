@@ -1,13 +1,13 @@
-function metrics = clusteringMetrics(target, prediction, noAccuracy,noRandIndex,noNmi)
+function metrics = clusteringMetrics(target, prediction, getAccuracy,getRandIndex,getNmi,getPairWiseMatching,getNormCondEntropies)
 
-if ~exist('noAccuracy', 'var')
-    noAccuracy = 0;
+if ~exist('getAccuracy', 'var')
+    getAccuracy = 1;
 end
-if ~exist('noNmi', 'var')
-    noNmi = 0;
+if ~exist('getNmi', 'var')
+    getNmi = 1;
 end
-if ~exist('noRandIndex', 'var')
-    noRandIndex = 0;
+if ~exist('getRandIndex', 'var')
+    getRandIndex = 1;
 end
 
 target = target(:);
@@ -20,16 +20,19 @@ if min(prediction)<1
     prediction = prediction+1+abs(min(prediction));
 end
 
-if ~noNmi
+if getNmi
     metrics.nmi= real(nmi(target, prediction));
 end
-if ~noRandIndex
+if getRandIndex
     [metrics.adjustedRandIndex, metrics.unadjustedRandIndex, metrics.mirkinIndex, metrics.hubertsIndex] = randIndex(target, prediction);
 end
-if ~noAccuracy
+if getAccuracy
     [metrics.accuracy, metrics.classMatching] = accuracy(target, prediction);
 end
-
-[metrics.pairwiseFmeasure, metrics.pairwisePrecision, metrics.pairwiseRecall] = pairWiseMatching(target, prediction);
-[metrics.So,metrics.Su]=normCondEntropies(target,prediction);
+if getPairWiseMatching
+    [metrics.pairwiseFmeasure, metrics.pairwisePrecision, metrics.pairwiseRecall] = pairWiseMatching(target, prediction);
+end
+if getNormCondEntropies
+    [metrics.So,metrics.Su]=normCondEntropies(target,prediction);
+end
 
