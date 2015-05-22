@@ -5,7 +5,7 @@ function [config, data] = expLoad(config, name, stepId, extension, fieldSelector
 %	- name: name of the file
 %	- stepId: step number
 %	- extension: string appended at the end of the name 
-%	- shall end with '_data' to retrieve data or '_obs' to retrieve observations
+%	  shall end with '_data' to retrieve data or '_obs' to retrieve observations
 %	- fieldSelector: string or cell array of strings containing the fields to be loaded
 %	- contracting: 
 %	-- data: loaded data structure

@@ -58,6 +58,8 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO deal with factor 0
 
+% TODO explOad reutnr only data ?
+
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})

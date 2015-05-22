@@ -34,6 +34,7 @@ end
 
 if all(config.do>0)
     if sum(abs(config.parallel))
+        distcomp.feature('LocalUseMpiexec',false); % handling MPI bug in 2012b
         if any(config.parallel>1)
             matlabpool('open', 'local', max(config.parallel));
         elseif matlabpool('size') == 0
@@ -115,10 +116,10 @@ end
 settingStatus = config.settingStatus;
 
 if  config.parallel(config.step.id) > 0
-    if ~exist([tempdir 'expCode'], 'dir')
-        mkdir([tempdir 'expCode']);
+    if ~exist([tempdir 'expCode/' config.userName], 'dir')
+        mkdir([tempdir 'expCode/' config.userName]);
     end
-    doneFileName = [tempdir 'expCode/' config.projectName '_' num2str(config.runId) '_' num2str(sequence) '_done'];
+    doneFileName = [tempdir 'expCode/' config.userName '/' config.projectName '_' num2str(config.runId) '_' num2str(sequence) '_done'];
     fid = fopen(doneFileName,'w');
     if fid == -1, error(['Unable to create ' doneFileName]); end
     

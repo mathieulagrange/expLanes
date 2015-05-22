@@ -100,6 +100,10 @@ elseif isempty(strfind(config.dependencies, 'expCode'))
     end
 end
 
+if isempty(config.obsPath)
+    config.obsPath = config.dataPath;
+end
+
 % prompt
 fprintf('You are about to create an experiment called %s with short name %s and steps: ', projectName, shortProjectName);
 disp(stepNames);
