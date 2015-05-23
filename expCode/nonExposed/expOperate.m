@@ -121,9 +121,10 @@ if  config.parallel(config.step.id) > 0
     end
     doneFileName = [tempdir 'expCode/' config.userName '/' config.projectName '_' num2str(config.runId) '_' num2str(sequence) '_done'];
     fid = fopen(doneFileName,'w');
-if fid == -1, fprintf(2, ['Unable to create ' doneFileName]); end
-    
+if fid == -1, fprintf(2, ['Unable to create ' doneFileName]); 
+else
     fclose(fid);
+end
 end
 
 function config = expProcessOneSub(config)
