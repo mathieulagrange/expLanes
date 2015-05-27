@@ -37,9 +37,6 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO save data with figure display
 
-% FIXME creation of config for new user in existing project should only
-% copy existing config of other user
-
 % FIXME impossible to have floating value in factor to expand
 
 % TODO replace codePath with rootPath ?
@@ -56,7 +53,7 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO do a clean step that keeps active settings
 
-% TODO put done files in home and delete them and end
+% TODO put done files in home and delete them at end
 
 % TODO faire un teaser pour le mail en ne mettant qu'un seul setting par
 % message d'erreur
@@ -320,7 +317,7 @@ for k=1:length(fieldNames)
             field = expandHomePath(config.(fieldNames{k}));
         end
         % if relative add projectPath
-        if all(~strcmp(fieldNames{k}, {'matlabPath', 'toolPath'}))  && (isempty(field) || ((~isempty(field) && ~any(strcmp(field(1), {'~', '/', '\'}))) && ((length(field)<1 || ~strcmp(field(2), ':')))))
+        if all(~strcmp(fieldNames{k}, {'matlabPath', 'toolPath', 'backupPath'}))  && (isempty(field) || ((~isempty(field) && ~any(strcmp(field(1), {'~', '/', '\'}))) && ((length(field)<1 || ~strcmp(field(2), ':')))))
             config.(fieldNames{k}) = [projectPath '/' field];
         else
             config.(fieldNames{k}) = field;

@@ -7,11 +7,13 @@ if nargin<7, selector = []; end
 
 if any(strcmp(config.stepName, directoryName))
     if selector == 'd'
-    directoryPath = [config.dataPath directoryName filesep extensionPath];
-    serverDirectoryPath = [serverConfig.dataPath directoryName filesep extensionPath];
+        directoryPath = [config.dataPath directoryName filesep extensionPath];
+        serverDirectoryPath = [serverConfig.dataPath directoryName filesep extensionPath];
+        dataType = 'data';
     elseif selector == 'o'
-     directoryPath = [config.obsPath directoryName filesep extensionPath];
-    serverDirectoryPath = [serverConfig.obsPath directoryName filesep extensionPath];       
+        dataType = 'obs';
+        directoryPath = [config.obsPath directoryName filesep extensionPath];
+        serverDirectoryPath = [serverConfig.obsPath directoryName filesep extensionPath];
     end
 else
     directoryPath = [eval(['config.' directoryName 'Path'])  extensionPath];
@@ -42,7 +44,7 @@ end
 % TODO: be able to control update
 % TODO: use the filesep command
 
-fprintf('Performing %s %s sync of project %s %s ', upper(directoryName), extensionPath, config.projectName, detachMessage);
+fprintf('Performing %s %s %s sync of project %s %s ', upper(directoryName), dataType, extensionPath, config.projectName, detachMessage);
 
 % create it if needed
 if serverConfig.host == config.host
@@ -51,9 +53,9 @@ if serverConfig.host == config.host
     end
 else
     syncString = [syncString  ' -e ssh '];
-%     if system(['ssh -v ' serverConfig.hostName ' '' ls ' serverDirectoryPath ' 2>/dev/null >/dev/null ''']) % TODO remove output when it fails put & ?
-%         system(['ssh ' serverConfig.hostName ' ''mkdir -p ' serverDirectoryPath '''']);
-%     end
+    %     if system(['ssh -v ' serverConfig.hostName ' '' ls ' serverDirectoryPath ' 2>/dev/null >/dev/null ''']) % TODO remove output when it fails put & ?
+    %         system(['ssh ' serverConfig.hostName ' ''mkdir -p ' serverDirectoryPath '''']);
+    %     end
 end
 
 switch lower(config.syncDirection(1))
@@ -61,30 +63,30 @@ switch lower(config.syncDirection(1))
     case 'u'
         fprintf('from host to server %s\n', serverConfig.hostName);
         ori = directoryPath;
-         if  serverConfig.host == config.host
+        if  serverConfig.host == config.host
             dest = serverDirectoryPath;
         else
             dest = [serverConfig.hostName ':' serverDirectoryPath];
         end
-%         dest = [serverConfig.hostName ':' serverDirectoryPath];
+        %         dest = [serverConfig.hostName ':' serverDirectoryPath];
         excludeString=getExcludeString(config, directoryPath);
     case 'd'
         fprintf('from server %s to host\n', serverConfig.hostName);
         dest = directoryPath;
         excludeString=getExcludeString(serverConfig, serverDirectoryPath);
         
-         if serverConfig.host == config.host
+        if serverConfig.host == config.host
             ori = serverDirectoryPath;
         else
             ori = [serverConfig.hostName ':' serverDirectoryPath];
         end
     case 'c'
         fprintf('cleaning host %s\n', serverConfig.hostName);
-        if config.syncDirection(1)=='c'
+        if ~isempty(config.backupPath) && config.syncDirection(1)=='c'
             fprintf('Backed up data is available at %s\n', config.backupPath);
         end
         excludeString=getExcludeString(serverConfig, serverDirectoryPath);
-        if ~exist(config.backupPath, 'file')
+        if ~isempty(config.backupPath) && ~exist(config.backupPath, 'file')
             mkdir(config.backupPath);
         end
         dest = config.backupPath;
@@ -108,29 +110,31 @@ if ~isempty(selector)
     end
 end
 
-if any(strcmp(dest(end), {'\', '/'}))
-    dest = dest(1:end-1);
-end
-if any(strcmp(ori(end), {'\', '/'}))
-    ori = ori(1:end-1);
-end
-dest = fileparts(dest);
-
-commandString = [syncString verboseString excludeString ' '  ori ' ' dest detachString];
-
-if ispc % FIXME will not work on the other side
-   commandString= strrep(commandString, 'C:', '/cygdrive/c'); % FIXME build regexp to fix
-   commandString= strrep(commandString, '\', '/'); 
-end
-% commandString
-
-if config.syncDirection(1)~='C'
-    system(commandString);
+if ~isempty(dest)
+    if any(strcmp(dest(end), {'\', '/'}))
+        dest = dest(1:end-1);
+    end
+    if any(strcmp(ori(end), {'\', '/'}))
+        ori = ori(1:end-1);
+    end
+    dest = fileparts(dest);
+    
+    commandString = [syncString verboseString excludeString ' '  ori ' ' dest detachString];
+    
+    if ispc % FIXME will not work on the other side
+        commandString= strrep(commandString, 'C:', '/cygdrive/c'); % FIXME build regexp to fix
+        commandString= strrep(commandString, '\', '/');
+    end
+    % commandString
+    
+    if config.syncDirection(1)~='C'
+        system(commandString);
+    end
 end
 
 if lower(config.syncDirection(1))=='c'
     if serverConfig.host ~= config.host
-        removeCommand = ['find ' serverDirectoryPath ' -name "*' selectorString '" -maxdepth 1 -print0 | xargs -0 rm -f 2>/dev/null '];
+        removeCommand = ['find ' serverDirectoryPath ' -name "*' selectorString '"  -print0 | xargs -0 rm -f 2>/dev/null  ']; % FIXME -maxdepth 1
     else
         removeCommand = ['ssh ' serverConfig.hostName ' ''find ' serverDirectoryPath ' -name "*" -maxdepth 1 -print0 | xargs -0 rm -f' ''' 2>/dev/null '];
     end
