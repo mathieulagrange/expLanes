@@ -14,10 +14,6 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO help command for root -> expCreate in root comment
 
-% FIXME number of succesful settings wrong
-
-% TOD check sending of dependencies
-
 % TODO display variance and highlight in every plot
 
 % TODO python integration : append setting and config in data stored pass
@@ -58,7 +54,24 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO deal with factor 0
 
-% TODO explOad reutnr only data ?
+% TODO explOad reutnr only data ? (deal with fileOnfo in parameters)
+
+% TODO do a clean step that keeps active settings
+
+% TODO put done files in home and delete them and end
+
+% TODO faire un teaser pour le mail en ne mettant qu'un seul setting par
+% message d'erreur
+
+% TODO composition of expCode projects using the same initial steps
+
+% TODO rmFactor(numFactor, numModalite) addFactor()
+
+% TODO clean step remove non attainable settings for a given mask
+
+% TODO check reDo with runID as parameter
+
+% 
 
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 

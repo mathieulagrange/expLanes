@@ -133,23 +133,39 @@ function config = expProcessOneSub(config)
 
 functionName = [config.shortProjectName num2str(config.step.id) config.stepName{config.step.id}];
 
-if config.redo || ~(exist(expSave(config, [], 'data'), 'file') || exist(expSave(config, [], 'obs'), 'file'))
+if ~config.resume || ~(exist(expSave(config, [], 'data'), 'file') || exist(expSave(config, [], 'obs'), 'file'))
+    dataId = 0;
+    dataOutputFile = expSave(config, [], 'data');
+    if exist(dataOutputFile, 'file') 
+        data = expLoad(config, dataOutputFile);
+        dataId = data.runId;
+    end
+    obsId=0;
+      obsOutputFile = expSave(config, [], 'obs');
+    if exist(dataOutputFile, 'file') 
+        data = expLoad(config, obsOutputFile);
+        obsId = data.runId;
+    end
+    
+    if dataId<config.resume || obsId<config.resume
+        return;
+    end
     
     loadedData = [];
     if config.store > -1
         if config.step.id>1
-            config = expLoad(config, [], [], 'data');
-            if ~isempty(config.load)
-                loadedData = config.load;
+            data = expLoad(config, [], [], 'data');
+            if ~isempty(data)
+                loadedData = data;
             end
         else
             loadedData = config.initStore;
         end
     end
     if config.store < 1
-        config = expLoad(config, [], config.step.id, 'data');
-        if ~isempty(config.load)
-            loadedData.store = config.load;
+        data = expLoad(config, [], config.step.id, 'data');
+        if ~isempty(data)
+            loadedData.store = data;
         end
     end
     

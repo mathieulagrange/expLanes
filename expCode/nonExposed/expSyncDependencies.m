@@ -34,8 +34,8 @@ for k=1:length(config.dependencies)
     if ~any(strcmp({'/', '\', '~'}, dependency(1)))
         dependency = [config.codePath filesep dependency];
     end
-    [p, n]=fileparts(dependency);
-    dep(strcmp(n, dep))=[];
+    [p, n, e]=fileparts(dependency);
+    dep(strcmp([n e], dep))=[];
     if serverConfig.host < 2
         syncString = 'rsync -arC --delete-after --exclude=.git ';
         command = [syncString strrep(dependency, ' ', '\ ') ' '  serverConfig.codePath 'dependencies'];

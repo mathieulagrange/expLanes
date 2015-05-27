@@ -1,14 +1,16 @@
-function [config, data] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
+function [data, loadFileInfo, config] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
 % expLoad load data from the repository of the specified processing step
 %	[config data] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
 %	- config: expCode configuration
 %	- name: name of the file
 %	- stepId: step number
-%	- extension: string appended at the end of the name 
+%	- extension: string appended at the end of the name
 %	  shall end with '_data' to retrieve data or '_obs' to retrieve observations
 %	- fieldSelector: string or cell array of strings containing the fields to be loaded
-%	- contracting: 
+%	- contracting:
 %	-- data: loaded data structure
+%	-- loadFileInfo: time stamps of data
+%	-- config: updated config
 
 %	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
 %	See licence.txt for more information.
@@ -17,7 +19,11 @@ function [config, data] = expLoad(config, name, stepId, extension, fieldSelector
 if nargin<2 || isempty(name), name = ''; end
 if nargin<3 || isempty(stepId), stepId=config.step.id-1; end
 if nargin<4 || isempty(extension),
-    extension = '_data';
+    if isempty(name)
+        extension = '_data';
+    else
+        extension ='';
+    end
 else
     [p, n] = fileparts(extension); % FIXME may be fragile
     extension = ['_' n];
@@ -69,7 +75,7 @@ if nargin<2 || isempty(name)
         settings{1} = config.step.setting;
     end
     
-%     settings{k}.infoString
+    %     settings{k}.infoString
     
     for k=1:length(settings)
         switch config.namingConventionForFiles
@@ -81,6 +87,8 @@ if nargin<2 || isempty(name)
                 names{k} = DataHash(settings{k}.infoString); % FIXME should be masked
         end
     end
+else
+    names{1} = name;
 end
 
 config.load={};
@@ -98,6 +106,7 @@ if isempty(config.load)
 end
 
 data = config.load;
+loadFileInfo = config.loadFileInfo;
 
 % end
 
@@ -187,11 +196,11 @@ try
         %         end
         %         loadData.setting
         if isempty(config.load)
-            if stepId
+%             if stepId
                 config.load=[];
-            else
-                config.load{end+1} = [];
-            end
+%             else
+%                 config.load{end+1} = [];
+%             end
         end
         if stepId
             config.load = [config.load loadData.data];
