@@ -54,8 +54,6 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO deal with factor 0
 
-% TODO explOad reutnr only data ? (deal with fileOnfo in parameters)
-
 % TODO do a clean step that keeps active settings
 
 % TODO put done files in home and delete them and end
@@ -68,10 +66,6 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 % TODO rmFactor(numFactor, numModalite) addFactor()
 
 % TODO clean step remove non attainable settings for a given mask
-
-% TODO check reDo with runID as parameter
-
-% 
 
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 

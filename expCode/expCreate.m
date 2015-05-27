@@ -145,9 +145,7 @@ for k=1:length(configFields)
 end
 fclose(fid);
 
-% expConfigMerge([configPath '/' config.shortProjectName 'ConfigDefault.txt'], [expCodePath '/expCodeConfig.txt'], 2, 0);
-% movefile([configPath '/' config.shortProjectName 'ConfigDefault.txt'], [configPath '/' config.shortProjectName 'Config' [upper(config.userName(1)) config.userName(2:end)] '.txt']);
-% FIXME should not be used anymore
+expConfigMerge(configFileName, [expCodePath '/expCodeConfig.txt'], 2, 0);
 
 % create factors file
 factorFileName = [config.codePath '/' config.shortProjectName 'Factors.txt'];
