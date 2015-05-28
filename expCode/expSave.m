@@ -42,9 +42,10 @@ if config.dummy
 end
 
 if exist('data', 'var') && ~isempty(data)
-    runId = config.runId; %#ok<NASGU>
-    setting = config.step.setting; %#ok<NASGU>
-    save([path name  extension ], 'data', 'stepName', 'runId', 'setting', ['-v' num2str(config.encodingVersion)]);
+    data.info.runId = config.runId; %#ok<NASGU> 
+    data.info.setting = config.step.setting; %#ok<NASGU>
+    data.info.stepName = stepName;
+    save([path name  extension ], 'data', ['-v' num2str(config.encodingVersion)]);
 end
 
 fileName = [path name  extension];
