@@ -133,22 +133,22 @@ function config = expProcessOneSub(config)
 
 functionName = [config.shortProjectName num2str(config.step.id) config.stepName{config.step.id}];
 
-if ~config.resume || ~(exist(expSave(config, [], 'data'), 'file') || exist(expSave(config, [], 'obs'), 'file'))
+% if ~config.resume || ~exist(expSave(config, [], 'data'), 'file') || ~exist(expSave(config, [], 'obs'), 'file')
     if config.resume
         dataId = 0;
         dataOutputFile = expSave(config, [], 'data');
         if exist(dataOutputFile, 'file')
             data = expLoad(config, dataOutputFile);
-            dataId = data.runId;
+             dataId = data.info.runId;
         end
         obsId=0;
         obsOutputFile = expSave(config, [], 'obs');
-        if exist(dataOutputFile, 'file')
+        if exist(obsOutputFile, 'file')
             data = expLoad(config, obsOutputFile);
-            obsId = data.runId;
+            obsId = data.info.runId;
         end
         
-        if dataId<config.resume || obsId<config.resume
+        if dataId>=config.resume && obsId>=config.resume
             return;
         end
     end
@@ -187,5 +187,5 @@ if ~config.resume || ~(exist(expSave(config, [], 'data'), 'file') || exist(expSa
     if ~isempty(storeObs)
         expSave(config, storeObs, 'obs');
     end
-end
+% end
 

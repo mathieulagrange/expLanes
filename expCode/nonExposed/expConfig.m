@@ -35,8 +35,6 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 % TODO change the way store is created. sotre shall be part of data and
 % data passed through the module
 
-% TODO save data with figure display
-
 % FIXME impossible to have floating value in factor to expand
 
 % TODO replace codePath with rootPath ?
@@ -55,6 +53,9 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO clean step remove non attainable settings for a given mask
 
+% FIXME  progress failing in //
+
+% FIXME Je n'ai plus l'affichage du nbr de setting à réaliser en parallèle. 
 
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 

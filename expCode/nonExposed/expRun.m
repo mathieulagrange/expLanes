@@ -107,7 +107,7 @@ end
 rem=[];
 config.runInfo=[];
 if config.do>-1
-    fprintf('Project %s: running on host %s \n', config.projectName, config.hostName);
+    fprintf('Project %s: run %d on host %s \n', config.projectName, config.runId, config.hostName);
     for k=1:length(config.do)
         [config.stepSettings{config.do(k)}] = expStepSetting(config.factors, config.mask, config.do(k));
         if isfield(config.stepSettings{config.do(k)}, 'setting')

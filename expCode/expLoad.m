@@ -1,4 +1,4 @@
-function [data, loadFileInfo, config] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
+function [load, loadFileInfo, config] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
 % expLoad load data from the repository of the specified processing step
 %	[config data] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
 %	- config: expCode configuration
@@ -105,7 +105,7 @@ if isempty(config.load)
     end
 end
 
-data = config.load;
+load = config.load;
 loadFileInfo = config.loadFileInfo;
 
 % end
@@ -202,12 +202,13 @@ try
 %                 config.load{end+1} = [];
 %             end
         end
-        if stepId
+%         if stepId
             config.load = [config.load loadData.data];
-        else
-            config.load = [config.load loadData];
-        end
-        
+%         else
+%             config.load = [config.load loadData]; % FIXME check when
+%             needed
+%         end
+         
         fileInfo = dir(fileName);
         if fileInfo.datenum<config.loadFileInfo.dateNum(1)
             config.loadFileInfo.dateNum(1) = fileInfo.datenum;
