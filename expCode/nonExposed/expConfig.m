@@ -64,6 +64,10 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO clean step remove non attainable settings for a given mask
 
+% TODO removing config.mat when done
+
+% TODO put log and config.txt in tmpdir
+
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
@@ -200,6 +204,12 @@ config.waitBar = [];
 config.progressId = 0;
 config.displayData.prompt = [];
 config.displayData.style = [];
+config.homePath = expandHomePath('~');
+
+config.tmpPath = [config.homePath '/.expCode/tmp/'];
+if ~exist(config.tmpPath, 'dir')
+    mkdir(config.tmpPath);
+end
 
 if isempty(config.obsPath), config.obsPath = config.dataPath; end
 

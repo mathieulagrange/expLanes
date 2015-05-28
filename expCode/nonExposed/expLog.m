@@ -39,7 +39,7 @@ if config.log >= level
     end
     
     if codeLocation && ~isempty(stack)
-        codeLocation = sprintf('\nin function %s, line %d of file %s\n', stack(1).name, stack(1).line, stack(1).file);
+        codeLocation = sprintf('in function %s, line %d of file %s\n', stack(1).name, stack(1).line, stack(1).file);
         if expInfo
             codeLocation = ['   ' codeLocation];
         end
@@ -49,7 +49,7 @@ if config.log >= level
     
     if ~isempty(message)
         if ~isempty(expInfoString) || ~isempty(codeLocation)
-            message = [message '    while ' expInfoString    codeLocation];
+            message = [message '\n    while ' expInfoString    codeLocation];
         end
     else
         message = [expInfoString codeLocation];

@@ -19,6 +19,8 @@ for k=1:length(config.stepName)
     end
 end
 
+
+
 config.step.setting = [];
 
 tic
@@ -84,6 +86,10 @@ if all(config.do>0)
     end
 end
 
+if  config.parallel(config.step.id) > 0
+    delete([config.tmpPath config.projectName '_' num2str(config.runId) '_*_done']);
+end
+
 config.runDuration=ceil(toc/60);
 
 function [config, settingStatus] = expProcessOne(config, sequence)
@@ -116,15 +122,12 @@ end
 settingStatus = config.settingStatus;
 
 if  config.parallel(config.step.id) > 0
-    if ~exist([tempdir 'expCode/' config.userName], 'dir')
-        mkdir([tempdir 'expCode/' config.userName]);
-    end
-    doneFileName = [tempdir 'expCode/' config.userName '/' config.projectName '_' num2str(config.runId) '_' num2str(sequence) '_done'];
+    doneFileName = [config.tmpPath config.projectName '_' num2str(config.runId) '_' num2str(sequence) '_done'];
     fid = fopen(doneFileName,'w');
-if fid == -1, fprintf(2, ['Unable to create ' doneFileName]); 
-else
-    fclose(fid);
-end
+    if fid == -1, fprintf(2, ['Unable to create ' doneFileName]);
+    else
+        fclose(fid);
+    end
 end
 
 function config = expProcessOneSub(config)
@@ -136,13 +139,13 @@ functionName = [config.shortProjectName num2str(config.step.id) config.stepName{
 if ~config.resume || ~(exist(expSave(config, [], 'data'), 'file') || exist(expSave(config, [], 'obs'), 'file'))
     dataId = 0;
     dataOutputFile = expSave(config, [], 'data');
-    if exist(dataOutputFile, 'file') 
+    if exist(dataOutputFile, 'file')
         data = expLoad(config, dataOutputFile);
         dataId = data.runId;
     end
     obsId=0;
-      obsOutputFile = expSave(config, [], 'obs');
-    if exist(dataOutputFile, 'file') 
+    obsOutputFile = expSave(config, [], 'obs');
+    if exist(dataOutputFile, 'file')
         data = expLoad(config, obsOutputFile);
         obsId = data.runId;
     end
@@ -186,5 +189,4 @@ if ~config.resume || ~(exist(expSave(config, [], 'data'), 'file') || exist(expSa
         expSave(config, storeObs, 'obs');
     end
 end
-
 

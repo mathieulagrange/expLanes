@@ -21,10 +21,10 @@ if config.generateRootFile
     expCreateRootFile(config, projectName, shortProjectName, config.expCodePath);
 end
 
-if ~exist([config.reportPath 'logs'], 'dir')
-    mkdir([config.reportPath 'logs']);
-end
-config.logFileName = [config.reportPath 'logs/log_' num2str(config.runId) '.txt'];
+% if ~exist([config.reportPath 'logs'], 'dir')
+%     mkdir([config.reportPath 'logs']);
+% end
+config.logFileName = [config.tmpPath 'log_' config.projectName '_' num2str(config.runId) '.txt'];
 config.errorDataFileName = {};
 if exist(config.logFileName, 'file')
     delete(config.logFileName);
@@ -33,11 +33,11 @@ if ~exist(config.reportPath, 'dir')
     mkdir(config.reportPath);
 end
 
-logFileName = [config.reportPath 'logs/config.txt'];
-config.logFile = fopen(logFileName, 'w');
-if config.logFile == -1, error(['Unable to write to ' logFileName]); end
-fprintf(config.logFile, '\n%s\n', evalc('disp(config)'));
-fclose(config.logFile);
+% logFileName = [config.reportPath 'logs/config.txt'];
+% config.logFile = fopen(logFileName, 'w');
+% if config.logFile == -1, error(['Unable to write to ' logFileName]); end
+% fprintf(config.logFile, '\n%s\n', evalc('disp(config)'));
+% fclose(config.logFile);
 
 if config.bundle ~= 0
     expSync(config, config.bundle, -1);
@@ -45,12 +45,33 @@ if config.bundle ~= 0
 end
 
 if config.clean ~= 0
+    if iscell(config.clean)
+        config.clean = config.clean{1};
+    end
     if ischar(config.clean)
-        config.clean = {config.clean 1};
+        if length(config.clean) == 1
+            switch config.clean
+                case 't'
+                    dirPath = [config.homePath '.expCode/tmp'];
+                    info = 'expCode temporary data directory';
+                case 'b'
+                    dirPath = config.backupPath;
+                    info = 'project backup directory';
+            end
+            if inputQuestion(['Cleaning ' info ': ' dirPath])
+                if exist(dirPath, 'dir')
+                    rmdir(dirPath, 's');
+                    mkdir(dirPath);
+                end
+            end
+            return
+        else
+            config.clean = {config.clean 1};
+        end
     elseif isnumeric(config.clean)
         config.clean = {num2str(config.clean) 1};
     end
-    expSync(config, config.clean{:}, 'c');
+    expSync(config, config.clean{:}, 'C');
     return
 end
 
@@ -98,7 +119,7 @@ if config.do>-1
                 runInfo = [runInfo sprintf('\n     %d settings with the factors: %s', config.stepSettings{config.do(k)}.nbSettings, config.stepSettings{config.do(k)}.setting.infoStringFactors)];
             end
             config.runInfo{k} = runInfo;
-            config = expLog(config, [config.runInfo{k} '\n']);
+  %          config = expLog(config, [config.runInfo{k} '\n']);
         end
     end
     if config.obs>0
@@ -128,7 +149,7 @@ if isfield(config, 'serverConfig')
     matConfig = config.serverConfig;
     matConfig.host = 0;
     matConfig.attachedMode = 0;
-    matConfig.exitMatlab = 1;
+    matConfig.exitMatlab = 0;
     matConfig.sendMail = 1;
     matConfig.runInfo = config.runInfo;
     matConfig.staticDataFileName = [config.serverConfig.codePath '/config' '/' shortProjectName];
@@ -158,6 +179,7 @@ if isfield(config, 'serverConfig')
     else
         matConfig.localDependencies = 0;
         expConfigMatSave(expandHomePath(config.configMatName), matConfig);
+        expandHomePath(config.configMatName)
         % genpath dependencies ; addpath(ans);
         command = ['screen  -m -d ' command];
     end
@@ -172,6 +194,7 @@ if isfield(config, 'serverConfig')
     return;
 else
     config = expOperate(config);
+   % delete(expandHomePath(config.configMatName)); FIXME useless ?
 end
 
 if config.obs ~= -1
@@ -264,14 +287,18 @@ if config.sendMail
             C = textscan(fid, '%s', 'delimiter', '');
             fclose(fid);
             lines = C{1};
+            [content, location] = unique(lines);
             message = [message sprintf('\n\n -------------------------------------- \n')];
-            for k=1:length(lines)
-                message = [message sprintf('%s\n', lines{k})];
+            for k=1:length(location)
+                if isempty(strfind(lines{location(k)}, 'while'))
+                message = [message sprintf('%s\n', lines{location(k)})];
+               message = [message sprintf('%s\n', lines{location(k)+1})];
+                end
             end
         end
         message = [message sprintf('\n\n -------------------------------------- \n')];
-        config.mailAttachment = {[config.reportPath 'logs/config.txt']};
-        
+      %  config.mailAttachment = {[config.reportPath 'logs/config.txt']};
+         config.mailAttachment = {};
         for k=1:length(config.errorDataFileName)
             if exist(config.errorDataFileName{k}, 'file')
                 config.mailAttachment{end+1} = config.errorDataFileName{k};
