@@ -43,30 +43,18 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % FIXME machine names without full path not recognized
 
-% FIXME rename config obs to obsStep
-
 % TODO warning with number of settings
 
 % TODO do clean sync of code (with rm server side)
 
 % TODO deal with factor 0
 
-% TODO do a clean step that keeps active settings
-
-% TODO put done files in home and delete them at end
-
-% TODO faire un teaser pour le mail en ne mettant qu'un seul setting par
-% message d'erreur
-
 % TODO composition of expCode projects using the same initial steps
 
-% TODO rmFactor(numFactor, numModalite) addFactor()
+% TODO++ rmFactor(numFactor, numModalite) and addFactor() 
 
 % TODO clean step remove non attainable settings for a given mask
 
-% TODO removing config.mat when done
-
-% TODO put log and config.txt in tmpdir
 
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 

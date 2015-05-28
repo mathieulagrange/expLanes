@@ -49,7 +49,7 @@ if config.log >= level
     
     if ~isempty(message)
         if ~isempty(expInfoString) || ~isempty(codeLocation)
-            message = [message '\n    while ' expInfoString    codeLocation];
+            message = [message '\nwhile ' expInfoString    codeLocation];
         end
     else
         message = [expInfoString codeLocation];

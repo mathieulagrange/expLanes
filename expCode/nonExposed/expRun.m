@@ -97,11 +97,11 @@ end
 if config.do == 0
     config.do = 1:length(config.stepName);
 end
-if config.obs == 0
+if config.display == 0
     if length(config.do)>1 || config.do>0
-        config.obs = config.do(end);
+        config.display = config.do(end);
     else
-        config.obs = -1;
+        config.display = -1;
     end
 end
 rem=[];
@@ -122,12 +122,12 @@ if config.do>-1
   %          config = expLog(config, [config.runInfo{k} '\n']);
         end
     end
-    if config.obs>0
-        rem = setdiff(config.obs, config.do);
+    if config.display>0
+        rem = setdiff(config.display, config.do);
     end
 else
-    if config.obs>0
-        rem = config.obs;
+    if config.display>0
+        rem = config.display;
     end
 end
 
@@ -149,7 +149,7 @@ if isfield(config, 'serverConfig')
     matConfig = config.serverConfig;
     matConfig.host = 0;
     matConfig.attachedMode = 0;
-    matConfig.exitMatlab = 0;
+    matConfig.exitMatlab = 1;
     matConfig.sendMail = 1;
     matConfig.runInfo = config.runInfo;
     matConfig.staticDataFileName = [config.serverConfig.codePath '/config' '/' shortProjectName];
@@ -160,7 +160,7 @@ if isfield(config, 'serverConfig')
     command = [config.serverConfig.matlabPath 'matlab -nodesktop -nosplash -r  " if ispc; homePath= getenv(''USERPROFILE''); else homePath= getenv(''HOME''); end; codePath = strrep(''' ...
         config.serverConfig.codePath ''', ''~'', homePath); cd(strrep(codePath, ''\'', ''/'')) ' ...
         ';  configMatName = strrep(''' ...
-        config.serverConfig.configMatName ''', ''~'', homePath); load(configMatName); ' ...
+        config.serverConfig.configMatName ''', ''~'', homePath); load(configMatName); delete(configMatName); ' ...
         config.projectName '(config);"']; % replace -d by -t in ssh for verbosity
     
     if config.host ~= config.serverConfig.host
@@ -179,7 +179,6 @@ if isfield(config, 'serverConfig')
     else
         matConfig.localDependencies = 0;
         expConfigMatSave(expandHomePath(config.configMatName), matConfig);
-        expandHomePath(config.configMatName)
         % genpath dependencies ; addpath(ans);
         command = ['screen  -m -d ' command];
     end
@@ -197,7 +196,7 @@ else
    % delete(expandHomePath(config.configMatName)); FIXME useless ?
 end
 
-if config.obs ~= -1
+if config.display ~= -1
     if config.attachedMode
         config = exposeObservations(config);
     else
@@ -325,8 +324,8 @@ end
 
 function config = exposeObservations(config)
 
-for k=1:length(config.obs)
-    config.step = config.stepSettings{config.obs(k)};
+for k=1:length(config.display)
+    config.step = config.stepSettings{config.display(k)};
     if iscell(config.expose)
         config = expExpose(config, config.expose{:});
     else

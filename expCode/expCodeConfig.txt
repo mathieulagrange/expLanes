@@ -87,7 +87,7 @@ clean =
 %% EXPOSITION
 
 % step for which to display observations: -1 none, 0 last processed step if any, >0 specific step
-obs = 0 
+display = 0 
 % specify default display of observations (>: prompt, t: table, p:plot)
 expose = > 
 % mantissa precision for the display of observations
