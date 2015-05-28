@@ -72,6 +72,7 @@ if all(config.do>0)
             config.parallel = matlabpool('size');
             % matlabpool('close');
         end
+        delete([config.tmpPath config.projectName '_' num2str(config.runId) '_*_done']);
     else
         for k=1:length(config.do)
             config.step = config.stepSettings{config.do(k)}; % remove reduceData
@@ -84,10 +85,6 @@ if all(config.do>0)
             end
         end
     end
-end
-
-if  config.parallel(config.step.id) > 0
-    delete([config.tmpPath config.projectName '_' num2str(config.runId) '_*_done']);
 end
 
 config.runDuration=ceil(toc/60);
