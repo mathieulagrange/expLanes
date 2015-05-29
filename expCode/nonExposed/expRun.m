@@ -119,7 +119,7 @@ if config.do>-1
                 runInfo = [runInfo sprintf('\n     %d settings with the factors: %s', config.stepSettings{config.do(k)}.nbSettings, config.stepSettings{config.do(k)}.setting.infoStringFactors)];
             end
             config.runInfo{k} = runInfo;
-  %          config = expLog(config, [config.runInfo{k} '\n']);
+            fprintf(2, '%s \n', config.runInfo{k});
         end
     end
     if config.display>0

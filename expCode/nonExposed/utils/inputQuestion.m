@@ -3,7 +3,7 @@ function doit=inputQuestion(q)
 if nargin<1, q=''; end
 
 if isempty(strfind(q, '?'))
-    q = [q '\nDo you want to continue ?'];
+    q = [q ' do you want to continue ?'];
 end
 
 reply = input([q ' Y/N [Y]: '], 's');

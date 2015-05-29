@@ -53,10 +53,6 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO clean step remove non attainable settings for a given mask
 
-% FIXME  progress failing in //
-
-% FIXME Je n'ai plus l'affichage du nbr de setting à réaliser en parallèle. 
-
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})

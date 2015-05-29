@@ -6,7 +6,7 @@ if ~config.progress, return; end
 
 
 if config.parallel(config.step.id) > 0
-    config.progressId = length(dir([tempdir '/expCode/' config.userName '/' config.projectName '_' num2str(config.runId) '*' ]));
+    config.progressId = length(dir([config.tmpPath config.projectName '_' num2str(config.runId) '*' ]));
     progress = ceil(100*config.progressId/length(config.step.sequence));
 else
     config.progressId = config.progressId+1;
