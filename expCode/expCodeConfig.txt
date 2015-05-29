@@ -128,5 +128,7 @@ sendMail = 0
 probe = 0
 % regenerate root file of the project
 generateRootFile = 0
+% add a factor to the experiment: {'name', 'modalities', defaultModalityId, 'steps', 'selector', rankInFactorFile}
+addFactor =
 
 

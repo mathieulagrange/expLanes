@@ -4,7 +4,6 @@ if length(commands)<1, % default config
     config = expConfig(projectPath, shortProjectName, shortProjectName, commands);
     if isempty(config), return; end;
     showFactors(config.factorFileName);
-    
 elseif length(commands)>1 % command line processing
     config = expConfig(projectPath, projectName, shortProjectName, commands);
     if isempty(config), return; end;

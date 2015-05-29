@@ -83,6 +83,8 @@ config.factorFileName = [config.projectPath '/' config.shortProjectName 'Factors
 config.stepName = expStepName(config.projectPath, config.shortProjectName);
 config.factors = expFactorParse(config.factorFileName);
 
+
+
 % checking maximal length of data files
 fileLength = 0;
 switch config.namingConventionForFiles
@@ -256,6 +258,9 @@ if ~exist([config.reportPath 'tex'], 'dir'), mkdir([config.reportPath 'tex']); e
 if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']); end
 if ~exist([config.reportPath 'reports'], 'dir'), mkdir([config.reportPath 'reports']); end
 
+if ~isempty(config.addFactor)
+    config = addFactor(config, config.addFactor{:});
+end
 
 function config = commandLine(config, v)
 
