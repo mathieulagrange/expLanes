@@ -1,9 +1,7 @@
 function config = expConfig(projectPath, projectName, shortProjectName, commands)
 
-% TODO command to purge server code base
-
 % TODO expCreate diamond ??
-% TODO renaming .mat function when adding factor
+
 % TODO convert disp by expLog
 
 % FIXME store dependency string and force localDep = 2 if different
@@ -40,8 +38,6 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 % TODO replace codePath with rootPath ?
 
 % FIXME machine names without full path not recognized
-
-% TODO warning with number of settings
 
 % TODO do clean sync of code (with rm server side)
 
