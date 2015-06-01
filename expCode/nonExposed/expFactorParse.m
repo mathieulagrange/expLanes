@@ -10,14 +10,19 @@ step=C{2};
 select=C{3};
 values=C{4};
 
+if isempty(C{1})
+    fprintf(2, 'Factor file empty, please add factor using the ''addFactor'' command.\n');
+    return;
+end
+
 if length(unique(names)) < length(names)
-       fprintf(2, 'Factors definition, duplicate factor name in setting file');
-        return;
+    fprintf(2, 'Factors definition, duplicate factor name in setting file');
+    return;
 end
 
 selectAll = {};
 deselectAll = {};
-for k=1:length(names)   
+for k=1:length(names)
     if isempty(values{k})
         fprintf(2, ['Factors definition, missing definition of modalities for factor: ' names{k} '\n']);
         return;
@@ -40,8 +45,8 @@ for k=1:length(names)
 end
 for k=1:length(names)
     try
-    values{k}=eval(values{k});
-    catch      
+        values{k}=eval(values{k});
+    catch
         fprintf(2, ['Factors definition, unable to parse the set of modalities of the factor: ' names{k}]);
         return;
     end
@@ -66,7 +71,7 @@ seq=0;
 for k=1:length(step)
     step{k} = strtrim(step{k});
     if length(step{k}) ~= length(regexp(step{k}, '[0-9:s,]', 'match'))
-       fprintf(2,['Factors definition, unrecognized step definition for factor ', names{k}]);  return;
+        fprintf(2,['Factors definition, unrecognized step definition for factor ', names{k}]);  return;
     end
     sMatch = strfind(step{k}, 's');
     if any(sMatch)

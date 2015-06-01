@@ -43,7 +43,10 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO deal with factor 0
 
-% TODO composition of expCode projects using the same initial steps
+% TODO composition of expCode projects using the same initial steps using
+% cell array of input paths
+
+% TODO addStep
 
 % TODO clean step remove non attainable settings for a given mask
 
@@ -261,6 +264,12 @@ if ~isempty(config.addFactor)
 end
 if ~isempty(config.removeFactor)
     config = expFactorManipulate(config, '', '', config.removeFactor{2}, '', '', config.removeFactor{1});
+end
+if ~isempty(config.addStep)
+    config = expStepCreate(config, config.addStep{:});
+end
+if ~isempty(config.removeStep)
+    config = expStepRemove(config, config.removeStep);
 end
 
 function config = commandLine(config, v)

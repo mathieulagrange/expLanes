@@ -132,4 +132,8 @@ generateRootFile = 0
 addFactor =
 % remove a factor from the experiment: {rankInFactorFile, defaultModalityId}
 removeFactor =
+% add a step to the experiment: {'name', rank}
+addStep = 
+% remove a given step from the experiment: rank
+removeStep = 
 
