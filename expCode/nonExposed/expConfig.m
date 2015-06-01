@@ -45,8 +45,6 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO composition of expCode projects using the same initial steps
 
-% TODO++ rmFactor(numFactor, numModalite) and addFactor() 
-
 % TODO clean step remove non attainable settings for a given mask
 
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
