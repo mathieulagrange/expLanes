@@ -1,4 +1,4 @@
-function config = addFactor(config, name, modalities, defaultModality, steps, selector, rank)
+function config = expFactorManipulate(config, name, modalities, defaultModality, steps, selector, rank)
 
 if ~exist('defaultModality', 'var'), defaultModality=0; end
 if ~exist('steps', 'var'), steps=''; end
@@ -17,8 +17,12 @@ if ~rank, rank=length(lines)+1; end
 fid=fopen(config.factorFileName, 'w');
 for k=1:length(lines)+1
     if k==rank
-        newFactorLine = [name ' = ', steps, ' = ', selector, ' = ', modalities];
-        fprintf(fid, '%s\n', newFactorLine);
+        if ~isempty(name)
+            newFactorLine = [name ' = ', steps, ' = ', selector, ' = ', modalities];
+            fprintf(fid, '%s\n', newFactorLine);
+        else
+            continue
+        end
     end
     if k<=length(lines)
         fprintf(fid, '%s\n', lines{k});
@@ -30,10 +34,19 @@ factors = expFactorParse(config.factorFileName);
 
 if defaultModality
     dataType = {'data', 'obs'};
+    destMask(rank) = defaultModality;
+    destMask = {num2cell(destMask)};
+    oriMask = {{}};
+    
+    if isempty(name)
+        tempMask = oriMask;
+        oriMask = destMask;
+        destMask = tempMask;
+    end
+    
     for k=1:length(config.stepName)
-        settings = expStepSetting(config.factors, {{}}, k);
-        mask(rank) = defaultModality;
-        newSettings = expStepSetting(factors, {num2cell(mask)}, k);
+        settings = expStepSetting(config.factors, oriMask, k);
+        newSettings = expStepSetting(factors, destMask, k);
         config.step.id=k;
         for m=1:settings.nbSettings
             for n=1:length(dataType)

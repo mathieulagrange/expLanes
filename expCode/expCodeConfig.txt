@@ -130,5 +130,6 @@ probe = 0
 generateRootFile = 0
 % add a factor to the experiment: {'name', 'modalities', defaultModalityId, 'steps', 'selector', rankInFactorFile}
 addFactor =
-
+% remove a factor from the experiment: {rankInFactorFile, defaultModalityId}
+removeFactor =
 

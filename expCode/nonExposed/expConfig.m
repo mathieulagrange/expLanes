@@ -259,7 +259,10 @@ if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']);
 if ~exist([config.reportPath 'reports'], 'dir'), mkdir([config.reportPath 'reports']); end
 
 if ~isempty(config.addFactor)
-    config = addFactor(config, config.addFactor{:});
+    config = expFactorManipulate(config, config.addFactor{:});
+end
+if ~isempty(config.removeFactor)
+    config = expFactorManipulate(config, '', '', config.removeFactor{2}, '', '', config.removeFactor{1});
 end
 
 function config = commandLine(config, v)
