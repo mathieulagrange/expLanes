@@ -34,7 +34,7 @@ else
     end
 end
 
-if all(config.do>0)
+if all(config.do>0) && ~isempty(config.factors)
     if sum(abs(config.parallel))
         distcomp.feature('LocalUseMpiexec',false); % handling MPI bug in 2012b
         if any(config.parallel>1)

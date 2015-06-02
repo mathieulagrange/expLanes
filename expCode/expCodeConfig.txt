@@ -122,7 +122,7 @@ tableCopyPath =
 
 % usage of default expcode smtp. If set to 0 assume availability of local stmp server
 useExpCodeSmtp = 1
-% send email
+% send email: -2, server mode, email at start and end, -1 server mode, email at end, 0, no email ever, 1 one email at end, 2 email at start and end
 sendMail = 0
 % probe tools and paths
 probe = 0

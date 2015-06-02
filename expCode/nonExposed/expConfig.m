@@ -251,6 +251,7 @@ config.loadFileInfo.dateNum = [Inf, 0];
 config.settingStatus.success = 0;
 config.settingStatus.failed = 0;
 config.expCodePath = expCodePath;
+config.runDuration = 0;
 
 if ~exist(config.reportPath, 'dir'), mkdir(config.reportPath); end
 if ~exist([config.reportPath 'figures'], 'dir'), mkdir([config.reportPath 'figures']); end
