@@ -160,7 +160,7 @@ expCreateRootFile(config, projectName, shortProjectName, expCodePath);
 % create project functions
 % TODO add some comments
 for k=1:length(stepNames)
-    expCreateStepFile(config, stepNames{k}, k);
+    expStepFile(config, stepNames{k}, k);
 end
 
 

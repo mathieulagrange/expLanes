@@ -2,22 +2,18 @@ function config = expStepRemove(config, rank)
 
 if ~exist('rank', 'var'), rank=0; end
 
-previousStepFileName = [config.codePath '/' config.shortProjectName num2str(1) config.stepName{1} '.m'];
-stepFileName = previousStepFileName;
 for k=2:length(config.stepName)
-    stepFileName = [config.codePath '/' config.shortProjectName num2str(k) config.stepName{k} '.m'];
+    stepFileName = [config.codePath config.shortProjectName num2str(k) config.stepName{k} '.m'];
+    previousStepFileName = [config.codePath config.shortProjectName num2str(k-1) config.stepName{k} '.m'];
     if k>rank
         % copy first 3 lines
-        fid=fopen(previousStepFileName);
-        C = textscan(fid, '%s', 'delimiter', '');
-        fclose(fid);
-        previousLines = C{1};
-        
+        newLines = expStepFile(config, config.stepName{k}, num2str(k-1), 0);
+        % copy first 3 lines
         fid=fopen(stepFileName);
         C = textscan(fid, '%s', 'delimiter', '');
         fclose(fid);
         lines = C{1};
-        lines(1:12) = previousLines(1:12);
+        lines(1:14) = cellstr(newLines(1:14, :));
         
         fid=fopen(stepFileName, 'w');
         for k=1:length(lines)
@@ -27,11 +23,10 @@ for k=2:length(config.stepName)
         
         movefile(stepFileName, previousStepFileName);
     end
-    previousStepFileName = stepFileName;
 end
-if exist(stepFileName, 'file')
-    delete(stepFileName);
-end
+
+stepFileName = [config.codePath config.shortProjectName num2str(rank) config.stepName{rank} '.m'];
+delete(stepFileName);
 
 config.stepName(rank) = [];
 

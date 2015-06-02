@@ -267,7 +267,11 @@ if ~isempty(config.removeFactor)
     config = expFactorManipulate(config, '', '', config.removeFactor{2}, '', '', config.removeFactor{1});
 end
 if ~isempty(config.addStep)
+    if iscell( config.addStep)
     config = expStepCreate(config, config.addStep{:});
+    else
+    config = expStepCreate(config, config.addStep);       
+    end
 end
 if ~isempty(config.removeStep)
     config = expStepRemove(config, config.removeStep);
@@ -277,7 +281,13 @@ function config = commandLine(config, v)
 
 configNames = fieldnames(config);
 % overwrite default parameters with command line ones
-for pair = reshape(v,2,[]) % pair is {propName;propValue}
+try
+    parsedPairs = reshape(v,2,[]);
+catch
+    fprintf(2, 'Unable to parse command line which should be a series of pairs ''parameter'', value.\n');
+    return;
+end
+for pair = parsedPairs% pair is {propName;propValue}
     if ~any(strcmp(pair{1},strtrim(configNames))) % , length(pair{1})
         disp(['Warning. The command line parameter ' pair{1} ' is not found in the Config file. Setting anyway.']);
     end

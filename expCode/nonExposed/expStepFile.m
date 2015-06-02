@@ -1,4 +1,6 @@
-function expCreateStepFile(config, name, rank)
+function functionString = expStepFile(config, name, rank, write)
+
+if ~exist('write', 'var'), write=1; end
 
 functionName = [config.shortProjectName num2str(rank) name];
 functionString = char({...
@@ -16,8 +18,10 @@ functionString = char({...
     '';
     '% Set behavior for debug mode';
     ['if nargin==0, ' , config.projectName '(''do'', ' num2str(rank) ', ''mask'', {}); return; else store=[]; obs=[]; end'];
-   '';
+    '';
     '% imported data';
-   'data';
+    'data';
     });
-dlmwrite([config.codePath '/' functionName '.m'], functionString,'delimiter','');
+if write,
+    dlmwrite([config.codePath '/' functionName '.m'], functionString,'delimiter','');
+end

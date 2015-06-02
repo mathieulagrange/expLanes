@@ -1,22 +1,30 @@
-function expStepRemove(config, name, rank)
+function config = expStepCreate(config, name, rank)
 
-if ~exist('rank', 'var'), rank=0; end
+if ~exist('rank', 'var'), rank=length(config.stepName)+1; end
 
-previousStepFileName = [config.codePath '/' config.shortProjectName num2str(1) name '.m'];
-for k=2:stepNames
-    stepFileName = [config.codePath '/' config.shortProjectName num2str(k) name '.m'];
-    
-    if k>rank
-        if isempty(name) % delete mode
-            movefile(stepFileName, previousStepFileName);
-        else % addition mode
-            
+tmpStepFile = [];
+
+for k=length(config.stepName):-1:1
+    stepFileName = [config.codePath config.shortProjectName num2str(k) config.stepName{k} '.m'];
+nextStepFileName = [config.codePath config.shortProjectName num2str(k+1) config.stepName{k} '.m'];
+    if k>=rank
+        newLines = expStepFile(config, config.stepName{k}, num2str(k+1), 0);
+        % copy first 3 lines        
+        fid=fopen(stepFileName);
+        C = textscan(fid, '%s', 'delimiter', '');
+        fclose(fid);
+        lines = C{1};
+        lines(1:14) = cellstr(newLines(1:14, :));
+        
+        fid=fopen(stepFileName, 'w');
+        for k=1:length(lines)
+            fprintf(fid, '%s\n', lines{k});
         end
+        fclose(fid);
+        
+        movefile(stepFileName, nextStepFileName);
     end
-    previousStepFileName = stepFileName;
 end
 
-if ~isempty(name)
-    expCreateStepFile(config, name, rank);
-end
+expStepFile(config, name, rank);
 
