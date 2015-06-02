@@ -10,6 +10,10 @@ for k=1:length(fInfo)
     end
 end
 
+if  length(unique(stepName)) ~=  length(stepName)
+            error('Steps must have different names.'); 
+end
+
 for k=1:length(stepName)
     if isempty(stepName{k})
         error('Unable to find a continuous set of steps.'); 
