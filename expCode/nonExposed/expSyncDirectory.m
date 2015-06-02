@@ -16,6 +16,7 @@ if any(strcmp(config.stepName, directoryName))
         serverDirectoryPath = [serverConfig.obsPath directoryName filesep extensionPath];
     end
 else
+    dataType=''; %GREGOIRE => FIXME needed for fprintf ligne 48
     directoryPath = [eval(['config.' directoryName 'Path'])  extensionPath];
     serverDirectoryPath = [eval(['serverConfig.' directoryName 'Path'])  extensionPath];
 end
