@@ -48,6 +48,8 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO clean step remove non attainable settings for a given mask
 
+% TODO log display in file for server mode
+
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})

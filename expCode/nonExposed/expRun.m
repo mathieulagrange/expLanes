@@ -152,7 +152,7 @@ if isfield(config, 'serverConfig')
     matConfig.host = 0;
     matConfig.attachedMode = 0;
     matConfig.exitMatlab = 1;
-    matConfig.sendMail = abs(config.email);
+    matConfig.sendMail = abs(config.sendMail);
     matConfig.runInfo = config.runInfo;
     matConfig.staticDataFileName = [config.serverConfig.codePath '/config' '/' shortProjectName];
     matConfig.sync = [];
