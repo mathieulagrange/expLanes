@@ -50,6 +50,10 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO log display in file for server mode
 
+% FIXME average duration wrong with multiple steps
+
+% TODO fix ssh encoding issues by sending command line inside the .mat file
+
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
