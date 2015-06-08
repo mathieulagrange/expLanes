@@ -7,7 +7,7 @@ tmpPath = [config.dataPath 'tmp_' num2str(datenum(date())) '/'];
 for k=1:length(config.stepName)
     movefile([config.dataPath config.stepName{k}] , tmpPath);
     mkdir([config.dataPath config.stepName{k}] );
-    settings = expStepSetting(config.factors, {{}}, k);
+    settings = expStepSetting(config.factors, config.mask, k);
     config.step.id=k;
     for m=1:settings.nbSettings
         for n=1:length(dataType)

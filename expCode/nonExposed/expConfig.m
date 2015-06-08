@@ -41,12 +41,8 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO do clean sync of code (with rm server side)
 
-% TODO deal with factor 0
-
 % TODO composition of expCode projects using the same initial steps using
 % cell array of input paths
-
-% TODO clean step remove non attainable settings for a given mask
 
 % FIXME average duration wrong with multiple steps
 
