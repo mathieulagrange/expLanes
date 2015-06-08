@@ -22,7 +22,7 @@ obsPath =
 backupPath = /tmp/expCodeBackup/<projectName>
 % path to export bundles
 bundlePath = /tmp/<projectName> 
-% path to matlab
+% path to matlab binary directory
 matlabPath = 
 % path to unix tools (pdflatex, rsync, ssh)
 toolPath = 

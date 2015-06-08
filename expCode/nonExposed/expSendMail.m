@@ -42,6 +42,7 @@ else
         message{end+1} = ['number of successful settings: ' num2str(config.settingStatus.success)];
         message{end+1} = ['number of failed settings: ' num2str(config.settingStatus.failed)];
         message{end+1} = '';
+
         if ~isempty(config.displayData.prompt)
             prompt = evalc('disp(config.displayData.prompt)');
             prompt = regexp(prompt, '\n', 'split');
@@ -71,7 +72,7 @@ else
             config.mailAttachment{end+1} = config.errorDataFileName{k};
         end
     end
-    if strfind(config.report, 'c')
+    if atEnd && strfind(config.report, 'c')
         config = expTex(config, config.report);
         config.mailAttachment = [{config.pdfFileName} config.mailAttachment];
     end

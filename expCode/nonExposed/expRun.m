@@ -21,6 +21,13 @@ if config.generateRootFile
     expCreateRootFile(config, projectName, shortProjectName, config.expCodePath);
 end
 
+if ~exist(config.reportPath, 'dir'), mkdir(config.reportPath); end
+if ~exist([config.reportPath 'figures'], 'dir'), mkdir([config.reportPath 'figures']); end
+if ~exist([config.reportPath 'tables'], 'dir'), mkdir([config.reportPath 'tables']); end
+if ~exist([config.reportPath 'tex'], 'dir'), mkdir([config.reportPath 'tex']); end
+if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']); end
+if ~exist([config.reportPath 'reports'], 'dir'), mkdir([config.reportPath 'reports']); end
+
 % if ~exist([config.reportPath 'logs'], 'dir')
 %     mkdir([config.reportPath 'logs']);
 % end
@@ -165,6 +172,8 @@ if isfield(config, 'serverConfig')
         config.serverConfig.configMatName ''', ''~'', homePath); load(configMatName); delete(configMatName); ' ...
         config.projectName '(config);"']; % replace -d by -t in ssh for verbosity
     
+  %  command = [config.serverConfig.matlabPath 'matlab -nodesktop -nosplash -r expRunServer(''' config.serverConfig.configMatName ''', ''' config.serverConfig.codePath ''')'];
+    
     if config.host ~= config.serverConfig.host
         matConfig.localDependencies = 1;
         expConfigMatSave(expandHomePath(config.configMatName), matConfig);
@@ -172,12 +181,13 @@ if isfield(config, 'serverConfig')
         expSync(config, 'c', config.serverConfig, 'up');
         if config.localDependencies == 0
             %             config.serverConfig.localDependencies = 1;
+            fprintf('Hint: sync of dependencies can be turned off by setting ''localDependencies'' to 1 in your config.\n');
             expSync(config, 'd', config.serverConfig, 'up');
         end
         expConfigMatSave(config.configMatName);
         % genpath dependencies ; addpath(ans);
         command = ['ssh ' config.hostName ' screen -m -d ''' config.serverConfig.matlabPath 'matlab -nodesktop -nosplash -r  "cd ' config.serverConfig.codePath ' ; load ' config.serverConfig.configMatName '; ' config.projectName '(config);"''']; % replace -d by -t in ssh for verbosity
-        %         command = ['ssh ' config.hostName ' screen  -m -d ''' strrep(command, '''', '"''') ''''];
+         %         command = ['ssh ' config.hostName ' screen  -m -d ''' strrep(command, '''', '"''') ''''];
     else
         matConfig.localDependencies = 0;
         expConfigMatSave(expandHomePath(config.configMatName), matConfig);
@@ -208,7 +218,7 @@ if config.display ~= -1 && ~isempty(config.factors)
         try
             config = exposeObservations(config);
         catch catchedError
-            expLog(config, catchedError, 3, 1);
+            config = expLog(config, catchedError, 3, 1);
         end
     end
 end
@@ -222,7 +232,7 @@ if strfind(config.report, 'r')
             config = feval([config.shortProjectName 'Report'], config);
         catch catchedError
             config.report='';
-            expLog(config, catchedError, 3, 1);
+            config = expLog(config, catchedError, 3, 1);
         end
     end
     displayData = config.displayData; %#ok<NASGU>
@@ -241,7 +251,14 @@ else
     vars = whos('-file', config.staticDataFileName);
     if ismember('displayData', {vars.name})
         data = load(config.staticDataFileName, 'displayData');
+        prompt = [];
+        if ~isempty(config.displayData.prompt)
+            prompt = config.displayData.prompt;
+        end
         config.displayData = data.displayData;
+        if ~isempty(prompt)
+            config.displayData.prompt = prompt ;
+        end        
     end
 end
 
