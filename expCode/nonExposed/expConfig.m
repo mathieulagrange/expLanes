@@ -48,8 +48,6 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO clean step remove non attainable settings for a given mask
 
-% TODO log display in file for server mode
-
 % FIXME average duration wrong with multiple steps
 
 % TODO integration of git ?

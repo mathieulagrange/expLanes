@@ -64,11 +64,19 @@ if config.clean ~= 0
                 case 'b'
                     dirPath = config.backupPath;
                     info = 'project backup directory';
+                case 'k'
+                    dirPath = config.dataPath;
+                    info = 'all steps directories while keeping data of reachable settings starting from';
             end
             if inputQuestion(['Cleaning ' info ': ' dirPath])
-                if exist(dirPath, 'dir')
-                    rmdir(dirPath, 's');
-                    mkdir(dirPath);
+                switch config.clean
+                    case 'k'
+                        expKeepClean(config);
+                    otherwise
+                        if exist(dirPath, 'dir')
+                            rmdir(dirPath, 's');
+                            mkdir(dirPath);
+                        end
                 end
             end
             return

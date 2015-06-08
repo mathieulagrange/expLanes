@@ -16,7 +16,7 @@ if isempty(C{1})
 end
 
 if length(unique(names)) < length(names)
-    fprintf(2, 'Factors definition, duplicate factor name in setting file');
+    fprintf(2, 'Factors definition, duplicate factor name in setting file.\n');
     return;
 end
 
