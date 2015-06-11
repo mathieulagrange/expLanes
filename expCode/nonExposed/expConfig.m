@@ -50,6 +50,10 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO put on github
 
+% TODO mat config file per user
+
+% TODO method for changing naming convention
+
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})

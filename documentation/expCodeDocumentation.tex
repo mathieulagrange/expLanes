@@ -6,14 +6,140 @@
 \usepackage{amssymb} 
 \usepackage{rotating} 
 % mcode options for matlab code insertion bw (for printing), numbered (line numbers), framed (frame around code blocks), useliterate (convert Matlab expressions to Latex ones), autolinebreaks (automatic code wraping, use it with caution 
-\usepackage[literate]{mcode} 
+\usepackage[]{mcode} 
 \graphicspath{{figures/}{report/figures/}{../figures/}{../../}}  
-\title{Documentation of \\ expCode} 
+\title{ \textbf{\textsf{expCode}} \\ \textit{beautiful computational experiments} } 
 \author{ Mathieu Lagrange } 
+
+\newcommand{\expcode}{\textsf{expCode} }  
   
 \begin{document} 
   
 \maketitle 
+
+\section{About you}
+
+Let's assume that you will or are practicing computational experiments. Most probably, this takes you time and a lot of care, and may be you have some frustrations depending on your status.
+
+Are you
+\begin{itemize}
+\item  \textbf{a Master's student ?} Then, you may at some point consider the fact that the problem is not simply to come with a new idea and implement it. To contribute significantly to the research community are striving to be part of, you need to compare your method with the ones of others. This process is tedious, hard if not impossible and involve a lot of coding and knowledge about large scale processing, statistical analysis and reporting of quantitative data.
+
+\item \textbf{a PhD student ?} You have several years to dedicate to a research project. Doing it well will help you stay motivated and efficient. But how ? Several years of work means a lot of code, a lot of bugs, a lot of failures and hopefully some gain of knowledge for you and your research community. How will you keep track of those many experiments ? How will you efficiently document them ?  How will you quickly report your progress to the members of your research teams to ask for help and advising ? How will you publish your research in a reproducible way ?
+
+\item \textbf{a Post doctoral fellow ?} You are now an established researcher, with many ideas about what could be done in order increase knowledge in your community. But you also have to juggle with many different projects you are involved in. Keeping track of all those projects and being able to easily switch between them is mandatory for success. For example, being able to re-run years old experiments in order to efficiently satisfy a reviewer request that took several months (even years) to reach your desktop is critical for your career.
+
+\item \textbf{a Full time researcher ?} Besides research, you have many duties that shreds the time you can allocate to pursue the many personal research projects you have. The time needed to switch context is sometimes too long to put you in an efficient research mode for the short time slot you have. More importantly, the free time you have is usually not in front of your desktop. Also, you are advising several students and most of the time, when the student goes away, the projects ends at best with a student specific organization of code and data that will most probably not help the next student to pursue efficiently the research project.
+
+\end{itemize}
+
+And for all, you are heading towards reproducible research \cite{} but you are not confident with your programming expertise and you do not have time to improve your experimental code into a stable state ?
+
+If so, please consider giving \expcode a try as it is specifically designed (by a research that have been trough all those steps) with those matters in mind and hopefully will help you to reduce specific burden that keep you way from reaching this goal which is one of the most important step towards true expansion of knowledge in science and engineering: reproducibility \cite{}.
+
+\section{The scientific method}
+
+The scientific method is a well established method to gain knowledge with demonstrated merit. Sadly, modern ways of doing research impose strong pressure on the time and efforts that can be allocated to a project. The consequence is that important steps of the scientific are often neglected. 
+
+We believe that this quest for speed adversely reduces results at the end. At the same time, We agree that strictly following the scientific method can be tedious and shortcuts might be tempting. \expcode is designed to assist you in the most tedious and less error prone steps and will hopefully help you dedicate more time to the "not so" optional steps of the scientific method.
+
+Quickly put, the scientific method can be divided into several steps that each may have to be iterated. On the following table, we stated where the \expcode framework can be helpful during this iteration process.
+
+\vspace{1em}
+\begin{tabular}{clc}
+\multicolumn{2}{c}{The scientific method} \\
+\bf Phases & Steps  & \expcode \\
+\hline
+\bf Analysis & Describe problem & \\
+& Set performance criteria & \\
+& Investigate related work & \\
+& State objective & \\
+\bf Hypothesis & Specify solution & \\
+& Set goals & \\
+& Define factors & + \\
+& Postulate performance metrics & + \\
+\bf Synthesis & Implement solution & ++ \\
+& Design experiments & +++ \\
+& Conduct experiments & ++++ \\
+& Reduce results & +++ \\
+\bf Validation & Compute performance & ++ \\
+& Draw conclusions & +\\
+& Prepare documentation & + \\
+& Solicit peer review & \\
+\end{tabular}
+
+For a detailed presentation of those steps, please refer to \cite{}.
+
+\section{Features}
+
+\expcode is a software framework currently implemented in Matlab that allows
+\begin{enumerate}
+\item multiple user per experiment
+\item multiple processing platform to be used
+\item an heavily decoupling of major experimental phase: coding, processing and performance analysis.
+\end{enumerate}
+
+let the user focus on solution code
+handle experimental management without need of dedicated code
+thus easing diffusion of reproducible code
+
+
+improve context switching between projects
+
+
+\section{\expcode in a nutshell}
+
+\subsection{Create experiment}
+
+\subsection{Define steps}
+
+\subsection{Define factors}
+
+\subsection{Define observations}
+
+\subsection{Selecting settings}
+
+\subsection{Processing}
+
+\subsection{Expose observations}
+
+\subsection{Reporting}
+
+
+\section{Architecture of an experiment}
+
+\subsection{Code}
+
+\subsection{Data}
+
+\subsection{Report}
+
+\section{Commands}
+
+\subsection{Management of an experiment}
+
+\subsection{Computation of settings}
+
+\subsection{Exposition of observations}
+
+\section{Best practices}
+
+\section{Recommended readings}
+
+\begin{itemize}
+
+
+\item \textbf{Getting it right}
+
+\item \textbf{} Tufte
+
+\end{itemize}
+
+
+
+
+
+
 
 main concepts
 

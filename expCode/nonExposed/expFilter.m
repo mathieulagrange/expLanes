@@ -166,7 +166,11 @@ for m=1:length(p.obs)
     for k=1:length(data)
         if ~isempty(data{k}) && isfield(data{k}, observations{p.obs(m)})
             datak = data{k}.(observations{p.obs(m)});
+            if ~isempty(datak)
             fData(k, m, 1:length(datak)) = datak;
+            else
+            fData(k, m, 1) = NaN;              
+            end
         end
     end
 end
