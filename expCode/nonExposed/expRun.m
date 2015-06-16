@@ -1,7 +1,7 @@
-function config = expRun(projectPath, projectName, shortProjectName, commands)
+function config = expRun(experimentPath, experimentName, shortExperimentName, commands)
 
 beep off
-config = expInit(projectPath, projectName, shortProjectName, commands);
+config = expInit(experimentPath, experimentName, shortExperimentName, commands);
 
 if isempty(config), return; end;
 
@@ -18,7 +18,7 @@ elseif~expCheckMask(config.factors, config.mask)
 end
 
 if config.generateRootFile
-    expCreateRootFile(config, projectName, shortProjectName, config.expCodePath);
+    expCreateRootFile(config, experimentName, shortExperimentName, config.expCodePath);
 end
 
 if ~exist(config.reportPath, 'dir'), mkdir(config.reportPath); end
@@ -31,7 +31,7 @@ if ~exist([config.reportPath 'reports'], 'dir'), mkdir([config.reportPath 'repor
 % if ~exist([config.reportPath 'logs'], 'dir')
 %     mkdir([config.reportPath 'logs']);
 % end
-config.logFileName = [config.tmpPath 'log_' config.projectName '_' num2str(config.runId) '.txt'];
+config.logFileName = [config.tmpPath 'log_' config.experimentName '_' num2str(config.runId) '.txt'];
 config.errorDataFileName = {};
 if exist(config.logFileName, 'file')
     delete(config.logFileName);
@@ -63,7 +63,7 @@ if config.clean ~= 0
                     info = 'expCode temporary data directory';
                 case 'b'
                     dirPath = config.backupPath;
-                    info = 'project backup directory';
+                    info = 'experiment backup directory';
                 case 'k'
                     dirPath = config.dataPath;
                     info = 'all steps directories while keeping data of reachable settings starting from';
@@ -123,7 +123,7 @@ rem=[];
 config.runInfo=[];
 if ~isempty(config.factors)
     if config.do>-1
-    fprintf('Project %s: run %d on host %s \n', config.projectName, config.runId, config.hostName);
+    fprintf('Experiment %s: run %d on host %s \n', config.experimentName, config.runId, config.hostName);
     for k=1:length(config.do)
         [config.stepSettings{config.do(k)}] = expStepSetting(config.factors, config.mask, config.do(k));
         if isfield(config.stepSettings{config.do(k)}, 'setting')
@@ -169,7 +169,7 @@ if isfield(config, 'serverConfig')
     matConfig.exitMatlab = 1;
     matConfig.sendMail = abs(config.sendMail);
     matConfig.runInfo = config.runInfo;
-    matConfig.staticDataFileName = [config.serverConfig.codePath '/config' '/' shortProjectName];
+    matConfig.staticDataFileName = [config.serverConfig.codePath '/config' '/' shortExperimentName];
     matConfig.sync = [];
     
     matConfig.retrieve = -1; % do not retrieve on server setting
@@ -178,7 +178,7 @@ if isfield(config, 'serverConfig')
         config.serverConfig.codePath ''', ''~'', homePath); cd(strrep(codePath, ''\'', ''/'')) ' ...
         ';  configMatName = strrep(''' ...
         config.serverConfig.configMatName ''', ''~'', homePath); load(configMatName); delete(configMatName); ' ...
-        config.projectName '(config);"']; % replace -d by -t in ssh for verbosity
+        config.experimentName '(config);"']; % replace -d by -t in ssh for verbosity
     
   %  command = [config.serverConfig.matlabPath 'matlab -nodesktop -nosplash -r expRunServer(''' config.serverConfig.configMatName ''', ''' config.serverConfig.codePath ''')'];
     
@@ -194,7 +194,7 @@ if isfield(config, 'serverConfig')
         end
         expConfigMatSave(config.configMatName);
         % genpath dependencies ; addpath(ans);
-        command = ['ssh ' config.hostName ' screen -m -d ''' config.serverConfig.matlabPath 'matlab -nodesktop -nosplash -r  "cd ' config.serverConfig.codePath ' ; load ' config.serverConfig.configMatName '; ' config.projectName '(config);"''']; % replace -d by -t in ssh for verbosity
+        command = ['ssh ' config.hostName ' screen -m -d ''' config.serverConfig.matlabPath 'matlab -nodesktop -nosplash -r  "cd ' config.serverConfig.codePath ' ; load ' config.serverConfig.configMatName '; ' config.experimentName '(config);"''']; % replace -d by -t in ssh for verbosity
          %         command = ['ssh ' config.hostName ' screen  -m -d ''' strrep(command, '''', '"''') ''''];
     else
         matConfig.localDependencies = 0;
@@ -234,10 +234,10 @@ end
 if strfind(config.report, 'r')
     config.step.id = length(config.stepName);
     if config.attachedMode
-        config = feval([config.shortProjectName 'Report'], config);
+        config = feval([config.shortExperimentName 'Report'], config);
     else
         try
-            config = feval([config.shortProjectName 'Report'], config);
+            config = feval([config.shortExperimentName 'Report'], config);
         catch catchedError
             config.report='';
             config = expLog(config, catchedError, 3, 1);

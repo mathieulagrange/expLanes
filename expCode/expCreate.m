@@ -1,7 +1,7 @@
-function expCreate(projectName, stepNames, codePath, dataPath)
-% expCreate create an expCode project
-%	expCreate(projectName, stepNames, codePath, dataPath)
-%	- projectName: name of the project
+function expCreate(experimentName, stepNames, codePath, dataPath)
+% expCreate create an expCode experiment
+%	expCreate(experimentName, stepNames, codePath, dataPath)
+%	- experimentName: name of the experiment
 %	- stepNames: cell array of strings defining the names
 %	 of the different processing steps
 %	- codePath: path for code storage
@@ -9,7 +9,7 @@ function expCreate(projectName, stepNames, codePath, dataPath)
 %
 %	Default values and other settings can be set in your configuration file
 % 	located in your home in the .expCode directory. This file serves
-%	as the initial config file for your expCode projects
+%	as the initial config file for your expCode experiments
 
 %	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
 %	See licence.txt for more information.
@@ -19,17 +19,17 @@ function expCreate(projectName, stepNames, codePath, dataPath)
 expCodePath = fileparts(mfilename('fullpath'));
 addpath(genpath(expCodePath));
 
-if ~exist('projectName', 'var')
-    projectName = 'helloProject';
-elseif ~ischar(projectName)
-    error('The projectName must be a string');
+if ~exist('experimentName', 'var')
+    experimentName = 'helloExperiment';
+elseif ~ischar(experimentName)
+    error('The experimentName must be a string');
 end
-if ~exist('stepNames', 'var'), stepNames = 'process'; end
+if ~exist('stepNames', 'var'), stepNames = {}; end
 
 if ~iscell(stepNames), stepNames = {stepNames}; end
 
-shortProjectName = names2shortNames(projectName);
-shortProjectName = shortProjectName{1};
+shortExperimentName = names2shortNames(experimentName);
+shortExperimentName = shortExperimentName{1};
 
 % load default config
 
@@ -45,17 +45,17 @@ values = strtrim(configCell{2});
 
 for k=1:length(names)
     if k <= length(values)
-        values{k} = strrep(values{k}, '<>', projectName);
-        values{k} = strrep(values{k}, '<projectName>', projectName);
-        values{k} = strrep(values{k}, '<projectPath>', projectName);
+        values{k} = strrep(values{k}, '<>', experimentName);
+        values{k} = strrep(values{k}, '<experimentName>', experimentName);
+        values{k} = strrep(values{k}, '<experimentPath>', experimentName);
     else
         values{k} = '';
     end
 end
 
 config = cell2struct(values, names);
-config.projectName = projectName;
-config.shortProjectName = shortProjectName;
+config.experimentName = experimentName;
+config.shortExperimentName = shortExperimentName;
 config.userName = getUserName();
 if isempty(config.completeName)
     config.completeName = config.userName;
@@ -77,8 +77,8 @@ if exist('dataPath', 'var')
     end
 end
 
-% config.dataPath = strrep(config.dataPath, '<projectName>', projectName);
-% config.codePath = strrep(config.codePath, '<projectName>', projectName);
+% config.dataPath = strrep(config.dataPath, '<experimentName>', experimentName);
+% config.codePath = strrep(config.codePath, '<experimentName>', experimentName);
 
 if isempty(config.dataPath)
     config.dataPath = fullfile(pwd());
@@ -105,8 +105,13 @@ if isempty(config.obsPath)
 end
 
 % prompt
-fprintf('You are about to create an experiment called %s with short name %s and steps: ', projectName, shortProjectName);
+fprintf('You are about to create an experiment called %s with short name %s', experimentName, shortExperimentName);
+if ~isempty(stepNames)
+     fprintf(' and steps: '); 
 disp(stepNames);
+else
+    fprintf('\n');
+end
 fprintf('Path to code %s\nData path: %s\nObservations path: %s\n', config.codePath, config.dataPath, config.obsPath);
 disp(['Note: you can set the default values to all configuration parameters in your config file: ' userDir '/' '.expCode' '/' 'defaultConfig.txt']);
 
@@ -114,7 +119,7 @@ if ~inputQuestion(), fprintf(' Bailing out ...\n'); return; end
 
 % create code repository
 if exist(config.codePath, 'dir'),
-    if ~inputQuestion('Warning: you are about to reinitialize an existing project.\n');
+    if ~inputQuestion('Warning: you are about to reinitialize an existing experiment.\n');
         fprintf('Bailing out \n');
         return;
     else
@@ -134,11 +139,11 @@ p = [p; setdiff(1:length(n), p)'];
 config = orderfields(config, p);
 
 % create config file
-configFileName = [configPath '/' config.shortProjectName 'Config' [upper(config.userName(1)) config.userName(2:end)] '.txt']; % [configPath '/' config.shortProjectName 'ConfigDefault.txt'];
+configFileName = [configPath '/' config.shortExperimentName 'Config' [upper(config.userName(1)) config.userName(2:end)] '.txt']; % [configPath '/' config.shortExperimentName 'ConfigDefault.txt'];
 fid = fopen(configFileName, 'w');
 if fid == -1, error(['Unable to open ' configFileName]); end
 
-fprintf(fid, '%% Config file for the %s project\n%% Adapt at your convenience\n\n', config.shortProjectName);
+fprintf(fid, '%% Config file for the %s experiment\n%% Adapt at your convenience\n\n', config.shortExperimentName);
 configFields = fieldnames(config);
 for k=1:length(configFields)
     fprintf(fid, '%s = %s\n', configFields{k}, char(config.(configFields{k})));
@@ -148,26 +153,26 @@ fclose(fid);
 expConfigMerge(configFileName, [expCodePath '/expCodeConfig.txt'], 2, 0);
 
 % create factors file
-factorFileName = [config.codePath '/' config.shortProjectName 'Factors.txt'];
+factorFileName = [config.codePath '/' config.shortExperimentName 'Factors.txt'];
 fid = fopen(factorFileName, 'w');
 if fid == -1, error(['Unable to open ' factorFileName]); end
-% fprintf(fid, 'method =1== {''methodOne'', ''methodTwo'', ''methodThree''} % method will be defined for step 1 only \nthreshold =s1:=1/[1 3]= [0:10] % threshold is defined for step 1 and the remaining steps, will be sequenced and valid for the 1st and 3rd value of the 1st factor (methodOne and methodThree) \n\n%% Settings file for the %s project\n%% Adapt at your convenience\n', config.shortProjectName);
+% fprintf(fid, 'method =1== {''methodOne'', ''methodTwo'', ''methodThree''} % method will be defined for step 1 only \nthreshold =s1:=1/[1 3]= [0:10] % threshold is defined for step 1 and the remaining steps, will be sequenced and valid for the 1st and 3rd value of the 1st factor (methodOne and methodThree) \n\n%% Settings file for the %s experiment\n%% Adapt at your convenience\n', config.shortExperimentName);
 fclose(fid);
 
 %create root file
-expCreateRootFile(config, projectName, shortProjectName, expCodePath);
+expCreateRootFile(config, experimentName, shortExperimentName, expCodePath);
 
-% create project functions
+% create experiment functions
 % TODO add some comments
 for k=1:length(stepNames)
     expStepFile(config, stepNames{k}, k);
 end
 
 
-functionName = [shortProjectName 'Init'];
+functionName = [shortExperimentName 'Init'];
 functionString = char({...
-    ['function [config, store] = ' shortProjectName 'Init(config)'];
-    ['% ' shortProjectName 'Init INITIALIZATION of the expCode project ' projectName];
+    ['function [config, store] = ' shortExperimentName 'Init(config)'];
+    ['% ' shortExperimentName 'Init INITIALIZATION of the expCode experiment ' experimentName];
     ['%    [config, store] = ' functionName '(config)'];
     '%      - config : expCode configuration state';
     '%      -- store  : processing data to be saved for the other steps ';
@@ -175,33 +180,33 @@ functionString = char({...
     ['% Copyright: ' config.completeName];
     ['% Date: ' date()];
     '';
-    ['if nargin==0, ' , projectName '(); return; else store=[];  end'];
+    ['if nargin==0, ' , experimentName '(); return; else store=[];  end'];
     });
 dlmwrite([config.codePath '/' functionName '.m'], functionString,'delimiter','');
 
 functionString = char({...
-    ['function config = ' shortProjectName 'Report(config)'];
-    ['% ' shortProjectName 'Report REPORTING of the expCode project ' projectName];
+    ['function config = ' shortExperimentName 'Report(config)'];
+    ['% ' shortExperimentName 'Report REPORTING of the expCode experiment ' experimentName];
     ['%    config = ' functionName 'Report(config)'];
     '%       config : expCode configuration state';
     '';
     ['% Copyright: ' config.completeName];
     ['% Date: ' date()];
     '';
-    ['if nargin==0, ' , projectName '(''report'', ''r''); return; end'];
+    ['if nargin==0, ' , experimentName '(''report'', ''r''); return; end'];
     '';
     ['config = expExpose(config, ''t'');'];
     });
-dlmwrite([config.codePath '/' shortProjectName 'Report.m'], functionString,'delimiter','');
+dlmwrite([config.codePath '/' shortExperimentName 'Report.m'], functionString,'delimiter','');
 
 % create readme file
-readmeString = char({['% This is the README for the experiment ' config.projectName]; ''; ['% Created on ' date() ' by ' config.userName]; ''; '% Purpose: '; ''; '% Reference: '; ''; '% Licence: '; ''; ''});
+readmeString = char({['% This is the README for the experiment ' config.experimentName]; ''; ['% Created on ' date() ' by ' config.userName]; ''; '% Purpose: '; ''; '% Reference: '; ''; '% Licence: '; ''; ''});
 dlmwrite([config.codePath '/README.txt'], readmeString, 'delimiter', '')
 % append remaining of the file
 dlmwrite([config.codePath '/README.txt'], fileread([expCodePath '/nonExposed/README.txt']), '-append', 'delimiter', '')
 
 runId=1; %#ok<NASGU>
-save([configPath config.shortProjectName], 'runId');
+save([configPath config.shortExperimentName], 'runId');
 
 % copy depencies if necessary
 if str2double(config.localDependencies) >= 1
@@ -212,5 +217,5 @@ if str2double(config.localDependencies) >= 1
     config.localDependencies = keep;
 end
 
-fprintf('Done.\nMoving to project directory.\n')
+fprintf('Done.\nMoving to experiment directory.\n')
 cd(config.codePath);

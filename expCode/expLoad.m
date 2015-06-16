@@ -135,7 +135,7 @@ if isempty(config.load) && config.retrieve>-1
     for k=1:length(source)
         
         disp(['Attempting to fetch data from ' expGetMachineName(config, source(k))]);
-        sourceConfig = expConfig(config.codePath, config.projectName, config.shortProjectName, {'host', source(k)});
+        sourceConfig = expConfig(config.codePath, config.experimentName, config.shortExperimentName, {'host', source(k)});
         
         if stepId
             sourcePath = [sourceConfig.dataPath sourceConfig.stepName{stepId} '/'];

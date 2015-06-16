@@ -1,16 +1,16 @@
-function config = expInit(projectPath, projectName, shortProjectName, commands)
+function config = expInit(experimentPath, experimentName, shortExperimentName, commands)
 
 if length(commands)<1, % default config
-    config = expConfig(projectPath, shortProjectName, shortProjectName, commands);
+    config = expConfig(experimentPath, shortExperimentName, shortExperimentName, commands);
     if isempty(config), return; end;
     showFactors(config.factorFileName);
 elseif length(commands)>1 % command line processing
-    config = expConfig(projectPath, projectName, shortProjectName, commands);
+    config = expConfig(experimentPath, experimentName, shortExperimentName, commands);
     if isempty(config), return; end;
 elseif isnumeric(commands{1})
-    config = expConfig(projectPath, projectName, shortProjectName);
+    config = expConfig(experimentPath, experimentName, shortExperimentName);
     if isempty(config), return; end;
-    historyFileName = expandHomePath([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt']);
+    historyFileName = expandHomePath([config.codePath 'config' filesep config.shortExperimentName 'History' upper(config.userName(1)) config.userName(2:end) '.txt']);
     fid = fopen(historyFileName, 'rt');
     foundCommand = '';
     if fid>0
@@ -31,14 +31,14 @@ elseif isnumeric(commands{1})
 elseif isstruct(commands{1}) % server mode
     config = commands{1};
 elseif ischar(commands{1})
-    config = expConfig(projectPath, projectName, shortProjectName);
+    config = expConfig(experimentPath, experimentName, shortExperimentName);
     if isempty(config), return; end;
     switch commands{1}
         case 'h'
             % TODO display help
         case 'p'
             fprintf('---------------------------\nHistory: \n');
-            historyFileName = expandHomePath([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt']);
+            historyFileName = expandHomePath([config.codePath 'config' filesep config.shortExperimentName 'History' upper(config.userName(1)) config.userName(2:end) '.txt']);
             fid = fopen(historyfileName, 'rt');
             if fid>0
                 lastCommands={};
@@ -55,21 +55,21 @@ elseif ischar(commands{1})
                 %         eval(lastCommand);
                 return
             else
-                config = expConfig(projectPath, projectName, shortProjectName, commands);
+                config = expConfig(experimentPath, experimentName, shortExperimentName, commands);
                 if isempty(config), return; end;
             end
         case 'v'
-            config = expConfig(projectPath, projectName, shortProjectName, {});
+            config = expConfig(experimentPath, experimentName, shortExperimentName, {});
             if isempty(config), return; end;
             showFactors(config.factorFileName);
         case 'c'
             
         case 'f'
-            config = expConfig(projectPath, projectName, shortProjectName);
+            config = expConfig(experimentPath, experimentName, shortExperimentName);
             if isempty(config), return; end;
             expFactorDisplay(config, config.showFactorsInReport, config.factorDisplayStyle);
         case 'F'
-            config = expConfig(projectPath, projectName, shortProjectName);
+            config = expConfig(experimentPath, experimentName, shortExperimentName);
             if isempty(config), return; end;
             expFactorDisplay(config, config.showFactorsInReport, config.factorDisplayStyle, 0);
         otherwise
@@ -77,13 +77,13 @@ elseif ischar(commands{1})
     end
     return
 else
-    config = expConfig(projectPath, projectName, shortProjectName, commands);
+    config = expConfig(experimentPath, experimentName, shortExperimentName, commands);
     if isempty(config), return; end;
 end
 
 if config.attachedMode==-1
     serverConfig = config;
-    config = expConfig(projectPath, projectName, shortProjectName, [commands {'host', 0, 'attachedMode', -1, 'run', 0}]);
+    config = expConfig(experimentPath, experimentName, shortExperimentName, [commands {'host', 0, 'attachedMode', -1, 'run', 0}]);
     config.serverConfig=serverConfig;
     config.hostName = config.serverConfig.hostName;
 end
@@ -101,7 +101,7 @@ else
     lastCommand = [];
 end
 if ~isempty(strfind(lastCommand, ''''))
-    historyFileName = expandHomePath([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt']);
+    historyFileName = expandHomePath([config.codePath 'config' filesep config.shortExperimentName 'History' upper(config.userName(1)) config.userName(2:end) '.txt']);
     fid = fopen(historyFileName, 'rt');
     commands = {};
     if fid>0
@@ -114,7 +114,7 @@ if ~isempty(strfind(lastCommand, ''''))
         fclose(fid);
     end
     
-    historyFileName = expandHomePath([config.codePath 'config' filesep config.shortProjectName 'History' upper(config.userName(1)) config.userName(2:end) '.txt']);
+    historyFileName = expandHomePath([config.codePath 'config' filesep config.shortExperimentName 'History' upper(config.userName(1)) config.userName(2:end) '.txt']);
     fid = fopen(historyFileName, 'w');
     if fid == -1, error(['Unable to open ' historyFileName]); end
     
@@ -127,14 +127,22 @@ end
 
 function showFactors(fileName)
 
-fprintf('Factors:\n');
+
 fid=fopen(fileName);
 k=1;
+start=1;
 while ~feof(fid)
-    line = strtrim(fgetl(fid));
-    if ~isempty(line) && ~strcmp(line(1), '%')
-        fprintf('%d\t%s\n', k, line);
-        k=k+1;
+    line = fgetl(fid);
+    if ischar(line)
+        line = strtrim(line);
+        if ~strcmp(line(1), '%')
+            if start
+                fprintf('Factors:\n');
+                start=0;
+            end
+            fprintf('%d\t%s\n', k, line);
+            k=k+1;
+        end
     end
 end
 fclose(fid);

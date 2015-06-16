@@ -6,7 +6,7 @@ if ~config.progress, return; end
 
 
 if config.parallel(config.step.id) > 0
-    config.progressId = length(dir([config.tmpPath config.projectName '_' num2str(config.runId) '_' num2str(config.step.id)  '*' ]));
+    config.progressId = length(dir([config.tmpPath config.experimentName '_' num2str(config.runId) '_' num2str(config.step.id)  '*' ]));
     progress = ceil(100*config.progressId/length(config.step.sequence));
 else
     config.progressId = config.progressId+1;
@@ -16,7 +16,7 @@ end
 
 if config.progress == 1 && config.attachedMode && config.parallel(config.step.id) == 0
     if isempty(config.waitBar)
-        config.waitBar = waitbar(0,config.step.setting.infoString,'Name',['Step ' config.step.idName ' of ' config.projectName],...
+        config.waitBar = waitbar(0,config.step.setting.infoString,'Name',['Step ' config.step.idName ' of ' config.experimentName],...
             'CreateCancelBtn',...
             'setappdata(gcbf,''canceling'',1)', 'userdata', 'expProgress');
         setappdata(config.waitBar,'canceling',0);

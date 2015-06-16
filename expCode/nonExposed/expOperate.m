@@ -25,10 +25,10 @@ config.step.setting = [];
 
 tic
 if config.attachedMode
-    [config, config.initStore] = feval([config.shortProjectName 'Init'], config);
+    [config, config.initStore] = feval([config.shortExperimentName 'Init'], config);
 else
     try
-        [config, config.initStore] = feval([config.shortProjectName 'Init'], config);
+        [config, config.initStore] = feval([config.shortExperimentName 'Init'], config);
     catch error
         config = expLog(config, error, 3, 1);
     end
@@ -79,7 +79,7 @@ if all(config.do>0) && ~isempty(config.factors)
             config.parallel = matlabpool('size');
             % matlabpool('close');
         end
-        delete([config.tmpPath config.projectName '_' num2str(config.runId) '_*_done']);
+        delete([config.tmpPath config.experimentName '_' num2str(config.runId) '_*_done']);
     else
         for k=1:length(config.do)
             config.step = config.stepSettings{config.do(k)}; % remove reduceData
@@ -126,7 +126,7 @@ end
 settingStatus = config.settingStatus;
 
 if  config.parallel(config.step.id) > 0
-    doneFileName = [config.tmpPath config.projectName '_' num2str(config.runId) '_' num2str(config.step.id) '_' num2str(sequence) '_done'];
+    doneFileName = [config.tmpPath config.experimentName '_' num2str(config.runId) '_' num2str(config.step.id) '_' num2str(sequence) '_done'];
     fid = fopen(doneFileName,'w');
     if fid == -1, fprintf(2, ['Unable to create ' doneFileName]);
     else
@@ -138,7 +138,7 @@ function config = expProcessOneSub(config)
 
 
 
-functionName = [config.shortProjectName num2str(config.step.id) config.stepName{config.step.id}];
+functionName = [config.shortExperimentName num2str(config.step.id) config.stepName{config.step.id}];
 
 % if ~config.resume || ~exist(expSave(config, [], 'data'), 'file') || ~exist(expSave(config, [], 'obs'), 'file')
     if config.resume

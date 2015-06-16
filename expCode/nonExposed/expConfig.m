@@ -1,4 +1,4 @@
-function config = expConfig(projectPath, projectName, shortProjectName, commands)
+function config = expConfig(experimentPath, experimentName, shortExperimentName, commands)
 
 % TODO expCreate diamond ??
 
@@ -41,7 +41,7 @@ function config = expConfig(projectPath, projectName, shortProjectName, commands
 
 % TODO do clean sync of code (with rm server side)
 
-% TODO composition of expCode projects using the same initial steps using
+% TODO composition of expCode experiments using the same initial steps using
 % cell array of input paths
 
 % FIXME average duration wrong with multiple steps
@@ -60,20 +60,20 @@ if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
     config = commands{1};
     commands = commands(2:end);
 else
-    configFileName = getUserFileName(shortProjectName, projectName, projectPath, expCodePath);
+    configFileName = getUserFileName(shortExperimentName, experimentName, experimentPath, expCodePath);
     expUserDefaultConfig([expCodePath '/expCodeConfig.txt']);
     config = expUpdateConfig(configFileName);
     if isempty(config), return; end;
     
-    config.shortProjectName = shortProjectName;
+    config.shortExperimentName = shortExperimentName;
     config.userName = getUserName();
-    config.projectName = projectName;
-    config.projectPath = projectPath;
+    config.experimentName = experimentName;
+    config.experimentPath = experimentPath;
     config.configFileName = configFileName;
 end
 
 
-config.staticDataFileName = [projectPath '/config' '/' shortProjectName];
+config.staticDataFileName = [experimentPath '/config' '/' shortExperimentName];
 if ~exist([config.staticDataFileName '.mat'], 'file')
     runId=1; %#ok<NASGU>
     save(config.staticDataFileName, 'runId');
@@ -84,8 +84,8 @@ if isempty(config.completeName)
     config.completeName = config.userName;
 end
 
-config.factorFileName = [config.projectPath '/' config.shortProjectName 'Factors.txt'];
-config.stepName = expStepName(config.projectPath, config.shortProjectName);
+config.factorFileName = [config.experimentPath '/' config.shortExperimentName 'Factors.txt'];
+config.stepName = expStepName(config.experimentPath, config.shortExperimentName);
 config.factors = expFactorParse(config.factorFileName);
 
 
@@ -203,21 +203,21 @@ if isempty(config.obsPath), config.obsPath = config.dataPath; end
 
 if iscell(config.codePath)
     if length(config.codePath)>=config.hostGroup
-        projectPath = expandHomePath(strtrim(config.codePath{config.hostGroup}));
+        experimentPath = expandHomePath(strtrim(config.codePath{config.hostGroup}));
     else
-        projectPath = expandHomePath(strtrim(config.codePath{end})); % convention add the last parameter
+        experimentPath = expandHomePath(strtrim(config.codePath{end})); % convention add the last parameter
     end
 else
-    projectPath = expandHomePath(strtrim(config.codePath));
+    experimentPath = expandHomePath(strtrim(config.codePath));
 end
 
-if ~isempty(projectPath)
-    config.projectPath = projectPath;
+if ~isempty(experimentPath)
+    config.experimentPath = experimentPath;
 end
 
-config = expandPath(config, config.projectPath);
+config = expandPath(config, config.experimentPath);
 
-config.configMatName = [config.codePath 'config/' config.shortProjectName 'Config' config.userName '_' num2str(config.runId) '.mat'];
+config.configMatName = [config.codePath 'config/' config.shortExperimentName 'Config' config.userName '_' num2str(config.runId) '.mat'];
 config.reportPath = [config.codePath 'report/'];
 
 if iscell(config.parallel)
@@ -291,7 +291,7 @@ for pair = parsedPairs% pair is {propName;propValue}
     config.(pair{1}) = pair{2};
 end
 
-function config = expandPath(config, projectPath)
+function config = expandPath(config, experimentPath)
 
 for k=1:length(config.dependencies) % FIXME may be wrong
     field = config.dependencies{k};
@@ -330,9 +330,9 @@ for k=1:length(fieldNames)
         if config.attachedMode == 1
             field = expandHomePath(config.(fieldNames{k}));
         end
-        % if relative add projectPath
+        % if relative add experimentPath
         if all(~strcmp(fieldNames{k}, {'matlabPath', 'toolPath', 'backupPath'}))  && (isempty(field) || ((~isempty(field) && ~any(strcmp(field(1), {'~', '/', '\'}))) && ((length(field)<1 || ~strcmp(field(2), ':')))))
-            config.(fieldNames{k}) = [projectPath '/' field];
+            config.(fieldNames{k}) = [experimentPath '/' field];
         else
             config.(fieldNames{k}) = field;
         end

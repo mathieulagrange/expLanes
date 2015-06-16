@@ -45,7 +45,7 @@ end
 % TODO: be able to control update
 % TODO: use the filesep command
 
-fprintf('Performing %s %s %s sync of project %s %s ', upper(directoryName), dataType, extensionPath, config.projectName, detachMessage);
+fprintf('Performing %s %s %s sync of experiment %s %s ', upper(directoryName), dataType, extensionPath, config.experimentName, detachMessage);
 
 % create it if needed
 if serverConfig.host == config.host

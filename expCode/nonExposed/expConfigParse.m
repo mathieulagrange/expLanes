@@ -3,7 +3,7 @@ function config = expConfigParse(configFileName)
 config=[];
 configFile=fopen(configFileName);
 if configFile==-1,
-    fprintf(2,['Unable to load the expCode config file for your project named: ' configFileName '.']); return;
+    fprintf(2,['Unable to load the expCode config file for your experiment named: ' configFileName '.']); return;
 end
 
 configCell=textscan(configFile,'%s%s ', 'commentStyle', '%', 'delimiter', '=');

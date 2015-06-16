@@ -2,7 +2,7 @@ function config = expBundleConfig(configFileName)
 
 configFile=fopen(configFileName);
 if configFile==-1, 
-    error('Unable to load the expCode config file for your project.');
+    error('Unable to load the expCode config file for your experiment.');
 end
 
 configCell=textscan(configFile,'%s%s ', 'commentStyle', '%', 'delimiter', '=');

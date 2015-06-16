@@ -18,9 +18,9 @@ if ~isempty(config.reportName)
     end
 end
 
-config.latexFileName = [latexPath config.projectName reportName];
-if ~exist([config.reportPath config.projectName reportName '.tex'], 'file')
-    config.latex = LatexCreator([config.reportPath filesep config.projectName reportName '.tex'], 0, config.completeName, [config.projectName reportName], config.projectName, 1, 1, config.latexDocumentClass);
+config.latexFileName = [latexPath config.experimentName reportName];
+if ~exist([config.reportPath config.experimentName reportName '.tex'], 'file')
+    config.latex = LatexCreator([config.reportPath filesep config.experimentName reportName '.tex'], 0, config.completeName, [config.experimentName reportName], config.experimentName, 1, 1, config.latexDocumentClass);
 end
 if ~exist([config.reportPath 'mcode.sty'], 'file')
     copyfile([fileparts(mfilename('fullpath')) filesep 'utils/mcode.sty'], config.reportPath);
@@ -39,21 +39,21 @@ for k=1:length(files)
 end
 
 if  ~isempty(reportName), reportName(end+1) = '_'; end
-config.pdfFileName = [config.reportPath 'reports/' reportName config.projectName   upper(config.userName(1)) config.userName(2:end)   date  '.pdf'];
+config.pdfFileName = [config.reportPath 'reports/' reportName config.experimentName   upper(config.userName(1)) config.userName(2:end)   date  '.pdf'];
 
 keep=1;
 if isempty(strfind(command, 'r'))
     keep = 2;
 end
-config.latex = LatexCreator([config.latexFileName '.tex'], keep, config.completeName, [config.projectName reportName], config.projectName, 1, 0, config.latexDocumentClass);
+config.latex = LatexCreator([config.latexFileName '.tex'], keep, config.completeName, [config.experimentName reportName], config.experimentName, 1, 0, config.latexDocumentClass);
 config.latex.addLine(''); % mandatory
 
 if abs(config.showFactorsInReport)
     pdfFileName = [config.reportPath 'figures/factors.pdf'];
     a=dir(pdfFileName);
-    b=dir([config.codePath config.shortProjectName 'Factors.txt']);
+    b=dir([config.codePath config.shortExperimentName 'Factors.txt']);
     for k=1:length(config.stepName)
-        c = dir([config.codePath config.shortProjectName num2str(k) config.stepName{k} '.m']);
+        c = dir([config.codePath config.shortExperimentName num2str(k) config.stepName{k} '.m']);
         if c.datenum > b.datenum
             b=c;
         end

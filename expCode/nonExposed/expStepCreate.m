@@ -5,8 +5,8 @@ if ~exist('rank', 'var'), rank=length(config.stepName)+1; end
 tmpStepFile = [];
 
 for k=length(config.stepName):-1:1
-    stepFileName = [config.codePath config.shortProjectName num2str(k) config.stepName{k} '.m'];
-nextStepFileName = [config.codePath config.shortProjectName num2str(k+1) config.stepName{k} '.m'];
+    stepFileName = [config.codePath config.shortExperimentName num2str(k) config.stepName{k} '.m'];
+nextStepFileName = [config.codePath config.shortExperimentName num2str(k+1) config.stepName{k} '.m'];
     if k>=rank
         newLines = expStepFile(config, config.stepName{k}, num2str(k+1), 0);
         % copy first 3 lines        

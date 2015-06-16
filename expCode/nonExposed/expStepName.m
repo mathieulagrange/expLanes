@@ -1,9 +1,9 @@
-function stepName = expStepName(projectPath, shortProjectName)
+function stepName = expStepName(experimentPath, shortExperimentName)
 
-fInfo = dir([projectPath filesep shortProjectName '*.m']);
+fInfo = dir([experimentPath filesep shortExperimentName '*.m']);
 
 for k=1:length(fInfo)
-    r =  regexp(fInfo(k).name, [shortProjectName '([1-9]+)(\w+).m'], 'tokens');
+    r =  regexp(fInfo(k).name, [shortExperimentName '([1-9]+)(\w+).m'], 'tokens');
     if ~isempty(r)
         num = str2num(r{1}{1});
         stepName(num) = r{1}(2);

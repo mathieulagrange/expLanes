@@ -31,7 +31,6 @@ distanceDemonstration('obs', 2, 'expose', {'p', 'mask', {0 2 0 1}, 'obs', [1], '
 distanceDemonstration('obs', 2, 'expose', {'p', 'mask', {3 2 0 1 0 0}, 'obs', [1], 'expand', 1}, 'report', 'c');
 distanceDemonstration('obs', 2, 'expose', {'p', 'mask', {3 2 0 1 0 0}, 'obs', [1], 'expand', 3}, 'report', 'c');
 distanceDemonstration('obs', 2, 'expose', {'p', 'mask', {3 2 0 1 0 0}, 'obs', [1], 'expand', 'spread'}, 'report', 'c');
-distanceDemonstration('do', 0)
 distanceDemonstration('do', 1)
 distanceDemonstration('do', 2)
 distanceDemonstration('obs', 2, 'expose', {'t', 'mask', {3 2 7}})
@@ -55,3 +54,4 @@ distanceDemonstration('report', 'rccvd');
 distanceDemonstration('report', 'xcvd');
 distanceDemonstration('report', 'cvd');
 distanceDemonstration('do', 0, 'report', 'rccv');
+distanceDemonstration('do', 0)

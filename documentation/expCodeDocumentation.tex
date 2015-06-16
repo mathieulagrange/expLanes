@@ -6,8 +6,9 @@
 \usepackage{amssymb} 
 \usepackage{rotating,url,hyperref} 
 % mcode options for matlab code insertion bw (for printing), numbered (line numbers), framed (frame around code blocks), useliterate (convert Matlab expressions to Latex ones), autolinebreaks (automatic code wraping, use it with caution 
-\usepackage[]{mcode} 
+\usepackage[useliterate]{mcode} 
 \graphicspath{{figures/}{report/figures/}{../figures/}{../../}}  
+
 \title{ expCode: beautiful computational experiments } 
 \author{ Mathieu Lagrange } 
 
@@ -68,8 +69,7 @@ We believe that this quest for speed adversely reduces the meanningfulness of th
 
 Quickly put, the scientific method can be divided into several steps that each may have to be iterated. On the following table, we stated where the \expcode framework can be helpful during this iteration process.
 
-\vspace{1em}
-\center The scientific method\cite{right} \\
+\begin{center} \bf The scientific method\cite{right} \end{center}
 \begin{tabular}{clc}
 \bf Phases & Steps  & \expcode \\
 \hline
@@ -97,10 +97,17 @@ Quickly put, the scientific method can be divided into several steps that each m
 
 For the sake of simplicity, we will now consider a trivial research statement. We want to gain knowledge about the surface area and the volume of a few geometrical shapes. %
 
+First, we assume that the \expcode framework is in your path, if not, please type the following in your command window: \\ \mcode{addpath(genpath('pathToExpCode'));};
 
 \subsection{Create experiment}
 
+Let us call the experiment \textsl{geometricShape}.
+
 \subsection{Define steps}
+
+Alternatively, the previous command can operated at once using: \\
+\mcode{}
+
 
 \subsection{Define factors}
 
@@ -116,6 +123,8 @@ For the sake of simplicity, we will now consider a trivial research statement. W
 
 
 \section{Architecture of an experiment}
+
+\subsection{Configuration}
 
 \subsection{Code}
 
@@ -142,7 +151,7 @@ multi way anova
 \begin{itemize}
 
 
-\item \textbf{Getting it right} R\&D Methods for Science and Engineering, Peter Bock, Academic Press
+\item \textbf{Getting it right}: R\&D Methods for Science and Engineering, Peter Bock, Academic Press
 
 \item \textbf{The Visual Display of Quantitative Information} Edward R. Tufte
 

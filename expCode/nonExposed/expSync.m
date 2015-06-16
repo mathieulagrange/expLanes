@@ -41,22 +41,22 @@ if isstruct(syncDestination)
     serverConfig = syncDestination;
     syncDestination = serverConfig.host;
 else
-    serverConfig = expConfig(config.codePath, config.projectName, config.shortProjectName, {'host', syncDestination, 'attachedMode', 0});
+    serverConfig = expConfig(config.codePath, config.experimentName, config.shortExperimentName, {'host', syncDestination, 'attachedMode', 0});
 end
 
 if syncDestination==-1
     % bundle setting
     config.syncDirection = 'up';
-    if ~exist([config.bundlePath config.projectName], 'dir')
-        mkdir([config.bundlePath config.projectName]);
+    if ~exist([config.bundlePath config.experimentName], 'dir')
+        mkdir([config.bundlePath config.experimentName]);
     end
     fieldNames=fieldnames(serverConfig);
     for k=1:length(fieldNames)
         if any(~cellfun(@isempty, strfind({'dataPath', 'inputPath'}, fieldNames{k}))) % && isempty(strfind(fieldNames{k}, 'data'))
-            serverConfig.(fieldNames{k}) =  [config.bundlePath config.projectName '/' fieldNames{k}(1:end-4) '/'];
+            serverConfig.(fieldNames{k}) =  [config.bundlePath config.experimentName '/' fieldNames{k}(1:end-4) '/'];
         end
     end
-    serverConfig.codePath = [config.bundlePath config.projectName '/'];
+    serverConfig.codePath = [config.bundlePath config.experimentName '/'];
 end
 
 % TODO what if some directories are unset ?
@@ -133,12 +133,12 @@ if syncDestination==-1
     end
     %  create bundle config
     bundleConfig = expBundleConfig(config.configFileName);
-    expConfigStringSave(bundleConfig, [serverConfig.codePath '/config/' serverConfig.projectName 'ConfigDefault.txt']);
+    expConfigStringSave(bundleConfig, [serverConfig.codePath '/config/' serverConfig.experimentName 'ConfigDefault.txt']);
     
-    bundleName = [config.projectName '_' num2str(config.codeVersion) '_' date() '.tgz' ];
-    system(['cd ' config.bundlePath ' && tar czf '  bundleName ' ' config.projectName]);
+    bundleName = [config.experimentName '_' num2str(config.codeVersion) '_' date() '.tgz' ];
+    system(['cd ' config.bundlePath ' && tar czf '  bundleName ' ' config.experimentName]);
     warning('off', 'MATLAB:RMDIR:NoDirectoriesRemoved');
-    rmdir([config.bundlePath config.projectName], 's');
+    rmdir([config.bundlePath config.experimentName], 's');
     warning('on', 'MATLAB:RMDIR:NoDirectoriesRemoved');
 end
 

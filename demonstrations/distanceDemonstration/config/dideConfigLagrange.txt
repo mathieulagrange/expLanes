@@ -1,9 +1,3 @@
-%% PROJECT
-
-% version of the experiment
-versionName  = 0.1
-
-
 %% USER
 
 % email address ticked when processing is done server side (leave empty for no mailing service), can be a cell array of email adresses
@@ -19,7 +13,7 @@ machineNames  = {{'lolo.local', 'mo-lagrange.irccyn.ec-nantes.fr', 'dodo'}, 'pc-
 % path to input data
 inputPath  = ~/data/databases
 % path to the code repository of the project
-codePath  = ~/projects/houle/dev/tools/expCode/demonstrations/distanceDemonstration
+codePath  = ~/bb/houle/dev/tools/expCode/demonstrations/distanceDemonstration
 % path to the data repository of the project for stored data
 dataPath  = ~/data/projects/distanceDemonstration
 % path to the data repository of the project for observation data (same as dataPath if left blank)
@@ -28,7 +22,7 @@ obsPath  =
 backupPath  = /tmp/expCodeBackup/distanceDemonstration
 % path to export bundles
 bundlePath  = /tmp/distanceDemonstration
-% path to matlab
+% path to matlab binary directory
 matlabPath  = 
 % path to unix tools (pdflatex, rsync, ssh)
 toolPath  = 
@@ -36,17 +30,18 @@ toolPath  =
 %% CODE
 
 % code dependencies to load and export
-dependencies  = {'~/projects/houle/dev/tools/expCode/expCode' '/Users/lagrange/projects/houle/dev/tools/expCode/expCode'}
+dependencies  = {'~/bb/houle/dev/tools/expCode/expCode'}
 % dependencies (including expCode) can be part of the project: 0 do not use local versions, 1 use local versions, 2 update local versions
 localDependencies  = 0
-
+% version tag
+codeVersion = 0.1
 
 %% COMPUTING
 
 % processing steps to execute: -1 none, 0 all, >0 processing step by numeric id
 do  = -1
-% perform computation even if the result is already available
-redo  = 1
+% do not perform computation if data and obs files with runID>resume are already there
+resume = 0
 % use parallel processing, if |parallel|>1 specify the number of cores, if array set at step level, if >0 parallelize designs, if <0 parallelize within each design, can be a value for all processing steps or an array of config per step
 parallel  = 0
 % factor mask: cell array defining the modalities to be set for the factors (0 do all, 1 first modality, [1 3] first and third modality), can be a cell array of cell array
@@ -92,7 +87,7 @@ clean  =
 %% EXPOSITION
 
 % step for which to display observations: -1 none, 0 last processed step if any, >0 specific step
-obs  = 0
+display = 0
 % specify default display of observations (>: prompt, t: table, p:plot)
 expose  = >
 % mantissa precision for the display of observations
@@ -105,35 +100,40 @@ displayFontSize  = 16
 %% REPORT
 
 % generate report: combination of r (run report), c (LaTEX compilation), and d (compilation debug informations)
-report  =  
+report  = 
 % type of report: empty (default), if containing the word slides or Slides, use the beamer presentation mode
 reportName  = 
-% launch external pdf viewer after successful compilation
-viewReport = 1
-% style of latex document
+% style of latex document (warning: this parameter is taken into account only at the creation of the LaTEX report file)
 latexDocumentClass  = article
-% memo message for the generation of reports
-message  = default
 % path to the pdf viewer (try to locate one if left empty)
 pdfViewer  = 
 % threshold for statistical significance testing
 significanceThreshold  = 0.05
-% show the factors graph in the report: 1 simple display, 2 show stored data, 3 show observations, 4 show stored data and observations
+% show the factors graph in the report: 1 simple display, 2 show stored data, 3 show observations, 4 show stored data and observations (if negative only generate the figure)
 showFactorsInReport  = -4
 % style of the factor graph: 0 no propagation of factors, 1 propagation of factors, 2 propagation of factors with an "all steps" node
 factorDisplayStyle  = 0
-% delete the tex directory where actual LaTex compilation is performed
-deleteTexDirectory  = 0
+% path where saved figures are copied
+figureCopyPath =
+% path where saved tables are copied
+tableCopyPath =
 
 %% MISC
 
 % usage of default expcode smtp. If set to 0 assume availability of local stmp server
 useExpCodeSmtp  = 1
-% send email
+% send email: -2, server mode, email at start and end, -1 server mode, email at end, 0, no email ever, 1 one email at end, 2 email at start and end
 sendMail  = 0
 % probe tools and paths
 probe  = 0
 % regenerate root file of the project
 generateRootFile  = 0
-
+% add a factor to the experiment: {'name', 'modalities', defaultModalityId, 'steps', 'selector', rankInFactorFile}
+addFactor =
+% remove a factor from the experiment: {rankInFactorFile, defaultModalityId}
+removeFactor =
+% add a step to the experiment: {'name', rank}
+addStep =
+% remove a given step from the experiment: rank
+removeStep =
 

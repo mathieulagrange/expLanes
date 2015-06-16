@@ -37,7 +37,7 @@ if isempty(data)
         disp(['Loaded data files dates are in the range: | ' config.loadFileInfo.date{1} ' || ' config.loadFileInfo.date{2} ' |']);
         vSet = config.step.set; %#ok<NASGU>
         save(reduceFileName, 'data', 'vSet', 'config');
-%             copyfile(reduceFileName, [config.reportPath config.projectName '.mat']);
+%             copyfile(reduceFileName, [config.reportPath config.experimentName '.mat']);
     end
 %     config.step.id = config.step.id-1;
 end

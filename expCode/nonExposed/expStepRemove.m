@@ -3,8 +3,8 @@ function config = expStepRemove(config, rank)
 if ~exist('rank', 'var'), rank=0; end
 
 for k=2:length(config.stepName)
-    stepFileName = [config.codePath config.shortProjectName num2str(k) config.stepName{k} '.m'];
-    previousStepFileName = [config.codePath config.shortProjectName num2str(k-1) config.stepName{k} '.m'];
+    stepFileName = [config.codePath config.shortExperimentName num2str(k) config.stepName{k} '.m'];
+    previousStepFileName = [config.codePath config.shortExperimentName num2str(k-1) config.stepName{k} '.m'];
     if k>rank
         % copy first 3 lines
         newLines = expStepFile(config, config.stepName{k}, num2str(k-1), 0);
@@ -25,7 +25,7 @@ for k=2:length(config.stepName)
     end
 end
 
-stepFileName = [config.codePath config.shortProjectName num2str(rank) config.stepName{rank} '.m'];
+stepFileName = [config.codePath config.shortExperimentName num2str(rank) config.stepName{rank} '.m'];
 delete(stepFileName);
 
 config.stepName(rank) = [];

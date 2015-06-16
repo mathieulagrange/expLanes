@@ -595,7 +595,7 @@ else
                 if inputQuestion('Do you want to create it ?');
                     functionString = char({...
                         ['function config = ' exposeType '(config, data, p)'];
-                        ['% ' exposeType ' EXPOSE of the expCode project ' config.projectName];
+                        ['% ' exposeType ' EXPOSE of the expCode experiment ' config.experimentName];
                         ['%    config = ' exposeType '(config, data, p)'];
                         '%       config : expCode configuration state';
                         '%       data : observations as a struct array';

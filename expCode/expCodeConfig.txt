@@ -12,16 +12,16 @@ completeName = <userName>
 machineNames = 
 % path to input data
 inputPath = 
-% path to the code repository of the project 
-codePath = <projectPath> 
-% path to the data repository of the project for stored data 
-dataPath = ~/data/projects/<projectName> 
-% path to the data repository of the project for observation data (same as dataPath if left blank)
+% path to the code repository of the experiment 
+codePath = <experimentPath> 
+% path to the data repository of the experiment for stored data 
+dataPath = ~/data/experiments/<experimentName> 
+% path to the data repository of the experiment for observation data (same as dataPath if left blank)
 obsPath =  
 % path to backup of transfered data
-backupPath = /tmp/expCodeBackup/<projectName>
+backupPath = /tmp/expCodeBackup/<experimentName>
 % path to export bundles
-bundlePath = /tmp/<projectName> 
+bundlePath = /tmp/<experimentName> 
 % path to matlab binary directory
 matlabPath = 
 % path to unix tools (pdflatex, rsync, ssh)
@@ -31,7 +31,7 @@ toolPath =
 
 % code dependencies to load and export
 dependencies = {} 
-% dependencies (including expCode) can be part of the project: 0 do not use local versions, 1 use local versions, 2 update local versions
+% dependencies (including expCode) can be part of the experiment: 0 do not use local versions, 1 use local versions, 2 update local versions
 localDependencies = 0 
 % version tag
 codeVersion = 0.1
@@ -126,7 +126,7 @@ useExpCodeSmtp = 1
 sendMail = 0
 % probe tools and paths
 probe = 0
-% regenerate root file of the project
+% regenerate root file of the experiment
 generateRootFile = 0
 % add a factor to the experiment: {'name', 'modalities', defaultModalityId, 'steps', 'selector', rankInFactorFile}
 addFactor =

@@ -1,18 +1,18 @@
-function configFileName = getUserFileName(shortProjectName, projectName, projectPath, expCodePath)
+function configFileName = getUserFileName(shortExperimentName, experimentName, experimentPath, expCodePath)
 
-% shortProjectName = names2shortNames(projectName);
-% shortProjectName = shortProjectName{1};
+% shortExperimentName = names2shortNames(experimentName);
+% shortExperimentName = shortExperimentName{1};
 
 if ~exist('expCodePath', 'var'), expCodePath = []; end
 
 userName = getUserName();
 
-configFileName = [projectPath '/config' filesep shortProjectName 'Config' [upper(userName(1)) userName(2:end)] '.txt'];
+configFileName = [experimentPath '/config' filesep shortExperimentName 'Config' [upper(userName(1)) userName(2:end)] '.txt'];
 
 if ~exist(configFileName, 'file')
     if isempty(expCodePath)
-        files = dir([projectPath '/config/*Config*.txt']);
-        defaultFileName = [projectPath '/config/' files(1).name];
+        files = dir([experimentPath '/config/*Config*.txt']);
+        defaultFileName = [experimentPath '/config/' files(1).name];
     else
         defaultFileName = [expCodePath '/expCodeConfig.txt'];
     end
@@ -31,9 +31,9 @@ if ~exist(configFileName, 'file')
     while ~feof(fid)
         text = fgetl(fid);
         if line ~= -1
-            text = strrep(text, '<projectPath>', projectPath);
+            text = strrep(text, '<experimentPath>', experimentPath);
             text = strrep(text, '<userName>', userName);
-            text = strrep(text, '<projectName>', projectName);
+            text = strrep(text, '<experimentName>', experimentName);
             fprintf(fidw, '%s\n', text);
         end
     end
