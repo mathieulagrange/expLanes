@@ -85,8 +85,8 @@ if isempty(config.completeName)
 end
 
 config.factorFileName = [config.experimentPath '/' config.shortExperimentName 'Factors.txt'];
-config.stepName = expStepName(config.experimentPath, config.shortExperimentName);
-config.factors = expFactorParse(config.factorFileName);
+config.stepName = expStepName(config, config.experimentPath, config.shortExperimentName);
+
 
 
 
@@ -128,6 +128,8 @@ if nargin>3,
         end
     end
 end
+
+config.factors = expFactorParse(config, config.factorFileName);
 
 if iscell(config.mask)
     if isempty(config.mask) || ~iscell(config.mask{1})

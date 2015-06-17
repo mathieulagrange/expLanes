@@ -128,7 +128,7 @@ sendMail = 0
 probe = 0
 % regenerate root file of the experiment
 generateRootFile = 0
-% add a factor to the experiment: {'name', 'modalities', defaultModalityId, 'steps', 'selector', rankInFactorFile}
+% add a factor to the experiment: {'name', 'modalities', 'steps', 'selector', defaultModalityId, rankInFactorFile}
 addFactor =
 % remove a factor from the experiment: {rankInFactorFile, defaultModalityId}
 removeFactor =

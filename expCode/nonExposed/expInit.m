@@ -140,7 +140,7 @@ while ~feof(fid)
                 fprintf('Factors:\n');
                 start=0;
             end
-            fprintf('%d\t%s\n', k, line);
+            fprintf('%d    %s\n', k, line);
             k=k+1;
         end
     end

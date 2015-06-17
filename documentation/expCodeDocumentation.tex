@@ -4,7 +4,11 @@
 \usepackage{morefloats} 
 \usepackage{amsmath} 
 \usepackage{amssymb} 
-\usepackage{rotating,url,hyperref} 
+\usepackage{rotating,url} 
+\definecolor{violet}{rgb}{0.8, 0.6, 0.8}
+\definecolor{green}{rgb}{0.8 ,.9, 0.8}
+\definecolor{blue}{rgb}{0.3, 0 ,0.6}
+\usepackage[]{hyperref}
 % mcode options for matlab code insertion bw (for printing), numbered (line numbers), framed (frame around code blocks), useliterate (convert Matlab expressions to Latex ones), autolinebreaks (automatic code wraping, use it with caution 
 \usepackage[useliterate]{mcode} 
 \graphicspath{{figures/}{report/figures/}{../figures/}{../../}}  
@@ -14,7 +18,8 @@
 
 \newcommand{\expcode}{\textsf{expCode} }  
 
-  
+\lstset{aboveskip=1pt,belowskip=1pt, basicstyle=\small} % \medskipamount
+
 \begin{document} 
   
 \maketitle 
@@ -95,21 +100,65 @@ Quickly put, the scientific method can be divided into several steps that each m
 
 \expcode is designed to provide you with as stream lined set of tools to efficiently build the computational environment you need in order to gain knowledge about a research statement.
 
-For the sake of simplicity, we will now consider a trivial research statement. We want to gain knowledge about the surface area and the volume of a few geometrical shapes. %
+For the sake of simplicity, we will now consider a trivial research statement. We want to gain knowledge about the base area and the volume of a few 3 dimensional geometrical shapes. %
 
-First, we assume that the \expcode framework is in your path, if not, please type the following in your command window: \\ \mcode{addpath(genpath('pathToExpCode'));};
+First, we assume that the \expcode framework is in your path, if not, please type the following in your command window: \\ \mcode{addpath(genpath('<pathToExpCode>'));};
 
-\subsection{Create experiment}
+\subsection{Create project}
 
-Let us call the experiment \textsl{geometricShape}.
+Let us call create the project \textsl{geometricShape}:
+\mcode{expCreate('geometricShape');}
+The command ends by moving into the experiment directory.
 
 \subsection{Define steps}
 
-Alternatively, the previous command can operated at once using: \\
-\mcode{}
+The processing steps can be now be instantiated:
+
+\mcode{geometricShape('addStep', 'base');}
+
+\mcode{geometricShape('addStep', 'space');}
+
+\noindent
+Alternatively, the  3 previous commands can be operated at once: \\
+\mcode{expCreate('geometricShape', \{'base', 'space'\});}
 
 
 \subsection{Define factors}
+
+We are interested in the potential impact of the different attributes (shape, color, radius, width, height) of the geometric shape on its base area and volume. The shape can be a cylinder a pyramid or a cube:
+\begin{lstlisting}
+geometricShape('addFactor', {'shape', {'cylinder', 'pyramid', 'cube'}});
+\end{lstlisting}
+The shape can be blue or red:
+\begin{lstlisting}
+geometricShape('addFactor', {'color', {'blue', 'red'}});
+\end{lstlisting}
+The radius of the cylinder (modality 1 of factor 1) can be 2, 4, or 6 meters:
+\begin{lstlisting}
+geometricShape('addFactor', {'radius', '[2, 4, 6]', '', '1/1'});
+\end{lstlisting}
+The width of the pyramid and the cube (modalities 2 and 3 of factor 1) ranges from 1 to 3 meters:
+\begin{lstlisting}
+geometricShape('addFactor', {'width', '1:3', '', '1/[2 3]'});
+\end{lstlisting}
+The height of the shape is only relevant for processing step 2 and for the cylinder of the pyramid (modalities 2 and 3 of factor 1):
+\begin{lstlisting}
+geometricShape('addFactor', {'height', '2:2:6', '2', '1/[1 2]'});
+\end{lstlisting}
+
+
+Factors can be viewed by typing: \mcode{<experimentName>();}, thus \mcode{geometricShape();} now returns:
+\begin{lstlisting}
+Factors:
+1    shape =  =  = {'cylinder', 'pyramid', 'cube'}
+2    color =  =  = {'blue', 'red'}
+3    radius =  = 1/1 = [2, 4, 6]
+4    width =  = 1/[2 3] = 1:3
+5    height = 2 = 1/[1 2] = 2:2:6
+\end{lstlisting}
+The factors can be edited in the file \\ \mcode{<shortExperimentName>Factors.txt}, that is \href{www.google.com}{\mcode{geshFactors.txt}}
+
+\subsection{Implement solution}
 
 \subsection{Define observations}
 

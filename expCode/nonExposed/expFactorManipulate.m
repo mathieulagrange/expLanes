@@ -1,9 +1,18 @@
-function config = expFactorManipulate(config, name, modalities, defaultModality, steps, selector, rank)
+function config = expFactorManipulate(config, name, modalities, steps, selector, defaultModality, rank)
 
 if ~exist('defaultModality', 'var'), defaultModality=0; end
 if ~exist('steps', 'var'), steps=''; end
 if ~exist('selector', 'var'), selector=''; end
 if ~exist('rank', 'var'), rank=0; end
+
+
+if iscell(modalities)
+    m = '{';
+    for k=1:length(modalities)
+        m = [m '''' modalities{k} ''', '];
+    end
+    modalities = [m(1:end-2) '}'];
+end
 
 
 % read Factor file
@@ -30,7 +39,7 @@ for k=1:length(lines)+1
 end
 fclose(fid);
 
-factors = expFactorParse(config.factorFileName);
+factors = expFactorParse(config, config.factorFileName);
 
 if defaultModality
     dataType = {'data', 'obs'};

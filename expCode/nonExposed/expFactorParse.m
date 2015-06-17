@@ -1,4 +1,4 @@
-function [settingSpec] = expFactorParse(fileName)
+function [settingSpec] = expFactorParse(config, fileName)
 
 settingSpec = [];
 if ~exist(fileName, 'file'), error(['Unable to open ' fileName]); end
@@ -11,7 +11,9 @@ select=C{3};
 values=C{4};
 
 if isempty(C{1})
-    fprintf(2, 'Factor file empty, please add factor using the ''addFactor'' command.\n');
+    if isempty(config.addFactor)
+        fprintf(2, 'Factor file empty, please add factor using the ''addFactor'' command.\n');
+    end
     return;
 end
 
