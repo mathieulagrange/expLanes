@@ -1,0 +1,16 @@
+geometricShape('addStep', 'base');
+geometricShape('addStep', 'space');
+geometricShape('addFactor', 'shape', {'cylinder', 'pyramid', 'cube'});
+geometricShape('addFactor', {'shape', {'cylinder', 'pyramid', 'cube'}});
+geometricShape('addFactor', {'color', {'blue', 'red'}});
+geometricShape('addFactor', {'radius', '', '', '1/1'});
+geometricShape('addFactor', {'radius', '[2, 4, 6]', '', '1/1'});
+geometricShape('do', 1);
+geometricShape('addFactor', {'width', '[2, 4, 6]', '', '1/[2 3]'});
+geometricShape('addFactor', {'width', '1:3', '', '1/[2 3]'});
+geometricShape('addFactor', {'height', '1:3', '2:', '1/[1 2]'});
+geometricShape('do', 1)
+geometricShape('addFactor', {'height', '2:2:6', '2:', '1/[1 2]'});
+geometricShape('do', 0)
+geometricShape('do', 0);
+geometricShape('do', 0, 'report', 'r');
