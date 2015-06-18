@@ -40,7 +40,6 @@ switch p.put
         if p.visible
             p.report=0;
             config = expDisplay(config, p);
-            if numeric, dataCell = expSortData(dataCell, p, data.factorSelector, config, data); end
             if lower(p.total)=='v'
                 el = cell(1, length(p.columnNames));
                 [el{:}] = deal('');

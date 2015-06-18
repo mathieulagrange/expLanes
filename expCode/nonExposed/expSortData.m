@@ -66,7 +66,7 @@ if ~isempty(factorSelector)
             flip=1;
         end
         if flip
-            ind = flipud(ind')';
+            ind = flipud(ind);
         end
         if lower(p.total) == 'v'
             ind = [ind; size(data, 1)];

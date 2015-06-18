@@ -2,109 +2,109 @@ function config = expExpose(varargin)
 % expExpose display observations
 %	config = expExpose(varargin)
 %	- varargin: sequence of ('parameter', value) pairs where the parameter is of
-%		'addSpecification': add display specification to plot directive
-%			as ('parameter' / value) pairs
+%    'addSpecification': add display specification to plot directive
+%    	as ('parameter' / value) pairs
 %           value can be a cell array, in this case the cell array is split
 %           across plot items
-%		'addSettingSpecification': add display specification to plot
+%    'addSettingSpecification': add display specification to plot
 %           directive relative to specific settings as ('parameter' / value) pairs
 %           value have to be a cell array which is split
 %           across plot items aka the settings
-%		'caption': caption of display as string
-%			symbol + gets replaced by a description of the settings
-%       'color': color of line
+%    'caption': caption of display as string
+%    	symbol + gets replaced by a description of the settings
+%    'color': color of line
 %           1: default set of colors
 %           0: black
 %           {'r', ...}: user defined set of colors
-%       'compactLabels': shorten labels by removing common substrings
+%    'compactLabels': shorten labels by removing common substrings
 %           (default 0)
-%       'data': specify data to be stored (default empty)
-%		'expand': name or index of the factor to expand
-%		'fontSize': set the font size of LaTEX tables (default 'normal')
-%		'highlight': highlight settings that are not significantly
-%			different from the best performing setting
-%			selector is the same as 'variance'
-%       'highlightStyle': type of highlighting
-%           'best': highlight best and equivalents (default)
-%           'Best': highlight only the best
-%           'better': highlight only the best if significantly better than
+%    'data': specify data to be stored (default empty)
+%    'expand': name or index of the factor to expand
+%    'fontSize': set the font size of LaTEX tables (default 'normal')
+%    'highlight': highlight settings that are not significantly
+%    	different from the best performing setting
+%    	selector is the same as 'variance'
+%    'highlightStyle': type of highlighting
+%        'best': highlight best and equivalents (default)
+%        'Best': highlight only the best
+%        'better': highlight only the best if significantly better than
 %           the others
-%           'Better': highlight only the best if significantly better than
+%        'Better': highlight only the best if significantly better than
 %           the others and show only this one
-%       'highlightColor': use color to show highlights (default 1), -1 do
+%    'highlightColor': use color to show highlights (default 1), -1 do
 %       not use *
-%		'integrate': factor(s) to integrate
-%		'label': label of display as string (equal to the name if left empty)
-%		'legendLocation': location of the legend (default 'BestOutSide')
-%       'marker': specification of markers for line plot
+%    'integrate': factor(s) to integrate
+%    'label': label of display as string (equal to the name if left empty)
+%    'legendLocation': location of the legend (default 'BestOutSide')
+%    'marker': specification of markers for line plot
 %           1: (default)
 %           0: no markers
 %           {'', ...}: user defined cell aray of markers
-%		'mask': selection of the settings to be displayed
-%       'mergeDisplay': concatenate current display with the previous one
-%           '': no merge (default)
-%           'h': horizontal concatenation
-%           'v': vertical concatenation
-%		'multipage': activate the multipage to the LaTEX table
-%		'name': name of exported file as string
-%			symbol + gets replaced by a compact description of the settings
-%       'number': add a line number for each setting in tables
-%       'noFactor' : remove setting factors
-%       'noObservation': remove observations
-%		'obs': name(s) or index(es) of the observations to retain
-%		'orderFactor': numeric array ordering the factors
-%		'orderSetting': numeric array ordering the settings
-%		'orientation': display orientation
-%			'v': vertical (default)
-%			'h': horizontal
-%           'i': as second letter invert the table for prompt and latex
+%    'mask': selection of the settings to be displayed
+%    'mergeDisplay': concatenate current display with the previous one
+%        '': no merge (default)
+%        'h': horizontal concatenation
+%        'v': vertical concatenation
+%    'multipage': activate the multipage to the LaTEX table
+%    'name': name of exported file as string
+%    	symbol + gets replaced by a compact description of the settings
+%    'number': add a line number for each setting in tables
+%    'noFactor' : remove setting factors
+%    'noObservation': remove observations
+%    'obs': name(s) or index(es) of the observations to retain
+%    'orderFactor': numeric array ordering the factors
+%    'orderSetting': numeric array ordering the settings
+%    'orientation': display orientation
+%    	'v': vertical (default)
+%    	'h': horizontal
+%       'i': as second letter invert the table for prompt and latex
 %           display
-%		'percent': display observations in percent
-%			selector is the same as 'variance'
-%       'plotCommand': set of command executed after the plotting
+%    'percent': display observations in percent
+%    	selector is the same as 'variance'
+%    'plotCommand': set of command executed after the plotting
 %       directives as a cell array of commands
-%       'plotProperties': set of command executed after the plotting
+%    'plotProperties': set of command executed after the plotting
 %       directives as a cell array of couple property / value
-%		'precision': mantissa precision of data
+%    'precision': mantissa precision of data
 %           -1: take value of config field tableDigitPrecision (default)
 %           0: no mantissa
-%		'put': specify display output
-%			0: ouput to command prompt
-%			1: output to figure
-%			2: output to LaTEX
-%		'report': generate report
-%			<=-3: no report
-%			-2: verbose tex report
-%			-1: generation of tex report
-%			0; generate outputs
-%			1: generate outputs and generation of tex report
-%			2: display figures and verbose tex report
+%    'put': specify display output
+%    	0: ouput to command prompt
+%    	1: output to figure
+%    	2: output to LaTEX
+%    'report': generate report
+%    	<=-3: no report
+%    	-2: verbose tex report
+%    	-1: generation of tex report
+%    	0; generate outputs
+%    	1: generate outputs and generation of tex report
+%    	2: display figures and verbose tex report
 %       'rotateAxis': rotate X axis labels (in degrees)
-%		'show': display
-%           'data': actual observations (default)
-%           'rank': ranking among settings
-%           'best': select best approaches
-%           'Best': select the significantly best approach (if any)
-%		'save': save the display
-%			0: no saving
-%			1: save to a file with the masked settings description as name
-%			'name': save to a file with 'name' as name
-%		'shortObservations': compact observation names
-%		'shortFactors': compact factor names
-%		'showMissingSetting': show missing settings (default 0)
-%		'sort': sort settings acording to the specified observation if
-%           positive or to the specified factor if negative
-%		'step': name or index of the processing step
-%		'title': title of display as string
-%			symbol + gets replaced by a description of the settings
-%		'total': display average  or summed values for observations
-%           'v', 'V': vertical with / without settings
-%           'h', 'H': horizontal with / without settings
-%		'variance': display variance
-%			-1: no variance
-%			0: variance for all observations
-%			[1, 3]: variance for the first and third observations
-%       'visible': show the figure (default except when in save mode)
+%    'show': display
+%        'data': actual observations (default)
+%        'rank': ranking among settings
+%        'best': select best approaches
+%        'Best': select the significantly best approach (if any)
+%    'save': save the display
+%    	0: no saving
+%    	1: save to a file with the masked settings description as name
+%    	'name': save to a file with 'name' as name
+%    'shortObservations': compact observation names
+%    'shortFactors': compact factor names
+%    'showMissingSetting': show missing settings (default 0)
+%    'sort': sort settings acording to the specified observation if
+%        positive or to the specified factor if negative
+%    'step': name or index of the processing step
+%    'title': title of display as string
+%    	symbol + gets replaced by a description of the settings
+%    'total': display average  or summed values for observations
+%        'v', 'V': vertical with / without settings
+%        'h', 'H': horizontal with / without settings
+%    'variance': display variance
+%    	-1: no variance
+%    	0: variance for all observations
+%    	[1, 3]: variance for the first and third observations
+%    'visible': show the figure (default except when in save mode)
 %	-- config: expCode configuration
 
 %	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
