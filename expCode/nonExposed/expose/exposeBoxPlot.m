@@ -1,7 +1,7 @@
 function config = exposeBoxPlot(config, data, p)
 
 config = expDisplay(config, p);
-if length(p.observation)>1
+if length(p.obs)>1
     error('Please select one observation');
 end
 if strcmpi(p.orientation(1), 'h')

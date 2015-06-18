@@ -54,6 +54,8 @@ function config = expConfig(experimentPath, experimentName, shortExperimentName,
 
 % TODO method for changing naming convention
 
+% TODO sorting for all exposition
+
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})

@@ -171,27 +171,55 @@ The second step build on the result of the first processing step to compute the 
 
 \subsection{Define observations}
 
-Observations for the 2 processing steps are the following:
-
+Observations for the 2 processing steps are the following. First step:
 \lstinputlisting[firstline=24, lastline=24]{../demonstrations/geometricShape/gesh1base.m}
-
-\lstinputlisting[firstline=25, lastline=25]{../demonstrations/geometricShape/gesh2space.m}
-
-The command \mcode{geometricShape('f')} generates a diagram view of the experiment shown on Figure \ref{fig:diagram}.
+Second step:
+\lstinputlisting[firstline=25, lastline=26]{../demonstrations/geometricShape/gesh2space.m}
 
 \begin{marginfigure}
-\includegraphics[width=\textwidth]{../demonstrations/geometricShape/report/figures/factors}
-\caption{Experiment diagram.}
-\label{fig:diagram}
+\includegraphics[width=1.2\textwidth]{../demonstrations/geometricShape/report/figures/factors}
 \end{marginfigure}
 
-\subsection{Select settings}
+The command \mcode{geometricShape('f')} generates a diagram view of the experiment.
 
 \subsection{Process}
 
+\begin{lstlisting}
+geometricShape('do', 1);
+\end{lstlisting}
+run the base step over all 18 settings.
+\begin{lstlisting}
+geometricShape('do', 0, 'mask', {[1 2] 0 1});
+\end{lstlisting}
+runs successively every steps over the cylinders of radius 2  and all the pyramids.
+
 \subsection{Expose observations}
 
+Upon completion of the processing, the results of the last processing are displaying in the command window:
+
+This display can be achieved by issuing the following command:
+\begin{lstlisting}
+geometricShape('display', 2, 'expose', '>', 'mask', {[1 2] 0 1});
+\end{lstlisting}
+The exposition of relevant observations is important for efficient computational experimentation. \expcode provides many tools for this purpose, type \mcode{help expExpose} for quick reference. 
+
+
+The command:
+\begin{lstlisting}
+geometricShape('display', 2, 'mask', {1 0 1},...
+ 'expose', {'t', 'obs', 3, 'sort', 1});
+\end{lstlisting}
+\begin{marginfigure}
+\includegraphics[trim={0 6cm 0 0},clip,width=1.2\textwidth]{../demonstrations/geometricShape/report/figures/mtable}
+\end{marginfigure}
+displays the volume (observation 3) of the step volume (2) for each cylinder of radius 2 sorted according to the first on a table (t). Red color indicates best performance, and blue ones, performances which are statistically equivalent to the best one. 
+\marginnote{For this example, even if the blue cylinder is bigger than the blue one due to the uncertainty in the estimation of $\pi$, this difference is not significant, so the blue and red cylinders shall be considered of equivalent volume.}
+
 \subsection{Report}
+
+The file \mcode{<shortExperimentName>Report.m}, that is \mcode{geshReport.m} in this example allows you to generate report that compile several expositions of observations.
+
+Several report can be handled for the same experiment, and if the name of the report contain the key \mcode{'Slides'}, a slide presentation layout is used.
 
 
 \section{Architecture of an experiment}

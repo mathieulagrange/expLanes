@@ -9,7 +9,7 @@ if  length(p.legendNames)>1
         end
     end
 else
-    xlabel(p.legendNames);
+%     xlabel(p.legendNames);
 end
 
 if strcmpi(p.orientation(1), 'h')
@@ -29,4 +29,4 @@ else
 end
 set(gca, 'fontsize', config.displayFontSize);
 % title(p.title);
-axis tight
+% axis tight

@@ -22,4 +22,5 @@ switch setting.shape
         volume = data.baseArea*setting.height/3;
 end
 
+obs.baseArea = data.baseArea;
 obs.volume = volume;
