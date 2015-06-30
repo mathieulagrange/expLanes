@@ -34,3 +34,6 @@ geometricShape('display', 2, 'mask', {1 0 1}, 'expose', {'t', 'obs', 3, 'varianc
 geometricShape('display', 2, 'mask', {1 0 1}, 'expose', {'t', 'obs', 3, 'variance', -1, 'sort', 1});
 geometricShape('display', 2, 'mask', {1 0 1}, 'expose', {'t', 'obs', 3, 'sort', 1});
 geometricShape('display', 2, 'mask', {1 0 1}, 'expose', {'t', 'obs', 3, 'sort', 1, 'save', 'mtable'});
+geometricShape('do', 0, 'report', 'rc')
+geometricShape('myEntry', 'toto')
+geometricShape('myEntry', 'toto');
