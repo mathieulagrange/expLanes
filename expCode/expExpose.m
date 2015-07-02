@@ -79,7 +79,7 @@ function config = expExpose(varargin)
 %    	0; generate outputs
 %    	1: generate outputs and generation of tex report
 %    	2: display figures and verbose tex report
-%       'rotateAxis': rotate X axis labels (in degrees)
+%    'rotateAxis': rotate X axis labels (in degrees)
 %    'show': display
 %        'data': actual observations (default)
 %        'rank': ranking among settings
@@ -646,18 +646,20 @@ if p.save ~= 0
     else
         name = strrep(p.name, ' ', '_');
     end
-    if p.put == 1
-        expSaveFig(strrep([config.reportPath 'figures/' name], ' ', '_'), gcf);
-    end
-    if p.put ==  2 || strcmp(exposeType, 'exposeTable')
-        expSaveTable([config.reportPath 'tables/' name '.tex'], config.displayData.table(end));
-    end
     if ~exist('data', 'var')
         data = p.data;
     else
         data.pData = p.data;
     end
-    save([config.reportPath 'data/' name '.mat'], 'data');
+    if p.put == 1
+        expSaveFig(strrep([config.reportPath 'figures/' name], ' ', '_'), gcf);
+        save([config.reportPath 'figures/' name '.mat'], 'data');
+    end
+    if p.put ==  2 || strcmp(exposeType, 'exposeTable')
+        expSaveTable([config.reportPath 'tables/' name '.tex'], config.displayData.table(end));
+        save([config.reportPath 'tables/' name '.mat'], 'data');
+    end
+    
 end
 
 displayData = config.displayData;
