@@ -58,6 +58,9 @@ function config = expConfig(experimentPath, experimentName, shortExperimentName,
 
 % FIXME check if codePath is wrong
 
+% FIXME matlab table do not show up when in save mode
+
+
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})

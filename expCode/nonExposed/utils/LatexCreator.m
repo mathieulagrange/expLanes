@@ -758,7 +758,8 @@ CONSTRUCTOR(varargin{:});
         
         % Table Header
         Data.tex=[];
-        % sldie header
+        if ~isempty(caption)
+        % slide header
         if  strcmp(Data.style, 'beamer')
             Data.tex{end+1}=['\begin{frame}\frametitle{' caption '}'];
         end
@@ -772,7 +773,8 @@ CONSTRUCTOR(varargin{:});
         end
         Data.tex{end+1}='\begin{center}';
         Data.tex{end+1}=['\' fontSize];
-       Data.tex{end+1}=' \setlength{\tabcolsep}{.16667em}';      
+       Data.tex{end+1}=' \setlength{\tabcolsep}{.16667em}'; 
+        end
         tmp_line='\begin{tabular}{';
         
         for pos_c =1 : nb_colone,
@@ -823,6 +825,8 @@ CONSTRUCTOR(varargin{:});
         end
         
         Data.tex{end+1}='\end{tabular}';
+        if ~isempty(caption)
+        
         Data.tex{end+1}='\end{center}';
         if ~ strcmp(Data.style, 'beamer')
             Data.tex{end+1}=['\caption{' caption '}' ];
@@ -837,7 +841,7 @@ CONSTRUCTOR(varargin{:});
         
         Data.tex{end+1}='';
         if  strcmp(Data.style, 'beamer'), Data.tex{end+1}='\end{frame} '; end
-        
+        end
         writeLatexFile();
         
         

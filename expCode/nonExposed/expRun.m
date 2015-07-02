@@ -25,7 +25,7 @@ if ~exist(config.reportPath, 'dir'), mkdir(config.reportPath); end
 if ~exist([config.reportPath 'figures'], 'dir'), mkdir([config.reportPath 'figures']); end
 if ~exist([config.reportPath 'tables'], 'dir'), mkdir([config.reportPath 'tables']); end
 if ~exist([config.reportPath 'tex'], 'dir'), mkdir([config.reportPath 'tex']); end
-if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']); end
+% if ~exist([config.reportPath 'data'], 'dir'), mkdir([config.reportPath 'data']); end
 if ~exist([config.reportPath 'reports'], 'dir'), mkdir([config.reportPath 'reports']); end
 
 % if ~exist([config.reportPath 'logs'], 'dir')

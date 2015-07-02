@@ -9,7 +9,7 @@ completeName  = Mathieu Lagrange
 %% HOSTNAMES AND PATHS
 
 % names of the machines
-machineNames  = {{ 'pc-lagrange', 'dodo', 'toto'}, {'pc-adtsi-sunda.irccyn.ec-nantes.fr', 'pc-adtsi-optimed.irccyn.ec-nantes.fr'}}
+machineNames  = {{ 'pc-lagrange', 'dodo', 'toto', 'yoyo'}, {'pc-adtsi-sunda.irccyn.ec-nantes.fr', 'pc-adtsi-optimed.irccyn.ec-nantes.fr'}}
 % path to input data
 inputPath  = ~/data/databases
 % path to the code repository of the experiment
