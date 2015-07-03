@@ -185,7 +185,7 @@ if p.precision==-1
     p.precision = config.tableDigitPrecision;
 end
 
-if any(p.save ~= 0) && p.visible ~= 1
+if any(p.save ~= 0) && p.visible ~= 1 &&  ~strcmp(exposeType, 't')
     p.visible = 0;
 elseif p.visible == -1
     p.visible = 1;

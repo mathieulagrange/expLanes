@@ -44,8 +44,6 @@ function config = expConfig(experimentPath, experimentName, shortExperimentName,
 % TODO composition of expCode experiments using the same initial steps using
 % cell array of input paths
 
-% FIXME average duration wrong with multiple steps
-
 % TODO integration of git ?
 
 % TODO put on github
@@ -56,10 +54,7 @@ function config = expConfig(experimentPath, experimentName, shortExperimentName,
 
 % TODO sorting for all exposition
 
-% FIXME check if codePath is wrong
-
-% FIXME matlab table do not show up when in save mode
-
+% TODO Octave ?
 
 expCodePath = fileparts(fileparts(mfilename('fullpath')));
 
@@ -222,6 +217,10 @@ end
 
 if ~isempty(experimentPath)
     config.experimentPath = experimentPath;
+end
+
+if ~strcmp(config.experimentPath, fileparts(which(config.experimentName)))
+    fprintf(2, 'The codePath in your configuration file may be wrong.');
 end
 
 config = expandPath(config, config.experimentPath);

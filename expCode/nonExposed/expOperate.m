@@ -94,7 +94,7 @@ if all(config.do>0) && ~isempty(config.factors)
     end
 end
 
-config.runDuration=ceil(toc/60);
+config.runDuration=toc/60;
 
 function [config, settingStatus] = expProcessOne(config, sequence)
 

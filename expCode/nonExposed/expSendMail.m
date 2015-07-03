@@ -72,7 +72,7 @@ else
             config.mailAttachment{end+1} = config.errorDataFileName{k};
         end
     end
-    if atEnd && strfind(config.report, 'c')
+    if atEnd && ~isempty(strfind(config.report, 'c'))
         config = expTex(config, config.report);
         config.mailAttachment = [{config.pdfFileName} config.mailAttachment];
     end
