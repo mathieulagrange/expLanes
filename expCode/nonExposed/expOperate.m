@@ -42,7 +42,7 @@ if all(config.do>0) && ~isempty(config.factors)
                 (max(config.parallel)==1 && matlabpool('size') ~= feature('numCores'))
             matlabpool('close');
         end
-        if matlabpool('size') == 0 
+        if matlabpool('size') == 0
             if any(config.parallel>1)
                 matlabpool('open', 'local', max(config.parallel));
             elseif matlabpool('size') == 0
@@ -136,63 +136,65 @@ end
 
 function config = expProcessOneSub(config)
 
-
-
 functionName = [config.shortExperimentName num2str(config.step.id) config.stepName{config.step.id}];
 
 % if ~config.resume || ~exist(expSave(config, [], 'data'), 'file') || ~exist(expSave(config, [], 'obs'), 'file')
-    if config.resume
-        dataId = 0;
-        dataOutputFile = expSave(config, [], 'data');
-        if exist(dataOutputFile, 'file')
-            data = expLoad(config, dataOutputFile);
-             dataId = data.info.runId;
-        end
-        obsId=0;
-        obsOutputFile = expSave(config, [], 'obs');
-        if exist(obsOutputFile, 'file')
-            data = expLoad(config, obsOutputFile);
-            obsId = data.info.runId;
-        end
-        
-        if dataId>=config.resume && obsId>=config.resume
-            return;
-        end
+if config.resume
+    dataId = 0;
+    dataUser = config.userName;
+    dataOutputFile = expSave(config, [], 'data');
+    if exist(dataOutputFile, 'file')
+        data = expLoad(config, dataOutputFile);
+        dataId = data.info.runId;
+        dataUser = data.info.userName;
+    end
+    obsId=0;
+    obsUser = config.userName;
+    obsOutputFile = expSave(config, [], 'obs');
+    if exist(obsOutputFile, 'file')
+        data = expLoad(config, obsOutputFile);
+        obsId = data.info.runId;
+        obsUser = data.info.userName;
     end
     
-    loadedData = [];
-    if config.store > -1
-        if config.step.id>1
-            data = expLoad(config, [], [], 'data');
-            if ~isempty(data)
-                loadedData = data;
-            end
-        else
-            loadedData = config.initStore;
-        end
+    if strcmp(dataUser, config.userName) && strcmp(obsUser, config.userName) && dataId>=config.resume && obsId>=config.resume
+        return;
     end
-    if config.store < 1
-        data = expLoad(config, [], config.step.id, 'data');
+end
+
+loadedData = [];
+if config.store > -1
+    if config.step.id>1
+        data = expLoad(config, [], [], 'data');
         if ~isempty(data)
-            loadedData.store = data;
+            loadedData = data;
         end
+    else
+        loadedData = config.initStore;
     end
-    
-    ticId = tic;
-    
-    [config, storeData, storeObs] = feval(functionName, config, config.step.setting, loadedData);
-    
-    config = expProgress(config);
-    
-    if config.recordTiming && ~isfield(storeObs, 'time')
-        storeObs.time = toc(ticId);
+end
+if config.store < 1
+    data = expLoad(config, [], config.step.id, 'data');
+    if ~isempty(data)
+        loadedData.store = data;
     end
-    
-    if ~isempty(storeData)
-        expSave(config, storeData, 'data');
-    end
-    if ~isempty(storeObs)
-        expSave(config, storeObs, 'obs');
-    end
+end
+
+ticId = tic;
+
+[config, storeData, storeObs] = feval(functionName, config, config.step.setting, loadedData);
+
+config = expProgress(config);
+
+if config.recordTiming && ~isfield(storeObs, 'time')
+    storeObs.time = toc(ticId);
+end
+
+if ~isempty(storeData)
+    expSave(config, storeData, 'data');
+end
+if ~isempty(storeObs)
+    expSave(config, storeObs, 'obs');
+end
 % end
 

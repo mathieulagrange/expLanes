@@ -48,8 +48,6 @@ function config = expConfig(experimentPath, experimentName, shortExperimentName,
 
 % TODO put on github
 
-% TODO mat config file per user
-
 % TODO method for changing naming convention
 
 % TODO sorting for all exposition
@@ -75,7 +73,7 @@ else
 end
 
 
-config.staticDataFileName = [experimentPath '/config' '/' shortExperimentName];
+config.staticDataFileName = [experimentPath '/config' '/' shortExperimentName '_' config.userName];
 if ~exist([config.staticDataFileName '.mat'], 'file')
     runId=1; %#ok<NASGU>
     save(config.staticDataFileName, 'runId');

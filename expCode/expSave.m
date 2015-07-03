@@ -45,6 +45,7 @@ if exist('data', 'var') && ~isempty(data)
     data.info.runId = config.runId; %#ok<NASGU> 
     data.info.setting = config.step.setting; %#ok<NASGU>
     data.info.stepName = stepName;
+    data.info.userName = config.userName;
     save([path name  extension ], 'data', ['-v' num2str(config.encodingVersion)]);
 end
 
