@@ -8,10 +8,10 @@ function config = geshReport(config)
 
 if nargin==0, geometricShape('report', 'r', 'reportName', 'mathieu'); return; end
 
-config = expExpose(config, 't', 'obs', 3, 'mask',  {1 0 1}, 'sort', 1, 'save', 'toto');
+config = expExpose(config, 't', 'obs', 3, 'mask',  {1 0 1}, 'sort', 1, 'save', 'mtable');
 
 exposeType = {'l', 'b', 'x'};
 for k=1:length(exposeType)
     config = expExpose(config, exposeType{k}, 'obs', 3, ...
-        'mask',  {1 0 1}, 'save', ['toto' exposeType{k}]);
+        'mask',  {1 0 1}, 'save', ['geo' exposeType{k}]);
 end

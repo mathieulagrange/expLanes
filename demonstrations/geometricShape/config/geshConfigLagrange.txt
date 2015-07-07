@@ -13,7 +13,7 @@ machineNames  = {{ 'pc-lagrange', 'dodo', 'toto', 'yoyo'}, {'pc-adtsi-sunda.ircc
 % path to input data
 inputPath  = ~/data/databases
 % path to the code repository of the experiment
-codePath  = /home/lagrange/bb/houle/dev/tools/expCode/demonstrations/geometricShape
+codePath  = /home/lagrange/gh/expCode/demonstrations/geometricShape
 % path to the data repository of the experiment for stored data
 dataPath  = ~/data/experiments/geometricShape
 % path to the data repository of the experiment for observation data (same as dataPath if left blank)

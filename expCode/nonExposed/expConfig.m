@@ -218,7 +218,7 @@ if ~isempty(experimentPath)
 end
 
 if ~strcmp(config.experimentPath, fileparts(which(config.experimentName)))
-    fprintf(2, 'The codePath in your configuration file may be wrong.');
+    fprintf(2, 'The codePath in your configuration file may be wrong.\n');
 end
 
 config = expandPath(config, config.experimentPath);
