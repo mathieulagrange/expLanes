@@ -38,13 +38,13 @@ if all(config.do>0) && ~isempty(config.factors)
     if sum(abs(config.parallel))
         distcomp.feature('LocalUseMpiexec',false); % handling MPI bug in 2012b
         if matlabpool('size') && ...
-                (max(config.parallel)>1 && matlabpool('size') ~= max(config.parallel)) || ...
-                (max(config.parallel)==1 && matlabpool('size') ~= feature('numCores'))
+                ((max(config.parallel)>1 && matlabpool('size') ~= max(config.parallel)) || ...
+                (max(config.parallel)==1 && matlabpool('size') ~= feature('numCores')))
             matlabpool('close');
         end
         if matlabpool('size') == 0
-            if any(config.parallel>1)
-                matlabpool('open', 'local', max(config.parallel));
+            if any(abs(config.parallel)>1)
+                matlabpool('open', 'local', max(abs(config.parallel)));
             elseif matlabpool('size') == 0
                 matlabpool('open', 'local');
             end
