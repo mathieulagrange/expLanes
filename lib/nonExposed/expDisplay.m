@@ -28,11 +28,17 @@ switch p.put
         end
         
         if p.visible
-            h= figure();
-            config.displayData.figure(end+1).handle = h.Number;
+            h = figure();
+            if ~isnumeric(h)
+               h=h.Number; 
+            end
+            config.displayData.figure(end+1).handle = h;
         else
-            h = figure('Visible', 'off');
-            config.displayData.figure(end+1).handle = h.Number;
+            h = figure('Visible', 'off');            
+            if ~isnumeric(h)
+               h=h.Number; 
+            end
+            config.displayData.figure(end+1).handle = h;
         end
         config.displayData.figure(end).taken = 1;
         config.displayData.figure(end).caption = p.caption;

@@ -13,7 +13,7 @@ machineNames  = {{ 'pc-lagrange', 'dodo', 'toto', 'yoyo'}, {'pc-adtsi-sunda.ircc
 % path to input data
 inputPath  = ~/data/databases
 % path to the code repository of the experiment
-codePath  = /home/lagrange/gh/expLord/demonstrations/geometricShape
+codePath  = ~/tools/expLord/demonstrations/geometricShape
 % path to the data repository of the experiment for stored data
 dataPath  = ~/data/experiments/geometricShape
 % path to the data repository of the experiment for observation data (same as dataPath if left blank)
@@ -30,7 +30,7 @@ toolPath  = {{'/usr/bin', 'C:/cygwin/bin'}}
 %% CODE
 
 % code dependencies to load and export
-dependencies  = {'~/bb/houle/dev/tools/expLord/expLord'}
+dependencies  = {'~/tools/expLord/lib'}
 % dependencies (including expLord) can be part of the experiment: 0 do not use local versions, 1 use local versions, 2 update local versions
 localDependencies  = 0
 % version tag

@@ -15,4 +15,5 @@ set(h,'PaperPosition',[0 0 Lx Ly]);
 
 print(h, '-dpdf', [fileName '.pdf']);
 print(h, '-dpng', [fileName '.png']);
+print(h, '-deps', [fileName '.eps']);
 hgsave(h, [fileName '.fig']);
