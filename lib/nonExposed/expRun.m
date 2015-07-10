@@ -18,7 +18,7 @@ elseif~expCheckMask(config.factors, config.mask)
 end
 
 if config.generateRootFile
-    expCreateRootFile(config, experimentName, shortExperimentName, config.expCodePath);
+    expCreateRootFile(config, experimentName, shortExperimentName, config.expLordPath);
 end
 
 if ~exist(config.reportPath, 'dir'), mkdir(config.reportPath); end
@@ -59,8 +59,8 @@ if config.clean ~= 0
         if length(config.clean) == 1
             switch config.clean
                 case 't'
-                    dirPath = [config.homePath '.expCode/tmp'];
-                    info = 'expCode temporary data directory';
+                    dirPath = [config.homePath '.expLord/tmp'];
+                    info = 'expLord temporary data directory';
                 case 'b'
                     dirPath = config.backupPath;
                     info = 'experiment backup directory';

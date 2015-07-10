@@ -1,20 +1,20 @@
-function configFileName = getUserFileName(shortExperimentName, experimentName, experimentPath, expCodePath)
+function configFileName = getUserFileName(shortExperimentName, experimentName, experimentPath, expLordPath)
 
 % shortExperimentName = names2shortNames(experimentName);
 % shortExperimentName = shortExperimentName{1};
 
-if ~exist('expCodePath', 'var'), expCodePath = []; end
+if ~exist('expLordPath', 'var'), expLordPath = []; end
 
 userName = getUserName();
 
 configFileName = [experimentPath '/config' filesep shortExperimentName 'Config' [upper(userName(1)) userName(2:end)] '.txt'];
 
 if ~exist(configFileName, 'file')
-    if isempty(expCodePath)
+    if isempty(expLordPath)
         files = dir([experimentPath '/config/*Config*.txt']);
         defaultFileName = [experimentPath '/config/' files(1).name];
     else
-        defaultFileName = [expCodePath '/expCodeConfig.txt'];
+        defaultFileName = [expLordPath '/expLordConfig.txt'];
     end
     fprintf('Copying default config file for user %s from %s .\n', userName, defaultFileName);
     userDefaultConfigFileName = expUserDefaultConfig(defaultFileName);

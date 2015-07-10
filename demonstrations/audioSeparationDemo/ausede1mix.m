@@ -1,7 +1,7 @@
 function [config, store, obs] = ausede1mix(config, setting, data)
-% ausede1mix MIX step of the expCode project audioSeparationDemo
+% ausede1mix MIX step of the expLord project audioSeparationDemo
 %    [config, store, obs] = ausede1mix(config, setting, data)
-%       config : expCode configuration state
+%       config : expLord configuration state
 %       setting: current set of parameters
 %       data   : processing data stored during the previous step
 %

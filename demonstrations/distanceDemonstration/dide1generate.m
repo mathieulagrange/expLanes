@@ -1,7 +1,7 @@
 function [config, store, obs] = dide1generate(config, setting, data)      
-% dide1generate GENERATE step of the expCode project distanceDemonstration
+% dide1generate GENERATE step of the expLord project distanceDemonstration
 %    [config, store, obs] = dide1generate(config, setting, data)          
-%      - config : expCode configuration state                             
+%      - config : expLord configuration state                             
 %      - setting   : set of factors to be evaluated                       
 %      - data   : processing data stored during the previous step         
 %      -- store  : processing data to be saved for the other steps        

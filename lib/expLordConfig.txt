@@ -19,7 +19,7 @@ dataPath = ~/data/experiments/<experimentName>
 % path to the data repository of the experiment for observation data (same as dataPath if left blank)
 obsPath =  
 % path to backup of transfered data
-backupPath = /tmp/expCodeBackup/<experimentName>
+backupPath = /tmp/expLordBackup/<experimentName>
 % path to export bundles
 bundlePath = /tmp/<experimentName> 
 % path to matlab binary directory
@@ -31,7 +31,7 @@ toolPath =
 
 % code dependencies to load and export
 dependencies = {} 
-% dependencies (including expCode) can be part of the experiment: 0 do not use local versions, 1 use local versions, 2 update local versions
+% dependencies (including expLord) can be part of the experiment: 0 do not use local versions, 1 use local versions, 2 update local versions
 localDependencies = 0 
 % version tag
 codeVersion = 0.1

@@ -49,7 +49,7 @@ function config = expConfigParse(configFileName)
 config=[];
 configFile=fopen(configFileName);
 if configFile==-1,
-    fprintf(2,['Unable to load the expCode config file for your project named: ' configFileName '.']); return;
+    fprintf(2,['Unable to load the expLord config file for your project named: ' configFileName '.']); return;
 end
 
 configCell=textscan(configFile,'%s%s ', 'commentStyle', '%', 'delimiter', '=');
@@ -114,22 +114,22 @@ if config.localDependencies == 0 || config.localDependencies == 2
 end
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-function [userDefaultConfigFileName userDir] = expUserDefaultConfig(expCodePath)
+function [userDefaultConfigFileName userDir] = expUserDefaultConfig(expLordPath)
 
-if ~exist(expCodePath), return; end % FIXME
+if ~exist(expLordPath), return; end % FIXME
 
 if ispc, userDir= getenv('USERPROFILE');
 else userDir= getenv('HOME');
 end
 
-if ~exist([userDir filesep '.expCode'], 'dir')
-    mkdir([userDir filesep '.expCode']);
+if ~exist([userDir filesep '.expLord'], 'dir')
+    mkdir([userDir filesep '.expLord']);
 end
 
-userDefaultConfigFileName = [userDir filesep '.expCode' filesep getUserName() 'Config.txt'];
+userDefaultConfigFileName = [userDir filesep '.expLord' filesep getUserName() 'Config.txt'];
 if ~exist(userDefaultConfigFileName, 'file')
-    disp(['Creating default config in ' userDir filesep '.expCode' filesep]);
-    copyfile([expCodePath '/expCodeConfig.txt'], userDefaultConfigFileName);
+    disp(['Creating default config in ' userDir filesep '.expLord' filesep]);
+    copyfile([expLordPath '/expLordConfig.txt'], userDefaultConfigFileName);
 else
     expUpdateConfig(userDefaultConfigFileName);
 end

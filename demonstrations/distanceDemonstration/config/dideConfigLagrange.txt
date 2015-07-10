@@ -13,13 +13,13 @@ machineNames  = {{'lolo.local', 'mo-lagrange.irccyn.ec-nantes.fr', 'dodo'}, 'pc-
 % path to input data
 inputPath  = ~/data/databases
 % path to the code repository of the project
-codePath  = ~/bb/houle/dev/tools/expCode/demonstrations/distanceDemonstration
+codePath  = ~/bb/houle/dev/tools/expLord/demonstrations/distanceDemonstration
 % path to the data repository of the project for stored data
 dataPath  = ~/data/projects/distanceDemonstration
 % path to the data repository of the project for observation data (same as dataPath if left blank)
 obsPath  = 
 % path to backup of transfered data
-backupPath  = /tmp/expCodeBackup/distanceDemonstration
+backupPath  = /tmp/expLordBackup/distanceDemonstration
 % path to export bundles
 bundlePath  = /tmp/distanceDemonstration
 % path to matlab binary directory
@@ -30,8 +30,8 @@ toolPath  =
 %% CODE
 
 % code dependencies to load and export
-dependencies  = {'~/bb/houle/dev/tools/expCode/expCode'}
-% dependencies (including expCode) can be part of the project: 0 do not use local versions, 1 use local versions, 2 update local versions
+dependencies  = {'~/bb/houle/dev/tools/expLord/expLord'}
+% dependencies (including expLord) can be part of the project: 0 do not use local versions, 1 use local versions, 2 update local versions
 localDependencies  = 0
 % version tag
 codeVersion = 0.1

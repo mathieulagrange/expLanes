@@ -1,7 +1,7 @@
 function [config, store, obs] = dide2compute(config, setting, data)      
-% dide2compute COMPUTE step of the expCode project distanceDemonstration
+% dide2compute COMPUTE step of the expLord project distanceDemonstration
 %    [config, store, obs] = dide2compute(config, setting, data)          
-%      - config : expCode configuration state                             
+%      - config : expLord configuration state                             
 %      - setting   : set of factors to be evaluated                       
 %      - data   : processing data stored during the previous step         
 %      -- store  : processing data to be saved for the other steps        

@@ -7,7 +7,7 @@ if nargin<2,
     message = '';
 else
     if ~ischar(message)
-        if strcmp(message.message(1:7), 'expCode')
+        if strcmp(message.message(1:7), 'expLord')
                        stack = message.stack(2:end);
 %             message = ['catchedWarning \n Debug data may be available at: ', message.message(9:end) ' \n '];
         else

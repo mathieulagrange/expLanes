@@ -10,7 +10,7 @@
                                                            
                                                            
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%        Getting started with your experiment based on expCode         %
+%        Getting started with your experiment based on expLord         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % This is short introduction to describe the main component of your
@@ -32,6 +32,6 @@
 
 % The steps can be conviently managed with the Run function.
 
-% More information can be found in the documentation of expCode.
+% More information can be found in the documentation of expLord.
 
 

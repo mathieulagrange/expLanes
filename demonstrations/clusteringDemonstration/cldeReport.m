@@ -1,7 +1,7 @@
 function config = cldeReport(config)
-% cldeReport REPORTING of the expCode project clusteringDemo
+% cldeReport REPORTING of the expLord project clusteringDemo
 %    config = cldeReportReport(config)
-%       config : expCode configuration state
+%       config : expLord configuration state
 
 % Copyright lagrange
 % Date 22-Nov-2013  

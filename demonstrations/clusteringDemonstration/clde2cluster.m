@@ -1,7 +1,7 @@
 function [config, store, obs] = clde2cluster(config, setting, data)
-% clde2cluster CLUSTER step of the expCode project clusteringDemo
+% clde2cluster CLUSTER step of the expLord project clusteringDemo
 %    [config, store, obs] = clde2cluster(config, setting, data)
-%     - config : expCode configuration state
+%     - config : expLord configuration state
 %     - setting   : set of factors to be evaluated
 %     - data   : processing data stored during the previous step
 %     -- store  : processing data to be saved for the other steps

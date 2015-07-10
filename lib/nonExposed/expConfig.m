@@ -41,7 +41,7 @@ function config = expConfig(experimentPath, experimentName, shortExperimentName,
 
 % TODO do clean sync of code (with rm server side)
 
-% TODO composition of expCode experiments using the same initial steps using
+% TODO composition of expLord experiments using the same initial steps using
 % cell array of input paths
 
 % TODO integration of git ?
@@ -54,14 +54,14 @@ function config = expConfig(experimentPath, experimentName, shortExperimentName,
 
 % TODO Octave ?
 
-expCodePath = fileparts(fileparts(mfilename('fullpath')));
+expLordPath = fileparts(fileparts(mfilename('fullpath')));
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})
     config = commands{1};
     commands = commands(2:end);
 else
-    configFileName = getUserFileName(shortExperimentName, experimentName, experimentPath, expCodePath);
-    expUserDefaultConfig([expCodePath '/expCodeConfig.txt']);
+    configFileName = getUserFileName(shortExperimentName, experimentName, experimentPath, expLordPath);
+    expUserDefaultConfig([expLordPath '/expLordConfig.txt']);
     config = expUpdateConfig(configFileName);
     if isempty(config), return; end;
     
@@ -196,7 +196,7 @@ config.displayData.prompt = [];
 config.displayData.style = [];
 config.homePath = expandHomePath('~');
 
-config.tmpPath = [config.homePath '/.expCode/tmp/'];
+config.tmpPath = [config.homePath '/.expLord/tmp/'];
 if ~exist(config.tmpPath, 'dir')
     mkdir(config.tmpPath);
 end
@@ -260,7 +260,7 @@ config.loadFileInfo.dateNum = [Inf, 0];
 
 config.settingStatus.success = 0;
 config.settingStatus.failed = 0;
-config.expCodePath = expCodePath;
+config.expLordPath = expLordPath;
 config.runDuration = 0;
 
 if ~isempty(config.addFactor)

@@ -55,9 +55,9 @@ if  p.expand ~= 0
     observations = config.step.oriFactors.values{p.expand};
     fData = data;
     
-    observations = strrep(observations, '-', 'expCodeMinus');
+    observations = strrep(observations, '-', 'expLordMinus');
     observations = strrep(observations, ' ', '');
-    observations = strrep(observations, '.', 'expCodePoint');
+    observations = strrep(observations, '.', 'expLordPoint');
     met={};
     met2={};
     ind = [];

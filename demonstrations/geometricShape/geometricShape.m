@@ -15,23 +15,23 @@ expDependencies(config);
 config = expRun(p, experimentName, shortExperimentName, varargin);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
 end                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
-function configFileName = getUserFileName(shortExperimentName, experimentName, experimentPath, expCodePath)
+function configFileName = getUserFileName(shortExperimentName, experimentName, experimentPath, expLordPath)
 
 % shortExperimentName = names2shortNames(experimentName);
 % shortExperimentName = shortExperimentName{1};
 
-if ~exist('expCodePath', 'var'), expCodePath = []; end
+if ~exist('expLordPath', 'var'), expLordPath = []; end
 
 userName = getUserName();
 
 configFileName = [experimentPath '/config' filesep shortExperimentName 'Config' [upper(userName(1)) userName(2:end)] '.txt'];
 
 if ~exist(configFileName, 'file')
-    if isempty(expCodePath)
+    if isempty(expLordPath)
         files = dir([experimentPath '/config/*Config*.txt']);
         defaultFileName = [experimentPath '/config/' files(1).name];
     else
-        defaultFileName = [expCodePath '/expCodeConfig.txt'];
+        defaultFileName = [expLordPath '/expLordConfig.txt'];
     end
     fprintf('Copying default config file for user %s from %s .\n', userName, defaultFileName);
     userDefaultConfigFileName = expUserDefaultConfig(defaultFileName);
@@ -68,7 +68,7 @@ function config = expConfigParse(configFileName)
 config=[];
 configFile=fopen(configFileName);
 if configFile==-1,
-    fprintf(2,['Unable to load the expCode config file for your experiment named: ' configFileName '.']); return;
+    fprintf(2,['Unable to load the expLord config file for your experiment named: ' configFileName '.']); return;
 end
 
 configCell=textscan(configFile,'%s%s ', 'commentStyle', '%', 'delimiter', '=');
@@ -135,19 +135,19 @@ end
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 function [userDefaultConfigFileName, userDir] = expUserDefaultConfig(defaultFileName)
 
-% if ~exist(expCodePath, 'dir'), return; end % FIXME
+% if ~exist(expLordPath, 'dir'), return; end % FIXME
 
 if ispc, userDir= getenv('USERPROFILE');
 else userDir= getenv('HOME');
 end
 
-if ~exist([userDir filesep '.expCode'], 'dir')
-    mkdir([userDir filesep '.expCode']);
+if ~exist([userDir filesep '.expLord'], 'dir')
+    mkdir([userDir filesep '.expLord']);
 end
 
-userDefaultConfigFileName = [userDir filesep '.expCode' filesep getUserName() 'Config.txt'];
+userDefaultConfigFileName = [userDir filesep '.expLord' filesep getUserName() 'Config.txt'];
 if ~exist(userDefaultConfigFileName, 'file')
-    disp(['Creating default config in ' userDir filesep '.expCode' filesep]);
+    disp(['Creating default config in ' userDir filesep '.expLord' filesep]);
     copyfile(defaultFileName, userDefaultConfigFileName);
 else
     try

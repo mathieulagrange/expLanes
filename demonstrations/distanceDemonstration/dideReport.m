@@ -1,7 +1,7 @@
 function config = dideReport(config)
-% dideReport REPORTING of the expCode project distanceDemonstration
+% dideReport REPORTING of the expLord project distanceDemonstration
 %    config = dideInitReport(config)
-%       config : expCode configuration state
+%       config : expLord configuration state
 
 % Copyright: Mathieu Lagrange
 % Date: 03-Jul-2014

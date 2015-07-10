@@ -1,7 +1,7 @@
 function [config, store, obs] = gesh2space(config, setting, data)                    
-% gesh2space SPACE step of the expCode experiment geometricShape                     
+% gesh2space SPACE step of the expLord experiment geometricShape                     
 %    [config, store, obs] = gesh2space(config, setting, data)                        
-%      - config : expCode configuration state                                        
+%      - config : expLord configuration state                                        
 %      - setting   : set of factors to be evaluated                                  
 %      - data   : processing data stored during the previous step                    
 %      -- store  : processing data to be saved for the other steps                   

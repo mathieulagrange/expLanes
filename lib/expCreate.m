@@ -1,5 +1,5 @@
 function expCreate(experimentName, stepNames, codePath, dataPath)
-% expCreate create an expCode experiment
+% expCreate create an expLord experiment
 %	expCreate(experimentName, stepNames, codePath, dataPath)
 %	- experimentName: name of the experiment
 %	- stepNames: cell array of strings defining the names
@@ -8,16 +8,16 @@ function expCreate(experimentName, stepNames, codePath, dataPath)
 %	- dataPath: path for data storage
 %
 %	Default values and other settings can be set in your configuration file
-% 	located in your home in the .expCode directory. This file serves
-%	as the initial config file for your expCode experiments
+% 	located in your home in the .expLord directory. This file serves
+%	as the initial config file for your expLord experiments
 
 %	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
 %	See licence.txt for more information.
 
 % TODO remove expPath
 
-expCodePath = fileparts(mfilename('fullpath'));
-addpath(genpath(expCodePath));
+expLordPath = fileparts(mfilename('fullpath'));
+addpath(genpath(expLordPath));
 
 if ~exist('experimentName', 'var')
     experimentName = 'helloExperiment';
@@ -33,7 +33,7 @@ shortExperimentName = shortExperimentName{1};
 
 % load default config
 
-[userDefaultConfigFileName, userDir] = expUserDefaultConfig([expCodePath '/expCodeConfig.txt']);
+[userDefaultConfigFileName, userDir] = expUserDefaultConfig([expLordPath '/expLordConfig.txt']);
 if ~exist(userDefaultConfigFileName, 'file')
     error(['Unable to find ' userDefaultConfigFileName '\n']);
 end
@@ -91,12 +91,12 @@ if ~any(strcmp(config.codePath(1), {'~', '/', '\'}))
 end
 
 if isempty(config.dependencies)
-    config.dependencies = ['{''' expCodePath '''}'];
-elseif isempty(strfind(config.dependencies, 'expCode'))
+    config.dependencies = ['{''' expLordPath '''}'];
+elseif isempty(strfind(config.dependencies, 'expLord'))
     if strcmp(config.dependencies(1), '{')
-        config.dependencies = [config.dependencies(1:end-1) ' ''' expCodePath '''}'];
+        config.dependencies = [config.dependencies(1:end-1) ' ''' expLordPath '''}'];
     else
-        config.dependencies = ['{''' config.dependencies ''', ''' expCodePath '''}'];
+        config.dependencies = ['{''' config.dependencies ''', ''' expLordPath '''}'];
     end
 end
 
@@ -113,7 +113,7 @@ else
     fprintf('\n');
 end
 fprintf('Path to code %s\nData path: %s\nObservations path: %s\n', config.codePath, config.dataPath, config.obsPath);
-disp(['Note: you can set the default values to all configuration parameters in your config file: ' userDir '/' '.expCode' '/' 'defaultConfig.txt']);
+disp(['Note: you can set the default values to all configuration parameters in your config file: ' userDir '/' '.expLord' '/' 'defaultConfig.txt']);
 
 if ~inputQuestion(), fprintf(' Bailing out ...\n'); return; end
 
@@ -150,7 +150,7 @@ for k=1:length(configFields)
 end
 fclose(fid);
 
-expConfigMerge(configFileName, [expCodePath '/expCodeConfig.txt'], 2, 0);
+expConfigMerge(configFileName, [expLordPath '/expLordConfig.txt'], 2, 0);
 
 % create factors file
 factorFileName = [config.codePath '/' config.shortExperimentName 'Factors.txt'];
@@ -160,7 +160,7 @@ if fid == -1, error(['Unable to open ' factorFileName]); end
 fclose(fid);
 
 %create root file
-expCreateRootFile(config, experimentName, shortExperimentName, expCodePath);
+expCreateRootFile(config, experimentName, shortExperimentName, expLordPath);
 
 % create experiment functions
 % TODO add some comments
@@ -172,9 +172,9 @@ end
 functionName = [shortExperimentName 'Init'];
 functionString = char({...
     ['function [config, store] = ' shortExperimentName 'Init(config)'];
-    ['% ' shortExperimentName 'Init INITIALIZATION of the expCode experiment ' experimentName];
+    ['% ' shortExperimentName 'Init INITIALIZATION of the expLord experiment ' experimentName];
     ['%    [config, store] = ' functionName '(config)'];
-    '%      - config : expCode configuration state';
+    '%      - config : expLord configuration state';
     '%      -- store  : processing data to be saved for the other steps ';
     '';
     ['% Copyright: ' config.completeName];
@@ -186,9 +186,9 @@ dlmwrite([config.codePath '/' functionName '.m'], functionString,'delimiter','')
 
 functionString = char({...
     ['function config = ' shortExperimentName 'Report(config)'];
-    ['% ' shortExperimentName 'Report REPORTING of the expCode experiment ' experimentName];
+    ['% ' shortExperimentName 'Report REPORTING of the expLord experiment ' experimentName];
     ['%    config = ' functionName 'Report(config)'];
-    '%       config : expCode configuration state';
+    '%       config : expLord configuration state';
     '';
     ['% Copyright: ' config.completeName];
     ['% Date: ' date()];
@@ -203,7 +203,7 @@ dlmwrite([config.codePath '/' shortExperimentName 'Report.m'], functionString,'d
 readmeString = char({['% This is the README for the experiment ' config.experimentName]; ''; ['% Created on ' date() ' by ' config.userName]; ''; '% Purpose: '; ''; '% Reference: '; ''; '% Licence: '; ''; ''});
 dlmwrite([config.codePath '/README.txt'], readmeString, 'delimiter', '')
 % append remaining of the file
-dlmwrite([config.codePath '/README.txt'], fileread([expCodePath '/nonExposed/README.txt']), '-append', 'delimiter', '')
+dlmwrite([config.codePath '/README.txt'], fileread([expLordPath '/nonExposed/README.txt']), '-append', 'delimiter', '')
 
 runId=1; %#ok<NASGU>
 save([configPath config.shortExperimentName], 'runId');

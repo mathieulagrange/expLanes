@@ -2,13 +2,13 @@
 % Adapt at your convenience
 
 % path to backup of transfered data
-backupPath = /tmp/expCodeBackup/planDemo
+backupPath = /tmp/expLordBackup/planDemo
 % path to store code bundles
 bundlePath = /tmp/planDemo
 % path to the code repository of the project 
-codePath = /Users/lagrange/projects/houle/dev/tools/expCode/demonstrations/planDemo
+codePath = /Users/lagrange/projects/houle/dev/tools/expLord/demonstrations/planDemo
 %
-dataPath = /Users/lagrange/projects/houle/dev/tools/expCode/demonstrations/planDemo/data
+dataPath = /Users/lagrange/projects/houle/dev/tools/expLord/demonstrations/planDemo/data
 % path to static input data (read only access)
 inputPath = ~/data/databases
 % path to matlab
@@ -32,7 +32,7 @@ bundle = 0
 % clean mode
 clean = 0
 % dependencies to load and export
-dependencies = { '/Users/lagrange/projects/houle/dev/tools/expCode/expCode'}
+dependencies = { '/Users/lagrange/projects/houle/dev/tools/expLord/expLord'}
 % specify default display
 display = >
 % mantissa precision of value display
@@ -47,7 +47,7 @@ dummy = 0
 emailAddress = 
 % host index
 host = 0
-% dependencies (including expCode) can be part of the project: 0 do not use local versions, 1 use local versions, 2 update local versions
+% dependencies (including expLord) can be part of the project: 0 do not use local versions, 1 use local versions, 2 update local versions
 localDependencies = 0
 % log level (set to 0 for no log)
 log = 1

@@ -1,7 +1,7 @@
 function [config, store] = cldeInit(config)                      
-% cldeInit INITIALIZATION of the expCode project clusteringDemo  
+% cldeInit INITIALIZATION of the expLord project clusteringDemo  
 %    [config, store] = clde1clusterInit(config)                  
-%       config : expCode configuration state                     
+%       config : expLord configuration state                     
 %                                                                
 %       store  : processing data to be saved for the other steps 
                                                                  

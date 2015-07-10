@@ -1,7 +1,7 @@
 function [load, loadFileInfo, config] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
 % expLoad load data from the repository of the specified processing step
 %	[config data] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
-%	- config: expCode configuration
+%	- config: expLord configuration
 %	- name: name of the file
 %	- stepId: step number
 %	- extension: string appended at the end of the name

@@ -1,7 +1,7 @@
 function [config, store] = sideInit(config)                      
-% sideInit INITIALIZATION of the expCode project similarityDemo  
+% sideInit INITIALIZATION of the expLord project similarityDemo  
 %    [config, store] = sideInit(config)                          
-%       config : expCode configuration state                     
+%       config : expLord configuration state                     
 %                                                                
 %       store  : processing data to be saved for the other steps 
                                                                  

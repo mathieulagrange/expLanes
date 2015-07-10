@@ -21,7 +21,7 @@ codePath  = {'', '~/projects/audioSeparationDemo'}
 % path to the data repository of the project
 dataPath  = {'data', '~/projects/audioSeparationDemo/data'}
 % path to backup of transfered data
-backupPath  = /tmp/expCodeBackup/audioSeparationDemo
+backupPath  = /tmp/expLordBackup/audioSeparationDemo
 % path to export bundles
 bundlePath  = bundle
 % path to matlab
@@ -31,8 +31,8 @@ matlabPath  = {''}
 %% CODE
 
 % code dependencies to load and export
-dependencies  = {'../../expCode'}
-% dependencies (including expCode) can be part of the project: 0 do not use local versions, 1 use local versions, 2 update local versions
+dependencies  = {'../../expLord'}
+% dependencies (including expLord) can be part of the project: 0 do not use local versions, 1 use local versions, 2 update local versions
 localDependencies  = 0
 
 

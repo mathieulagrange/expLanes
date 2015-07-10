@@ -5,9 +5,9 @@ if ~exist('write', 'var'), write=1; end
 functionName = [config.shortExperimentName num2str(rank) name];
 functionString = char({...
     ['function [config, store, obs] = ' functionName '(config, setting, data)'];
-    ['% ' functionName ' ' upper(name) ' step of the expCode experiment ' config.experimentName];
+    ['% ' functionName ' ' upper(name) ' step of the expLord experiment ' config.experimentName];
     ['%    [config, store, obs] = ' functionName '(config, setting, data)'];
-    '%      - config : expCode configuration state';
+    '%      - config : expLord configuration state';
     '%      - setting   : set of factors to be evaluated';
     '%      - data   : processing data stored during the previous step';
     '%      -- store  : processing data to be saved for the other steps ';

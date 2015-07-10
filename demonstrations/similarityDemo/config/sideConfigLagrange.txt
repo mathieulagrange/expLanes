@@ -25,7 +25,7 @@ dataPath  = ~/data/projects/similarityDemo
 % path to the data repository of the project for observation data (same as dataPath if left blank)
 obsPath  = 
 % path to backup of transfered data
-backupPath  = /tmp/expCodeBackup/similarityDemo
+backupPath  = /tmp/expLordBackup/similarityDemo
 % path to export bundles
 bundlePath  = /tmp/similarityDemo
 % path to matlab
@@ -36,8 +36,8 @@ toolPath  = {{'/usr/bin', 'C:/cygwin/bin'}}
 %% CODE
 
 % code dependencies to load and export
-dependencies  = {'~/projects/houle/dev/tools/expCode/expCode' '/home/lagrange/projects/houle/dev/tools/expCode/expCode'}
-% dependencies (including expCode) can be part of the project: 0 do not use local versions, 1 use local versions, 2 update local versions
+dependencies  = {'~/projects/houle/dev/tools/expLord/expLord' '/home/lagrange/projects/houle/dev/tools/expLord/expLord'}
+% dependencies (including expLord) can be part of the project: 0 do not use local versions, 1 use local versions, 2 update local versions
 localDependencies  = 0
 
 

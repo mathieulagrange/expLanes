@@ -1,7 +1,7 @@
 function config = geshReport(config)
-% geshReport REPORTING of the expCode experiment geometricShape
+% geshReport REPORTING of the expLord experiment geometricShape
 %    config = geshInitReport(config)
-%       config : expCode configuration state
+%       config : expLord configuration state
 
 % Copyright: Mathieu Lagrange
 % Date: 16-Jun-2015

@@ -1,7 +1,7 @@
 function [config, store] = dideInit(config)                           
-% dideInit INITIALIZATION of the expCode project distanceDemonstration
+% dideInit INITIALIZATION of the expLord project distanceDemonstration
 %    [config, store] = dideInit(config)                               
-%      - config : expCode configuration state                         
+%      - config : expLord configuration state                         
 %      -- store  : processing data to be saved for the other steps    
                                                                       
 % Copyright: Mathieu Lagrange                                         

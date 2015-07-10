@@ -1,7 +1,7 @@
 function [config, store, obs] = plde1process(config, setting, data)
-% plde1process PROCESS step of the expCode project planDemo         
+% plde1process PROCESS step of the expLord project planDemo         
 %    [config, store, obs] = plde1process(config, setting, data)    
-%       config : expCode configuration state                        
+%       config : expLord configuration state                        
 %       setting: current set of parameters                             
 %       data   : processing data stored during the previous step    
 %                                                                   

@@ -1,7 +1,7 @@
 % Config file for the classificationDemo project
 % Adapt at your convenience
 
-backupPath = /tmp/expCodeBackup/classificationDemo
+backupPath = /tmp/expLordBackup/classificationDemo
 bundlePath = /tmp/classificationDemo
 codePath = {'', '~/projects/classificationDemo'}
 inputPath = ~/data/databases
@@ -13,7 +13,7 @@ shortProjectName = clde
 userName = lagrange
 versionName = 0.1
 bundle = 0
-dependencies = {'../../expCode' '../tools/netlab'}
+dependencies = {'../../expLord' '../tools/netlab'}
 display = >
 displayDigitPrecision = 2
 displayFontSize = 16

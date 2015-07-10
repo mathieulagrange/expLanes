@@ -58,7 +58,7 @@ else
     % copy
     [newNames, newIndex] = setdiff(names, defaultNames);
     for k=1:length(newNames)
-        if ~prompt || inputQuestion([ newNames{k} ' is not in the default Config File of expCode. Keep it ?'])
+        if ~prompt || inputQuestion([ newNames{k} ' is not in the default Config File of expLord. Keep it ?'])
             fprintf(fid, '%s = %s\n', newNames{k}, values{newIndex(k)});
         end
     end

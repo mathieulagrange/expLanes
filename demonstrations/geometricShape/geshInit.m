@@ -1,7 +1,7 @@
 function [config, store] = geshInit(config)                        
-% geshInit INITIALIZATION of the expCode experiment geometricShape 
+% geshInit INITIALIZATION of the expLord experiment geometricShape 
 %    [config, store] = geshInit(config)                            
-%      - config : expCode configuration state                      
+%      - config : expLord configuration state                      
 %      -- store  : processing data to be saved for the other steps 
                                                                    
 % Copyright: Mathieu Lagrange                                      

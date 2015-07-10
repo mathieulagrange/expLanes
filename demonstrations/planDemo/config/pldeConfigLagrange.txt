@@ -17,11 +17,11 @@ completeName  = lagrange
 % path to input data
 inputPath  = ~/data/databases
 % path to the code repository of the project
-codePath  = /Users/lagrange/projects/houle/dev/tools/expCode/demonstrations/planDemo
+codePath  = /Users/lagrange/projects/houle/dev/tools/expLord/demonstrations/planDemo
 % path to the data repository of the project
-dataPath  = /Users/lagrange/projects/houle/dev/tools/expCode/demonstrations/planDemo/data
+dataPath  = /Users/lagrange/projects/houle/dev/tools/expLord/demonstrations/planDemo/data
 % path to backup of transfered data
-backupPath  = /tmp/expCodeBackup/planDemo
+backupPath  = /tmp/expLordBackup/planDemo
 % path to export bundles
 bundlePath  = /tmp/planDemo
 % path to matlab
@@ -31,8 +31,8 @@ matlabPath  =
 %% CODE
 
 % code dependencies to load and export
-dependencies  = { '/Users/lagrange/projects/houle/dev/tools/expCode/expCode'}
-% dependencies (including expCode) can be part of the project: 0 do not use local versions, 1 use local versions, 2 update local versions
+dependencies  = { '/Users/lagrange/projects/houle/dev/tools/expLord/expLord'}
+% dependencies (including expLord) can be part of the project: 0 do not use local versions, 1 use local versions, 2 update local versions
 localDependencies  = 0
 
 

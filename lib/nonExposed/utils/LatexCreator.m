@@ -343,7 +343,7 @@ CONSTRUCTOR(varargin{:});
         end
         
         
-        FIND_FLAG_c=strfind(TEX,'expCodeInsertionFlag');
+        FIND_FLAG_c=strfind(TEX,'expLordInsertionFlag');
         flag_test=0;
         
         for pos_flag=1:length(FIND_FLAG_c)
@@ -399,7 +399,7 @@ CONSTRUCTOR(varargin{:});
         
         % Ecriture Flag ------------------------------------------
         if ~Data.noFlag
-        fprintf(fid,'%s \n','\input{tex/exposeTmp} % expCodeInsertionFlag DO NOT CLEAR (but move it where you want the generated temporary LaTEX code to be inserted)');
+        fprintf(fid,'%s \n','\input{tex/exposeTmp} % expLordInsertionFlag DO NOT CLEAR (but move it where you want the generated temporary LaTEX code to be inserted)');
         end
         %---------------------------------------------------------
         
@@ -515,13 +515,13 @@ CONSTRUCTOR(varargin{:});
                 Data.tex{end+1}='\maketitle';
                 Data.tex{end+1}=' ';
                 Data.tex{end+1}= '% Please use this file to document your experiment';
-                Data.tex{end+1}= '% You can compile the report by setting the option ''report'' as detailed in your expCode configuration file.';
+                Data.tex{end+1}= '% You can compile the report by setting the option ''report'' as detailed in your expLord configuration file.';
                 Data.tex{end+1}=' ';
                 if strcmp(Data.style, 'beamer')
-                    Data.tex{end+1}= ['This is the report to document the expCode project ' Data.projectName ' using \LaTeX.'];
+                    Data.tex{end+1}= ['This is the report to document the expLord project ' Data.projectName ' using \LaTeX.'];
                 end
                 Data.tex{end+1}=' ';
-                Data.tex{end+1}='\input{tex/exposeTmp} % expCodeInsertionFlag DO NOT CLEAR (but move it where you want the generated temporary LaTEX code to be inserted)';
+                Data.tex{end+1}='\input{tex/exposeTmp} % expLordInsertionFlag DO NOT CLEAR (but move it where you want the generated temporary LaTEX code to be inserted)';
                 Data.tex{end+1}=' ';
                 Data.tex{end+1}=' ';
                 Data.tex{end+1}='\bibliographystyle{abbrvnat}';
@@ -530,7 +530,7 @@ CONSTRUCTOR(varargin{:});
                 Data.tex{end+1}='\end{document}';
                 
             else
-                Data.tex{end+1}='\input{tex/exposeTmp} % expCodeInsertionFlag DO NOT CLEAR (but move it where you want the generated temporary LaTEX code to be inserted)';
+                Data.tex{end+1}='\input{tex/exposeTmp} % expLordInsertionFlag DO NOT CLEAR (but move it where you want the generated temporary LaTEX code to be inserted)';
             end
             
             

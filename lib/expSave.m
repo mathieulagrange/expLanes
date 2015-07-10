@@ -1,7 +1,7 @@
 function fileName = expSave(config, data, extension)
 % expSave save data to the the repository of the current task
 %	fileName = expSave(config, data, extension)
-%	- config: expCode configuration
+%	- config: expLord configuration
 %	- data: data to be saved
 %	- extension: string appended at the end of the name of the file
 %	-- fileName: name of the file used to store the data

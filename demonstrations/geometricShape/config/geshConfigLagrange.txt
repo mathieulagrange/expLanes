@@ -13,13 +13,13 @@ machineNames  = {{ 'pc-lagrange', 'dodo', 'toto', 'yoyo'}, {'pc-adtsi-sunda.ircc
 % path to input data
 inputPath  = ~/data/databases
 % path to the code repository of the experiment
-codePath  = /home/lagrange/gh/expCode/demonstrations/geometricShape
+codePath  = /home/lagrange/gh/expLord/demonstrations/geometricShape
 % path to the data repository of the experiment for stored data
 dataPath  = ~/data/experiments/geometricShape
 % path to the data repository of the experiment for observation data (same as dataPath if left blank)
 obsPath  = ~/data/experiments/geometricShape
 % path to backup of transfered data
-backupPath  = /tmp/expCodeBackup/geometricShape
+backupPath  = /tmp/expLordBackup/geometricShape
 % path to export bundles
 bundlePath  = /tmp/geometricShape
 % path to matlab binary directory
@@ -30,8 +30,8 @@ toolPath  = {{'/usr/bin', 'C:/cygwin/bin'}}
 %% CODE
 
 % code dependencies to load and export
-dependencies  = {'~/bb/houle/dev/tools/expCode/expCode'}
-% dependencies (including expCode) can be part of the experiment: 0 do not use local versions, 1 use local versions, 2 update local versions
+dependencies  = {'~/bb/houle/dev/tools/expLord/expLord'}
+% dependencies (including expLord) can be part of the experiment: 0 do not use local versions, 1 use local versions, 2 update local versions
 localDependencies  = 0
 % version tag
 codeVersion  = 0.1

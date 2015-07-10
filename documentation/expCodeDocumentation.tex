@@ -13,10 +13,10 @@
 \usepackage[useliterate]{mcode} 
 \graphicspath{{figures/}{report/figures/}{../figures/}{../../}}  
 
-\title{ expCode: beautiful computational experiments } 
+\title{ expLord: beautiful computational experiments } 
 \author{ Mathieu Lagrange } 
 
-\newcommand{\expcode}{\textsf{expCode} }  
+\newcommand{\expcode}{\textsf{expLord} }  
 
 \lstset{aboveskip=2pt,belowskip=2pt, basicstyle=\small} % \medskipamount
 
@@ -260,7 +260,7 @@ The main directory hosts the main processing routines (named \mcode{codePath} in
 
 The processing environment of the experiment can be controled with the files hosted in the directory \mcode{config}.
 
-Almost every processing units of an \expcode experiment has access to a structure named \mcode{config} which is imported from a file which is specific to each user. This file is created at the creation of the experiment from a user specific file that can be found in the \mcode{.expCode} directory in the home directory of the user.
+Almost every processing units of an \expcode experiment has access to a structure named \mcode{config} which is imported from a file which is specific to each user. This file is created at the creation of the experiment from a user specific file that can be found in the \mcode{.expLord} directory in the home directory of the user.
 
 The syntax of this file allows the user to handle several configuration depending on which machine the experiment is processed. For example, let us assume that the project handles 3 machines with different file architectures:
 \begin{lstlisting}

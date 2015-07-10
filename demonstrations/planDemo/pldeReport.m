@@ -1,7 +1,7 @@
 function config = pldeReport(config)                  
-% pldeReport REPORTING of the expCode project planDemo
+% pldeReport REPORTING of the expLord project planDemo
 %    config = pldeReportReport(config)                
-%       config : expCode configuration state          
+%       config : expLord configuration state          
                                                       
 % Copyright lagrange                                  
 % Date 07-Jan-2014                                    

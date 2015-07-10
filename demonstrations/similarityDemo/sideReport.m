@@ -1,7 +1,7 @@
 function config = sideReport(config)                        
-% sideReport REPORTING of the expCode project similarityDemo
+% sideReport REPORTING of the expLord project similarityDemo
 %    config = sideInitReport(config)                        
-%       config : expCode configuration state                
+%       config : expLord configuration state                
                                                             
 % Copyright: Mathieu Lagrange                               
 % Date: 30-Jun-2014                                         

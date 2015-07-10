@@ -1,7 +1,7 @@
 function [config, store] = pldeInit(config)                      
-% pldeInit INITIALIZATION of the expCode project planDemo        
+% pldeInit INITIALIZATION of the expLord project planDemo        
 %    [config, store] = plde1processInit(config)                  
-%       config : expCode configuration state                     
+%       config : expLord configuration state                     
 %                                                                
 %       store  : processing data to be saved for the other steps 
                                                                  

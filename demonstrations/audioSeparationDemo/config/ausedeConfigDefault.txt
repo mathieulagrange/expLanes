@@ -1,7 +1,7 @@
 % Config file for the audioSeparationDemo project
 % Adapt at your convenience
 
-backupPath = /tmp/expCodeBackup/audioSeparationDemo
+backupPath = /tmp/expLordBackup/audioSeparationDemo
 bundlePath = bundle
 codePath = {'', '~/projects/audioSeparationDemo'}
 displayPath = figures
@@ -15,7 +15,7 @@ userName = lagrange
 completeName = Mathieu Lagrange
 versionName = 0.1
 bundle = 0
-dependencies = {'../../expCode'}
+dependencies = {'../../expLord'}
 display = >
 displayDigitPrecision = 2
 displayFontSize = 16

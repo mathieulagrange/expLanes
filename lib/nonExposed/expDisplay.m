@@ -14,31 +14,33 @@ switch p.put
                 config.displayData.figure(k).taken = 1;
                 config.displayData.figure(k).caption = p.caption;
                 config.displayData.figure(k).label = p.label;
-                config.displayData.figure(k).data = config.data;
+          %      config.displayData.figure(k).data = config.data;
                 config.displayData.figure(k).report = p.report;
                 figure(config.displayData.figure(k).handle);
                 if ~p.visible
                     set(gcf, 'Visible', 'off');
                 end
                 set(gcf,'name', p.title);
-                set(gcf,'number','off');
+                set(gcf,'NumberTitle','off');
                 clf
                 return;
             end
         end
         
         if p.visible
-            config.displayData.figure(end+1).handle = figure();
+            h= figure();
+            config.displayData.figure(end+1).handle = h.Number;
         else
-            config.displayData.figure(end+1).handle = figure('Visible', 'off');
+            h = figure('Visible', 'off');
+            config.displayData.figure(end+1).handle = h.Number;
         end
         config.displayData.figure(end).taken = 1;
         config.displayData.figure(end).caption = p.caption;
         config.displayData.figure(end).label = p.label;
-        config.displayData.figure(end).data = config.data;
+     %   config.displayData.figure(end).data = config.data;
         config.displayData.figure(end).report = p.report;
         set(gcf,'name', p.title);
-        set(gcf,'number','off');
+        set(gcf,'NumberTitle','off');
     case 2
         if ~isempty(config.displayData.cellData)
             config.displayData.style(end+1)=1;
@@ -76,7 +78,7 @@ switch p.put
             else
                 config.displayData.table(end).table = config.displayData.cellData;
             end
-            config.displayData.table(end).data = config.data;
+        %    config.displayData.table(end).data = config.data;
             config.displayData.table(end).label = p.label;
             config.displayData.table(end).fontSize = p.fontSize;
             config.displayData.table(end).nbFactors = length(p.factorNames);
