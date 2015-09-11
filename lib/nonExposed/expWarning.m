@@ -18,6 +18,6 @@ if isempty(id) || any(strcmp(msgId, id))
     lastwarn('');
     numId = num2str(ceil(rand(1)*100000000));
     fileName = expSave(config, debugData, ['debugData_' numId]);
-    errorStruct.message = ['expLord catchedWarning: ' msgStr ' \n Debug data may be available at: !scp ' config.hostName ':' fileName ' . \n '];
+    errorStruct.message = ['expLanes catchedWarning: ' msgStr ' \n Debug data may be available at: !scp ' config.hostName ':' fileName ' . \n '];
     errorStruct.identifier = msgId;
 end

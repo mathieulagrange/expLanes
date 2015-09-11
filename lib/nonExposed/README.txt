@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%        Getting started with your experiment based on expLord          %
+%        Getting started with your experiment based on expLanes          %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % This is short introduction to describe the main component of your
@@ -14,5 +14,5 @@
 
 % The processing steps can be conviently managed with the Run function.
 
-% More information can be found in the documentation of expLord.
+% More information can be found in the documentation of expLanes.
 

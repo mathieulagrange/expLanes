@@ -1,7 +1,7 @@
 function expMex(config, mexPath, fileName, command, force)
 % expMex handle the compilation of mex files
 %   expMex(config, mexPath, fileName, command, force)
-%   - config: expLord configuration
+%   - config: expLanes configuration
 %   - mexPath: path of the directory containing the source code files
 %   - fileName: name of the source file
 %   - command: name of the compilation script (optional)

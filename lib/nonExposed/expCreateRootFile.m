@@ -1,4 +1,4 @@
-function expCreateRootFile(config, experimentName, shortExperimentName, expLordPath)
+function expCreateRootFile(config, experimentName, shortExperimentName, expLanesPath)
 
 rootString = char({...
     ['function config = ' experimentName '(varargin)'];
@@ -18,12 +18,12 @@ rootString = char({...
     'config = expRun(p, experimentName, shortExperimentName, varargin);';
     'end';
     '';
-    fileread([expLordPath '/nonExposed/utils/getUserFileName.m'])
-    fileread([expLordPath '/nonExposed/expConfigParse.m'])
-    fileread([expLordPath '/nonExposed/utils/getUserName.m'])
-    fileread([expLordPath '/nonExposed/expDependencies.m'])
-    fileread([expLordPath '/nonExposed/expUserDefaultConfig.m'])
-    fileread([expLordPath '/nonExposed/utils/expandHomePath.m'])
+    fileread([expLanesPath '/nonExposed/utils/getUserFileName.m'])
+    fileread([expLanesPath '/nonExposed/expConfigParse.m'])
+    fileread([expLanesPath '/nonExposed/utils/getUserName.m'])
+    fileread([expLanesPath '/nonExposed/expDependencies.m'])
+    fileread([expLanesPath '/nonExposed/expUserDefaultConfig.m'])
+    fileread([expLanesPath '/nonExposed/utils/expandHomePath.m'])
     });
 
 dlmwrite([config.codePath '/' experimentName '.m'], rootString,'delimiter','');

@@ -79,9 +79,9 @@ else
     % sendMail does not like tilde
     config.mailAttachment = expandHomePath(config.mailAttachment);
     if ~atEnd
-                title = ['[expLord] ' config.experimentName ' id ' num2str(config.runId) ' is launched on ' config.hostName];
+                title = ['[expLanes] ' config.experimentName ' id ' num2str(config.runId) ' is launched on ' config.hostName];
     else
-        title = ['[expLord] ' config.experimentName ' id ' num2str(config.runId) ' is over on ' config.hostName];
+        title = ['[expLanes] ' config.experimentName ' id ' num2str(config.runId) ' is over on ' config.hostName];
     end
     sendmail(config.emailAddress, title, message, config.mailAttachment);
 end

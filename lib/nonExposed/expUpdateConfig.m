@@ -4,8 +4,8 @@ config = expConfigParse(configFileName);
 
 if isempty(config), return; end;
 
-expLordPath = [fileparts(mfilename('fullpath')) filesep '..'];  
-defaultConfig = expConfigParse([expLordPath filesep 'expLordConfig.txt']);
+expLanesPath = [fileparts(mfilename('fullpath')) filesep '..'];  
+defaultConfig = expConfigParse([expLanesPath filesep 'expLanesConfig.txt']);
 
 namesDefault = fieldnames(defaultConfig);
 namesConfig = fieldnames(config);
@@ -20,12 +20,12 @@ if ~isempty(newNames)
     end
     disp('');
     layout = 0;
-    if inputQuestion(['Do you want to update ' configFileName ' with the expLord layout ?'])
+    if inputQuestion(['Do you want to update ' configFileName ' with the expLanes layout ?'])
         layout = 2;
     elseif inputQuestion(['Do you want to update ' configFileName ' with your original layout ?'])
         layout = 1;
     end
     if layout
-        expConfigMerge(configFileName, [expLordPath filesep 'expLordConfig.txt'], layout);
+        expConfigMerge(configFileName, [expLanesPath filesep 'expLanesConfig.txt'], layout);
     end
 end

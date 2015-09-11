@@ -105,7 +105,7 @@ function config = expExpose(varargin)
 %    	0: variance for all observations
 %    	[1, 3]: variance for the first and third observations
 %    'visible': show the figure (default except when in save mode)
-%	-- config: expLord configuration
+%	-- config: expLanes configuration
 
 %	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
 %	See licence.txt for more information.
@@ -595,9 +595,9 @@ else
                 if inputQuestion('Do you want to create it ?');
                     functionString = char({...
                         ['function config = ' exposeType '(config, data, p)'];
-                        ['% ' exposeType ' EXPOSE of the expLord experiment ' config.experimentName];
+                        ['% ' exposeType ' EXPOSE of the expLanes experiment ' config.experimentName];
                         ['%    config = ' exposeType '(config, data, p)'];
-                        '%       config : expLord configuration state';
+                        '%       config : expLanes configuration state';
                         '%       data : observations as a struct array';
                         '%       p : various display information';
                         '';

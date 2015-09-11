@@ -1,18 +1,18 @@
 function [userDefaultConfigFileName, userDir] = expUserDefaultConfig(defaultFileName)
 
-% if ~exist(expLordPath, 'dir'), return; end % FIXME
+% if ~exist(expLanesPath, 'dir'), return; end % FIXME
 
 if ispc, userDir= getenv('USERPROFILE');
 else userDir= getenv('HOME');
 end
 
-if ~exist([userDir filesep '.expLord'], 'dir')
-    mkdir([userDir filesep '.expLord']);
+if ~exist([userDir filesep '.expLanes'], 'dir')
+    mkdir([userDir filesep '.expLanes']);
 end
 
-userDefaultConfigFileName = [userDir filesep '.expLord' filesep getUserName() 'Config.txt'];
+userDefaultConfigFileName = [userDir filesep '.expLanes' filesep getUserName() 'Config.txt'];
 if ~exist(userDefaultConfigFileName, 'file')
-    disp(['Creating default config in ' userDir filesep '.expLord' filesep]);
+    disp(['Creating default config in ' userDir filesep '.expLanes' filesep]);
     copyfile(defaultFileName, userDefaultConfigFileName);
 else
     try

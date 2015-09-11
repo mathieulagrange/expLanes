@@ -1,7 +1,7 @@
 function [values, nbValues] = expFactorValues(config, factor)
 % expFactorValues retrives the modalities of a given factor
 %	values = expFactorValues(config, factor)
-%	- config: expLord configuration
+%	- config: expLanes configuration
 %	- factor: name of the factor
 %	-- values: set of modalities corresponding to this factor
 %	-- nbValues: size of the set of modalities
