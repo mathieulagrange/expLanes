@@ -36,9 +36,11 @@ geometricShape('do', 0, 'report', 'rc')
 geometricShape('myEntry', 'toto')
 geometricShape('myEntry', 'toto');
 geometricShape('do', 0, 'sendMail', 1)
-geometricShape('do', 0)
 geometricShape('do', 2, 'resume', 1);
 geometricShape('do', 1, 'resume', 1);
 geometricShape('do', 1, 'resume', 100);
 geometricShape('do', 0, 'report', 'r');
 geometricShape('report', 'r');
+geometricShape('do', 0)
+geometricShape('probe', 1)
+geometricShape('probe', 1);

@@ -1,7 +1,7 @@
 
 \documentclass[a4paper,fleqn]{tufte-handout} 
 \usepackage{graphicx} 
-\usepackage{morefloats} 
+\usepackage{morefloats,textcomp} 
 \usepackage{amsmath} 
 \usepackage{amssymb} 
 \usepackage{rotating,url} 
@@ -16,7 +16,7 @@
 \title{ expLanes: beautiful computational experiments } 
 \author{ Mathieu Lagrange } 
 
-\newcommand{\expcode}{\textsf{expLanes} }  
+\newcommand{\explanes}{\textsf{expLanes} }  
 
 \lstset{aboveskip=2pt,belowskip=2pt, basicstyle=\small} % \medskipamount
 
@@ -40,11 +40,11 @@ Let's assume that you are practicing computational experiments. Most probably, t
 
 And for all or others, you are heading towards sharing your code but you are not confident with your programming expertise and you do not have time to improve your experimental code into a sharable state\footnote{\url{http://sciencecodemanifesto.org}} ?
 
-If so, please consider giving \expcode a try as it is specifically designed with those matters in mind and hopefully will help you reducing specific burden that keep you way from reaching this goal which is one of the most important step towards true expansion of knowledge in science and engineering: reproducibility\cite{science, sp}.
+If so, please consider giving \explanes a try as it is specifically designed with those matters in mind and hopefully will help you reducing specific burden that keep you way from reaching this goal which is one of the most important step towards true expansion of knowledge in science and engineering: reproducibility\cite{science, sp}.
 
 \section{Features}
 
-\expcode is a software framework currently implemented in Matlab that 
+\explanes is a software framework currently implemented in Matlab that 
 \begin{itemize}
 \item provides a high level abstraction for running computational experiments
 \item allows multiple users per experiment
@@ -70,13 +70,13 @@ If so, please consider giving \expcode a try as it is specifically designed with
 
 The scientific method is a well established method to gain knowledge with demonstrated merit. Sadly, modern ways of doing research impose strong pressure on the time and efforts that can be allocated to a project. The consequence is that important steps of the scientific are often neglected. 
 
-We believe that this quest for speed adversely reduces the meaningfulness of the research results that are nowadays published. Admittedly though, following strictly the scientific method can be tedious and shortcuts might be tempting. \expcode is designed to assist you in the most tedious and most error prone steps and will hopefully help you dedicate more time to the fundamental steps of the scientific method.
+We believe that this quest for speed adversely reduces the meaningfulness of the research results that are nowadays published. Admittedly though, following strictly the scientific method can be tedious and shortcuts might be tempting. \explanes is designed to assist you in the most tedious and most error prone steps and will hopefully help you dedicate more time to the fundamental steps of the scientific method.
 
-Quickly put, the scientific method can be divided into several steps that each may have to be iterated. On the following table, we stated where the \expcode framework can be helpful during this iteration process.
+Quickly put, the scientific method can be divided into several steps that each may have to be iterated. On the following table, we stated where the \explanes framework can be helpful during this iteration process.
 
 \begin{center} \bf The scientific method\cite{right} \end{center}
 \begin{tabular}{clc}
-\bf Phases & Steps  & \expcode \\
+\bf Phases & Steps  & \explanes \\
 \hline
 \bf Analysis & Describe problem & \\
 & Set performance criteria & \\
@@ -98,13 +98,50 @@ Quickly put, the scientific method can be divided into several steps that each m
 
 \section{Installation}
 
-\section{\expcode in a nutshell}
+\explanes operates in the Matlab environment. A recent version of this software (> R2014) is needed as well as the Statistical toolbox. The Parallel toolbox is needed for in session multi-core processing. 
 
-\expcode is designed to provide you with as stream lined set of tools to efficiently build the computational environment you need in order to gain knowledge about a research statement.
+As much as possible, \explanes uses built in tools to manipulate data. However some functionality are handled through the use basic Unix tools:
+\begin{enumerate}
+\item pdflatex : handles compilation of reports written in \LaTeX.
+\item rsync : allow backup, generation of bundles and data communication between hosts.
+\item ssh : allow secure connection between host.
+\item screen: allow handling of several detached terminals for background processing.
+\end{enumerate}
+Please note that those tools must be available on every host where an \explanes project is processed. That said, \explanes do not enforce their availability. For example, without \mcode{pdflatex}, no reports can be generated.
+
+Probing access of those tools by your \explanes project (in this documentation, the project we will demonstrate is called \mcode{geometricShape}) can be done using the following command:
+
+\mcode{geometricShape('probe', 1);}
+
+It also check if the different data paths and processing hosts are achievable. Each of those configuration parameters can be set for each user by editing the configuration file of the project. A default configuration file that is used as template when creating a new project is available at \texttt{$\sim$/.expLanes/<userName>Config.txt}.
+
+\subsection{Linux}
+
+On Linux hosts, the installation should be straightforward. For example, on Debian, Ubuntu systems, the following packages should be sufficient:
+
+\mcode{texlive-full rsync openssh-server openssh-client screen}
+
+Installation may be achieved by typing in a terminal: 
+
+\mcode{sudo apt-get install <packagesNames>}
+
+Minimal configuration might be needed to configure ssh on client and server sides depending on your network configuration. In \explanes ease of use is achieved by using empty passphrase logging.
+
+\subsection{Mac OS}
+
+Several alternatives are available to install Unix packages: Fink, MacPorts and Homebrew. You shall avoid the use of \mcode{/usr} for installation, and the \mcode{PATH} environment variable shall be properly set.
+
+\subsection{Windows}
+
+For pdflatex, please use MiKTeX, for the remaining please use Cygwin. Some tweaks might be needed in order to ensure that the paths and usernames are correct.
+
+\section{\explanes in a nutshell}
+
+\explanes is designed to provide you with as stream lined set of tools to efficiently build the computational environment you need in order to gain knowledge about a research statement.
 
 For the sake of simplicity, we will now consider a trivial research statement. We want to gain knowledge about the base area and the volume of a few 3 dimensional geometrical shapes. For reference, this project is available in the \mcode{demonstrations} directory. %
 
-First, we assume that the \expcode framework is in your path, if not, please type the following in your command window: \\ \mcode{addpath(genpath('<pathToExpCode>'));};
+First, we assume that the \explanes framework is in your path, if not, please type the following in your command window: \\ \mcode{addpath(genpath('<pathToExplanes>'));};
 
 \subsection{Create project}
 
@@ -164,21 +201,21 @@ The factors can be edited in the file \\ \mcode{<shortExperimentName>Factors.txt
 \subsection{Implement processing steps}
 
 The first step is dedicated to the computation of the base area of the shape. The solution code is implemented in \mcode{gesh1base.m}:
-\lstinputlisting[firstline=16, lastline=23]{../demonstrations/geometricShape/gesh1base.m}
+\lstinputlisting[firstline=16, lastline=23]{../demos/geometricShape/gesh1base.m}
 We assume here that $\pi$ is known up to a given precision, but 100 measurements have been made.
 
 The second step build on the result of the first processing step to compute the volume (implemented in \mcode{gesh2volume.m}):
-\lstinputlisting[firstline=16, lastline=23]{../demonstrations/geometricShape/gesh2space.m}
+\lstinputlisting[firstline=16, lastline=23]{../demos/geometricShape/gesh2space.m}
 
 \subsection{Define observations}
 
 Observations for the 2 processing steps are the following. First step:
-\lstinputlisting[firstline=24, lastline=24]{../demonstrations/geometricShape/gesh1base.m}
+\lstinputlisting[firstline=24, lastline=24]{../demos/geometricShape/gesh1base.m}
 Second step:
-\lstinputlisting[firstline=25, lastline=26]{../demonstrations/geometricShape/gesh2space.m}
+\lstinputlisting[firstline=25, lastline=26]{../demos/geometricShape/gesh2space.m}
 
 \begin{marginfigure}
-\includegraphics[width=1.2\textwidth]{../demonstrations/geometricShape/report/figures/factors}
+\includegraphics[width=1.2\textwidth]{../demos/geometricShape/report/figures/factors}
 \end{marginfigure}
 
 The command \mcode{geometricShape('f')} generates a diagram view of the experiment.
@@ -197,7 +234,7 @@ runs successively every steps over the cylinders of radius 2  and all the pyrami
 \subsection{Expose observations}
 
 \begin{marginfigure}
-\includegraphics[trim={0 6cm 0 0},clip,width=1.2\textwidth]{../demonstrations/geometricShape/report/figures/mtable}
+\includegraphics[trim={0 6cm 0 0},clip,width=1.2\textwidth]{../demos/geometricShape/report/figures/mtable}
 \end{marginfigure}
 
 Upon completion of the processing, the results of the last processing are displaying in the command window:
@@ -207,7 +244,7 @@ This display can be achieved by issuing the following command:
 geometricShape('display', 2, 'expose', '>', ...
 	'mask', {[1 2] 0 1});
 \end{lstlisting}
-The exposition of relevant observations is important for efficient computational experimentation. \expcode provides many tools for this purpose, type \mcode{help expExpose} for quick reference. 
+The exposition of relevant observations is important for efficient computational experimentation. \explanes provides many tools for this purpose, type \mcode{help expExpose} for quick reference. 
 
 
 The command:
@@ -223,24 +260,24 @@ displays the volume (observation 3) of the step volume (2) for each cylinder of 
 
 \begin{margintable}
 \caption{\LaTeX output.}
-\input{../demonstrations/geometricShape/report/tables/geolTabular}
+\input{../demos/geometricShape/report/tables/geolTabular}
 \end{margintable}
 
 The file \mcode{<shortExperimentName>Report.m}, that is \mcode{geshReport.m} in this example allows you to generate report that compile several expositions of observations: \LaTeX table (l), bar plot (b), and box plot (x).
 
 
 
-\lstinputlisting[firstline=13, lastline=19]{../demonstrations/geometricShape/geshReport.m}
+\lstinputlisting[firstline=13, lastline=19]{../demos/geometricShape/geshReport.m}
 
 
 
 \begin{marginfigure}
-\includegraphics[width=\textwidth]{../demonstrations/geometricShape/report/figures/geob}
+\includegraphics[width=\textwidth]{../demos/geometricShape/report/figures/geob}
 \end{marginfigure}
 
 
 \begin{marginfigure}
-\includegraphics[width=\textwidth]{../demonstrations/geometricShape/report/figures/geox}
+\includegraphics[width=\textwidth]{../demos/geometricShape/report/figures/geox}
 \end{marginfigure}
 
 
@@ -254,7 +291,7 @@ generates a report with base name \mcode{presentationSlides} in a slides present
 
 \section{Architecture of an experiment}
 
-An \expcode experiment has a specific directory architecture. 
+An \explanes experiment has a specific directory architecture. 
 
 \subsection{Code}
 
@@ -271,7 +308,7 @@ The main directory hosts the processing routines (named \mcode{codePath} in your
 
 The processing environment of the experiment can be controled with the files hosted in the directory \mcode{config}.
 
-Almost every processing units of an \expcode experiment has access to a structure named \mcode{config} which is imported from a file which is specific to each user. This file is generated at the creation of the experiment from a user specific template file that can be found in the \mcode{.expCode} directory in the home directory of the user.
+Almost every processing units of an \explanes experiment has access to a structure named \mcode{config} which is imported from a file which is specific to each user. This file is generated at the creation of the experiment from a user specific template file that can be found in the \mcode{.explanes} directory in the home directory of the user.
 
 The syntax of this file allows the user to handle several configurations that depends on which machine the experiment is processed. For example, let us assume that the project handles 3 machines with different file architectures:
 \begin{lstlisting}
@@ -313,7 +350,7 @@ The report directory stores expositions of observations in many flavors.
 \item \textbf{\mcode{report/figures}}: when the \mcode{'save'} parameter is added to a visual exposition, the resulting figure is stored in several formats (\mcode{.fig} Matlab Figure, \mcode{.eps}, \mcode{.png}, and \mcode{.pdf}). The numerical data is also made available in a \mcode{.mat} file. 
 \item \textbf{\mcode{report/reports}}: contains the generated reports with the following naming : \mcode{<reportName><userName><date>.pdf}. The data of every expositions of the corresponding report is made available in a \mcode{.mat} file.
 \item \textbf{\mcode{report/tables}}:  when the \mcode{'save'} parameter is added to a table exposition (\mcode{'t'} or \mcode{'l'}), the resulting table is stored in several formats (\LaTeX floating table, \LaTeX tabulary array, \mcode{.csv} file. The numerical data is also made available in a \mcode{.mat} file.
-\item \textbf{\mcode{report/tex}}: this directory is used for internal \expcode usage. Please do not edit any files in it, as they may be deleted.
+\item \textbf{\mcode{report/tex}}: this directory is used for internal \explanes usage. Please do not edit any files in it, as they may be deleted.
 \end{itemize}
 
 
