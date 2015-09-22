@@ -44,3 +44,14 @@ geometricShape('report', 'r');
 geometricShape('do', 0)
 geometricShape('probe', 1)
 geometricShape('probe', 1);
+geometricShape('bundle', 'c')
+geometricShape('bundle', 'c');
+geometricShape('bundle', 'a');
+geometricShape('bundle', 'cdD');
+geometricShape('bundle', '');
+geometricShape('bundle', 'c12');
+geometricShape('bundle', 'd');
+geometricShape('bundle', 'cd');
+geometricShape('bundle', 'c d 1');
+geometricShape('bundle', 'c d 1o');
+geometricShape('bundle', 'c d 1d');

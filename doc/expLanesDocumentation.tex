@@ -102,10 +102,10 @@ Quickly put, the scientific method can be divided into several steps that each m
 
 As much as possible, \explanes uses built in tools to manipulate data. However some functionality are handled through the use basic Unix tools:
 \begin{enumerate}
-\item pdflatex : handles compilation of reports written in \LaTeX.
-\item rsync : allow backup, generation of bundles and data communication between hosts.
-\item ssh : allow secure connection between host.
-\item screen: allow handling of several detached terminals for background processing.
+\item \textbf{pdflatex}: handles compilation of reports written in \LaTeX.
+\item \textbf{rsync}: allow backup, generation of bundles and data communication between hosts.
+\item \textbf{ssh}: allow secure connection between host.
+\item \textbf{screen}: allow handling of several detached terminals for background processing.
 \end{enumerate}
 Please note that those tools must be available on every host where an \explanes project is processed. That said, \explanes do not enforce their availability. For example, without \mcode{pdflatex}, no reports can be generated.
 
@@ -265,11 +265,7 @@ displays the volume (observation 3) of the step volume (2) for each cylinder of 
 
 The file \mcode{<shortExperimentName>Report.m}, that is \mcode{geshReport.m} in this example allows you to generate report that compile several expositions of observations: \LaTeX table (l), bar plot (b), and box plot (x).
 
-
-
 \lstinputlisting[firstline=13, lastline=19]{../demos/geometricShape/geshReport.m}
-
-
 
 \begin{marginfigure}
 \includegraphics[width=\textwidth]{../demos/geometricShape/report/figures/geob}
@@ -308,7 +304,7 @@ The main directory hosts the processing routines (named \mcode{codePath} in your
 
 The processing environment of the experiment can be controled with the files hosted in the directory \mcode{config}.
 
-Almost every processing units of an \explanes experiment has access to a structure named \mcode{config} which is imported from a file which is specific to each user. This file is generated at the creation of the experiment from a user specific template file that can be found in the \mcode{.explanes} directory in the home directory of the user.
+Almost every processing units of an \explanes experiment has access to a structure named \mcode{config} which is imported from a file which is specific to each user. This file is generated at the creation of the experiment from a user specific template file that can be found in the \texttt{$\sim$/.\explanes} directory in the home directory of the user.
 
 The syntax of this file allows the user to handle several configurations that depends on which machine the experiment is processed. For example, let us assume that the project handles 3 machines with different file architectures:
 \begin{lstlisting}
@@ -354,22 +350,17 @@ The report directory stores expositions of observations in many flavors.
 \end{itemize}
 
 
-\section{Installation}
-
-
-\subsection{External tools}
-
-\begin{itemize}
-\item \textbf{\LaTeX}:
-\item \textbf{ssh}:
-\item \textbf{rsync}:
-\end{itemize}
-
 \section{Commands}
+
+The main commands are now listed. The complete set of commands are available in the configuration file of the project.
 
 \subsection{Management of an experiment}
 
 \subsection{Computation of settings}
+
+do 
+resume
+parallel
 
 \subsection{Exposition of observations}
 
@@ -382,7 +373,6 @@ multi way anova
 \section{Recommended readings}
 
 \begin{itemize}
-
 
 \item \textbf{Getting it right}: R\&D Methods for Science and Engineering, Peter Bock, Academic Press
 

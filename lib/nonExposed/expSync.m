@@ -42,6 +42,7 @@ if isstruct(syncDestination)
     syncDestination = serverConfig.host;
 else
     serverConfig = expConfig(config.codePath, config.experimentName, config.shortExperimentName, {'host', syncDestination, 'attachedMode', 0});
+serverConfig.host = config.host;
 end
 
 if syncDestination==-1
