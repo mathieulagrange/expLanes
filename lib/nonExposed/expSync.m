@@ -47,7 +47,7 @@ end
 
 if syncDestination==-1
     % bundle setting
-    config.syncDirection = 'up';
+    config.syncDirection = 'b';
     if ~exist([config.bundlePath config.experimentName], 'dir')
         mkdir([config.bundlePath config.experimentName]);
     end

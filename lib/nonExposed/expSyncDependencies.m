@@ -13,7 +13,7 @@ if config.localDependencies == 2
 end
 
 % TODO fix this using storage of info
-if serverConfig.host < 2
+if serverConfig.host == config.host
     [status, dep] = system(['ls ' serverConfig.codePath 'dependencies']);
 else
     [status, dep] = system(['ssh ' serverConfig.hostName ' '' ls ' serverConfig.codePath 'dependencies ''']);
@@ -36,7 +36,7 @@ for k=1:length(config.dependencies)
     end
     [p, n, e]=fileparts(dependency);
     dep(strcmp([n e], dep))=[];
-    if serverConfig.host < 2
+    if serverConfig.host  == config.host
         syncString = 'rsync -arC --delete-after --exclude=.git ';
         command = [syncString strrep(dependency, ' ', '\ ') ' '  serverConfig.codePath 'dependencies'];
     else
@@ -56,7 +56,7 @@ end
 % remove old dependencies
 for k=1:length(dep)
     if ~isempty(dep{k})
-        if serverConfig.host < 2
+        if serverConfig.host == config.host
             rmdir([serverConfig.codePath 'dependencies' filesep dep{k}]);
         else
             system(['ssh ' serverConfig.hostName ' ''rm -r ' serverConfig.codePath 'dependencies' filesep dep{k} ' 2>/dev/null ''']);

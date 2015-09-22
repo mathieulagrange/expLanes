@@ -90,7 +90,7 @@ store = 1
 retrieve = -1
 % naming convention for files: long (complete naming, may lead to too long file names), short (abbreviated naming, may also lead to too long file names), hash (hash based naming, compact but may lead to naming clashes)
 namingConventionForFiles = hash 
-% generate bundle of elements designated as a string with tokens separated by white spaces: 'c' (code), 'd' (dependencies), 'i' (input), 1 (output data of step 1), 1d (stored data of step 1), 1o (observations of step 1) 
+% generate bundle of elements designated as a string with tokens separated by white spaces: 'c' (code), 'd' (dependencies), 'i' (input), 1 (output data of step 1), 1d (stored data of step 1 only), 1o (observations of step 1 only) 
 bundle = 
 % sync data across machines specified as a cell array with: elements (as in bundle),  
 sync = {} 

@@ -94,7 +94,13 @@ end
 % end
 % fclose(fid);
 
-hist = com.mathworks.mlservices.MLCommandHistoryServices.getSessionHistory;
+try
+    hist = com.mathworks.mlservices.MLCommandHistoryServices.getSessionHistory;
+catch
+    fprintf(2, 'Warning: unable to grab session history');
+    hist = [];
+end
+
 if ~isempty(hist)
     lastCommand = char(hist(end));
 else

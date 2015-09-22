@@ -208,8 +208,11 @@ if isfield(config, 'serverConfig')
     % if not edit /var/lib/locales/supported.d/local to put the needed ones
     % and run sudo dpkg-reconfigure locales or locales-gen
     
-    system(command);
-    fprintf('\nExperiment launched.\n');
+    if system(command);
+        fprintf(2, '\n Launch of experiment failed.\n');
+    else
+        fprintf('\nExperiment launched.\n');
+    end
     return;
 else
     if config.sendMail==2

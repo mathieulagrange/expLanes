@@ -61,6 +61,10 @@ end
 
 switch lower(config.syncDirection(1))
     % TODO special case of local
+    case 'b'
+           ori = directoryPath;
+          dest = serverDirectoryPath;
+           excludeString=getExcludeString(config, directoryPath);
     case 'u'
         fprintf('from host to server %s\n', serverConfig.hostName);
         ori = directoryPath;
@@ -91,7 +95,7 @@ switch lower(config.syncDirection(1))
             mkdir(config.backupPath);
         end
         dest = config.backupPath;
-        if serverConfig.host < 2
+        if serverConfig.host  == config.host
             ori = serverDirectoryPath;
         else
             ori = [serverConfig.hostName ':' serverDirectoryPath];
