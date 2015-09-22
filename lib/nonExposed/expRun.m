@@ -51,15 +51,15 @@ if config.bundle ~= 0
     return
 end
 
-if config.clean ~= 0
-    if iscell(config.clean)
-        config.clean = config.clean{1};
-    end
+if ~isempty(config.clean)
+%     if iscell(config.clean)
+%         config.clean = config.clean{1};
+%     end
     if ischar(config.clean)
         if length(config.clean) == 1
             switch config.clean
                 case 't'
-                    dirPath = [config.homePath '.expLanes/tmp'];
+                    dirPath = [config.homePath '.expLanes/tmp/'];
                     info = 'expLanes temporary data directory';
                 case 'b'
                     dirPath = config.backupPath;
@@ -67,8 +67,13 @@ if config.clean ~= 0
                 case 'k'
                     dirPath = config.dataPath;
                     info = 'all steps directories while keeping data of reachable settings starting from';
+                otherwise
+                        config.clean = {config.clean config.host};
+                        dirPath = [];
+%                     fprintf(2, 'Mono letter non numeric string input for clean can be: t (expLanes temporary data directory), b (experiment backup directory), \n k (all steps directories while keeping data of reachable settings). \n');
+%                     return
             end
-            if inputQuestion(['Cleaning ' info ': ' dirPath])
+            if ~isempty(dirPath) && inputQuestion(['Cleaning ' info ': ' dirPath(1:end-1)])
                 switch config.clean
                     case 'k'
                         expKeepClean(config);
@@ -79,12 +84,11 @@ if config.clean ~= 0
                         end
                 end
             end
-            return
         else
             config.clean = {config.clean 1};
         end
     elseif isnumeric(config.clean)
-        config.clean = {num2str(config.clean) 1};
+        config.clean = {num2str(config.clean) config.host};
     end
     expSync(config, config.clean{:}, 'C');
     return
@@ -123,28 +127,28 @@ rem=[];
 config.runInfo=[];
 if ~isempty(config.factors)
     if config.do>-1
-    fprintf('Experiment %s: run %d on host %s \n', config.experimentName, config.runId, config.hostName);
-    for k=1:length(config.do)
-        [config.stepSettings{config.do(k)}] = expStepSetting(config.factors, config.mask, config.do(k));
-        if isfield(config.stepSettings{config.do(k)}, 'setting')
-            runInfo = sprintf(' - step %s, ', config.stepName{config.do(k)});
-            if ~strcmp(config.stepSettings{config.do(k)}.setting.infoStringMask, 'all')
-                runInfo = [runInfo sprintf('factors with fixed modalities: %s', config.stepSettings{config.do(k)}.setting.infoStringMask)];
+        fprintf('Experiment %s: run %d on host %s \n', config.experimentName, config.runId, config.hostName);
+        for k=1:length(config.do)
+            [config.stepSettings{config.do(k)}] = expStepSetting(config.factors, config.mask, config.do(k));
+            if isfield(config.stepSettings{config.do(k)}, 'setting')
+                runInfo = sprintf(' - step %s, ', config.stepName{config.do(k)});
+                if ~strcmp(config.stepSettings{config.do(k)}.setting.infoStringMask, 'all')
+                    runInfo = [runInfo sprintf('factors with fixed modalities: %s', config.stepSettings{config.do(k)}.setting.infoStringMask)];
+                end
+                if config.stepSettings{config.do(k)}.nbSettings>1
+                    runInfo = [runInfo sprintf('\n     %d settings with the factors: %s', config.stepSettings{config.do(k)}.nbSettings, config.stepSettings{config.do(k)}.setting.infoStringFactors)];
+                end
+                config.runInfo{k} = runInfo;
+                fprintf(2, '%s \n', config.runInfo{k});
             end
-            if config.stepSettings{config.do(k)}.nbSettings>1
-                runInfo = [runInfo sprintf('\n     %d settings with the factors: %s', config.stepSettings{config.do(k)}.nbSettings, config.stepSettings{config.do(k)}.setting.infoStringFactors)];
-            end
-            config.runInfo{k} = runInfo;
-            fprintf(2, '%s \n', config.runInfo{k});
         end
-    end
-    if config.display>0
-        rem = setdiff(config.display, config.do);
-    end
-else
-    if config.display>0
-        rem = config.display;
-    end
+        if config.display>0
+            rem = setdiff(config.display, config.do);
+        end
+    else
+        if config.display>0
+            rem = config.display;
+        end
     end
 end
 
@@ -180,7 +184,7 @@ if isfield(config, 'serverConfig')
         config.serverConfig.configMatName ''', ''~'', homePath); load(configMatName); delete(configMatName); ' ...
         config.experimentName '(config);"']; % replace -d by -t in ssh for verbosity
     
-  %  command = [config.serverConfig.matlabPath 'matlab -nodesktop -nosplash -r expRunServer(''' config.serverConfig.configMatName ''', ''' config.serverConfig.codePath ''')'];
+    %  command = [config.serverConfig.matlabPath 'matlab -nodesktop -nosplash -r expRunServer(''' config.serverConfig.configMatName ''', ''' config.serverConfig.codePath ''')'];
     
     if config.host ~= config.serverConfig.host
         matConfig.localDependencies = 1;
@@ -195,7 +199,7 @@ if isfield(config, 'serverConfig')
         expConfigMatSave(config.configMatName);
         % genpath dependencies ; addpath(ans);
         command = ['ssh ' config.hostName ' screen -m -d ''' config.serverConfig.matlabPath 'matlab -nodesktop -nosplash -r  "cd ' config.serverConfig.codePath ' ; load ' config.serverConfig.configMatName '; ' config.experimentName '(config);"''']; % replace -d by -t in ssh for verbosity
-         %         command = ['ssh ' config.hostName ' screen  -m -d ''' strrep(command, '''', '"''') ''''];
+        %         command = ['ssh ' config.hostName ' screen  -m -d ''' strrep(command, '''', '"''') ''''];
     else
         matConfig.localDependencies = 0;
         expConfigMatSave(expandHomePath(config.configMatName), matConfig);
@@ -219,7 +223,7 @@ else
         expSendMail(config);
     end
     config = expOperate(config);
-   % delete(expandHomePath(config.configMatName)); FIXME useless ?
+    % delete(expandHomePath(config.configMatName)); FIXME useless ?
 end
 
 if config.display ~= -1 && ~isempty(config.factors)
@@ -269,12 +273,12 @@ else
         config.displayData = data.displayData;
         if ~isempty(prompt)
             config.displayData.prompt = prompt ;
-        end        
+        end
     end
 end
 
 if config.sendMail>0
- expSendMail(config, 2);
+    expSendMail(config, 2);
 elseif strfind(config.report, 'c')
     config = expTex(config, config.report);
 end

@@ -45,7 +45,6 @@ end
 % TODO: be able to control update
 % TODO: use the filesep command
 
-fprintf('Performing %s %s %s sync of experiment %s %s ', upper(directoryName), dataType, extensionPath, config.experimentName, detachMessage);
 
 % create it if needed
 if serverConfig.host == config.host
@@ -62,10 +61,12 @@ end
 switch lower(config.syncDirection(1))
     % TODO special case of local
     case 'b'
-           ori = directoryPath;
-          dest = serverDirectoryPath;
-           excludeString=getExcludeString(config, directoryPath);
+        fprintf('Copying %s %s %s of experiment %s %s ', upper(directoryName), dataType, extensionPath, config.experimentName, detachMessage);
+        ori = directoryPath;
+        dest = serverDirectoryPath;
+        excludeString=getExcludeString(config, directoryPath);
     case 'u'
+        fprintf('Syncing %s %s %s of experiment %s %s ', upper(directoryName), dataType, extensionPath, config.experimentName, detachMessage);
         fprintf('from host to server %s\n', serverConfig.hostName);
         ori = directoryPath;
         if  serverConfig.host == config.host
@@ -76,6 +77,7 @@ switch lower(config.syncDirection(1))
         %         dest = [serverConfig.hostName ':' serverDirectoryPath];
         excludeString=getExcludeString(config, directoryPath);
     case 'd'
+        fprintf('Syncing %s %s %s of experiment %s %s ', upper(directoryName), dataType, extensionPath, config.experimentName, detachMessage);
         fprintf('from server %s to host\n', serverConfig.hostName);
         dest = directoryPath;
         excludeString=getExcludeString(serverConfig, serverDirectoryPath);
@@ -86,10 +88,11 @@ switch lower(config.syncDirection(1))
             ori = [serverConfig.hostName ':' serverDirectoryPath];
         end
     case 'c'
-        fprintf('cleaning host %s\n', serverConfig.hostName);
-        if ~isempty(config.backupPath) && config.syncDirection(1)=='c'
-            fprintf('Backed up data is available at %s\n', config.backupPath);
-        end
+        fprintf('Cleaning %s %s %s of experiment %s %s ', upper(directoryName), dataType, extensionPath, config.experimentName, detachMessage);
+        fprintf('on host %s\n', serverConfig.hostName);
+%         if ~isempty(config.backupPath)
+%             fprintf('Backed up data is available at %s\n', config.backupPath);
+%         end
         excludeString=getExcludeString(serverConfig, serverDirectoryPath);
         if ~isempty(config.backupPath) && ~exist(config.backupPath, 'file')
             mkdir(config.backupPath);
@@ -138,7 +141,7 @@ if ~isempty(dest)
 end
 
 if lower(config.syncDirection(1))=='c'
-    if serverConfig.host ~= config.host
+    if serverConfig.host == config.host
         removeCommand = ['find ' serverDirectoryPath ' -name "*' selectorString '"  -print0 | xargs -0 rm -f 2>/dev/null  ']; % FIXME -maxdepth 1
     else
         removeCommand = ['ssh ' serverConfig.hostName ' ''find ' serverDirectoryPath ' -name "*" -maxdepth 1 -print0 | xargs -0 rm -f' ''' 2>/dev/null '];
