@@ -7,8 +7,8 @@ completeName = <userName>
 
 %% PROJECT
 
-% probe tools, paths, and hosts
-probe = 0
+% probe tools (1), paths (2), and hosts (3), or all (0)
+probe = -1
 % regenerate root file of the experiment (use of newer versions of the expLanes lib may reguired it)
 generateRootFile = 0
 % add a factor to the experiment. Format of the request: {'name', 'modalities', 'steps', 'selector', defaultModalityId, rankInFactorFile}
