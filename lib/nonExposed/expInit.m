@@ -1,7 +1,7 @@
 function config = expInit(experimentPath, experimentName, shortExperimentName, commands)
 
 if length(commands)<1, % default config
-    config = expConfig(experimentPath, shortExperimentName, shortExperimentName, commands);
+    config = expConfig(experimentPath, experimentName, shortExperimentName, commands);
     if isempty(config), return; end;
     showFactors(config.factorFileName);
 elseif length(commands)>1 % command line processing

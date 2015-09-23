@@ -85,7 +85,7 @@ if ~isempty(config.clean)
                 end
             end
         else
-            config.clean = {config.clean 1};
+            config.clean = {config.clean config.host};
         end
     elseif isnumeric(config.clean)
         config.clean = {num2str(config.clean) config.host};
