@@ -201,21 +201,21 @@ The factors can be edited in the file \\ \mcode{<shortExperimentName>Factors.txt
 \subsection{Implement processing steps}
 
 The first step is dedicated to the computation of the base area of the shape. The solution code is implemented in \mcode{gesh1base.m}:
-\lstinputlisting[firstline=16, lastline=23]{../demos/geometricShape/gesh1base.m}
+\lstinputlisting[firstline=16, lastline=23]{../demo/geometricShape/gesh1base.m}
 We assume here that $\pi$ is known up to a given precision, but 100 measurements have been made.
 
 The second step build on the result of the first processing step to compute the volume (implemented in \mcode{gesh2volume.m}):
-\lstinputlisting[firstline=16, lastline=23]{../demos/geometricShape/gesh2space.m}
+\lstinputlisting[firstline=16, lastline=23]{../demo/geometricShape/gesh2space.m}
 
 \subsection{Define observations}
 
 Observations for the 2 processing steps are the following. First step:
-\lstinputlisting[firstline=24, lastline=24]{../demos/geometricShape/gesh1base.m}
+\lstinputlisting[firstline=24, lastline=24]{../demo/geometricShape/gesh1base.m}
 Second step:
-\lstinputlisting[firstline=25, lastline=26]{../demos/geometricShape/gesh2space.m}
+\lstinputlisting[firstline=25, lastline=26]{../demo/geometricShape/gesh2space.m}
 
 \begin{marginfigure}
-\includegraphics[width=1.2\textwidth]{../demos/geometricShape/report/figures/factors}
+\includegraphics[width=1.2\textwidth]{../demo/geometricShape/report/figures/factors}
 \end{marginfigure}
 
 The command \mcode{geometricShape('f')} generates a diagram view of the experiment.
@@ -234,7 +234,7 @@ runs successively every steps over the cylinders of radius 2  and all the pyrami
 \subsection{Expose observations}
 
 \begin{marginfigure}
-\includegraphics[trim={0 6cm 0 0},clip,width=1.2\textwidth]{../demos/geometricShape/report/figures/mtable}
+\includegraphics[trim={0 6cm 0 0},clip,width=1.2\textwidth]{../demo/geometricShape/report/figures/mtable}
 \end{marginfigure}
 
 Upon completion of the processing, the results of the last processing are displaying in the command window:
@@ -260,20 +260,20 @@ displays the volume (observation 3) of the step volume (2) for each cylinder of 
 
 \begin{margintable}
 \caption{\LaTeX output.}
-\input{../demos/geometricShape/report/tables/geolTabular}
+\input{../demo/geometricShape/report/tables/geolTabular}
 \end{margintable}
 
 The file \mcode{<shortExperimentName>Report.m}, that is \mcode{geshReport.m} in this example allows you to generate report that compile several expositions of observations: \LaTeX table (l), bar plot (b), and box plot (x).
 
-\lstinputlisting[firstline=13, lastline=19]{../demos/geometricShape/geshReport.m}
+\lstinputlisting[firstline=13, lastline=19]{../demo/geometricShape/geshReport.m}
 
 \begin{marginfigure}
-\includegraphics[width=\textwidth]{../demos/geometricShape/report/figures/geob}
+\includegraphics[width=\textwidth]{../demo/geometricShape/report/figures/geob}
 \end{marginfigure}
 
 
 \begin{marginfigure}
-\includegraphics[width=\textwidth]{../demos/geometricShape/report/figures/geox}
+\includegraphics[width=\textwidth]{../demo/geometricShape/report/figures/geox}
 \end{marginfigure}
 
 
@@ -352,9 +352,7 @@ The report directory stores expositions of observations in many flavors.
 
 \section{Configuration of an experiment}
 
-An \explanes experiment can be controlled by editing the configuration file or overloading it with command line settings.
-
-Each of those parameters can be accessed in the code of steps through the variable \mcode{config}. That is, in my 
+An \explanes experiment can be controlled by editing the configuration file or overloading it with command line settings. Each of those parameters can further be accessed at run time through the variable \mcode{config}.
 
 \subsection{User}
 
@@ -366,7 +364,7 @@ Each of those parameters can be accessed in the code of steps through the variab
 \subsection{Project}
 
 \begin{itemize}
-\item \textbf{probe}: probe tools, paths, and hosts
+\item \textbf{probe}: probe tools (1), paths (2), and hosts (3), or all (0)
 \item \textbf{generateRootFile}: regenerate the root file of the experiment (use of newer versions of the expLanes lib may reguired it)
 \item \textbf{addFactor}: add a factor to the experiment. Format of the request: {'name', 'modalities', 'steps', 'selector', defaultModalityId, rankInFactorFile}
 \item \textbf{removeFactor}: remove a factor of the experiment. Format of the request: {rankInFactorFile, defaultModalityId}
@@ -376,42 +374,124 @@ Each of those parameters can be accessed in the code of steps through the variab
 
 \subsection{Hostnames and Paths}
 
+
+
 \begin{itemize}
 \item \textbf{machineNames}: names of the machines as a cell array of 1) string or 2) cell array of strings
 \item \textbf{inputPath}: path to input data (usually accessed read only)
 \item \textbf{codePath}: path to the code repository of the experiment
-\item \textbf{dataPath}:  path to the data repository of the experiment  (structured with one directory per step)
-\item \textbf{}: 
-\item \textbf{}: 
-\item \textbf{}: 
-\item \textbf{}: 
-\item \textbf{}: 
-\item \textbf{}: 
-\item \textbf{}: 
-\item \textbf{}: 
-\item \textbf{}: 
-\item \textbf{}: 
-\item \textbf{}: 
-\item \textbf{}: 
-\item \textbf{}: 
-\item \textbf{}: 
-\item \textbf{}: 
+\item \textbf{dataPath}: path to the data repository of the experiment  (structured with one directory per step)
+\item \textbf{obsPath}: path to the data repository of the experiment for observation data (same as dataPath if left blank)
+\item \textbf{backupPath}: path to backup of transferred data
+\item \textbf{bundlePath}: path to export bundles
+\item \textbf{matlabPath}: path to the directory of the Matlab binary 
+\item \textbf{toolPath}: path to Unix tools (pdflatex, rsync, ssh, screen)
 \end{itemize}
 
+Every path can be a cell array of string. In this case, the path is selected in the cell array according to the rank of the host in the machineNames field.
 
+\subsection{Code}
 
-\subsection{Hostnames and Paths}
+\begin{itemize}
+\item \textbf{dependencies}: code dependencies to load and export as a cell array of strings with paths to the dependencies
+\item \textbf{localDependencies}: dependencies (including expLanes) can be part of the experiment in a dependencies directory: 0 do not use local versions, 1 use local versions, 2 update local versions
+\item \textbf{codeVersion}: version tag of the code of the experiment
+\end{itemize}
 
+\subsection{Computing}
 
+\begin{itemize}
+\item \textbf{do}: processing steps to execute: -1 none, 0 all, >0 processing step by numeric id
+\item \textbf{resume}: do not perform computation if data and obs files with runID>resume are already there
+\item \textbf{parallel}: use parallel processing, if |parallel|>1 specify the number of cores, if array set at step level, if >0 parallelize settings, if <0 parallelize within each setting (the code of the step shall use parfor or the like), can be a numeric value for all processing steps or an array of numeric value, one per step
+\item \textbf{mask}: factor mask: cell array defining the modalities to be set for the factors (0 do all, 1 first modality, [1 3] first and third modality), can be a cell array of cell array
 
+\item \textbf{design}: use a canonical experimental design: assume cell array of {[factors as numericIds], number of values per factor (0 complete set of values), type of plan as string 'f' (factorial) or 'o' (one factor at a time), [seed as a vector of index of factor]}
+\item \textbf{dummy}:  dummy mode: allow for short computations to dry run the experiment. Set as a numeric value. 0: no dummy mode, >1 generate stored data and observations flagged with the numeric value
+\item \textbf{setRandomSeed}: set the random seed at init for replicability purposes, 0 do not set, >0 set to value.
+\item \textbf{host}: host index to run the experiment: 0: seek by hostName, >0: server mode, <0: local mode, 2.1 means the first host of the second compound (cell array)
+\item \textbf{log}: log level (set to 0 for no log)
+\item \textbf{progress}: show processing progress 0: none, 1: garphical bar if on local mode, 2: verbose output, 3: liminar output
+\item \textbf{exitMatlab}: exit matlab at the end of the computation
+\item \textbf{recordTiming}: show timing observations
+\end{itemize}
+
+\subsection{Data}
+
+\begin{itemize}
+\item \textbf{encodingVersion}: encoding type of mat files (doc save for specs)
+\item \textbf{store}: perform computation to be stored: (1, 0) load data of previous step, (-1, 0) load data result of the current step
+\item \textbf{retrieve}: retrieve needed data server side: -1 no retrieval, 0 global scan of every hosts, >0 hostId
+\item \textbf{namingConventionForFiles}: naming convention for data files: long (complete naming, may lead to too long file names), short (abbreviated naming, may also lead to too long file names), hash (hash based naming, compact but may lead to naming clashes)
+\item \textbf{bundle}: generate bundle of elements designated as a string with tokens separated by white spaces: 'c' (code), 'd' (dependencies), 'i' (input), 1 (output data of step 1), 1d (stored data of step 1 only), 1o (observations of step 1 only) 
+\item \textbf{sync}: sync data across machines specified as a cell array with: elements (as in bundle), optional host as numeric id (1.2 means the second host of the first group of machines, default to 2), direction 'd' (download from server to local host, default), 'u' (upload from host to server). Provided with the elements as string, the command default to server 2 in download mode.
+\item \textbf{clean}: clean explanes directories and project data repositories. As string id : t (expLanes temporary directory), b (experiment backup directory), k (all steps directories while keeping reachable settings), 1 (output data of step 1), 1d (remove stored data of step 1 only), 1o (observations of step 1 only). As numeric id (clean the corresponding step directory, 0 means all directories) 
+\end{itemize}
+
+\subsection{Exposition}
+
+\begin{itemize}
+\item \textbf{display}: step for which to display observations: -1 none, 0 last processed step if any, >0 specific step
+\item \textbf{expose}: specify default display of observations (>: prompt, t: table, p:plot)
+\item \textbf{tableDigitPrecision}: mantissa precision for the display of observations
+\item \textbf{displayFontSize}: font size for the display of observations in figures
+\end{itemize}
+
+\subsection{Report}
+
+\begin{itemize}
+\item \textbf{report}: generate report: combination of r (run report), c (LaTeX compilation), and d (debug output)
+\item \textbf{reportName}: type of report: empty (default), if containing the word <slides> or <Slides>,  beamer presentation mode is used
+\item \textbf{latexDocumentClass}: style of LaTeX document (warning: this parameter is taken into account only at the creation of the LaTeX report file)
+\item \textbf{pdfViewer}: path to the pdf viewer (if left empty, expLanes try to locate it automatically)
+\item \textbf{significanceThreshold}: threshold for statistical significance testing
+\item \textbf{showFactorsInReport}: show the factors graph in the report: 0, no display, 1 compact display, 2 alos show stored data, 3 also show observations, 4 also show stored data and observations (if negative only generate the figure for latter inclusion)
+\item \textbf{factorDisplayStyle}:  style of the factor graph: 0 no propagation of factors, 1 propagation of factors, 2 propagation of factors with an "all steps" node
+\item \textbf{figureCopyPath}: path where saved figures are copied outside the expLanes project
+\item \textbf{tableCopyPath}: path where saved tables are copied outside the expLanes project
+\end{itemize}
+
+\subsection{Miscellaneous}
+
+\begin{itemize}
+\item \textbf{useExpCodeSmtp}: usage of default expcode smtp. If set to 0 assume availability of local stmp server with complete credentials
+\item \textbf{sendMail}: send email: -2, server mode, email at start and end, -1 server mode, email at end only, 0, no email ever, 1 one email at end, 2 email at start and end
+\end{itemize}
 
 \section{Exposition of observations}
 
-\section{Best practices} \label{sec:best}
 
-factorial design
-
-multi way anova
+%\section{Best practices} \label{sec:best}
+%
+%factorial design
+%
+%multi way anova
+%
+%main concepts
+%
+%experiment statement
+%
+%factors, modalities
+%
+%processing
+%
+%processing steps
+%
+%parallelization, independance, sequentiality
+%
+%factorial tree
+%
+%data / observations
+%
+%Main steps
+%
+%definition
+%computation
+%mining
+%reporting
+%
+%distant computing
+%data retrieval
 
 \section{Recommended readings}
 
@@ -429,31 +509,7 @@ multi way anova
 
 
 
-main concepts
 
-experiment statement
-
-factors, modalities
-
-processing
-
-processing steps
-
-parallelization, independance, sequentiality
-
-factorial tree
-
-data / observations
-
-Main steps
-
-definition
-computation
-mining
-reporting
-
-distant computing
-data retrieval
 
 \bibliographystyle{plain}
 \bibliography{references}
