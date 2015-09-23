@@ -33,7 +33,11 @@ if ~isempty(vSet)
         if ~all(cellfun(@isempty,list(k, :)))
             e(end+1) = k;
         end
-        values{k} = unique(list(k, :), 'stable');
+        try
+            values{k} = unique(list(k, :), 'stable');
+        catch
+            values{k} = unique(list(k, :)); % < R2012B
+        end
         values{k}(cellfun(@isempty,values{k}))=[];
     end
     

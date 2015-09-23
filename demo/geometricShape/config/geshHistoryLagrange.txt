@@ -42,8 +42,6 @@ geometricShape('report', 'r');
 geometricShape('do', 0)
 geometricShape('probe', 1)
 geometricShape('probe', 1);
-geometricShape('bundle', 'c')
-geometricShape('bundle', 'c');
 geometricShape('bundle', 'a');
 geometricShape('bundle', 'cdD');
 geometricShape('bundle', '');
@@ -53,7 +51,6 @@ geometricShape('bundle', 'cd');
 geometricShape('bundle', 'c d 1d');
 geometricShape('bundle', 'c d 1o')
 geometricShape('do', 0);
-geometricShape('bundle', 'c d 1o');
 geometricShape('bundle', 'c d 1');
 geometricShape('do', 0, 'host', 1.1)
 geometricShape('do', 0, 'host', 1.1);
@@ -69,3 +66,15 @@ geometricShape('do', 1);
 geometricShape('clean', '1');
 geometricShape('clean', 1);
 geometricShape('clean', 0);
+geometricShape('do', 0, 'host', 2.2);
+geometricShape('do', 1, 'host', 2.2);
+geometricShape('sync', '1o');
+geometricShape('sync', '1o', 'host', 2.2);
+geometricShape('sync', {'1o' 2.2});
+geometricShape('bundle', 'c')
+geometricShape('bundle', 'c');
+geometricShape('bundle', 'c 1o');
+geometricShape('bundle', 'c d 1o i');
+geometricShape('bundle', '1');
+geometricShape('bundle', '1o');
+geometricShape('bundle', 'c d 1o');

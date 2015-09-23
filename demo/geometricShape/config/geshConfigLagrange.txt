@@ -13,7 +13,7 @@ machineNames  = {{ 'pc-lagrange', 'dodo', 'toto', 'yoyo'}, {'pc-adtsi-sunda.ircc
 % path to input data
 inputPath  = ~/data/databases
 % path to the code repository of the experiment
-codePath  = ~/tools/expLanes/demos/geometricShape
+codePath  = {'~/tools/expLanes/demo/geometricShape', '~/code/geometricShape'}
 % path to the data repository of the experiment for stored data
 dataPath  = ~/data/experiments/geometricShape
 % path to the data repository of the experiment for observation data (same as dataPath if left blank)
@@ -123,7 +123,7 @@ tableCopyPath  =
 % usage of default expcode smtp. If set to 0 assume availability of local stmp server
 useExpCodeSmtp  = 1
 % send email: -2, server mode, email at start and end, -1 server mode, email at end, 0, no email ever, 1 one email at end, 2 email at start and end
-sendMail  = 0
+sendMail  = -1
 % probe tools and paths
 probe  = 0
 % regenerate root file of the experiment

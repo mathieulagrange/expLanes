@@ -42,10 +42,10 @@ if isstruct(syncDestination)
     syncDestination = serverConfig.host;
 else
     serverConfig = expConfig(config.codePath, config.experimentName, config.shortExperimentName, {'host', syncDestination, 'attachedMode', 0});
-serverConfig.host = config.host;
+% serverConfig.host = config.host;
 end
 
-if syncDestination==-1
+if syncDestination<0
     % bundle setting
     config.syncDirection = 'b';
     if ~exist([config.bundlePath config.experimentName], 'dir')
@@ -58,6 +58,8 @@ if syncDestination==-1
         end
     end
     serverConfig.codePath = [config.bundlePath config.experimentName '/'];
+    serverConfig.dataPath =   [serverConfig.codePath 'data/'];
+    serverConfig.obsPath =   serverConfig.dataPath;
 end
 
 % TODO what if some directories are unset ?
@@ -122,7 +124,7 @@ for k=1:length(tokens)
     end
 end
 
-if syncDestination==-1
+if syncDestination<0
     % moving config files
     saveConfigDir = [serverConfig.codePath 'config/savedConfigFiles'];
     if ~exist(saveConfigDir, 'dir')
@@ -136,11 +138,14 @@ if syncDestination==-1
     bundleConfig = expBundleConfig(config.configFileName);
     expConfigStringSave(bundleConfig, [serverConfig.codePath '/config/' serverConfig.experimentName 'ConfigDefault.txt']);
     
-    bundleName = [config.experimentName '_' num2str(config.codeVersion) '_' date() '.tgz' ];
-    system(['cd ' config.bundlePath ' && tar czf '  bundleName ' ' config.experimentName]);
+    bundleName = [config.experimentName '_' num2str(config.codeVersion) '_' date() '.zip' ];
+    zip([config.bundlePath bundleName], config.experimentName, config.bundlePath);
+   
+%     system(['cd ' config.bundlePath ' && tar czf '  bundleName ' ' config.experimentName]);
     warning('off', 'MATLAB:RMDIR:NoDirectoriesRemoved');
     rmdir([config.bundlePath config.experimentName], 's');
     warning('on', 'MATLAB:RMDIR:NoDirectoriesRemoved');
+    fprintf('Bundle is available at: %s%s\n:', config.bundlePath, bundleName);
 end
 
 

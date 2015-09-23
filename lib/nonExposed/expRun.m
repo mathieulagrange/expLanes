@@ -47,7 +47,7 @@ end
 % fclose(config.logFile);
 
 if config.bundle ~= 0
-    expSync(config, config.bundle, -1);
+    expSync(config, config.bundle, -config.host);
     return
 end
 
@@ -193,7 +193,7 @@ if isfield(config, 'serverConfig')
         expSync(config, 'c', config.serverConfig, 'up');
         if config.localDependencies == 0
             %             config.serverConfig.localDependencies = 1;
-            fprintf('Hint: sync of dependencies can be turned off by setting ''localDependencies'' to 1 in your config.\n');
+            fprintf('Hint: when the code of dependencies is not modified, the sync of dependencies can be turned off by setting ''localDependencies'' to 1 in your config.\n');
             expSync(config, 'd', config.serverConfig, 'up');
         end
         expConfigMatSave(config.configMatName);
