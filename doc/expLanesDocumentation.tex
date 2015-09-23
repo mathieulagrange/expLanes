@@ -304,7 +304,7 @@ The main directory hosts the processing routines (named \mcode{codePath} in your
 
 The processing environment of the experiment can be controled with the files hosted in the directory \mcode{config}.
 
-Almost every processing units of an \explanes experiment has access to a structure named \mcode{config} which is imported from a file which is specific to each user. This file is generated at the creation of the experiment from a user specific template file that can be found in the \texttt{$\sim$/.\explanes} directory in the home directory of the user.
+Almost every processing units of an \explanes experiment has access to a structure named \mcode{config} which is imported from a file which is specific to each user. This file is generated at the creation of the experiment from a user specific template file that can be found in \texttt{$\sim$/.\explanes}.
 
 The syntax of this file allows the user to handle several configurations that depends on which machine the experiment is processed. For example, let us assume that the project handles 3 machines with different file architectures:
 \begin{lstlisting}
@@ -350,19 +350,62 @@ The report directory stores expositions of observations in many flavors.
 \end{itemize}
 
 
-\section{Commands}
+\section{Configuration of an experiment}
 
-The main commands are now listed. The complete set of commands are available in the configuration file of the project.
+An \explanes experiment can be controlled by editing the configuration file or overloading it with command line settings.
 
-\subsection{Management of an experiment}
+Each of those parameters can be accessed in the code of steps through the variable \mcode{config}. That is, in my 
 
-\subsection{Computation of settings}
+\subsection{User}
 
-do 
-resume
-parallel
+\begin{itemize}
+\item \textbf{emailAddress}: email address ticked when processing is done server side (leave empty for no mailing service), can be a cell array of email adresses
+\item \textbf{completeName}: complete name of user
+\end{itemize}
 
-\subsection{Exposition of observations}
+\subsection{Project}
+
+\begin{itemize}
+\item \textbf{probe}: probe tools, paths, and hosts
+\item \textbf{generateRootFile}: regenerate the root file of the experiment (use of newer versions of the expLanes lib may reguired it)
+\item \textbf{addFactor}: add a factor to the experiment. Format of the request: {'name', 'modalities', 'steps', 'selector', defaultModalityId, rankInFactorFile}
+\item \textbf{removeFactor}: remove a factor of the experiment. Format of the request: {rankInFactorFile, defaultModalityId}
+\item \textbf{addStep}: add a step to the experiment. Format of the request: {'name', rank}
+\item \textbf{removeStep}: remove a given step of the experiment. Format of the request: rank
+\end{itemize}
+
+\subsection{Hostnames and Paths}
+
+\begin{itemize}
+\item \textbf{machineNames}: names of the machines as a cell array of 1) string or 2) cell array of strings
+\item \textbf{inputPath}: path to input data (usually accessed read only)
+\item \textbf{codePath}: path to the code repository of the experiment
+\item \textbf{dataPath}:  path to the data repository of the experiment  (structured with one directory per step)
+\item \textbf{}: 
+\item \textbf{}: 
+\item \textbf{}: 
+\item \textbf{}: 
+\item \textbf{}: 
+\item \textbf{}: 
+\item \textbf{}: 
+\item \textbf{}: 
+\item \textbf{}: 
+\item \textbf{}: 
+\item \textbf{}: 
+\item \textbf{}: 
+\item \textbf{}: 
+\item \textbf{}: 
+\item \textbf{}: 
+\end{itemize}
+
+
+
+\subsection{Hostnames and Paths}
+
+
+
+
+\section{Exposition of observations}
 
 \section{Best practices} \label{sec:best}
 
