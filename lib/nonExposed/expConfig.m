@@ -244,7 +244,11 @@ end
 figureHandles = sort(findobj('Type','figure'));
 config.displayData.figure = [];
 for k=1:length(figureHandles)
-    config.displayData.figure(k).handle = figureHandles(k);
+    h = figureHandles(k);
+    if ~isnumeric(h)
+        h=h.Number;
+    end
+    config.displayData.figure(k).handle = h;
     config.displayData.figure(k).taken = 0;
     config.displayData.figure(k).caption = 0;
     config.displayData.figure(k).report = 0;
@@ -271,9 +275,9 @@ if ~isempty(config.removeFactor)
 end
 if ~isempty(config.addStep)
     if iscell( config.addStep)
-    config = expStepCreate(config, config.addStep{:});
+        config = expStepCreate(config, config.addStep{:});
     else
-    config = expStepCreate(config, config.addStep);       
+        config = expStepCreate(config, config.addStep);
     end
 end
 if ~isempty(config.removeStep)

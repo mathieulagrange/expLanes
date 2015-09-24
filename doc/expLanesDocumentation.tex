@@ -460,6 +460,30 @@ Every path can be a cell array of string. In this case, the path is selected in 
 
 \section{Exposition of observations}
 
+To generate Tables, Figures that can be saved or embedded in your reports, the main function to use is:
+
+\mcode{expExpose(<typeOfExposition>, <parameters>)}
+
+The type of exposition specify the style of rendering. Several predefined styles are available and custom ones can easily be built. Parameters customizes the rendering and are defined as pair of string / value.
+
+\subsection{Available expositions}
+
+Available expositions are:
+\begin{itemize}
+\item \textbf{>}: redirect the observations to the command prompt
+\item \textbf{l}: generate a \LaTeX table
+\item \textbf{t}: Matlab table
+\item \textbf{b}: bar plot
+\item \textbf{p}: line plot
+\item \textbf{s}: scatter plot
+\item \textbf{x}: box plot
+\item \textbf{a}: anova display
+\item \textbf{i}: image display
+\end{itemize}
+
+\subsection{Custom exposition}
+
+\subsection{Parameters}
 
 %\section{Best practices} \label{sec:best}
 %

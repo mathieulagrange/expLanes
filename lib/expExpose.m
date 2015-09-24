@@ -1,6 +1,6 @@
 function config = expExpose(varargin)
 % expExpose display observations
-%	config = expExpose(varargin)
+%	config = expExpose(typeOfExposition, varargin)
 %	- varargin: sequence of ('parameter', value) pairs where the parameter is of
 %    'addSpecification': add display specification to plot directive
 %    	as ('parameter' / value) pairs
