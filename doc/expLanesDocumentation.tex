@@ -462,9 +462,11 @@ Every path can be a cell array of string. In this case, the path is selected in 
 
 To generate Tables, Figures that can be saved or embedded in your reports, the main function to use is:
 
-\mcode{expExpose(<typeOfExposition>, <parameters>)}
+\mcode{config = expExpose(config, '<typeOfExposition>', <parameters>);}
 
 The type of exposition specify the style of rendering. Several predefined styles are available and custom ones can easily be built. Parameters customizes the rendering and are defined as pair of string / value.
+
+\textbf{Important}: as \explanes do not use global variables, the state of the experiment is entirely stored in the variable \mcode{config}. Therefore, this variable has to be propagated trough each of the exposition calls.
 
 \subsection{Available expositions}
 
@@ -483,7 +485,132 @@ Available expositions are:
 
 \subsection{Custom exposition}
 
+Let us assume that you need a custom way of displaying observations. You can do so:
+
+\mcode{config = expExpose('custom');}
+
+At the first call, the user is prompted:
+
+\texttt{Unable to find the function exposeCustom in your path. This function is needed to display the observations with the Custom type of display. \\
+Do you want to create it ? Y/N [Y]:}
+
+After acknowledgment, the script if generated in the \mcode{codePath}. This function has the following signature:
+
+\mcode{config = exposeCustom(config, data, p)}
+
+where,
+\begin{itemize}
+\item \textbf{config}: contains the \explanes configuration state                  
+\item \textbf{data}: contains the observations as a struct array                  
+\item \textbf{p}: contains the exposition parameters   
+\end{itemize}
+
 \subsection{Parameters}
+
+Parameters customizes the rendering and are defined as pair of string / value.
+
+\begin{itemize}
+\item \textbf{addSpecification}: add display specification to plot directive
+    	as ('parameter' / value) pairs;
+           value can be a cell array, in this case the cell array is split
+           across plot items                 
+\item \textbf{addSettingSpecification}:  add display specification to plot;
+           directive relative to specific settings as ('parameter' / value) pairs,
+           value have to be a cell array which is split
+           across plot items which corresponds to the settings                
+\item \textbf{caption}: caption of display as string;
+    	symbol + gets replaced by a compact description of the setting  
+\item \textbf{color}: color of line;
+           1: default set of colors
+           0: black
+           {'r', ...}: user defined set of colors                 
+\item \textbf{compactLabels}: shorten labels by removing common substrings
+           (default 0)                 
+\item \textbf{data}: specify data to be stored (default empty)  
+\item \textbf{expand}: name or index of the factor to expand                 
+\item \textbf{fontSize}:  set the font size of \LaTeX tables (default 'normal')                
+\item \textbf{highlight}:  highlight settings that are not significantly
+    	different from the best performing setting;
+       -1: no variance,
+    	0: variance for all observations,
+    	[1, 3]: variance for the first and third observations 
+\item \textbf{highlightStyle}:  type of highlighting;
+        'best': highlight best and equivalents (default),
+        'Best': highlight only the best,
+        'better': highlight only the best if significantly better than
+           the others,
+        'Better': highlight only the best if significantly better than
+           the others and show only this one                
+\item \textbf{highlightColor}: use color to show highlights (default 1), -1 do
+       not use * to display the best performing one                 
+\item \textbf{integrate}:  factor(s) to integrate by summation 
+\item \textbf{label}: \LaTeX label of display as string (equal to the name if left empty)             
+\item \textbf{legendLocation}: location of the legend (default 'BestOutSide', doc legend for more options)                 
+\item \textbf{marker}:  specification of markers for line plot;
+           1: Matlab default set of markers (default),
+           0: no markers,
+           {'', ...}: user defined cell array of markers 
+\item \textbf{mask}:    selection of the settings to be displayed              
+\item \textbf{mergeDisplay}: concatenate current display with the previous one;
+        '': no merge (default),
+        'h': horizontal concatenation,
+        'v': vertical concatenation                 
+\item \textbf{multipage}:   activate the multipage setting to the \LaTeX table 
+\item \textbf{name}:   name of exported file as string; 
+    	symbol + gets replaced by a compact description of the setting              
+\item \textbf{number}:  add a line number for each setting in tables                
+\item \textbf{noFactor}:  remove setting factors 
+\item \textbf{noObservation}: remove observations                 
+\item \textbf{obs}: name(s) or index(es) of the observations to display                 
+\item \textbf{orderFactor}:   numeric array specifying the ordering of the factors
+\item \textbf{orderSetting}:    numeric array specifying the ordering of the settings              
+\item \textbf{orientation}:  orientation of display;
+    	'v': vertical (default),
+    	'h': horizontal,
+       'i': as second letter invert the table for prompt and latex
+           display                
+\item \textbf{percent}: display observations in percent;
+    	selector is the same as 'highlight'  
+\item \textbf{plotCommand}:  set of commands executed after the plotting
+       directives as a cell array of commands                  
+\item \textbf{plotAxisProperties}: set of command setting the current axis after plotting
+       directives as a cell array of couple property / value (see axis properties in Matlab documentation)  
+\item \textbf{precision}:  mantissa precision of data;
+           -1: take value of config field tableDigitPrecision (default),
+           0: no mantissa                  
+\item \textbf{put}:   specify display output;
+    	0: ouput to command prompt,
+    	1: output to figure,
+    	2: output to \LaTeX 
+\item \textbf{report}:  include the current exposition in the report;
+       0: do not include (default for Matlab tables),  
+       1: include (default for other displays)                   
+\item \textbf{rotateAxis}: rotate X axis labels (in degrees)   
+\item \textbf{show}: display;
+        'data': actual observations (default),
+        'rank': ranking among settings,
+        'best': select best approaches,
+        'Best': select the significantly best approach (if any)                 
+\item \textbf{save}: save the display;
+    	0: no saving,
+    	1: save to a file with the name of the display as filename
+    	'name': save to a file with 'name' as filename
+\item \textbf{shortObservations}: compact observation names                 
+\item \textbf{shortFactors}: compact factor names  
+\item \textbf{showMissingSetting}:  show missing settings (default 0)                
+\item \textbf{sort}:   sort settings acording to the specified set of observations if
+        positive or to the specified set of factors if negative
+\item \textbf{step}: show observations the specified processing step as name or
+    index (default last step)                 
+\item \textbf{title}: title of display as string,
+    	symbol + gets replaced by a compact description of the setting  
+\item \textbf{total}:  display average  or summed values for observations;
+        'v', 'V': vertical with (v) or without (V) display of settings,
+        'h', 'H': horizontal with (h) or without (H) display of settings                
+\item \textbf{variance}:   display variance;
+    	selector is the same as 'highlight',
+\item \textbf{visible}: show the figure (default 1 except in save mode)                    
+\end{itemize}
 
 %\section{Best practices} \label{sec:best}
 %

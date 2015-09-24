@@ -11,7 +11,7 @@ function config = expExpose(varargin)
 %           value have to be a cell array which is split
 %           across plot items aka the settings
 %    'caption': caption of display as string
-%    	symbol + gets replaced by a description of the settings
+%    	symbol + gets replaced by a compact description of the setting
 %    'color': color of line
 %           1: default set of colors
 %           0: black
@@ -20,10 +20,12 @@ function config = expExpose(varargin)
 %           (default 0)
 %    'data': specify data to be stored (default empty)
 %    'expand': name or index of the factor to expand
-%    'fontSize': set the font size of LaTEX tables (default 'normal')
+%    'fontSize': set the font size of LaTeX tables (default 'normal')
 %    'highlight': highlight settings that are not significantly
 %    	different from the best performing setting
-%    	selector is the same as 'variance'
+%       -1: no variance
+%    	0: variance for all observations
+%    	[1, 3]: variance for the first and third observations
 %    'highlightStyle': type of highlighting
 %        'best': highlight best and equivalents (default)
 %        'Best': highlight only the best
@@ -32,53 +34,49 @@ function config = expExpose(varargin)
 %        'Better': highlight only the best if significantly better than
 %           the others and show only this one
 %    'highlightColor': use color to show highlights (default 1), -1 do
-%       not use *
-%    'integrate': factor(s) to integrate
-%    'label': label of display as string (equal to the name if left empty)
-%    'legendLocation': location of the legend (default 'BestOutSide')
+%       not use * to display the best performing one
+%    'integrate': factor(s) to integrate by summation
+%    'label': LaTeX label of display as string (equal to the name if left empty)
+%    'legendLocation': location of the legend (default 'BestOutSide', doc legend for more options)
 %    'marker': specification of markers for line plot
-%           1: (default)
+%           1: Matlab default set of markers (default)
 %           0: no markers
-%           {'', ...}: user defined cell aray of markers
+%           {'', ...}: user defined cell array of markers
 %    'mask': selection of the settings to be displayed
 %    'mergeDisplay': concatenate current display with the previous one
 %        '': no merge (default)
 %        'h': horizontal concatenation
 %        'v': vertical concatenation
-%    'multipage': activate the multipage to the LaTEX table
+%    'multipage': activate the multipage setting to the LaTeX table
 %    'name': name of exported file as string
-%    	symbol + gets replaced by a compact description of the settings
+%    	symbol + gets replaced by a compact description of the setting
 %    'number': add a line number for each setting in tables
 %    'noFactor' : remove setting factors
 %    'noObservation': remove observations
-%    'obs': name(s) or index(es) of the observations to retain
-%    'orderFactor': numeric array ordering the factors
-%    'orderSetting': numeric array ordering the settings
-%    'orientation': display orientation
+%    'obs': name(s) or index(es) of the observations to display
+%    'orderFactor': numeric array specifying the ordering of the factors
+%    'orderSetting': numeric array specifying the ordering of the settings
+%    'orientation': orientation of display
 %    	'v': vertical (default)
 %    	'h': horizontal
 %       'i': as second letter invert the table for prompt and latex
 %           display
 %    'percent': display observations in percent
-%    	selector is the same as 'variance'
-%    'plotCommand': set of command executed after the plotting
+%    	selector is the same as 'highlight'
+%    'plotCommand': set of commands executed after the plotting
 %       directives as a cell array of commands
-%    'plotProperties': set of command executed after the plotting
-%       directives as a cell array of couple property / value
+%    'plotAxisProperties': set of command setting the current axis after plotting
+%       directives as a cell array of couple property / value (see axis properties in Matlab documentation)
 %    'precision': mantissa precision of data
 %           -1: take value of config field tableDigitPrecision (default)
 %           0: no mantissa
 %    'put': specify display output
 %    	0: ouput to command prompt
 %    	1: output to figure
-%    	2: output to LaTEX
-%    'report': generate report
-%    	<=-3: no report
-%    	-2: verbose tex report
-%    	-1: generation of tex report
-%    	0; generate outputs
-%    	1: generate outputs and generation of tex report
-%    	2: display figures and verbose tex report
+%    	2: output to LaTeX
+%    'report': include the current exposition in the report
+%       0: do not include (default for Matlab tables)  
+%       1: include (default for other displays)    
 %    'rotateAxis': rotate X axis labels (in degrees)
 %    'show': display
 %        'data': actual observations (default)
@@ -87,24 +85,23 @@ function config = expExpose(varargin)
 %        'Best': select the significantly best approach (if any)
 %    'save': save the display
 %    	0: no saving
-%    	1: save to a file with the masked settings description as name
-%    	'name': save to a file with 'name' as name
+%    	1: save to a file with the name of the display as filename
+%    	'name': save to a file with 'name' as filename
 %    'shortObservations': compact observation names
 %    'shortFactors': compact factor names
 %    'showMissingSetting': show missing settings (default 0)
-%    'sort': sort settings acording to the specified observation if
-%        positive or to the specified factor if negative
-%    'step': name or index of the processing step
+%    'sort': sort settings acording to the specified set of observations if
+%        positive or to the specified set of factors if negative
+%    'step': show observations the specified processing step as name or
+%    index (default last step)
 %    'title': title of display as string
-%    	symbol + gets replaced by a description of the settings
+%    	symbol + gets replaced by a compact description of the setting
 %    'total': display average  or summed values for observations
-%        'v', 'V': vertical with / without settings
-%        'h', 'H': horizontal with / without settings
+%        'v', 'V': vertical with (v) or without (V) display of settings
+%        'h', 'H': horizontal with (h) or without (H) display of settings
 %    'variance': display variance
-%    	-1: no variance
-%    	0: variance for all observations
-%    	[1, 3]: variance for the first and third observations
-%    'visible': show the figure (default except when in save mode)
+%    	selector is the same as 'highlight'
+%    'visible': show the figure (default 1 except in save mode)
 %	-- config: expLanes configuration
 
 %	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
@@ -162,7 +159,7 @@ p.rotateAxis=0;
 p.marker = 1;
 p.color = 1;
 p.plotCommand={};
-p.plotProperties={};
+p.plotAxisProperties={};
 
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
@@ -591,7 +588,7 @@ else
             exposeType = ['expose' upper(exposeType(1)) exposeType(2:end)];
             
             if ~exist(exposeType, 'file')
-                disp(['Unable to find ' exposeType  ' in your path. This function is needed to display the observation ' exposeType(7:end) '.']);
+                disp(['Unable to find the function ' exposeType  ' in your path. This function is needed to display the observations with the ' exposeType(7:end) ' type of display.']);
                 if inputQuestion('Do you want to create it ?');
                     functionString = char({...
                         ['function config = ' exposeType '(config, data, p)'];
@@ -599,7 +596,7 @@ else
                         ['%    config = ' exposeType '(config, data, p)'];
                         '%       config : expLanes configuration state';
                         '%       data : observations as a struct array';
-                        '%       p : various display information';
+                        '%       p : exposition parameters';
                         '';
                         ['% Copyright: ' config.completeName];
                         ['% Date: ' date()];
@@ -630,8 +627,8 @@ else
     end
 end
 
-if ~isempty(p.plotProperties)
-    set(gca, p.plotProperties{:});
+if ~isempty(p.plotAxisProperties)
+    set(gca, p.plotAxisProperties{:});
 end
 for k=1:length(p.plotCommand)
     eval(p.plotCommand{k});
