@@ -140,13 +140,12 @@ if ~isempty(dest)
     end
 end
 
-if lower(config.syncDirection(1))=='c'
+if lower(config.syncDirection(1)) == 'c'
     if serverConfig.host == config.host
         removeCommand = ['find ' serverDirectoryPath ' -name "*' selectorString '"  -print0 | xargs -0 rm -f 2>/dev/null  ']; % FIXME -maxdepth 1
     else
-        removeCommand = ['ssh ' serverConfig.hostName ' ''find ' serverDirectoryPath ' -name "*" -maxdepth 1 -print0 | xargs -0 rm -f' ''' 2>/dev/null '];
-    end
-    
+        removeCommand = ['ssh ' serverConfig.hostName ' ''find ' serverDirectoryPath ' -name "*"  -print0 | xargs -0 rm -f' ''' 2>/dev/null '];
+    end    
     system(removeCommand);
 end
 

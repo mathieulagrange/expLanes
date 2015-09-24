@@ -20,11 +20,11 @@ for k=1:size(dataMean, 2)
     if  ~isempty(dataVar)
         dec = nansum(abs(dataVar(:, k)));
         if abs(dec) > eps*1000000 % && ~isnan(dec)
-            col = cellstr(num2str([dataMean(:, k), dataVar(:, k)], ['%0.' num2str(displayDigitPrecision) 'f' og '%0.' num2str(displayDigitPrecision) 'f' fg ' \n']));
+            col = cellstr(num2str([dataMean(:, k), dataVar(:, k)], ['%0.' num2str(displayDigitPrecision(k)) 'f' og '%0.' num2str(displayDigitPrecision(k)) 'f' fg ' \n']));
         end
     end
     if isempty(col)
-        col = cellstr(num2str(dataMean(:, k), ['%10.' num2str(displayDigitPrecision) 'f\n']));
+        col = cellstr(num2str(dataMean(:, k), ['%10.' num2str(displayDigitPrecision(k)) 'f\n']));
     end
     col = regexprep(col, 'NaN', '-');
     resultCell(:, k) = regexprep(col, ' \(-\)', '');

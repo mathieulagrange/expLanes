@@ -6,8 +6,6 @@ function config = expConfig(experimentPath, experimentName, shortExperimentName,
 
 % FIXME store dependency string and force localDep = 2 if different
 
-% FIXME status of time as unique metric
-
 % FIXME missing info in confusion Matrix
 
 % TODO help command for root -> expCreate in root comment
@@ -21,38 +19,14 @@ function config = expConfig(experimentPath, experimentName, shortExperimentName,
 
 % FIXME negative factor selector
 
-% TODO ability to run only what is needed to display -> p.do 0 not 1 redo=0
-% 2 redo=1
-
 % TODO precision can be an array
 
-% TODO replace LatexCreator with Datatable ??
-
-% TODO values of factors are sorted by default: CHANGE !!
-
-% TODO change the way store is created. sotre shall be part of data and
-% data passed through the module
-
 % FIXME impossible to have floating value in factor to expand
-
-% TODO replace codePath with rootPath ?
-
-% FIXME machine names without full path not recognized
-
-% TODO do clean sync of code (with rm server side)
 
 % TODO composition of expLanes experiments using the same initial steps using
 % cell array of input paths
 
-% TODO integration of git ?
-
-% TODO put on github
-
-% TODO method for changing naming convention
-
 % TODO sorting for all exposition
-
-% TODO Octave ?
 
 expLanesPath = fileparts(fileparts(mfilename('fullpath')));
 

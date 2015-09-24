@@ -67,11 +67,11 @@ function config = expExpose(varargin)
 %       directives as a cell array of commands
 %    'plotAxisProperties': set of command setting the current axis after plotting
 %       directives as a cell array of couple property / value (see axis properties in Matlab documentation)
-%    'precision': mantissa precision of data
+%    'precision': mantissa precision of data as numeric value or array
 %           -1: take value of config field tableDigitPrecision (default)
 %           0: no mantissa
 %    'put': specify display output
-%    	0: ouput to command prompt
+%    	0: output to command prompt
 %    	1: output to figure
 %    	2: output to LaTeX
 %    'report': include the current exposition in the report
@@ -254,9 +254,14 @@ else
     if ~p.obs
         p.obs = 1:length(config.evaluation.observations);
     end
+    if length(p.obs) > length(p.precision)
+       p.precision = [p.precision ones()*config.tableDigitPrecision]; 
+    end
     evaluationObservations = config.evaluation.observations;
     if p.percent ~= -1
-        p.precision = max(p.precision-2, 0);
+        for k=1:length(p.percent)
+            p.precision(p.percent(k)) = max(p.precision(p.percent(k))-2, 0);
+        end
         if p.percent==0
             p.percent = 1:length(evaluationObservations);
         end
