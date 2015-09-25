@@ -173,6 +173,7 @@ if config.store > -1
         loadedData = config.initStore;
     end
 end
+
 if config.store < 1
     data = expLoad(config, [], config.step.id, 'data');
     if ~isempty(data)
@@ -196,5 +197,4 @@ end
 if ~isempty(storeObs)
     expSave(config, storeObs, 'obs');
 end
-% end
 

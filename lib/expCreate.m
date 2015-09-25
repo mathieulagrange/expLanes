@@ -1,4 +1,4 @@
-function expCreate(experimentName, stepNames, codePath, dataPath)
+function expCreate(experimentName, stepNames, codePath, dataPath, configValues)
 % expCreate create an expLanes experiment
 %	expCreate(experimentName, stepNames, codePath, dataPath)
 %	- experimentName: name of the experiment
@@ -6,6 +6,9 @@ function expCreate(experimentName, stepNames, codePath, dataPath)
 %	 of the different processing steps
 %	- codePath: path for code storage
 %	- dataPath: path for data storage
+%   - configValues: cell array of string pairs (one for the filed name one
+%       for its value) to be added to the
+%   config file
 %
 %	Default values and other settings can be set in your configuration file
 % 	located in your home in the .expLanes directory. This file serves
@@ -137,6 +140,10 @@ p = find(~cellfun(@isempty, strfind(n, 'Path')));
 p = [p; find(~cellfun(@isempty, strfind(n, 'Name')))];
 p = [p; setdiff(1:length(n), p)'];
 config = orderfields(config, p);
+
+for k=1:2:length(configValues)
+    config.(configValues{k}) = configValues{k+1};
+end
 
 % create config file
 configFileName = [configPath '/' config.shortExperimentName 'Config' [upper(config.userName(1)) config.userName(2:end)] '.txt']; % [configPath '/' config.shortExperimentName 'ConfigDefault.txt'];

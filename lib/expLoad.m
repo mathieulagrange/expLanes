@@ -54,7 +54,11 @@ if isempty(p) || ~any(strcmp(p(1), {'/', '\', '~'}))
         if ~isempty(strfind(extension, '_obs')) && ~isempty(config.obsPath)
             path = [config.obsPath config.stepName{stepId} '/'];
         else
-            path = [config.dataPath config.stepName{stepId} '/'];
+            if config.branchStep==stepId
+                path = [config.inputPath config.stepName{stepId} '/'];
+            else
+                path = [config.dataPath config.stepName{stepId} '/'];
+            end
         end
     else
         path = config.inputPath;

@@ -12,18 +12,13 @@ function config = expConfig(experimentPath, experimentName, shortExperimentName,
 
 % TODO display variance and highlight in every plot
 
-% TODO python integration : append setting and config in data stored pass
-% it to python that writes data and obs, launch python code with echo $!, monitor pid
-
 % FIXME issue with complex expand when expand field is not sorted (what hapenned to the variance ?)
 
 % FIXME negative factor selector
 
-% TODO precision can be an array
-
 % FIXME impossible to have floating value in factor to expand
 
-% TODO composition of expLanes experiments using the same initial steps using
+% TODO branching experiments using the same initial steps using
 % cell array of input paths
 
 % TODO sorting for all exposition
