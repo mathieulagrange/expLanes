@@ -54,7 +54,7 @@ if isempty(p) || ~any(strcmp(p(1), {'/', '\', '~'}))
         if ~isempty(strfind(extension, '_obs')) && ~isempty(config.obsPath)
             path = [config.obsPath config.stepName{stepId} '/'];
         else
-            if config.branchStep==stepId
+            if config.branchStep==stepId+1
                 path = [config.inputPath config.stepName{stepId} '/'];
             else
                 path = [config.dataPath config.stepName{stepId} '/'];
@@ -200,19 +200,19 @@ try
         %         end
         %         loadData.setting
         if isempty(config.load)
-%             if stepId
-                config.load=[];
-%             else
-%                 config.load{end+1} = [];
-%             end
+            %             if stepId
+            config.load=[];
+            %             else
+            %                 config.load{end+1} = [];
+            %             end
         end
-%         if stepId
-            config.load = [config.load loadData.data];
-%         else
-%             config.load = [config.load loadData]; % FIXME check when
-%             needed
-%         end
-         
+        %         if stepId
+        config.load = [config.load loadData.data];
+        %         else
+        %             config.load = [config.load loadData]; % FIXME check when
+        %             needed
+        %         end
+        
         fileInfo = dir(fileName);
         if fileInfo.datenum<config.loadFileInfo.dateNum(1)
             config.loadFileInfo.dateNum(1) = fileInfo.datenum;
