@@ -15,6 +15,11 @@ else
 end
 
 resultCell = cell(size(dataMean));
+
+if length(displayDigitPrecision)< size(dataMean, 2)
+    displayDigitPrecision = displayDigitPrecision(1)*ones(1, size(dataMean, 2));
+end
+
 for k=1:size(dataMean, 2)
     col=[];
     if  ~isempty(dataVar)

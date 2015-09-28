@@ -75,8 +75,8 @@ function config = expExpose(varargin)
 %    	1: output to figure
 %    	2: output to LaTeX
 %    'report': include the current exposition in the report
-%       0: do not include (default for Matlab tables)  
-%       1: include (default for other displays)    
+%       0: do not include (default for Matlab tables)
+%       1: include (default for other displays)
 %    'rotateAxis': rotate X axis labels (in degrees)
 %    'show': display
 %        'data': actual observations (default)
@@ -255,7 +255,7 @@ else
         p.obs = 1:length(config.evaluation.observations);
     end
     if length(p.obs) > length(p.precision)
-       p.precision = [p.precision ones()*config.tableDigitPrecision]; 
+        p.precision = [p.precision ones()*config.tableDigitPrecision];
     end
     evaluationObservations = config.evaluation.observations;
     if p.percent ~= -1
@@ -295,11 +295,12 @@ else
             order = 1:length(config.factors.names);
         end
         if any(p.expand ~= 0)
-            [null, expand] = expModifyExposition(config, p.expand);
+            [null, expand, expandName] = expModifyExposition(config, p.expand);
             if order(end) ~= expand
                 order(expand) = length(order);
                 order(end) = expand;
             end
+            p.expand = expandName{1};
         end
         config = expOrder(config, order);
         % sort data and settings
@@ -337,6 +338,7 @@ else
     if p.expand,
         if (isnumeric(p.expand) && length(p.expand)>1) || iscell(p.expand), error('Please choose only one factor to expand.'); end
         [config, p.expand, p.expandName] = expModifyExposition(config, p.expand);
+        if (isnumeric(p.obs) && length(p.obs)>1) || iscell(p.obs), error('Please choose only one observation for factor expansion.'); end
         
         pe=p;
         pe.integrate = 0;
@@ -345,6 +347,7 @@ else
         else
             data = expFilter(config, pe);
         end
+        
     end
     
     if ~isempty(p.orderSetting) && length(p.orderSetting) == config.step.nbSettings
@@ -399,13 +402,18 @@ else
         p.sort = config.sortDisplay;
     end
     
-    p.title = strrep(p.title, '+', config.step.setting.infoStringMask);
-    p.name = strrep(p.name, '+', config.step.setting.infoShortStringMask);
+    infoString = '';
+    if isfield(config.step, 'setting')
+        infoString = config.step.setting.infoStringMask;
+    end
+    
+    p.title = strrep(p.title, '+', infoString);
+    p.name = strrep(p.name, '+', infoString);
     if isempty(p.label)
         p.label = p.name;
     end
     p.caption = strrep(p.caption, '=', p.title);
-    p.caption = strrep(p.caption, '+', config.step.setting.infoStringMask);
+    p.caption = strrep(p.caption, '+', infoString);
     p.caption = strrep(p.caption, '_', '\_');
     
     p.legendNames = evaluationObservations;
@@ -415,16 +423,21 @@ else
     end
     
     p.xName='';
-    if p.shortFactors == -1
-        p.columnNames = [config.step.factors.names(data.factorSelector)' evaluationObservations];
-    else
-        p.columnNames = [names2shortNames(config.step.factors.names(data.factorSelector)', 3) evaluationObservations];
+    factorNames = '';
+    p.rowNames='';
+    if isfield(config.step, 'factors')
+        factorNames =  config.step.factors.names(data.factorSelector) ;
+        p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector);
     end
-    p.factorNames = config.step.factors.names(data.factorSelector)';
+    if p.shortFactors == -1
+        p.columnNames = [factorNames' evaluationObservations];
+    else
+        p.columnNames = [names2shortNames(factorNames', 3) evaluationObservations];
+    end
+    p.factorNames = factorNames';
     p.obsNames = evaluationObservations;
     p.methodLabel = '';
     p.xAxis='';
-    p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector);
     
     if p.integrate
         if ~ischar(p.legendNames)
@@ -493,15 +506,19 @@ else
         else
             %     p.columnNames = [config.step.factors.names(data.factorSelector)' p.legendNames]; % (data.factorSelector)
             if p.shortFactors == -1
-                p.columnNames = [config.step.factors.names(data.factorSelector)' p.legendNames];
+                
+                p.columnNames = [factorNames' p.legendNames];
             else
-                p.columnNames = [names2shortNames(config.step.factors.names(data.factorSelector)', 3) p.legendNames];
+                p.columnNames = [names2shortNames(factorNames', 3) p.legendNames];
             end
             
         end
         p.methodLabel = config.evaluation.observations(p.obs);
         p.xName = p.expandName;
-        p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
+        p.rowNames = '';
+        if isfield(config.step, 'factors')
+            p.rowNames = config.step.factors.list(data.settingSelector, data.factorSelector); %config.step.oriFactors.list(data.settingSelector, data.factorSelector);
+        end
     end
     
     

@@ -78,11 +78,15 @@ if  p.expand ~= 0
         %%% why filter is necessary ?
         filter = config.step.maskFilter.maskFilter;
         filter(end) = 1;
-        %%%% 
+        %%%%
         olist{m} =  [config.step.oriFactors.list{m, :}];
     end
-    for m=1:size(config.step.factors.list, 1)
-        list{m} =  [config.step.factors.list{m, :}];
+    if isfield(config.step, 'factors')
+        for m=1:size(config.step.factors.list, 1)
+            list{m} =  [config.step.factors.list{m, :}];
+        end
+    else
+        list = {''};
     end
     
     %%%%%%%%%%%%%%%%
@@ -274,9 +278,11 @@ end
 
 
 factorSelector = [];
-for k=1:length(config.step.factors.names)
-    if any(strcmp(factorSelected, config.step.factors.names{k}))
-        factorSelector(end+1) = k;
+if isfield(config.step, 'factors')
+    for k=1:length(config.step.factors.names)
+        if any(strcmp(factorSelected, config.step.factors.names{k}))
+            factorSelector(end+1) = k;
+        end
     end
 end
 % if  p.expand ~= 0;

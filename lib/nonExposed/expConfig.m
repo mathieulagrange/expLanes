@@ -16,8 +16,6 @@ function config = expConfig(experimentPath, experimentName, shortExperimentName,
 
 % FIXME negative factor selector
 
-% FIXME impossible to have floating value in factor to expand
-
 % TODO branching experiments using the same initial steps using
 % cell array of input paths
 

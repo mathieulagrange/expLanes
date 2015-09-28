@@ -282,7 +282,7 @@ if config.sendMail>0
 elseif strfind(config.report, 'c')
     config = expTex(config, config.report);
 end
-if config.waitBar
+if ~isempty(config.waitBar)
     delete(config.waitBar);
 end
 if config.exitMatlab

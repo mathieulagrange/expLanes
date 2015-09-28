@@ -31,6 +31,8 @@ if ~exist('stepNames', 'var'), stepNames = {}; end
 
 if ~iscell(stepNames), stepNames = {stepNames}; end
 
+if ~exist('configValues', 'var'), configValues = []; end
+
 shortExperimentName = names2shortNames(experimentName);
 shortExperimentName = shortExperimentName{1};
 
