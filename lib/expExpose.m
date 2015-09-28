@@ -161,6 +161,7 @@ p.color = 1;
 p.plotCommand={};
 p.plotAxisProperties={};
 
+p.labels = [];
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
 for pair = reshape(varargin(3:end),2,[])
