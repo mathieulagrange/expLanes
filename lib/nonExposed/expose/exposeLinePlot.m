@@ -6,11 +6,11 @@ colormap = varycolor(size(data.meanData, 1));
 
 hold on
 for k=1:size(data.meanData, 1)
-    if sum(data.varData(:))==0
+    if sum(data.stdData(:))==0
         h = plot(data.meanData(k, :),'linewidth', 1.1);
     else
         x = (1:size(data.meanData, 2))+.04*(k-size(data.meanData, 1)/2);
-        h = errorbar(x, data.meanData(k, :), data.varData(k, :));
+        h = errorbar(x, data.meanData(k, :), data.stdData(k, :));
     end
     if ~isempty(p.marker)
         set(h, 'marker', p.marker{min(k, length(p.marker))}, 'markerSize', 10);

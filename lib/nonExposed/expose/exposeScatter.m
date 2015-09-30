@@ -25,7 +25,7 @@ specif = [specif {'filled'} p.addSpecification];
 scatter(specif{:});
 
 for k=1:size(data.meanData, 1)
-    rectangle('Position',[data.meanData(k, 1)-data.varData(k, 1) data.meanData(k, 2)-data.varData(k, 2) data.varData(k, 1)*2 data.varData(k, 2)*2], 'Curvature', [1 1]);
+    rectangle('Position',[data.meanData(k, 1)-data.stdData(k, 1) data.meanData(k, 2)-data.stdData(k, 2) data.stdData(k, 1)*2 data.stdData(k, 2)*2], 'Curvature', [1 1]);
 end
 
 text(data.meanData(:, 1)+rangeValues(1), data.meanData(:, 2)-rangeValues(2), p.labels)

@@ -149,18 +149,18 @@ switch p.total
 end
 
 sData = [];
-vData = [];
+stdData = [];
 nbData = 0;
 for m=1:length(p.obs)
     for k=1:length(data)
         if isempty(data{k}) || ~isfield(data{k}, observations{p.obs(m)})
             nbData(k, m, :) = 0;
             sData(k, m) = NaN;
-            vData(k, m) = 0;
+            stdData(k, m) = 0;
         else
             nbData(k, m) = length(data{k}.(observations{p.obs(m)}));
             sData(k, m) = mean(data{k}.(observations{p.obs(m)}));
-            vData(k, m) = std(double(data{k}.(observations{p.obs(m)})));
+            stdData(k, m) = std(double(data{k}.(observations{p.obs(m)})));
         end
     end
 end
@@ -196,7 +196,7 @@ if p.highlight ~= -1
                 [maxValue, maxIndex] = max(col);
             end
             
-            if any(vData(:, k))
+            if any(stdData(:, k))
                 for m=1:length(data)
                     if ~isempty(data{m}) && ~isempty(data{m}.(observations{p.obs(k)}))
                         rejection = ttest2(double(data{m}.(observations{p.obs(k)})), double(data{maxIndex}.(observations{p.obs(k)})));
@@ -228,7 +228,7 @@ if p.highlight ~= -1
         col = round(sData(end, :)*10^p.precision);
         [maxValue, maxIndex] = max(col);
         %              if length(col) > 4, maxIndex = 5; end
-        if any(vData(end, :))
+        if any(stdData(end, :))
             for m=1:length(col)
                 if ~isempty(data{end}.(observations{p.obs(m)}))
                     rejection = ttest2(data{end}.(observations{p.obs(m)}), data{end}.(observations{p.obs(maxIndex)}));
@@ -303,7 +303,7 @@ dataDisplay.highlights = highlights(select, :);
 dataDisplay.factorSelector = factorSelector;
 % dataDisplay.p.expand = p.expand;
 % dataDisplay.obs = p.obs;
-dataDisplay.varData = vData(select, :);
+dataDisplay.stdData = stdData(select, :);
 dataDisplay.selector = select;
 dataDisplay.observations = p.obs;
 if isempty(settingSelector)

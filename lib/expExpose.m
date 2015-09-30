@@ -23,9 +23,9 @@ function config = expExpose(varargin)
 %    'fontSize': set the font size of LaTeX tables (default 'normal')
 %    'highlight': highlight settings that are not significantly
 %    	different from the best performing setting
-%       -1: no variance
-%    	0: variance for all observations
-%    	[1, 3]: variance for the first and third observations
+%       -1: no highlight
+%    	0: highlight for all observations
+%    	[1, 3]: highlight for the first and third observations
 %    'highlightStyle': type of highlighting
 %        'best': highlight best and equivalents (default)
 %        'Best': highlight only the best
@@ -99,7 +99,7 @@ function config = expExpose(varargin)
 %    'total': display average  or summed values for observations
 %        'v', 'V': vertical with (v) or without (V) display of settings
 %        'h', 'H': horizontal with (h) or without (H) display of settings
-%    'variance': display variance
+%    'uncertainty': display uncertainty
 %    	selector is the same as 'highlight'
 %    'visible': show the figure (default 1 except in save mode)
 %	-- config: expLanes configuration
@@ -119,7 +119,7 @@ p.orderFactor = [];
 p.orderSetting = [];
 p.expand = 0;
 p.obs = 0;
-p.variance = 0;
+p.uncertainty = 0;
 p.highlight=0;
 p.title='+';
 p.name='+';
@@ -355,14 +355,14 @@ else
         data.settingSelector = data.settingSelector(p.orderSetting);
         data.highlights = data.highlights(p.orderSetting, :);
         data.rawData = data.rawData(p.orderSetting);
-        data.varData = data.varData(p.orderSetting, :);
+        data.stdData = data.stdData(p.orderSetting, :);
         data.meanData = data.meanData(p.orderSetting, :);
         data.filteredData = data.filteredData(p.orderSetting, :);
     end
     
     totalName = 'Average';
     if ~strcmp(p.show, 'data')
-        data.varData(:)=0;
+        data.stdData(:)=0;
         p.precision = 0;
         switch p.show
             case 'rank'
@@ -558,12 +558,12 @@ else
     
     p.axisLabels = evaluationObservations;
     
-    if p.variance == 0
-        p.variance = 1:size(data.varData, 2);
+    if p.uncertainty == 0
+        p.uncertainty = 1:size(data.stdData, 2);
     end
-    for k=1:size(data.varData, 2)
-        if ~any(p.variance==k)
-            data.varData(:, k) = 0;
+    for k=1:size(data.stdData, 2)
+        if ~any(p.uncertainty==k)
+            data.stdData(:, k) = 0;
         end
     end
     
