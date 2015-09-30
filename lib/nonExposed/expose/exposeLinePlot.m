@@ -22,9 +22,9 @@ for k=1:size(data.meanData, 1)
     else
         set(h, 'color', 'k');
     end
-    
-    set(h, p.addSpecification{:});
-    
+    if ~isempty(p.addSpecification)
+        set(h, p.addSpecification{:});
+    end
     for m=1:2:length(p.addSettingSpecification)
         set(h, p.addSettingSpecification{m}, p.addSettingSpecification{m+1}{min(k, length(p.addSettingSpecification{m+1}))}); % TODO handle cell array
     end

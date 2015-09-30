@@ -14,9 +14,12 @@ imagesc(flipud(data.meanData));
 axis xy
 p.orientation='v';
 p.labels = p.legendNames;
-% p.legend=0;
+p.legendNames = {};
 expSetAxes(config, p);
 
+xlabel(p.xName);
+ylabel(p.methodLabel);
+set(gca, 'ytick', (1:length(labels)));
 set(gca, 'yticklabel', labels);
-    colorbar
+colorbar
 
