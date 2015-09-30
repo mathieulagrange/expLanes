@@ -6,6 +6,6 @@ function config = pldeReport(config)
 % Copyright lagrange                                  
 % Date 07-Jan-2014                                    
                                                       
-if nargin==0, planDemo('report', 0); return; end      
+if nargin==0, planDemo('report', 'r'); return; end      
 
-config = expExpose(config, 'a', 'put', 0);
+config = expExpose(config, 'a');

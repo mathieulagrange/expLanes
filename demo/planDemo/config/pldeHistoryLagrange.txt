@@ -46,3 +46,6 @@ planDemo('plan', {[], 3, 'f'}, 'obs', 1, 'step', 1, 'display', 'a', 'host', 1);
 planDemo('do', -1)
 planDemo('do', -1);
 planDemo('do', 1);
+planDemo('generateRootFile', 1)
+planDemo('generateRootFile', 1);
+planDemo('do', 0);
