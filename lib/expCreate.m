@@ -212,7 +212,7 @@ dlmwrite([config.codePath '/' shortExperimentName 'Report.m'], functionString,'d
 readmeString = char({['% This is the README for the experiment ' config.experimentName]; ''; ['% Created on ' date() ' by ' config.userName]; ''; '% Purpose: '; ''; '% Reference: '; ''; '% Licence: '; ''; ''});
 dlmwrite([config.codePath '/README.txt'], readmeString, 'delimiter', '')
 % append remaining of the file
-dlmwrite([config.codePath '/README.txt'], fileread([expLanesPath '/nonExposed/README.txt']), '-append', 'delimiter', '')
+dlmwrite([config.codePath '/README.txt'], fileread([expLanesPath '/internal/README.txt']), '-append', 'delimiter', '')
 
 runId=1; %#ok<NASGU>
 save([configPath config.shortExperimentName], 'runId');

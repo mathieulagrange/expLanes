@@ -18,12 +18,12 @@ rootString = char({...
     'config = expRun(p, experimentName, shortExperimentName, varargin);';
     'end';
     '';
-    fileread([expLanesPath '/nonExposed/utils/getUserFileName.m'])
-    fileread([expLanesPath '/nonExposed/expConfigParse.m'])
-    fileread([expLanesPath '/nonExposed/utils/getUserName.m'])
-    fileread([expLanesPath '/nonExposed/expDependencies.m'])
-    fileread([expLanesPath '/nonExposed/expUserDefaultConfig.m'])
-    fileread([expLanesPath '/nonExposed/utils/expandHomePath.m'])
+    fileread([expLanesPath '/internal/utils/getUserFileName.m'])
+    fileread([expLanesPath '/internal/expConfigParse.m'])
+    fileread([expLanesPath '/internal/utils/getUserName.m'])
+    fileread([expLanesPath '/internal/expDependencies.m'])
+    fileread([expLanesPath '/internal/expUserDefaultConfig.m'])
+    fileread([expLanesPath '/internal/utils/expandHomePath.m'])
     });
 
 dlmwrite([config.codePath '/' experimentName '.m'], rootString,'delimiter','');

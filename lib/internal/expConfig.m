@@ -6,18 +6,12 @@ function config = expConfig(experimentPath, experimentName, shortExperimentName,
 
 % FIXME missing info in confusion Matrix
 
-% TODO display variance in every plot
-
-% TODO change variance to std in variable names
-
-% FIXME issue with complex expand when expand field is not sorted (what hapenned to the variance ?)
-
 % FIXME negative factor selector
 
-% TODO branching experiments using the same initial steps using
-% cell array of input paths
-
 % TODO sorting for all exposition
+
+% TODO clean demo
+
 
 expLanesPath = fileparts(fileparts(mfilename('fullpath')));
 
