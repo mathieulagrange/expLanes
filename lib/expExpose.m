@@ -348,7 +348,7 @@ else
         else
             data = expFilter(config, pe);
         end
-        
+        evaluationObservations = {p.expandName evaluationObservations};
     end
     
     if ~isempty(p.orderSetting) && length(p.orderSetting) == config.step.nbSettings

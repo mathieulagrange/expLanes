@@ -4,13 +4,11 @@ function config = expConfig(experimentPath, experimentName, shortExperimentName,
 
 % TODO convert disp by expLog
 
-% FIXME store dependency string and force localDep = 2 if different
-
 % FIXME missing info in confusion Matrix
 
-% TODO help command for root -> expCreate in root comment
+% TODO display variance in every plot
 
-% TODO display variance and highlight in every plot
+% TODO change variance to std in variable names
 
 % FIXME issue with complex expand when expand field is not sorted (what hapenned to the variance ?)
 
