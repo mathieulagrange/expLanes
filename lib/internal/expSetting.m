@@ -25,7 +25,7 @@ for m=1:size(vSet, 1)
             end
         else
             t{end+1} = sprintf('%s: %s', vSpec.names{m}, value);
-            sn = vSpec.shortValues{m}{vSet(m, k)}; % TODO put shortValues as unsafe option
+            sn = vSpec.shortValues{m}{vSet(m, k)};
             sn = [upper(sn(1)) sn(2:end)];
             st{end+1} = sprintf('%s%s', vSpec.shortNames{m},  sn);
             if strcmp(value, 'none')
@@ -33,7 +33,7 @@ for m=1:size(vSet, 1)
             end
             
         end
-        if any(maskFilter.invFilter==m) % TODO wrong
+        if any(maskFilter.invFilter==m)
             filter(end+1) = length(filter)+1;
         end
         fm = find(maskFilter.invFilterMask==m);
@@ -80,7 +80,7 @@ if ~isempty(f)
 end
 setting.infoStringMasked = [f{:}];
 
-f = st(prunedFilterMask); % TODO should output something
+f = st(prunedFilterMask);
 if ~isempty(f)
     f(2, :) = {'_'}; f(2, end) = {''};
 end

@@ -107,10 +107,6 @@ function config = expExpose(varargin)
 %	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
 %	See licence.txt for more information.
 
-% TODO check for implemented specifs
-
-% TODO lastCommand
-
 oriConfig = varargin{1};
 config = varargin{1};
 exposeType = varargin{2};
@@ -307,15 +303,11 @@ else
         % sort data and settings
     end
     
-    % if any(p.integrate) && p.expand
-    %    error('Cannot use intergate and expand at the same time.');
-    % end
-    
     if any(p.percent>0)
         observations = config.evaluation.observations;
         for k=1:length(p.percent)
             for m=1:length(config.evaluation.results)
-                if ~isempty(config.evaluation.results{m}) && all(config.evaluation.results{m}.(observations{p.percent(k)})<=1) % TODO remove when done
+                if ~isempty(config.evaluation.results{m}) && all(config.evaluation.results{m}.(observations{p.percent(k)})<=1)
                     config.evaluation.results{m}.(observations{p.percent(k)}) = 100*config.evaluation.results{m}.(observations{p.percent(k)});
                 end
             end

@@ -6,11 +6,11 @@ function config = expConfig(experimentPath, experimentName, shortExperimentName,
 
 % FIXME missing info in confusion Matrix
 
-% FIXME negative factor selector
-
 % TODO sorting for all exposition
 
 % TODO clean demo
+
+% TODO multiple reduce data, one per mask
 
 
 expLanesPath = fileparts(fileparts(mfilename('fullpath')));

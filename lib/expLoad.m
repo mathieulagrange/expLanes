@@ -25,7 +25,7 @@ if nargin<4 || isempty(extension),
         extension ='';
     end
 else
-    [p, n] = fileparts(extension); % FIXME may be fragile
+    [p, n] = fileparts(extension);
     extension = ['_' n];
 end
 if ~exist('contracting', 'var'), contracting = 1; end
@@ -68,7 +68,7 @@ else
 end
 
 if nargin<2 || isempty(name)
-    if contracting % TODO detect wich step are contracting
+    if contracting
         m = config.mask;
         m = expMergeMask(m, {num2cell(config.step.setting.infoId)}, config.factors.values, -1);
         tv = expStepSetting(config.factors, m{1}, stepId);
@@ -78,8 +78,6 @@ if nargin<2 || isempty(name)
     else
         settings{1} = config.step.setting;
     end
-    
-    %     settings{k}.infoString
     
     for k=1:length(settings)
         switch config.namingConventionForFiles
@@ -176,8 +174,6 @@ end
 
 function config = loadFileName(config, fileName, stepId, fieldSelector)
 
-% TODO handle stuff that are not mat files
-
 try
     if strcmp(fileName(end-2:end), 'mat')
         
@@ -186,32 +182,12 @@ try
         else
             loadData = load(fileName, fieldSelector{:});
         end
-        %         if isempty(config.load)
-        %             if stepId
-        %                 config.load.(loadData.stepName)=[];
-        %             else
-        %                 config.load.('input'){end+1} = [];
-        %             end
-        %         end
-        %         if stepId
-        %             config.load.(loadData.stepName) = [config.load.(loadData.stepName) loadData.data];
-        %         else
-        %             config.load.('input') = [config.load.('input') loadData];
-        %         end
-        %         loadData.setting
+
         if isempty(config.load)
-            %             if stepId
             config.load=[];
-            %             else
-            %                 config.load{end+1} = [];
-            %             end
         end
-        %         if stepId
+
         config.load = [config.load loadData.data];
-        %         else
-        %             config.load = [config.load loadData]; % FIXME check when
-        %             needed
-        %         end
         
         fileInfo = dir(fileName);
         if fileInfo.datenum<config.loadFileInfo.dateNum(1)

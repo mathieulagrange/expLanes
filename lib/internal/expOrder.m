@@ -1,6 +1,6 @@
 function [config, permutationVector] = expOrder(config, order)
 
-order = [order setdiff(1:length(config.factors.names), order)]; % TODO test should fail
+order = [order setdiff(1:length(config.factors.names), order)];
 
 vSpec = config.factors;
 
@@ -11,18 +11,11 @@ vSpec.shortValues = vSpec.shortValues(order);
 vSpec.stringValues = vSpec.stringValues(order);
 vSpec.step = vSpec.step(order);
 
-% [b p] = sort(order);
-% sf = vSpec.selectFactors;
-% for k=1:length(sf)
-%         sf{k}(1) = num2str(p(str2num(sf{k}(1))));
-%         sf{k}(3) = num2str(p(str2num(sf{k}(3))));
-% end
-% vSpec.selectFactors = sf;
 
 select = vSpec.selectFactors;
 [null, io] = sort(order);
 for k=1:length(select)
-    c = regexp(select{k}, '/', 'split'); % TODO parse [] 
+    c = regexp(select{k}, '/', 'split');
     select{k} = [num2str(io(str2num(c{1}))) '/' num2str(io(str2num(c{2}))) '/' c{3}];
     if length(c)==4
         select{k} = [select{k}  '/' c{4}];
@@ -32,7 +25,7 @@ vSpec.selectFactors = select;
 
 deselect = vSpec.deselectFactors;
 for k=1:length(deselect)
-    c = regexp(deselect{k}, '/', 'split'); % TODO parse [] 
+    c = regexp(deselect{k}, '/', 'split');  
     
    deselect{k} = [num2str(io(str2num(c{1}))) '/-' c{2} '/' num2str(io(str2num(c{3})))]; 
     if length(c)==4
@@ -58,6 +51,5 @@ for k=1:size(vSet, 2)
     end
 end
 
-% config.step.set = vSet;
 config.factors = vSpec;
 config.evaluation.results = config.evaluation.results(permutationVector);

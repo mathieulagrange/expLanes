@@ -13,8 +13,6 @@ function expMex(config, mexPath, fileName, command, force)
 %	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
 %	See licence.txt for more information.
 
-% TODO move expBuild to handle external compilations
-
 if ~exist('command', 'var')
     command = ['mex ' fileName];
 end

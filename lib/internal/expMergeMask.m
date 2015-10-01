@@ -27,7 +27,6 @@ else
         if  s{k}(1) == -1 || m{k}(1) == -1
             m{k} = setting;
         else
-            %             if 0 %% TODO does it do the same thing ? SEEM SO
             if m{k}(1) ~= 0 && s{k}(1) ~= 0
                 m{k} = intersect(m{k}, s{k});
             elseif m{k}(1) == 0 && s{k}(1) ~= 0

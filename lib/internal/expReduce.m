@@ -1,24 +1,27 @@
 function config=expReduce(config)
 
-% TODO reduceData per expose Call
-
 data = {};
-reduceFileName = [config.obsPath config.stepName{config.step.id} filesep 'reduceData.mat'];
 
-if exist(reduceFileName, 'file')
-    % get vSet
-    modReduce = dir(reduceFileName);
-    modFactors = dir(config.factorFileName);
-    loadedData=load(reduceFileName, 'vSet');
-    if isequal(loadedData.vSet, config.step.set) && modReduce.datenum > modFactors.datenum
-        loadedData=load(reduceFileName, 'data');
-        data = loadedData.data;
+stepPath = [config.obsPath config.stepName{config.step.id} filesep];
+files = dir([stepPath 'reduceData*']);
+
+for k=1:length(files)
+    reduceFileName = [stepPath files(k).name];
+    if strfind(reduceFileName, num2str(datenum(date)))
+        % get vSet
+        modReduce = dir(reduceFileName);
+        modFactors = dir(config.factorFileName);
+        loadedData=load(reduceFileName, 'vSet');
+        if isequal(loadedData.vSet, config.step.set) && modReduce.datenum > modFactors.datenum
+            loadedData=load(reduceFileName, 'data');
+            data = loadedData.data;
+        end
+    else
+        delete(reduceFileName);
     end
 end
 
 if isempty(data)
-%     config.step.id = config.step.id+1; % FIX ME fragile
-    
     config.loadFileInfo.date = {'', ''};
     config.loadFileInfo.dateNum = [Inf, 0];
     
@@ -36,10 +39,9 @@ if isempty(data)
     if config.loadFileInfo.dateNum(2)
         disp(['Loaded data files dates are in the range: | ' config.loadFileInfo.date{1} ' || ' config.loadFileInfo.date{2} ' |']);
         vSet = config.step.set; %#ok<NASGU>
+        reduceFileName = [stepPath 'reduceData_' num2str(datenum(date)) '_' num2str(ceil(rand(1)*100))];
         save(reduceFileName, 'data', 'vSet'); % , 'config' FIXME
-%             copyfile(reduceFileName, [config.reportPath config.experimentName '.mat']);
     end
-%     config.step.id = config.step.id-1;
 end
 
 % list all observations
@@ -64,17 +66,6 @@ end
 observations = unique(observations);
 structObservations = unique(structObservations);
 
-% build results matrix
-%results = zeros(length(data), length(observations), maxLength)*NaN;
-% results = zeros(length(data), length(observations), maxLength)*NaN;
-% for k=1:size(results, 2)
-%     for m=1:size(results, 1)
-%         if isfield(data{m}, observations{k}) && ~isempty((data{m}.(observations{k})))
-%             results(m, k, (1:length(data{m}.(observations{k})))) = data{m}.(observations{k});
-%         end
-%     end
-% end
-
 if isempty(structObservations)
     structResults = [];
 else
@@ -83,7 +74,6 @@ else
         for m=1:length(data)
             if isfield(data{m}, structObservations{k})
                 structResults.(structObservations{k})(n) = data{m}.(structObservations{k});
-                %             structResults.(structObservations{k})(n).setting = config.settings(m);
                 n=n+1;
             end
         end

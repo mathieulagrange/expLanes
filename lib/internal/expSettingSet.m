@@ -5,7 +5,6 @@ for k=1:length(mask)
     vSet = [vSet expSettingSetMask(vSpec, mask{k}, currentStep)];
 end
 
-% TODO prune the vset with exclusion rules 4 random
 for k=1:length(vSpec.deselectFactors)
     c = regexp(vSpec.deselectFactors{k}, '/', 'split');
     p = eval(c{1});

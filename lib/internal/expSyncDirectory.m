@@ -142,21 +142,21 @@ end
 
 if lower(config.syncDirection(1)) == 'c'
     if serverConfig.host == config.host
-        removeCommand = ['find ' serverDirectoryPath ' -name "*' selectorString '"  -print0 | xargs -0 rm -f 2>/dev/null  ']; % FIXME -maxdepth 1
+        removeCommand = ['find ' serverDirectoryPath ' -name "*' selectorString '"  -print0 | xargs -0 rm -f 2>/dev/null  '];
     else
         removeCommand = ['ssh ' serverConfig.hostName ' ''find ' serverDirectoryPath ' -name "*"  -print0 | xargs -0 rm -f' ''' 2>/dev/null '];
     end    
     system(removeCommand);
 end
 
-% remove reduceData
-reduceDataFileName = [directoryPath 'reduceData.mat'];
-if exist(reduceDataFileName, 'file')
+% remove reduceData files
+files = dir([directoryPath 'reduceData*']);
+for k=1:length(files)
+reduceDataFileName = [directoryPath files(k).name];
     delete(reduceDataFileName);
 end
 
 function excludeString=getExcludeString(config, directoryPath)
-
 
 % excludeString = ' --filter=''- dependencies''';
 excludeString ='';

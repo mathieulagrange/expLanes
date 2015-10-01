@@ -17,8 +17,6 @@ function expCreate(experimentName, stepNames, codePath, dataPath, configValues)
 %	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
 %	See licence.txt for more information.
 
-% TODO remove expPath
-
 expLanesPath = fileparts(mfilename('fullpath'));
 addpath(genpath(expLanesPath));
 
@@ -75,7 +73,7 @@ if exist('codePath', 'var')
         config.codePath = codePath;
     end
 end
-% TODO pick the first if several by default
+
 if exist('dataPath', 'var')
     if ~isempty(dataPath)
         config.dataPath = dataPath;
@@ -172,7 +170,6 @@ fclose(fid);
 expCreateRootFile(config, experimentName, shortExperimentName, expLanesPath);
 
 % create experiment functions
-% TODO add some comments
 for k=1:length(stepNames)
     expStepFile(config, stepNames{k}, k);
 end

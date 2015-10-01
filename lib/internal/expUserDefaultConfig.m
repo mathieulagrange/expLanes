@@ -1,7 +1,5 @@
 function [userDefaultConfigFileName, userDir] = expUserDefaultConfig(defaultFileName)
 
-% if ~exist(expLanesPath, 'dir'), return; end % FIXME
-
 if ispc, userDir= getenv('USERPROFILE');
 else userDir= getenv('HOME');
 end

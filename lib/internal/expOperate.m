@@ -53,10 +53,10 @@ if all(config.do>0) && ~isempty(config.factors)
         for k=1:length(config.do)
             config.step = config.stepSettings{config.do(k)};
             % remove reduceData
-            reduceDataFileName = [config.obsPath config.stepName{config.step.id} filesep 'reduceData.mat'];
-            if exist(reduceDataFileName, 'file')
-                delete(reduceDataFileName);
-            end
+%             reduceDataFileName = [config.obsPath config.stepName{config.step.id} filesep 'reduceData.mat'];
+%             if exist(reduceDataFileName, 'file')
+%                 delete(reduceDataFileName);
+%             end
             
             if config.parallel(config.do(k))>0 % ~= 1 % length(config.stepName)
                 settingStatus = config.settingStatus;
@@ -83,10 +83,10 @@ if all(config.do>0) && ~isempty(config.factors)
     else
         for k=1:length(config.do)
             config.step = config.stepSettings{config.do(k)}; % remove reduceData
-            reduceDataFileName = [config.obsPath config.stepName{config.step.id} filesep 'reduceData.mat'];
-            if exist(reduceDataFileName, 'file')
-                delete(reduceDataFileName);
-            end
+%             reduceDataFileName = [config.obsPath config.stepName{config.step.id} filesep 'reduceData.mat'];
+%             if exist(reduceDataFileName, 'file')
+%                 delete(reduceDataFileName);
+%             end
             for l=1:length(config.step.sequence)
                 config = expProcessOne(config, l);
             end

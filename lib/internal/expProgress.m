@@ -2,9 +2,6 @@ function config = expProgress(config)
 
 if ~config.progress, return; end
 
-% TODO use rewind feed
-
-
 if config.parallel(config.step.id) > 0
     config.progressId = length(dir([config.tmpPath config.experimentName '_' num2str(config.runId) '_' num2str(config.step.id)  '*' ]));
     progress = ceil(100*config.progressId/length(config.step.sequence));

@@ -35,7 +35,11 @@ elseif ischar(commands{1})
     if isempty(config), return; end;
     switch commands{1}
         case 'h'
-            % TODO display help
+            docFileName = [config.expLanesPath(1:end-3) 'doc/expLanesDocumentation.pdf'];
+            fprintf('Welcome to the explanes experiment named %s\nYour configuration file is available in the config directory.\nThe documentation of expLanes is %s\n', experimentName, docFileName);
+            if inputQuestion('Do you want to open it ?');
+                open(docFileName);
+            end
         case 'p'
             fprintf('---------------------------\nHistory: \n');
             historyFileName = expandHomePath([config.codePath 'config' filesep config.shortExperimentName 'History' upper(config.userName(1)) config.userName(2:end) '.txt']);
