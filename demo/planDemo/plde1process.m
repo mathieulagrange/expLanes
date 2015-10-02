@@ -16,4 +16,4 @@ if nargin==0, planDemo('do', 1, 'mask', {{}}); return; end
 store=[];                                                           
 obs=[]; 
 
-obs.metric = setting.p1*setting.p2+setting.p3+randn(1);
+obs.metric = setting.f1*setting.f2+setting.f3+randn(1);

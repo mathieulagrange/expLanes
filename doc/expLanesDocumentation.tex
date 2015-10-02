@@ -630,9 +630,37 @@ The new experiment must keep the same factors up to the step before the branchin
 
 The merge of the new solution to the root experiment must be done by hand.
 
-\subsection{Design of factorial exploration}
+\subsection{Design of experiments}
+
+By default, \explanes proceed to the factorial exploration of every settings. The number of settings being the product of the cardinality of each set of modalities corresponding to the factors defined in the Factor file. For example, given 4 factors, each of 10 modalities, the number of settings to process is 1000, which may be impractical for any kind of large scale data processing.
+
+One way is to sample the dataset, \textit{i.e.} reduce the computation time needed for each setting. This can be done by using the dummy mode in the configuration of the experiment.
+
+Another, more systematic, way is to prune out irrelevant sets of settings. To do so, one has to identify a minimal set of settings to process in order to quickly gain insights, given an set of observations of interest, about:
+\begin{enumerate}
+\item what are the most influential factors ?
+\item are there any interaction between factors ?
+\end{enumerate}
+
+Let us consider an experiment available in the \mcode{demo} directory called \mcode{planDemo}. It has 4 factors (\mcode{f1, f2, f3, f4}), each with a set of modalities equal to 10. There is a unique observation  of choice for this experiment (named \mcode{metric}) and the relationship between this observation and the factors is the following:
+
+\lstinputlisting[firstline=19, lastline=19]{../demo/planDemo/plde1process.m}
+
+In this example, the answer  to the 2 previous questions can easily be deduced. Factor \mcode{f4} do not need to be evaluated and factors \mcode{f1} and \mcode{f2} are correlated and thus have to be jointly considered.
+
+Yet, in most systems, those results cannot be found deductively. 
 
 
+The design of experiments method can provide answers for other important questions. Barr \& al.  wrote a practical introduction on good practices in designing computational experiments \cite{design}. Some books provide more in depth presentation \cite{de,se}.
+
+
+
+
+\subsection{Handling compilation directives}
+
+The \explanes experiment may depends on mex files or external libraries that have to be compiled before the experiment is run.
+
+If the code is static, and each processing host share the same computing environment, the compilation can be done once. If not, you may use the \mcode{expMex} function, placed in the Init file of the experiment. Then this function will, before any computation, proceed to the compilation if needed.
 
 %\section{Best practices} \label{sec:best}
 %
@@ -673,6 +701,8 @@ The merge of the new solution to the root experiment must be done by hand.
 \item \textbf{Getting it right}: R\&D Methods for Science and Engineering, Peter Bock, Academic Press
 
 \item \textbf{The Visual Display of Quantitative Information} Edward R. Tufte
+
+\item \textbf{Warning Signs in Experimental Design and Interpretation} Peter Norvig.  Available online: \url{http://norvig.com/experiment-design.html}
 
 \end{itemize}
 
