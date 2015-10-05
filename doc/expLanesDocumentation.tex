@@ -701,10 +701,10 @@ planDemo('mask', {{[1 10] 1 1 1}, {1 [1 10] 1 1}, {1 1 [1 10] 1}, {1 1 1 [1 10]}
 A "star" exploration can be done using
 
 \begin{lstlisting}
-planDemo('design', 's', 'do', 1);
+planDemo('design', 'star', 'do', 1);
 \end{lstlisting}
 
-is equivalent to
+which is equivalent to
 
 \begin{lstlisting}
 planDemo('mask', {{0 1 1 1}, {1 0 1 1}, {1 1 0 1}, {1 1 1 0}}, 'do', 1);
@@ -713,10 +713,13 @@ planDemo('mask', {{0 1 1 1}, {1 0 1 1}, {1 1 0 1}, {1 1 1 0}}, 'do', 1);
 If available, a initial guess can be provided :
 
 \begin{lstlisting}
-planDemo('design', {[], 0, 'o', {5 5 5 5}}, 'do', 1);
+planDemo('design', {[], 0, 'o', {5 4 3 2}}, 'do', 1);
 \end{lstlisting}
-where the empty array stands for the exploration of each factor, 0 stands for the complete exploration of the modalities, \mcode{'o'} stands for "one factor at a time" exploration, and the last parameter is the (optional) seed;
+where the empty array stands for the exploration of each factor, 0 stands for the complete exploration of the modalities, \mcode{'o'} stands for "one factor at a time" exploration, and the last parameter is the (optional) seed. This last command is equivalent to:
 
+\begin{lstlisting}
+planDemo('mask', {{0 4 3 2}, {5 0 3 2}, {5 4 0 2}, {5 4 3 0}}, 'do', 1);
+\end{lstlisting}
 
 The design of experiments method can provide answers for other important questions. Barr \& al.  wrote a practical introduction on good practices in designing computational experiments \cite{design}. Some books provide more in depth presentation \cite{de,se}.
 

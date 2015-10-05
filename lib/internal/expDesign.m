@@ -60,13 +60,17 @@ end
 
 switch type
     case {'f', 'factorial'}
-        seed(:) = {0};
+        if length(design)<4 || isempty(design{4})
+            seed(:) = {0};
+        end
         mask = seed;
         for k=1:length(factors)
             mask{factors(k)} = steps{k};
         end
     case {'o', 'oneFactorAtATime'}
-        seed(:) = {1};
+        if length(design)<4 || isempty(design{4})
+            seed(:) = {1};
+        end
         % one mask per factor
         for k=1:length(factors)
             m = seed;
@@ -77,8 +81,9 @@ switch type
         error(['Unhandled type of design: ' design{3}]);
 end
 
-config.mask = expMergeMask(config.mask, mask, config.factors.values, -1);
-
+% config.mask = expMergeMask(config.mask, mask, config.factors.values, -1);
+% FIXME clash when used in start mode with seed
+config.mask = mask;
 
 function design = cellifydesign(config)
 
