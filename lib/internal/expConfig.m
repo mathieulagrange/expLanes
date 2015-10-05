@@ -12,6 +12,7 @@ function config = expConfig(experimentPath, experimentName, shortExperimentName,
 
 % TODO multiple reduce data, one per mask
 
+% FIXME bug when saving figure (do not display)
 
 expLanesPath = fileparts(fileparts(mfilename('fullpath')));
 

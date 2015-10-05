@@ -49,3 +49,16 @@ planDemo('do', 1);
 planDemo('generateRootFile', 1)
 planDemo('generateRootFile', 1);
 planDemo('do', 0);
+planDemo('clean', 1)
+planDemo('clean', 1);
+planDemo('design', {[], 2, 'f'});
+planDemo('design', 2);
+planDemo('design', 2, 'do', 1);
+planDemo('design', 2, 'report', 'r');
+planDemo('design', 2, 'display', 'a');
+planDemo('design', 2, 'obs', 'a');
+planDemo('design', 2, 'expose', '>');
+planDemo('design', 2, 'expose', '>', 'display', 1);
+planDemo('design', 2, 'expose', 'a', 'display', 1);
+planDemo('design', 2, 'expose', 'a');
+planDemo('design', {[], 0, 'o', {5 5 5 5}}, 'do', 1);

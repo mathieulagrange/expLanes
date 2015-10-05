@@ -120,7 +120,7 @@ if config.display == 0
     if length(config.do)>1 || config.do>0
         config.display = config.do(end);
     else
-        config.display = -1;
+        config.display = length(config.stepName);
     end
 end
 rem=[];

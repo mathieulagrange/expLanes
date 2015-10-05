@@ -528,6 +528,8 @@ Parameters customizes the rendering and are defined as pair of string / value.
 \item \textbf{compactLabels}: shorten labels by removing common substrings
            (default 0)                 
 \item \textbf{data}: specify data to be stored (default empty)  
+
+\item \textbf{design}: use a canonical experimental design: assume cell array of {[factors as numericIds], number of values per factor (0 complete set of values), type of plan as string 'f' (factorial) or 'o' (one factor at a time), [ optionally a seed as a vector of index of factor]}. Shortcuts: numerid id (equivalent to {[], <numericId>}, 'f'), or 'one' design (equivalent to {[], 2, 'o'}), or 'star' design (equivalent to {[], 0, 'o'})
 \item \textbf{expand}: name or index of the factor to expand                 
 \item \textbf{fontSize}:  set the font size of \LaTeX tables (default 'normal')                
 \item \textbf{highlight}:  highlight settings that are not significantly
@@ -648,7 +650,72 @@ Let us consider an experiment available in the \mcode{demo} directory called \mc
 
 In this example, the answer  to the 2 previous questions can easily be deduced. Factor \mcode{f4} do not need to be evaluated and factors \mcode{f1} and \mcode{f2} are correlated and thus have to be jointly considered.
 
-Yet, in most systems, those results cannot be found deductively. 
+Yet, in most systems, those facts cannot be easily deduced. Considering a reduced set of modalities allows the experiment to be tractable. This can be done by considering the \mcode{'design'} parameter. A factorial design with 2 values (minima and maxima) for each modality can be done using the following command
+
+\begin{lstlisting}
+planDesign('design', 2);
+\end{lstlisting}
+
+which is equivalent to
+\begin{lstlisting}
+planDemo('design', {[], 2, 'f'});
+\end{lstlisting}
+
+the empty array means consideration of each setting and 'f' stand for a factorial exploration.
+
+\begin{marginfigure}
+\includegraphics[trim={0 7.5cm 0 0},clip,width=\textwidth]{../demo/planDemo/report/figures/anova}
+\end{marginfigure}
+
+\begin{lstlisting}
+planDemo('design', 2), 'expose', 'a'};
+\end{lstlisting}
+
+allows the user to study factors relationships through a multi-way factorial anova analysis, where the correlation between \mcode{f1} and \mcode{f2} and the uselessness of \mcode{f4} are shown. In order to identify the best setting, the remaining step are:
+
+\begin{lstlisting}
+planDemo('do', 1, 'mask', {0 0 1 1}};
+\end{lstlisting}
+
+The best performance is given for  \mcode{f1=10} and  \mcode{f2=10}. Then,
+
+\begin{lstlisting}
+planDemo('do', 1, 'mask', {10 10 0};
+\end{lstlisting}
+
+gives the best performance for \mcode{f3=10}. Using this method, the optimal setting (10 10 0 *) is identified in $2^4+10^2+10 = 126$ computation of settings compared to $10^4 = 10000$ for an exhaustive factorial exploration.
+
+
+Alternative designs can be generated. The "one factor at a time" design allows you to explore the factors considering they are not correlated. In our example
+
+\begin{lstlisting}
+planDemo('design', 'o', 'do', 1);
+\end{lstlisting}
+
+is equivalent to
+
+\begin{lstlisting}
+planDemo('mask', {{[1 10] 1 1 1}, {1 [1 10] 1 1}, {1 1 [1 10] 1}, {1 1 1 [1 10]}}, 'do', 1);
+\end{lstlisting}
+
+A "star" exploration can be done using
+
+\begin{lstlisting}
+planDemo('design', 's', 'do', 1);
+\end{lstlisting}
+
+is equivalent to
+
+\begin{lstlisting}
+planDemo('mask', {{0 1 1 1}, {1 0 1 1}, {1 1 0 1}, {1 1 1 0}}, 'do', 1);
+\end{lstlisting}
+
+If available, a initial guess can be provided :
+
+\begin{lstlisting}
+planDemo('design', {[], 0, 'o', {5 5 5 5}}, 'do', 1);
+\end{lstlisting}
+where the empty array stands for the exploration of each factor, 0 stands for the complete exploration of the modalities, \mcode{'o'} stands for "one factor at a time" exploration, and the last parameter is the (optional) seed;
 
 
 The design of experiments method can provide answers for other important questions. Barr \& al.  wrote a practical introduction on good practices in designing computational experiments \cite{design}. Some books provide more in depth presentation \cite{de,se}.

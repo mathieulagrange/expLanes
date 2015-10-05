@@ -156,6 +156,7 @@ p.marker = 1;
 p.color = 1;
 p.plotCommand={};
 p.plotAxisProperties={};
+p.design = {};
 
 p.labels = [];
 pNames = fieldnames(p);
@@ -200,6 +201,10 @@ end
 
 if ~isempty(p.mask) && ~isequal(p.mask, config.mask)
     config.mask = p.mask;
+end
+if ~isempty(p.design)
+    config.design = p.design;
+   config = expDesign(config);
 end
 
 if ~iscell(p.marker)

@@ -87,7 +87,7 @@ encodingVersion = 7.3
 % attempt to perform computation to be stored: (1, 0) load data of previous step, (-1, 0) load data result of the current step
 store = 1
 % attempt to retrieve needed data server side: -1 no retrieval, 0 global scan of every hosts, >0 hostId
-retrieve  = 0
+retrieve  = -1
 % naming convention for data files: long (complete naming, may lead to too long file names), short (abbreviated naming, may also lead to too long file names), hash (hash based naming, compact but may lead to naming clashes)
 namingConventionForFiles  = hash
 % generate bundle of elements designated as a string with tokens separated by white spaces: 'c' (code), 'd' (dependencies), 'i' (input), 1 (output data of step 1), 1d (stored data of step 1 only), 1o (observations of step 1 only)
