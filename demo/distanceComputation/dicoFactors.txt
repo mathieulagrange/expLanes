@@ -1,6 +1,6 @@
-similarity =2== {'euclidean', 'seuclidean', 'cosine'}
 nbClasses === 2:2:6
 nbDimensions === [2 5]
 spread === 0:10:100
+distance =2== {'euclidean', 'seuclidean', 'cosine'}
 nbRealizations === 5
 nbElementsPerClass === 10

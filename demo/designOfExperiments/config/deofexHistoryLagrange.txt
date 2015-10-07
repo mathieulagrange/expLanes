@@ -1,0 +1,13 @@
+designOfExperiments('addStep', 'process')
+designOfExperiments('design', 2);
+designOfExperiments('design', {[], 2, 'f'});
+designOfExperiments('do', 1, 'design', {[], 2, 'f'});
+designOfExperiments('expose', 'a', 'design', 2);
+designOfExperiments('do', 1, 'mask', {0 0 1 1});
+designOfExperiments('do', 1, 'mask', {10 10 0});
+designOfExperiments('design', 'one', 'do', 1);
+designOfExperiments('design', {[], 2, 'o'}, 'do', 1);
+designOfExperiments('design', {[], 2, 'f'}, 'do', 1);
+designOfExperiments('design', {[], 0, 'o'}, 'do', 1);
+designOfExperiments('design', 'star', 'do', 1);
+designOfExperiments('design', 2, 'do', 1);

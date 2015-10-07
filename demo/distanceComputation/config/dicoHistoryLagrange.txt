@@ -1,0 +1,2 @@
+distanceComputation('do', 0)
+distanceComputation('do', 0);

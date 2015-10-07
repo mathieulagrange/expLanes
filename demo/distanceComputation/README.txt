@@ -1,14 +1,14 @@
-% This is the README for the experiment similarityDemo
-                                                      
-% Created on 30-Jun-2014 by lagrange                  
-                                                      
-% Purpose:                                            
-                                                      
-% Reference:                                          
-                                                      
-% Licence:                                            
-                                                      
-                                                      
+% This is the README for the experiment distanceComputation
+                                                           
+% Created on 07-Oct-2015 by lagrange                       
+                                                           
+% Purpose:                                                 
+                                                           
+% Reference:                                               
+                                                           
+% Licence:                                                 
+                                                           
+                                                           
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %        Getting started with your experiment based on expLanes          %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -6,7 +6,7 @@ function config = dideReport(config)
 % Copyright: Mathieu Lagrange
 % Date: 03-Jul-2014
 
-if nargin==0, distanceDemonstration('report', 'rc'); return; end
+if nargin==0, distanceDemonstration('report', 'rcd'); return; end
 
 config = expExpose(config, 'table', 'mask', {0 2 7 1}, 'obs', [1 2], 'percent', 0);
 config = expExpose(config, 'table', 'mask', {3 0 7 1}, 'obs', [1 2], 'percent', 0);

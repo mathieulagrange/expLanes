@@ -1,7 +1,7 @@
 %% USER
 
 % email address ticked when processing is done server side (leave empty for no mailing service), can be a cell array of email adresses
-emailAddress  = mathieu.lagrange@irccyn.ec-nantes.fr
+emailAddress  = mathieu.lagrange@cnrs.fr
 % complete name of user
 completeName  = Mathieu Lagrange
 
@@ -23,19 +23,19 @@ removeStep  =
 %% HOSTNAMES AND PATHS
 
 % names of the machines as a cell array of 1) string or 2) cell array of strings
-machineNames  = {{'lolo.local', 'mo-lagrange.irccyn.ec-nantes.fr', 'dodo'}, 'pc-adtsi-sunda.irccyn.ec-nantes.fr', 'pc-adtsi-optimed.irccyn.ec-nantes.fr'}
+machineNames  = {{ 'pc-lagrange', 'dodo', 'toto', 'yoyo'}, {'pc-adtsi-sunda.irccyn.ec-nantes.fr', 'pc-adtsi-optimed.irccyn.ec-nantes.fr'}}
 % path to input data (usually accessed read only)
-inputPath  = ~/data/databases
+inputPath  = 
 % path to the code repository of the experiment
-codePath  = ~/tools/expLanes/demo/distanceDemonstration
+codePath  = /home/lagrange/tools/expLanes/demo/distanceComputation
 % path to the data repository of the experiment (structured with one directory per step)
-dataPath  = ~/data/projects/distanceDemonstration
+dataPath  = ~/data/experiments/distanceComputation
 % path to the data repository of the experiment for observation data (same as dataPath if left blank)
-obsPath  = 
+obsPath  = ~/data/experiments/distanceComputation
 % path to backup of transferred data
-backupPath  = /tmp/expLanesBackup/distanceDemonstration
+backupPath  = /tmp/expLanesBackup/distanceComputation
 % path to export bundles
-bundlePath  = /tmp/distanceDemonstration
+bundlePath  = /tmp/distanceComputation
 % path to the directory of the Matlab binary
 matlabPath  = 
 % path to Unix tools (pdflatex, rsync, ssh, screen), can be a string, a cell array of strings
@@ -44,7 +44,7 @@ toolPath  =
 %% CODE
 
 % code dependencies to load and export as a cell array of strings with paths to the dependencies
-dependencies  = {'~/bb/houle/dev/tools/expLanes/expLanes'}
+dependencies  = { '/home/lagrange/tools/expLanes/lib'}
 % dependencies (including expLanes) can be part of the experiment in a dependencies directory: 0 do not use local versions, 1 use local versions, 2 update local versions
 localDependencies  = 0
 % version tag of the code of the experiment
@@ -95,7 +95,7 @@ sync  = {}
 % clean explanes directories and project data repositories. As string id : t (expLanes temporary directory), b (experiment backup directory), k (all steps directories while keeping reachable settings), 1 (output data of step 1), 1d (remove stored data of step 1 only), 1o (observations of step 1 only). As numeric id (clean the corresponding step directory, 0 means all directories)
 clean  = 
 % specify at which step the branching (if any) is effective (default 0)
-branchStep = 0
+branchStep  = 0
 
 
 %% EXPOSITION
@@ -118,7 +118,7 @@ report  =
 % type of report: empty (default), if containing the word <slides> or <Slides>,  beamer presentation mode is used
 reportName  = 
 % style of LaTeX document (warning: this parameter is taken into account only at the creation of the LaTeX report file)
-latexDocumentClass  = article
+latexDocumentClass  = tufte-handout
 % path to the pdf viewer (if left empty, expLanes try to locate it automatically)
 pdfViewer  = 
 % threshold for statistical significance testing
@@ -139,3 +139,7 @@ useExpCodeSmtp  = 1
 % send email: -2, server mode, email at start and end, -1 server mode, email at end only, 0, no email ever, 1 one email at end, 2 email at start and end
 sendMail  = 0
 
+experimentName = distanceComputation
+maskPatch = {}
+shortExperimentName = dico
+userName = lagrange

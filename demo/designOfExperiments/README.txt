@@ -1,14 +1,14 @@
-% This is the README for the experiment planDemo
-                                                
-% Created on 07-Jan-2014 by lagrange            
-                                                
-% Purpose:                                      
-                                                
-% Reference:                                    
-                                                
-% Licence:                                      
-                                                
-                                                
+% This is the README for the experiment designOfExperiments
+                                                           
+% Created on 06-Oct-2015 by lagrange                       
+                                                           
+% Purpose:                                                 
+                                                           
+% Reference:                                               
+                                                           
+% Licence:                                                 
+                                                           
+                                                           
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %        Getting started with your experiment based on expLanes          %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
