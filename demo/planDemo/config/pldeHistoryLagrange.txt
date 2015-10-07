@@ -53,7 +53,6 @@ planDemo('clean', 1)
 planDemo('clean', 1);
 planDemo('design', {[], 2, 'f'});
 planDemo('design', 2);
-planDemo('design', 2, 'do', 1);
 planDemo('design', 2, 'report', 'r');
 planDemo('design', 2, 'display', 'a');
 planDemo('design', 2, 'obs', 'a');
@@ -65,3 +64,4 @@ planDemo('design', {[], 0, 'o', {5 5 5 5}}, 'do', 1);
 planDemo('design', {[], 0, 'o', {5 4 3 2}}, 'do', 1);
 planDemo('design', 'star', 'do', 1);
 planDemo('mask', {{0 1 1 1}, {1 0 1 1}, {1 1 0 1}, {1 1 1 0}}, 'do', 1);
+planDemo('design', 2, 'do', 1);

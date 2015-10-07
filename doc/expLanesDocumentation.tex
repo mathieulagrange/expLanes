@@ -644,43 +644,43 @@ Another, more systematic, way is to prune out irrelevant sets of settings. To do
 \item are there any interaction between factors ?
 \end{enumerate}
 
-Let us consider an experiment available in the \mcode{demo} directory called \mcode{planDemo}. It has 4 factors (\mcode{f1, f2, f3, f4}), each with a set of modalities equal to 10. There is a unique observation  of choice for this experiment (named \mcode{metric}) and the relationship between this observation and the factors is the following:
+Let us consider an experiment available in the \mcode{demo} directory called \mcode{designOfExperiments}. It has 4 factors (\mcode{f1, f2, f3, f4}), each with a set of modalities equal to 10. There is a unique observation  of choice for this experiment (named \mcode{metric}) and the relationship between this observation and the factors is the following:
 
-\lstinputlisting[firstline=19, lastline=19]{../demo/planDemo/plde1process.m}
+\lstinputlisting[firstline=19, lastline=19]{../demo/designOfExperiments/deofex1process.m}
 
 In this example, the answer  to the 2 previous questions can easily be deduced. Factor \mcode{f4} do not need to be evaluated and factors \mcode{f1} and \mcode{f2} are correlated and thus have to be jointly considered.
 
 Yet, in most systems, those facts cannot be easily deduced. Considering a reduced set of modalities allows the experiment to be tractable. This can be done by considering the \mcode{'design'} parameter. A factorial design with 2 values (minima and maxima) for each modality can be done using the following command
 
 \begin{lstlisting}
-planDesign('design', 2);
+designOfExperiments('do', 1, 'design', 2);
 \end{lstlisting}
 
 which is equivalent to
 \begin{lstlisting}
-planDemo('design', {[], 2, 'f'});
+designOfExperiments(('do', 1, 'design', {[], 2, 'f'});
 \end{lstlisting}
 
 the empty array means consideration of each setting and 'f' stand for a factorial exploration.
 
 \begin{marginfigure}
-\includegraphics[trim={0 7.5cm 0 0},clip,width=\textwidth]{../demo/planDemo/report/figures/anova}
+\includegraphics[trim={0 7.5cm 0 0},clip,width=\textwidth]{../demo/designOfExperiments/report/figures/anova}
 \end{marginfigure}
 
 \begin{lstlisting}
-planDemo('design', 2), 'expose', 'a'};
+designOfExperiments('expose', 'a', 'design', 2);
 \end{lstlisting}
 
 allows the user to study factors relationships through a multi-way factorial anova analysis, where the correlation between \mcode{f1} and \mcode{f2} and the uselessness of \mcode{f4} are shown. In order to identify the best setting, the remaining step are:
 
 \begin{lstlisting}
-planDemo('do', 1, 'mask', {0 0 1 1}};
+designOfExperiments('do', 1, 'mask', {0 0 1 1});
 \end{lstlisting}
 
 The best performance is given for  \mcode{f1=10} and  \mcode{f2=10}. Then,
 
 \begin{lstlisting}
-planDemo('do', 1, 'mask', {10 10 0};
+designOfExperiments('do', 1, 'mask', {10 10 0});
 \end{lstlisting}
 
 gives the best performance for \mcode{f3=10}. Using this method, the optimal setting (10 10 0 *) is identified in $2^4+10^2+10 = 126$ computation of settings compared to $10^4 = 10000$ for an exhaustive factorial exploration.
@@ -689,36 +689,36 @@ gives the best performance for \mcode{f3=10}. Using this method, the optimal set
 Alternative designs can be generated. The "one factor at a time" design allows you to explore the factors considering they are not correlated. In our example
 
 \begin{lstlisting}
-planDemo('design', 'o', 'do', 1);
+designOfExperiments('design', 'one', 'do', 1);
 \end{lstlisting}
 
 is equivalent to
 
 \begin{lstlisting}
-planDemo('mask', {{[1 10] 1 1 1}, {1 [1 10] 1 1}, {1 1 [1 10] 1}, {1 1 1 [1 10]}}, 'do', 1);
+designOfExperiments('mask', {{[1 10] 1 1 1}, {1 [1 10] 1 1}, {1 1 [1 10] 1}, {1 1 1 [1 10]}}, 'do', 1);
 \end{lstlisting}
 
 A "star" exploration can be done using
 
 \begin{lstlisting}
-planDemo('design', 'star', 'do', 1);
+designOfExperiments('design', 'star', 'do', 1);
 \end{lstlisting}
 
 which is equivalent to
 
 \begin{lstlisting}
-planDemo('mask', {{0 1 1 1}, {1 0 1 1}, {1 1 0 1}, {1 1 1 0}}, 'do', 1);
+designOfExperiments('mask', {{0 1 1 1}, {1 0 1 1}, {1 1 0 1}, {1 1 1 0}}, 'do', 1);
 \end{lstlisting}
 
 If available, a initial guess can be provided :
 
 \begin{lstlisting}
-planDemo('design', {[], 0, 'o', {5 4 3 2}}, 'do', 1);
+designOfExperiments('design', {[], 0, 'o', {5 4 3 2}}, 'do', 1);
 \end{lstlisting}
 where the empty array stands for the exploration of each factor, 0 stands for the complete exploration of the modalities, \mcode{'o'} stands for "one factor at a time" exploration, and the last parameter is the (optional) seed. This last command is equivalent to:
 
 \begin{lstlisting}
-planDemo('mask', {{0 4 3 2}, {5 0 3 2}, {5 4 0 2}, {5 4 3 0}}, 'do', 1);
+designOfExperiments('mask', {{0 4 3 2}, {5 0 3 2}, {5 4 0 2}, {5 4 3 0}}, 'do', 1);
 \end{lstlisting}
 
 The design of experiments method can provide answers for other important questions. Barr \& al.  wrote a practical introduction on good practices in designing computational experiments \cite{design}. Some books provide more in depth presentation \cite{de,se}.
@@ -775,14 +775,6 @@ If the code is static, and each processing host share the same computing environ
 \item \textbf{Warning Signs in Experimental Design and Interpretation} Peter Norvig.  Available online: \url{http://norvig.com/experiment-design.html}
 
 \end{itemize}
-
-
-
-
-
-
-
-
 
 \bibliographystyle{plain}
 \bibliography{references}
