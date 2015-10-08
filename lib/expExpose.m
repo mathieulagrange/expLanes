@@ -124,7 +124,7 @@ p.multipage=0;
 p.sort=0;
 p.mask={};
 p.step=0;
-p.label='';
+p.label='+';
 p.put=1;
 p.save=0;
 p.report=1;
@@ -250,8 +250,10 @@ if ~p.percent
    p.percent = 1:length(p.obs);
 end
 
-if ~isfield(config, 'evaluation') || isempty(config.evaluation) || isempty(config.evaluation.data)  || sum(cellfun(@isempty,config.evaluation.data))== length(config.evaluation.data)
-    disp('No observations to display.');
+if  ~isfield(config, 'evaluation') || isempty(config.evaluation) || isempty(config.evaluation.data)  || sum(cellfun(@isempty,config.evaluation.data))== length(config.evaluation.data)
+    if ~isempty(exposeType)
+        disp('No observations to display.');
+    end
 else
     if ischar(p.obs)
         p.obs = find(strcmp(config.evaluation.observations, p.obs));
@@ -405,15 +407,15 @@ else
     end
     
     infoString = '';
+    infoShortString = '';
     if isfield(config.step, 'setting')
         infoString = config.step.setting.infoStringMask;
+        infoShortString = config.step.setting.infoShortStringMask;
     end
     
     p.title = strrep(p.title, '+', infoString);
     p.name = strrep(p.name, '+', infoString);
-    if isempty(p.label)
-        p.label = p.name;
-    end
+    p.label = strrep(p.label, '+', infoShortString);
     p.caption = strrep(p.caption, '=', p.title);
     p.caption = strrep(p.caption, '+', infoString);
     p.caption = strrep(p.caption, '_', '\_');
@@ -501,7 +503,7 @@ else
             if p.shortFactors == -1
                 p.columnNames = [[el; config.step.factors.names(data.factorSelector)'] p.legendNames']
             else
-                p.columnNames =[[el; names2shortNames(config.step.factors.names(data.factorSelector))'] p.legendNames']
+                p.columnNames = [[el; names2shortNames(config.step.factors.names(data.factorSelector))'] p.legendNames']
             end
             
             %         p.factorNames = [el; config.step.factors.names(data.factorSelector)'];

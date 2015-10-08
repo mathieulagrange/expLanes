@@ -14,7 +14,7 @@ switch p.put
                 config.displayData.figure(k).taken = 1;
                 config.displayData.figure(k).caption = p.caption;
                 config.displayData.figure(k).label = p.label;
-          %      config.displayData.figure(k).data = config.data;
+                %      config.displayData.figure(k).data = config.data;
                 config.displayData.figure(k).report = p.report;
                 figure(config.displayData.figure(k).handle);
                 if ~p.visible
@@ -30,20 +30,20 @@ switch p.put
         if p.visible
             h = figure();
             if ~isnumeric(h)
-               h=h.Number; 
+                h=h.Number;
             end
             config.displayData.figure(end+1).handle = h;
         else
-            h = figure('Visible', 'off');            
+            h = figure('Visible', 'off');
             if ~isnumeric(h)
-               h=h.Number; 
+                h=h.Number;
             end
             config.displayData.figure(end+1).handle = h;
         end
         config.displayData.figure(end).taken = 1;
         config.displayData.figure(end).caption = p.caption;
         config.displayData.figure(end).label = p.label;
-     %   config.displayData.figure(end).data = config.data;
+        %   config.displayData.figure(end).data = config.data;
         config.displayData.figure(end).report = p.report;
         set(gcf,'name', p.title);
         set(gcf,'NumberTitle','off');
@@ -78,13 +78,13 @@ switch p.put
                 
                 if p.mergeDisplay == 'v'
                     config.displayData.table(end).table = [previous; next];
-                else                   
+                else
                     config.displayData.table(end).table = [previous next];
                 end
             else
                 config.displayData.table(end).table = config.displayData.cellData;
             end
-        %    config.displayData.table(end).data = config.data;
+            %    config.displayData.table(end).data = config.data;
             config.displayData.table(end).label = p.label;
             config.displayData.table(end).fontSize = p.fontSize;
             config.displayData.table(end).nbFactors = length(p.factorNames);

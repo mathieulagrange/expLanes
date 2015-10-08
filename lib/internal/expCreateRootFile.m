@@ -1,7 +1,7 @@
 function expCreateRootFile(config, experimentName, shortExperimentName, expLanesPath)
 
 rootString = char({...
-    ['function config = ' experimentName '(varargin)'];
+    ['function ' experimentName '(varargin)'];
     ['% Welcome to the main entry point of ' experimentName];
     '% Please DO NOT modify this file unless you have a precise intent.';
     '';
@@ -14,8 +14,8 @@ rootString = char({...
     'end';
     '';
     'if ~isempty(config)';
-    'expDependencies(config);';
-    'config = expRun(p, experimentName, shortExperimentName, varargin);';
+    ' expDependencies(config);';
+    ' config = expRun(p, experimentName, shortExperimentName, varargin);';
     'end';
     '';
     fileread([expLanesPath '/internal/utils/getUserFileName.m'])

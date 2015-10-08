@@ -1,14 +1,10 @@
 function metrics = clusteringMetrics(target, prediction, getAccuracy,getRandIndex,getNmi,getPairWiseMatching,getNormCondEntropies)
 
-if ~exist('getAccuracy', 'var')
-    getAccuracy = 1;
-end
-if ~exist('getNmi', 'var')
-    getNmi = 1;
-end
-if ~exist('getRandIndex', 'var')
-    getRandIndex = 1;
-end
+if ~exist('getAccuracy', 'var'), getAccuracy = 1; end
+if ~exist('getNmi', 'var'), getNmi = 1; end
+if ~exist('getRandIndex', 'var'), getRandIndex = 1; end
+if ~exist('getPairWiseMatching', 'var'), getPairWiseMatching = 1; end
+if ~exist('getNormCondEntropies', 'var'), getNormCondEntropies = 1; end
 
 target = target(:);
 prediction = prediction(:);
