@@ -5,6 +5,6 @@ kernel =2=3/2= {'linear', 'polynomial', 'exponential'}
 sigma =2=4/3= .2:.2:1
 similarity =2=3/3= {'euclidean', 'seuclidean', 'cosine'} 
 nbElementsPerClass === 300
-nbRuns =2== 10
+nbRuns =2== 4
 nbReplicates =2== 5
 nbIterations =2== 200

@@ -6,7 +6,7 @@ function config = dicoReport(config)
 % Copyright: Mathieu Lagrange                                        
 % Date: 07-Oct-2015                                                  
                                                                      
-if nargin==0, distanceComputation('report', 'rcd'); return; end        
+if nargin==0, distanceComputation('report', 'rcdv'); return; end        
                                                                      
 config = expExpose(config, 'table', 'mask', {0 2 7 1}, 'obs', [1 2], 'percent', 0);
 config = expExpose(config, 'table', 'mask', {3 0 7 1}, 'obs', [1 2], 'percent', 0);

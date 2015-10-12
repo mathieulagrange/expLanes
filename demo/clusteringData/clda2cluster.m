@@ -1,17 +1,18 @@
-function [config, store, obs] = clde2cluster(config, setting, data)
-% clde2cluster CLUSTER step of the expLanes project clusteringDemo
-%    [config, store, obs] = clde2cluster(config, setting, data)
-%     - config : expLanes configuration state
-%     - setting   : set of factors to be evaluated
-%     - data   : processing data stored during the previous step
-%     -- store  : processing data to be saved for the other steps
-%     -- obs    : observations to be saved for analysis
-
-% Copyright: Mathieu Lagrange
-% Date 22-Nov-2013
-
-% Set behavior for debug mode
-if nargin==0, clusteringDemonstration('do', 2, 'mask', {{1 1 2 3 4}}); return; else store=[]; obs=[]; end
+function [config, store, obs] = clda2cluster(config, setting, data)                  
+% clda2cluster CLUSTER step of the expLanes experiment clusteringData                
+%    [config, store, obs] = clda2cluster(config, setting, data)                      
+%      - config : expLanes configuration state                                       
+%      - setting   : set of factors to be evaluated                                  
+%      - data   : processing data stored during the previous step                    
+%      -- store  : processing data to be saved for the other steps                   
+%      -- obs    : observations to be saved for analysis                             
+                                                                                     
+% Copyright: Mathieu Lagrange                                                        
+% Date: 08-Oct-2015                                                                  
+                                                                                     
+% Set behavior for debug mode                                                        
+if nargin==0, clusteringData('do', 2, 'mask', {}); return; else store=[]; obs=[]; end
+                                                                                     
 
 expRandomSeed();
 

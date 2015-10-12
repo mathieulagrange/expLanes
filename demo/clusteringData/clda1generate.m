@@ -1,17 +1,17 @@
-function [config, store, obs] = clde1generate(config, setting, data)
-% clde1generateData GENERAT step of the expLanes project clusteringDemo
-%    [config, store, obs] = clde1generate(config, setting, data)
-%     - config : expLanes configuration state
-%     - setting   : set of factors to be evaluated
-%     - data   : processing data stored during the previous step
-%     -- store  : processing data to be saved for the other steps
-%     -- obs    : observations to be saved for analysis
+function [config, store, obs] = clda1generate(config, setting, data)
+% clda1generate GENERATE step of the expLanes experiment clusteringData
+%    [config, store, obs] = clda1generate(config, setting, data)
+%      - config : expLanes configuration state
+%      - setting   : set of factors to be evaluated
+%      - data   : processing data stored during the previous step
+%      -- store  : processing data to be saved for the other steps
+%      -- obs    : observations to be saved for analysis
 
 % Copyright: Mathieu Lagrange
-% Date 22-Nov-2013
+% Date: 08-Oct-2015
 
 % Set behavior for debug mode
-if nargin==0, clusteringDemonstration('do', 1, 'plot', 1); return; else store=[]; obs=[]; end
+if nargin==0, clusteringData('do', 1, 'mask', {}); return; else store=[]; obs=[]; end
 
 switch setting.dataType
     case 'spherical'
@@ -52,10 +52,8 @@ end
 store.elements = data;
 store.class = class;
 
-if isfield(config, 'plot') 
-    clf
-    scatter(data(:, 1), data(:, 2), 20, class, 'filled')
-    axis off
-    axis tight
-    config = expExpose(config, '', 'save', ['scatter' num2str(setting.infoId(1))]);
-end
+clf
+scatter(data(:, 1), data(:, 2), 20, class, 'filled')
+axis off
+axis tight
+config = expExpose(config, '', 'save', ['scatter' num2str(setting.infoId(1))]);

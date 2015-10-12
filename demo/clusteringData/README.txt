@@ -1,6 +1,6 @@
-% This is the README for the experiment clusteringDemo
+% This is the README for the experiment clusteringData
                                                       
-% Created on 22-Nov-2013 by lagrange                  
+% Created on 08-Oct-2015 by lagrange                  
                                                       
 % Purpose:                                            
                                                       

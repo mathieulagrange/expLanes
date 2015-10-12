@@ -8,7 +8,7 @@
 % mcode options for matlab code insertion bw (for printing), numbered (line numbers), framed (frame around code blocks), useliterate (convert Matlab expressions to Latex ones), autolinebreaks (automatic code wraping, use it with caution 
 \usepackage[literate]{mcode} 
 \graphicspath{{figures/}{tex}{../figures/}{../../}{../}}  
-\title[clustering]{clusteringDemonstration} 
+\title[clustering]{clusteringData} 
 \author{ Mathieu Lagrange } 
   
 \begin{document} 
@@ -18,7 +18,7 @@
 \section{Introduction}
 
 
-This document documents the first demonstration of the use of the expLanes framework to conduct a computational experiment. The project clusteringDemonstration is about the comparison of several algorithms that clusters synthetic data.
+This document documents the first demonstration of the use of the expLanes framework to conduct a computational experiment. The project clusteringData is about the comparison of several algorithms that clusters synthetic data.
 
 \section{Design}
 
@@ -77,8 +77,8 @@ We consider the following metrics:
 
 \section{Definition of factors}
 
-Those factors and their corresponding modalities are defined in the file named \texttt{cldeFactors.txt} whose content is the following:
-\lstinputlisting{../cldeFactors.txt}
+Those factors and their corresponding modalities are defined in the file named \texttt{cldaFactors.txt} whose content is the following:
+\lstinputlisting{../cldaFactors.txt}
 
 Please note the \mcode{2/2} between the last two equals of the factor definition of factor \mcode{kernel} which specify that this factor is needed only for the second modality of the third factor \mcode{method}. Along the same line, the \mcode{1/0/1,1/[2 3]/2} between the last two equals of the factor definition of factor \mcode{nbClasses}  specify that its first modality is relevant for all the modalities of the factor \mcode{dataType}, but its second modality is relevant only for the second and third modalities of the factor \mcode{dataType}. Most the factor design discussed above is compactly displayed in Figure \ref{factorFlowGraph}.
 
@@ -91,7 +91,7 @@ Please note the \mcode{2/2} between the last two equals of the factor definition
 \section{Results}
 
 The results discussed next are generated as follows:
-\lstinputlisting[firstline=11, lastline=14]{../cldeReport.m}
+\lstinputlisting[firstline=11, lastline=14]{../cldaReport.m}
 
 \subsection{Gaussian clusters}
 
@@ -117,7 +117,7 @@ Concerning the observations metrics, the accuracy is an interesting metric as it
 \subsection{Computation time}
 
 The average computation time for the different clustering methods can be displayed using:
-\lstinputlisting[firstline=16, lastline=17]{../cldeReport.m}
+\lstinputlisting[firstline=16, lastline=17]{../cldaReport.m}
 The results shown on Table \ref{all} reflect well the ranking of the different methods in terms of computational complexity.
 
 
