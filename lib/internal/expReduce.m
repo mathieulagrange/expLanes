@@ -11,8 +11,15 @@ for k=1:length(files)
         % get vSet
         modReduce = dir(reduceFileName);
         modFactors = dir(config.factorFileName);
-        loadedData=load(reduceFileName, 'vSet');
-        if isequal(loadedData.vSet, config.step.set) && modReduce.datenum > modFactors.datenum
+        loadedData=load(reduceFileName, 'vSet', 'fileNames');
+        dataTime = [];
+        for k=1:length(loadedData.fileNames)
+            file=dir(loadedData.fileNames{k});
+            if ~isempty(file)
+            dataTime(end+1) = file.datenum;
+            end
+        end
+        if isequal(loadedData.vSet, config.step.set) && modReduce.datenum > modFactors.datenum && modReduce.datenum > max(dataTime)
             loadedData=load(reduceFileName, 'data');
             data = loadedData.data;
         end
@@ -24,23 +31,24 @@ end
 if isempty(data)
     config.loadFileInfo.date = {'', ''};
     config.loadFileInfo.dateNum = [Inf, 0];
-    
+    fileNames = {};
     for k=1:config.step.nbSettings
         config.step.setting = expSetting(config.step, k);
         
-        [~, ~, config] = expLoad(config, [], config.step.id, 'obs', [], 0);
-        if ~isempty(config.load)
-            data{k} = config.load;
-        else
-            data{k} = [];
-        end
+        [data{k}, dataTimeStamps, config, loadedFileNames] = expLoad(config, [], config.step.id, 'obs', [], 0);
+        fileNames = [fileNames loadedFileNames];
+        %         if ~isempty(config.load)
+        %             data{k} = config.load;
+        %         else
+%             data{k} = [];
+%         end
     end
     
-    if config.loadFileInfo.dateNum(2)
+    if dataTimeStamps.dateNum(2)
         disp(['Loaded data files dates are in the range: | ' config.loadFileInfo.date{1} ' || ' config.loadFileInfo.date{2} ' |']);
         vSet = config.step.set; %#ok<NASGU>
         reduceFileName = [stepPath 'reduceData_' num2str(datenum(date)) '_' num2str(ceil(rand(1)*100))];
-        save(reduceFileName, 'data', 'vSet'); % , 'config' FIXME
+        save(reduceFileName, 'data', 'fileNames', 'vSet'); % , 'config' FIXME
     end
 end
 

@@ -1,4 +1,4 @@
-function [load, loadFileInfo, config] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
+function [load, dataTimeStamps, config, fileNames] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
 % expLoad load data from the repository of the specified processing step
 %	[config data] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
 %	- config: expLanes configuration
@@ -9,8 +9,9 @@ function [load, loadFileInfo, config] = expLoad(config, name, stepId, extension,
 %	- fieldSelector: string or cell array of strings containing the fields to be loaded
 %	- contracting:
 %	-- data: loaded data structure
-%	-- loadFileInfo: time stamps of data
+%	-- dataTimeStamps: time stamps of data
 %	-- config: updated config
+%	-- fileNames: names of the file accessed
 
 %	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
 %	See licence.txt for more information.
@@ -94,6 +95,7 @@ else
 end
 
 config.load={};
+config.loadFileName = {};
 
 if config.dummy && stepId
     for k=1:length(names)
@@ -108,7 +110,8 @@ if isempty(config.load)
 end
 
 load = config.load;
-loadFileInfo = config.loadFileInfo;
+dataTimeStamps = config.loadFileInfo;
+fileNames = config.loadFileName;
 
 % end
 
@@ -198,6 +201,7 @@ try
             config.loadFileInfo.dateNum(2) = fileInfo.datenum;
             config.loadFileInfo.date{2} = fileInfo.date;
         end
+        config.loadFileName{end+1} = fileName;
     else
         fid = fopen(fileName, 'r');
         if fid>0

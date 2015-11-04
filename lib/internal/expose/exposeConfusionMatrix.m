@@ -21,16 +21,15 @@ for k=1:length(data)
     end
     switch p.put
         case 0
-            disp(config.settings(k).infoStringMasked);
+            disp(data(k).setting.infoStringMasked);
             numCell = expNumToCell(c);
             if ~ischar(data(1).classNames)
                 classNames = cellfun(@num2str, data(1).classNames, 'UniformOutput', false)';
             end
-            %             config.displayData.cellData = [{'' classNames{:}}; classNames numCell];
             config.displayData.cellData = [[{''} classNames]; classNames numCell];
             config = expDisplay(config, p);
         case 1
-            p.title = config.settings(k).infoStringMasked;
+            p.title = data(k).setting.infoStringMasked;
             config = expDisplay(config, p);
             set(gca, 'fontsize', config.displayFontSize);
             image(c);
@@ -41,7 +40,7 @@ for k=1:length(data)
             colormap('gray');
         case 2
             numCell = expNumToCell(c, [], 0, 1, eye(length(classNames)));
-%             config.displayData.cellData = [{'' classNames{:}}; classNames numCell];
+            %             config.displayData.cellData = [{'' classNames{:}}; classNames numCell];
             config.displayData.cellData = [[{''} classNames]; classNames numCell];
             config = expDisplay(config, p);
     end

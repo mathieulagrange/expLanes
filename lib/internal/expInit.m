@@ -143,7 +143,7 @@ k=1;
 start=1;
 while ~feof(fid)
     line = fgetl(fid);
-    if ischar(line)
+    if ischar(line) && ~isempty(line)
         line = strtrim(line);
         if ~strcmp(line(1), '%')
             if start
