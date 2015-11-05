@@ -78,8 +78,9 @@ if  p.expand ~= 0
         %%% why filter is necessary ?
         filter = config.step.maskFilter.maskFilter;
         filter(end) = 1;
-        %%%%
-        olist{m} =  [config.step.oriFactors.list{m, :}];
+        %%%% FIX THIS !!!
+        selector = [setdiff(1:length(config.step.oriFactors.names), p.expand) p.expand];
+        olist{m} = [config.step.oriFactors.list{m, selector}];
     end
     if isfield(config.step, 'factors')
         for m=1:size(config.step.factors.list, 1)

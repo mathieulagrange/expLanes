@@ -226,7 +226,7 @@ else
     % delete(expandHomePath(config.configMatName)); FIXME useless ?
 end
 
-if config.display ~= -1 && ~isempty(config.factors)
+if config.display ~= -1 && ~isempty(config.factors) && isempty(config.report)
     if config.attachedMode
         config = exposeObservations(config);
     else

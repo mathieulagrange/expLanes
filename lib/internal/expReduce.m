@@ -32,6 +32,7 @@ if isempty(data)
     config.loadFileInfo.date = {'', ''};
     config.loadFileInfo.dateNum = [Inf, 0];
     fileNames = {};
+    dataTimeStamps = [];
     for k=1:config.step.nbSettings
         config.step.setting = expSetting(config.step, k);
         
@@ -44,7 +45,7 @@ if isempty(data)
 %         end
     end
     
-    if dataTimeStamps.dateNum(2)
+    if ~isempty(dataTimeStamps), dataTimeStamps.dateNum(2)
         disp(['Loaded data files dates are in the range: | ' config.loadFileInfo.date{1} ' || ' config.loadFileInfo.date{2} ' |']);
         vSet = config.step.set; %#ok<NASGU>
         reduceFileName = [stepPath 'reduceData_' num2str(datenum(date)) '_' num2str(ceil(rand(1)*100))];

@@ -340,9 +340,9 @@ else
     end
     
     if p.expand,
-        if (isnumeric(p.expand) && length(p.expand)>1) || iscell(p.expand), error('Please choose only one factor to expand.'); end
+        if (isnumeric(p.expand) && length(p.expand)>1) || iscell(p.expand), fprintf(2, 'Please choose only one factor to expand.'); return; end
         [config, p.expand, p.expandName] = expModifyExposition(config, p.expand);
-        if (isnumeric(p.obs) && length(p.obs)>1) || iscell(p.obs), error('Please choose only one observation for factor expansion.'); end
+        if (isnumeric(p.obs) && length(p.obs)>1) || iscell(p.obs), fprintf(2, 'Please choose only one observation for factor expansion.'); return; end
         
         pe=p;
         pe.integrate = 0;
