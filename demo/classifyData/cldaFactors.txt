@@ -1,0 +1,10 @@
+method =2:== {'knn', 'gmm'} 
+class =2:3=1/2= 1:3
+set =1,3:== {'train', 'test'}
+nbIterations =s2:=1/2= 50:50:200
+nbGaussians =2:=1/2= 1:5
+nbNeighbors =4:=1/1= 1:2:9
+spread === 25
+nbElementsPerClass === 1000
+nbDimensions === 2
+nbGaussiansInData === 3
