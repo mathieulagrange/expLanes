@@ -101,7 +101,7 @@ end
 try
     hist = com.mathworks.mlservices.MLCommandHistoryServices.getSessionHistory;
 catch
-    fprintf(2, 'Warning: unable to grab session history');
+    fprintf(2, 'Warning: unable to grab session history.\n');
     hist = [];
 end
 

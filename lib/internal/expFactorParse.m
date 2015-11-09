@@ -49,21 +49,21 @@ for k=1:length(names)
     try
         values{k}=eval(values{k});
     catch
-        fprintf(2, ['Factors definition, unable to parse the set of modalities of the factor: ' names{k}]);
+        fprintf(2, ['Factors definition, unable to parse the set of modalities of the factor: ' names{k}, '\n']);
         return;
     end
     if iscellstr(values{k})
         shortValues{k} = names2shortNames(values{k});
         if ~all(cellfun(@isempty, strfind(values{k}, '/'))) || ~all(cellfun(@isempty, strfind(values{k}, '\'))) || ~all(cellfun(@isempty, strfind(values{k}, '.')))
-            fprintf(2,['Factors definition, Invalid set of settings for ' names{k} ' factor in ' fileName '. the settings shall not include any path-like characters like: ''/'', ''\'', or ''.''.']); return;
+            fprintf(2,['Factors definition, Invalid set of settings for ' names{k} ' factor in ' fileName '. the settings shall not include any path-like characters like: ''/'', ''\'', or ''.''.\n']); return;
         end
         if length(unique(values{k})) < length(values{k})
-            fprintf(2,['Factors definition, Duplicate values of factor ' names{k} ' in setting file']); return;
+            fprintf(2,['Factors definition, Duplicate values of factor ' names{k} ' in setting file.\n']); return;
         end
     elseif isnumeric(values{k})
         shortValues{k} = values{k};
     else
-        fprintf(2,['Factors definition, i nvalid set of settings for ' names{k} ' factor in ' fileName '. Shall be numeric or cell array of strings.']); return;
+        fprintf(2,['Factors definition, i nvalid set of settings for ' names{k} ' factor in ' fileName '. Shall be numeric or cell array of strings.\n']); return;
     end
 end
 
@@ -73,7 +73,7 @@ seq=0;
 for k=1:length(step)
     step{k} = strtrim(step{k});
     if length(step{k}) ~= length(regexp(step{k}, '[0-9:s,]', 'match'))
-        fprintf(2,['Factors definition, unrecognized step definition for factor ', names{k}]);  return;
+        fprintf(2,['Factors definition, unrecognized step definition for factor ', names{k}, '\n']);  return;
     end
     sMatch = strfind(step{k}, 's');
     if any(sMatch)
@@ -83,7 +83,7 @@ for k=1:length(step)
     end
 end
 
-if seq>1, fprintf(2,'Factors definition, only one sequential factor is allowed');  return; end
+if seq>1, fprintf(2,'Factors definition, only one sequential factor is allowed\n');  return; end
 
 values=values';
 shortNames=names2shortNames(names);

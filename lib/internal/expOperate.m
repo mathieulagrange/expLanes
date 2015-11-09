@@ -128,7 +128,7 @@ settingStatus = config.settingStatus;
 if  config.parallel(config.step.id) > 0
     doneFileName = [config.tmpPath config.experimentName '_' num2str(config.runId) '_' num2str(config.step.id) '_' num2str(sequence) '_done'];
     fid = fopen(doneFileName,'w');
-    if fid == -1, fprintf(2, ['Unable to create ' doneFileName]);
+    if fid == -1, fprintf(2, ['Unable to create ' doneFileName '\n']);
     else
         fclose(fid);
     end

@@ -42,7 +42,7 @@ if ~exist(configFileName, 'file')
     try
         open(configFileName);
     catch
-        fprintf(2, 'Unable to open config file.');
+        fprintf(2, 'Unable to open config file.\n');
     end
     disp(['Please update the file ' configFileName ' to suit your needs.']);
 end
