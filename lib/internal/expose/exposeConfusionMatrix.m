@@ -19,6 +19,7 @@ for k=1:length(data)
             c(m, n) = sum((data(k).prediction==n).*(data(k).class==m));
         end
     end
+    % fixme scaling the c ??
     switch p.put
         case 0
             disp(data(k).setting.infoStringMasked);
@@ -32,7 +33,7 @@ for k=1:length(data)
             p.title = data(k).setting.infoStringMasked;
             config = expDisplay(config, p);
             set(gca, 'fontsize', config.displayFontSize);
-            image(c);
+            image(c./sum(c(1, :))*64);
             set(gca, 'xtick', 1:length(classNames));
             set(gca, 'ytick', 1:length(classNames));
             set(gca, 'xticklabel', classNames);

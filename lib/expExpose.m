@@ -311,6 +311,7 @@ else
             p.expand = expandName{1};
         end
         config = expOrder(config, order);
+%         p.orderFactor = order;
         % sort data and settings
     end
     

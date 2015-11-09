@@ -8,6 +8,13 @@ function config = cldaReport(config)
                                                               
 if nargin==0, classifyData('report', 'r'); return; end        
                                                               
+
+config = expExpose(config, 'p', 'mask', {2 0 2 0 5 0}, 'obs', 2, 'step', 2, 'expand', 4, 'color', 'k');  
+
 config = expExpose(config, 'p', 'mask', {2 0 2 0 5 0}, 'obs', 1, 'expand', 4);  
 
-% config = expExpose(config, 'confusionMatrix', 'mask', {2 0 2 4 5 0});  
+config = expExpose(config, 'confusionMatrix', 'mask', {2 0 2 4 5 0});  
+ 
+config = expExpose(config, 'p', 'mask', {1}, 'expand', 6, 'obs', 1, 'color', 'k', 'plotCommand', {'legend({''Train'', ''Test''})'}, 'save', 'knn');  
+
+config = expExpose(config, 'b', 'mask', {0 0 2 3 5 5}, 'obs', 1, 'uncertainty', -1, 'plotAxisProperties', {'xticklabel', {'KNN', 'GMM'}}, 'save', 'overall');  

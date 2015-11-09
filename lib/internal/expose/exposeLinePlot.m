@@ -17,7 +17,9 @@ for k=1:size(data.meanData, 1)
     end
     if iscell(p.color)
         set(h, 'color', p.color{min(k, length(p.color))});
-    elseif p.color
+    elseif ischar(p.color)
+            set(h, 'color', p.color);
+    elseif p.color == 1
         set(h, 'color', colormap(k, :));
     else
         set(h, 'color', 'k');
@@ -26,7 +28,7 @@ for k=1:size(data.meanData, 1)
         set(h, p.addSpecification{:});
     end
     for m=1:2:length(p.addSettingSpecification)
-        set(h, p.addSettingSpecification{m}, p.addSettingSpecification{m+1}{min(k, length(p.addSettingSpecification{m+1}))}); % TODO handle cell array
+        set(h, p.addSettingSpecification{m}, p.addSettingSpecification{m+1}); % TODO handle cell array {min(k, length(p.addSettingSpecification{m+1}))}
     end
 end
 hold off

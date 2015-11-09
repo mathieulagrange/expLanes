@@ -101,7 +101,7 @@ branchStep  = 0
 %% EXPOSITION
 
 % step for which to display observations: -1 none, 0 last processed step if any, >0 specific step
-display  = 0
+display  = -1
 % specify default display of observations (>: prompt, t: table, p:plot)
 expose  = >
 % mantissa precision for the display of observations

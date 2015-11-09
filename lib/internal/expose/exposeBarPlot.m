@@ -12,14 +12,16 @@ else
     h = feval(barCommand, data.meanData);
 end
 
+set(h, 'faceColor', 'w')
+
 if p.uncertainty>-1
     if length(p.obs)>1
         fprintf(2, 'Warning, display of uncertainty with multiple observations is currently unsupported.\n');
+    else
+        hold on
+        errorbar(data.meanData, data.stdData, 'k.');
+        hold off
     end
-    set(h, 'faceColor', 'w')
-    hold on
-    errorbar(data.meanData, data.stdData, 'k.');
-    hold off
 end
 
 expSetAxes(config, p);

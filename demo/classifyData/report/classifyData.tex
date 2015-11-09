@@ -27,13 +27,13 @@ This report documents the third demonstration of the use of the expLanes framewo
 \begin{marginfigure}
 \includegraphics[width=\textwidth]{figures/scatter1}
 \caption{The training dataset.}
-\label{scatter}
+\label{train}
 \end{marginfigure}
 
 \begin{marginfigure}
 \includegraphics[width=\textwidth]{figures/scatter2}
 \caption{The test dataset.}
-\label{scatter}
+\label{test}
 \end{marginfigure}
 
 The project is divided into four processing steps:
@@ -79,7 +79,7 @@ With the GMMs approach, one needs to collect the likelihoods of the GMMs each on
 
 \lstinputlisting[firstline=39, lastline=45]{../clda4test.m}
 
-This explanes experiment is contracting, that is the number of settings for the third step is higher than the one for the fourth step, because the factor class is no longer needed at this last step. Thus the \mcode{data} structure is in this case an array with length equal to the number of classes which can be obtained by the following command:
+This explanes experiment is contracting, that is the number of settings for the third step is higher than the one for the fourth step, because the factor \mcode{class} is no longer needed at this last step. Thus the \mcode{data} structure is in this case an array with length equal to the number of classes which can be obtained by the following command:
 
 \lstinputlisting[firstline=16, lastline=17]{../clda4test.m}
 
@@ -98,8 +98,69 @@ Those factors and their corresponding modalities are defined in the file named \
 \end{figure}
 
 \section{Results}
+
+
+
+
+
+
+The analysis the performance of a classifier can be done using the confusion matrix. For this specific display, the observation is no longer an array but a structure that is filled as follow:
+
+\lstinputlisting[firstline=55, lastline=59]{../clda4test.m}
+
+On display, one needs to specify a given setting:
+
+\lstinputlisting[firstline=16, lastline=16]{../cldaReport.m}
+
+\begin{marginfigure}
+\includegraphics[width=\textwidth]{figures/confusion}
+\caption{Confusion matrix for the method: gmm, set: test, nbIterations: 200, nbGaussians: 5.}
+\label{confusion}
+\end{marginfigure}
+
+The resulting display shown on Figure \ref{confusion} is in line with the discrepancy of the training and testing dataset where the latter exhibit a stronger intrication between class 2 and 3, see Figures \ref{train} and \ref{test}.
+
+\subsection{The KNN classifier}
+
+
+\begin{marginfigure}
+\includegraphics[width=\textwidth]{figures/knn}
+\caption{Performance of the KNN classifier on the training and testing dataset.}
+\label{knn}
+\end{marginfigure}
+
+
+
+The main parameter of this classifier is the number of neighbors. As can be seen on Figure \ref{knn}, the performance of the classifier on the testing dataset reaches a plateau around 5. As expected, the accuracy decreases with respect to the number of neighbors on the training dataset.
+
+\subsection{The GMM classifier}
+
+As can be seen on Figure \ref{like}, the quality of fit of each GMM increases with respect to the number of observations on the training dataset. On contrary, eventhough the difference is in this toy example negligible, the accuracy decreases with respect to the number of iterations, see Figure \ref{acc}. This is a common case with iterative methods suggesting a reduced number of iterations to avoid an overfit\marginnote{\url{https://en.wikipedia.org/wiki/Early_stopping}}.
+
+\begin{marginfigure}
+\includegraphics[width=\textwidth]{figures/likelihood}
+\caption{Likelihood for the 3 GMMs models.}
+\label{like}
+\end{marginfigure}
+
+\begin{marginfigure}
+\includegraphics[width=\textwidth]{figures/accuracy}
+\caption{Classification accuracy of the GMM clasifier.}
+\label{acc}
+\end{marginfigure}
+
+
+\subsection{Overall}	
+
+On this toy example, the GMM  and KKN classifiers achieves equivalent performances, see Figure \ref{overall}.
+
+\begin{marginfigure}
+\includegraphics[width=\textwidth]{figures/overall}
+\caption{Overall results.}
+\label{overall}
+\end{marginfigure}
   
-\input{tex/exposeTmp} % expLanesInsertionFlag DO NOT CLEAR (but move it where you want the generated temporary LaTEX code to be inserted) 
+%\input{tex/exposeTmp} % expLanesInsertionFlag DO NOT CLEAR (but move it where you want the generated temporary LaTEX code to be inserted) 
   
   
 \bibliographystyle{abbrvnat} 

@@ -14,6 +14,8 @@ function config = expConfig(experimentPath, experimentName, shortExperimentName,
 
 % FIXME bug when saving figure (do not display)
 
+% FIXME is reduceData by day still necessary ?
+
 expLanesPath = fileparts(fileparts(mfilename('fullpath')));
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})

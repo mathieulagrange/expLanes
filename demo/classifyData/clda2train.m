@@ -43,6 +43,7 @@ switch setting.method
         [model options] = gmmem(mix, trainingData, options);
         % record training likelihood
         obs.trainLikelihood = options(8);
+        obs.trainLikelihood = mean(gmmprob(mix, trainingData));
         % store model for the next step
         store.model = model;
         % save model and number of iterations already done for the next
