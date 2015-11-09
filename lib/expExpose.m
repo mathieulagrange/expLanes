@@ -560,9 +560,13 @@ else
             d = expSetting(config.step, k);
             if ~isempty(d.infoShortStringMasked)
                 if isempty(strfind(d.infoShortStringMasked, '_'))
-                   p.labels{k} = d.(num2str(d.infoStringFactors));
+                    if isnumeric(d.(d.infoStringFactors))
+                        p.labels{k} = d.infoStringMasked;
+                    else
+                        p.labels{k} = d.(d.infoStringFactors);
+                    end
                 else
-                p.labels{k} = strrep(d.infoShortStringMasked, '_', ' '); % (data.settingSelector)
+                    p.labels{k} = strrep(d.infoShortStringMasked, '_', ' '); % (data.settingSelector)
                 end
             end
         end
