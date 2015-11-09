@@ -555,7 +555,11 @@ else
         for k=1:config.step.nbSettings
             d = expSetting(config.step, k);
             if ~isempty(d.infoShortStringMasked)
+                if isempty(strfind(d.infoShortStringMasked, '_'))
+                   p.labels{k} = d.(num2str(d.infoStringFactors));
+                else
                 p.labels{k} = strrep(d.infoShortStringMasked, '_', ' '); % (data.settingSelector)
+                end
             end
         end
     end
