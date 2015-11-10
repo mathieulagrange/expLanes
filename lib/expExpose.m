@@ -96,6 +96,7 @@ function config = expExpose(varargin)
 %    index (default last step)
 %    'title': title of display as string
 %    	symbol + gets replaced by a compact description of the setting
+%    'tight': tighten the display
 %    'total': display average  or summed values for observations
 %        'v', 'V': vertical with (v) or without (V) display of settings
 %        'h', 'H': horizontal with (h) or without (H) display of settings
@@ -160,6 +161,8 @@ p.plotAxisProperties={};
 p.design = {};
 p.units = {};
 p.labels = [];
+p.tight=0;
+
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
 for pair = reshape(varargin(3:end),2,[])
