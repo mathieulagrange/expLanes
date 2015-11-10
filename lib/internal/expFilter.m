@@ -75,11 +75,10 @@ if  p.expand ~= 0
     %%%%%%%%%%%%%%% % TODO issue with empty to be replaced with none, may
     %%%%%%%%%%%%%%% be not necessary
     for m=1:size(config.step.oriFactors.list, 1)
-        %%% why filter is necessary ?
         filter = config.step.maskFilter.maskFilter;
         filter(end) = 1;
-        %%%% FIX THIS !!!
         selector = [setdiff(1:length(config.step.oriFactors.names), p.expand) p.expand];
+        selector = selector(filter);
         olist{m} = [config.step.oriFactors.list{m, selector}];
     end
     if isfield(config.step, 'factors')

@@ -101,6 +101,7 @@ function config = expExpose(varargin)
 %        'h', 'H': horizontal with (h) or without (H) display of settings
 %    'uncertainty': display uncertainty
 %    	selector is the same as 'highlight'
+%    'units': units of plot axis a cell array of strings
 %    'visible': show the figure (default 1 except in save mode)
 %	-- config: expLanes configuration
 
@@ -157,7 +158,7 @@ p.color = 1;
 p.plotCommand={};
 p.plotAxisProperties={};
 p.design = {};
-
+p.units = {};
 p.labels = [];
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
@@ -356,7 +357,7 @@ else
         else
             data = expFilter(config, pe);
         end
-        evaluationObservations = {p.expandName evaluationObservations};
+        evaluationObservations = [ evaluationObservations p.expandName(1)];
     end
     
     if ~isempty(p.orderSetting) && length(p.orderSetting) == config.step.nbSettings

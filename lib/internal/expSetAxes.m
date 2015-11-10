@@ -8,28 +8,34 @@ if  length(p.legendNames)>1
             legend(p.legendNames);
         end
     end
-else
-%     xlabel(p.legendNames);
+end
+
+if ~isempty(p.xName) && length(p.units)>0
+    p.xName = [p.xName{1} ' (' p.units{1} ')'];
+end
+
+if ~isempty(p.methodLabel) && length(p.units)>1
+    p.methodLabel = [p.methodLabel{1} ' (' p.units{2} ')'];
+end
+
+xlabel(p.xName, 'fontsize', config.displayFontSize);
+if length(p.axisLabels)>1
+    ylabel(p.methodLabel, 'fontsize', config.displayFontSize);
 end
 
 if strcmpi(p.orientation(1), 'h')
     set(gca,'ytick', 1:length(p.labels));
     set(gca, 'yticklabel', p.labels);
-    xlabel(p.axisLabels{1}, 'fontsize', config.displayFontSize);
 else
-    ylabel(p.axisLabels{1}, 'fontsize', config.displayFontSize);
     set(gca,'xtick', 1:length(p.labels));
     set(gca, 'xticklabel', p.labels);
     b=get(gca,'XTick');
-    %     c=get(gca,'YTick');
     if p.rotateAxis
-    c=axis; c=c(3:4);
-    th=text(b,repmat(c(1)-.05*(c(2)-c(1)),length(b),1),p.labels,'HorizontalAlignment','right','rotation', p.rotateAxis);
-    set(th, 'fontsize', config.displayFontSize);
-    set(gca,'XTickLabel',{''});
+        c=axis; c=c(3:4);
+        th=text(b,repmat(c(1)-.05*(c(2)-c(1)),length(b),1),p.labels,'HorizontalAlignment','right','rotation', p.rotateAxis);
+        set(th, 'fontsize', config.displayFontSize);
+        set(gca,'XTickLabel',{''});
     end
-   
-
 end
 set(gca, 'fontsize', config.displayFontSize);
 % title(p.title);

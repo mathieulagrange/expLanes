@@ -7,21 +7,29 @@ else
     barCommand = 'barh';
 end
 if ~isempty(p.addSpecification)
-    h = feval(barCommand, data.meanData, p.addSpecification{:});
+    h = feval(barCommand, data.meanData', p.addSpecification{:});
 else
-    h = feval(barCommand, data.meanData);
+    h = feval(barCommand, data.meanData');
 end
 
-set(h, 'faceColor', 'w')
+
 
 if p.uncertainty>-1
-    if length(p.obs)>1
+    if ~isvector(data.meanData)
         fprintf(2, 'Warning, display of uncertainty with multiple observations is currently unsupported.\n');
     else
+        set(h, 'faceColor', 'w')
         hold on
         errorbar(data.meanData, data.stdData, 'k.');
         hold off
     end
+end
+
+tmp = p.labels;
+p.labels = p.legendNames; % FIXME improve this in expExpose
+p.legendNames = 0;
+if  ~isempty(tmp)
+    p.legendNames = tmp(data.selector);
 end
 
 expSetAxes(config, p);
