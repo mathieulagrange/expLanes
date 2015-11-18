@@ -75,8 +75,11 @@ switch p.put
                 jTable.setMultiColumnSortable(true);
                 jTable.setPreserveSelectionsAfterSorting(true);
                 
-                if numeric && (size(data, 1)>700 || any(data.meanData(:)<0))
+                if numeric && size(data, 1)>700
                     disp('Display warning: sorting from column header may be inaccurate :(');
+                end
+                if  numeric && any(data.meanData(:)<0)
+                    disp('Display warning: sorting from column header as some values are negative.');
                 end
             end
         end
