@@ -10,7 +10,7 @@
 \definecolor{blue}{rgb}{0.3, 0 ,0.6}
 \usepackage[]{hyperref}
 % mcode options for matlab code insertion bw (for printing), numbered (line numbers), framed (frame around code blocks), useliterate (convert Matlab expressions to Latex ones), autolinebreaks (automatic code wraping, use it with caution 
-\usepackage[useliterate]{mcode} 
+\usepackage[useliterate,autolinebreaks]{mcode} 
 \graphicspath{{figures/}{report/figures/}{../figures/}{../../}}  
 
 \title{ expLanes: beautiful computational experiments } 
@@ -287,6 +287,14 @@ generates a report with base name \mcode{presentationSlides} in a slides present
 \subsection{Demonstrations}
 
 Together with examples detailed in this manual, some demonstrations are available in the \mcode{demo} directory. At the root of the directory, some reports are given as examples of what can be generated within an \explanes experiment.
+
+Those reports are available online:
+\begin{enumerate}
+\item \textbf{Computation of distances: }\url{https://github.com/mathieulagrange/expLanes/blob/master/demo/distanceComputation.pdf}
+\item \textbf{Clustering: }\url{https://github.com/mathieulagrange/expLanes/blob/master/demo/clusterData.pdf}
+\item \textbf{Classification: }\url{https://github.com/mathieulagrange/expLanes/blob/master/demo/classifyData.pdf}
+\item \textbf{Audio source separation: } \url{https://github.com/mathieulagrange/expLanes/blob/master/demo/denoiseAudio.pdf}
+\end{enumerate}
 
 \section{Architecture of an experiment}
 
@@ -780,6 +788,6 @@ If the code is static, and each processing host share the same computing environ
 \end{itemize}
 
 \bibliographystyle{plain}
-\bibliography{references}
+\nobibliography{references}
 
 \end{document}
