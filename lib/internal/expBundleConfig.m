@@ -19,5 +19,6 @@ for k=1:length(names)
     end
 end
 config.codePath = '.';
-config.dataPath = '.';
-config.obsPath = '.';
+config.dataPath = './data';
+config.obsPath = './data';
+config.localDependencies = 1;

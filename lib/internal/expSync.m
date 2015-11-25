@@ -48,16 +48,16 @@ end
 if syncDestination<0
     % bundle setting
     config.syncDirection = 'b';
-    if ~exist([config.bundlePath config.experimentName], 'dir')
-        mkdir([config.bundlePath config.experimentName]);
+    if ~exist([config.exportPath config.experimentName], 'dir')
+        mkdir([config.exportPath config.experimentName]);
     end
     fieldNames=fieldnames(serverConfig);
     for k=1:length(fieldNames)
         if any(~cellfun(@isempty, strfind({'dataPath', 'inputPath'}, fieldNames{k}))) % && isempty(strfind(fieldNames{k}, 'data'))
-            serverConfig.(fieldNames{k}) =  [config.bundlePath config.experimentName '/' fieldNames{k}(1:end-4) '/'];
+            serverConfig.(fieldNames{k}) =  [config.exportPath config.experimentName '/' fieldNames{k}(1:end-4) '/'];
         end
     end
-    serverConfig.codePath = [config.bundlePath config.experimentName '/'];
+    serverConfig.codePath = [config.exportPath config.experimentName '/'];
     serverConfig.dataPath =   [serverConfig.codePath 'data/'];
     serverConfig.obsPath =   serverConfig.dataPath;
 end
@@ -66,6 +66,10 @@ end
 % TODO put options for detach verbosity, update...
 
 tokens = regexp(config.syncMode, ' ', 'split');
+bundle = find(strcmp(tokens, 'z'));
+if ~isempty(bundle)
+   tokens(bundle) = []; 
+end
 
 for k=1:length(tokens)
     if exist('syncDirection', 'var'),
@@ -135,17 +139,18 @@ if syncDestination<0
         movefile([serverConfig.codePath 'config/' files(k).name], [serverConfig.codePath 'config/savedConfigFiles']);
     end
     %  create bundle config
-    bundleConfig = expBundleConfig(config.configFileName);
-    expConfigStringSave(bundleConfig, [serverConfig.codePath '/config/' serverConfig.experimentName 'ConfigDefault.txt']);
+    exportConfig = expBundleConfig(config.configFileName);
+    expConfigStringSave(exportConfig, [serverConfig.codePath '/config/' serverConfig.experimentName 'ConfigDefault.txt']);
     
+    if ~isempty(bundle)
     bundleName = [config.experimentName '_' num2str(config.codeVersion) '_' date() '.zip' ];
-    zip([config.bundlePath bundleName], config.experimentName, config.bundlePath);
-   
-%     system(['cd ' config.bundlePath ' && tar czf '  bundleName ' ' config.experimentName]);
+    zip([config.exportPath bundleName], config.experimentName, config.exportPath);
+
     warning('off', 'MATLAB:RMDIR:NoDirectoriesRemoved');
-    rmdir([config.bundlePath config.experimentName], 's');
+    rmdir([config.exportPath config.experimentName], 's');
     warning('on', 'MATLAB:RMDIR:NoDirectoriesRemoved');
-    fprintf('Bundle is available at: %s%s\n:', config.bundlePath, bundleName);
+    fprintf('Bundle is available at: %s%s\n:', config.exportPath, bundleName);
+    end
 end
 
 

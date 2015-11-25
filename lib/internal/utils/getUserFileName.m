@@ -17,7 +17,7 @@ if ~exist(configFileName, 'file')
         defaultFileName = [expLanesPath '/expLanesConfig.txt'];
     end
     fprintf('Copying default config file for user %s from %s .\n', userName, defaultFileName);
-    userDefaultConfigFileName = expUserDefaultConfig(defaultFileName);
+    userDefaultConfigFileName = expUserDefaultConfig(defaultFileName, 1);
     
     if ~exist(userDefaultConfigFileName, 'file')
         error(['Unable to find ' userDefaultConfigFileName '\n']);

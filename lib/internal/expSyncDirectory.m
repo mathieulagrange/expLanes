@@ -170,7 +170,7 @@ for k=1:length(fieldNames)
 end
 
 
-fieldNames={ 'input' 'bundle'}; % FIXME  too old code report
+fieldNames={ 'input' 'export'}; % FIXME  too old code report
 for k=1:length(fieldNames)
     pathName = eval(['config.' fieldNames{k} 'Path']);
     index = strfind(pathName, directoryPath);

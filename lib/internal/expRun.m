@@ -46,8 +46,8 @@ end
 % fprintf(config.logFile, '\n%s\n', evalc('disp(config)'));
 % fclose(config.logFile);
 
-if config.bundle ~= 0
-    expSync(config, config.bundle, -config.host);
+if config.export ~= 0
+    expSync(config, config.export, -config.host);
     return
 end
 
@@ -226,7 +226,7 @@ else
     % delete(expandHomePath(config.configMatName)); FIXME useless ?
 end
 
-if config.display ~= -1 && ~isempty(config.factors) && isempty(config.report)
+if config.display ~= -1 && ~isempty(config.factors) && isempty(config.report) && config.do > -1
     if config.attachedMode
         config = exposeObservations(config);
     else

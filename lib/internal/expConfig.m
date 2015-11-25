@@ -4,17 +4,13 @@ function config = expConfig(experimentPath, experimentName, shortExperimentName,
 
 % TODO convert disp by expLog
 
-% FIXME missing info in confusion Matrix
-
 % TODO sorting for all exposition
-
-% TODO clean demo
-
-% TODO multiple reduce data, one per mask
 
 % FIXME bug when saving figure (do not display)
 
-% FIXME is reduceData by day still necessary ?
+% FIXME is reduceData by day still necessary ? // should not
+
+% TODO handle new version of // toolbox
 
 expLanesPath = fileparts(fileparts(mfilename('fullpath')));
 
@@ -303,7 +299,7 @@ for k=1:length(fieldNames)
             field = expandHomePath(config.(fieldNames{k}));
         end
         % if relative add experimentPath
-        if all(~strcmp(fieldNames{k}, {'matlabPath', 'toolPath', 'backupPath'}))  && (isempty(field) || ((~isempty(field) && ~any(strcmp(field(1), {'~', '/', '\'}))) && ((length(field)<1 || ~strcmp(field(2), ':')))))
+        if all(~strcmp(fieldNames{k}, {'matlabPath', 'toolPath', 'backupPath'}))  && (isempty(field) || ((~isempty(field) && ~any(strcmp(field(1), {'~', '/', '\'}))) || ((length(field)>1 && ~strcmp(field(2), ':')))))
             config.(fieldNames{k}) = [experimentPath '/' field];
         else
             config.(fieldNames{k}) = field;

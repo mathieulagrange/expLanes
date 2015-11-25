@@ -36,8 +36,8 @@ elseif ischar(commands{1})
     switch commands{1}
         case 'h'
             docFileName = [config.expLanesPath(1:end-3) 'doc/expLanesDocumentation.pdf'];
-            fprintf('Welcome to the explanes experiment named %s\nYour configuration file is available in the config directory.\nThe documentation of expLanes is %s\n', experimentName, docFileName);
-            if inputQuestion('Do you want to open it ?');
+            fprintf('Welcome to the explanes experiment named %s\nYour configuration file is available in the config directory.\nThe documentation of expLanes is located at: %s\n', experimentName, docFileName);
+            if inputQuestion('Shall it be opened now ?');
                 open(docFileName);
             end
         case 'p'

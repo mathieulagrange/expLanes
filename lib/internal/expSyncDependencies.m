@@ -14,9 +14,9 @@ end
 
 % TODO fix this using storage of info
 if serverConfig.host == config.host
-    [status, dep] = system(['ls ' serverConfig.codePath 'dependencies']);
+    [status, dep] = system(['ls -1 ' serverConfig.codePath 'dependencies']);
 else
-    [status, dep] = system(['ssh ' serverConfig.hostName ' '' ls ' serverConfig.codePath 'dependencies ''']);
+    [status, dep] = system(['ssh ' serverConfig.hostName ' '' ls -1 ' serverConfig.codePath 'dependencies ''']);
 end
 if status == 0
     dep = regexp(dep, '\n', 'split');
