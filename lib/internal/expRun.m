@@ -277,6 +277,20 @@ else
     end
 end
 
+if config.readMe
+    toolboxes = license('inuse');
+    command = config.command;
+    command(ismember(command,' ')) = [];
+    command = strrep(command, '''readMe'',1', '');
+    fid = fopen([config.codePath 'README.txt'], 'a');
+    fprintf(fid, '-------------------------\n Replication informations for the experiment as of %s\nCommand: %s\nMatlab version: %s\nLoaded toolboxes:\n', date(), command, version());
+    for k=1:length(toolboxes)
+        fprintf(fid, '   - %s\n', toolboxes(k).feature);
+    end
+    fclose(fid);    
+    fprintf('The README.txt file has been updated with information about replication of this experiment.\n');
+end
+
 if config.sendMail>0
     expSendMail(config, 2);
 elseif strfind(config.report, 'c')

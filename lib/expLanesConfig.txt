@@ -19,6 +19,8 @@ removeFactor =
 addStep = 
 % remove a given step from the experiment. Format of the request: rank
 removeStep = 
+% fill the README.txt file with information about replication of the experiment
+readMe = 0
 
 %% HOSTNAMES AND PATHS
 

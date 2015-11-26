@@ -110,6 +110,9 @@ if ~isempty(hist)
 else
     lastCommand = [];
 end
+
+config.command = lastCommand;
+
 if ~isempty(strfind(lastCommand, ''''))
     historyFileName = expandHomePath([config.codePath 'config' filesep config.shortExperimentName 'History' upper(config.userName(1)) config.userName(2:end) '.txt']);
     fid = fopen(historyFileName, 'rt');

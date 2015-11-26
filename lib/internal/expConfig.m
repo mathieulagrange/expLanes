@@ -299,7 +299,8 @@ for k=1:length(fieldNames)
             field = expandHomePath(config.(fieldNames{k}));
         end
         % if relative add experimentPath
-        if all(~strcmp(fieldNames{k}, {'matlabPath', 'toolPath', 'backupPath'}))  && (isempty(field) || ((~isempty(field) && ~any(strcmp(field(1), {'~', '/', '\'}))) || ((length(field)>1 && ~strcmp(field(2), ':')))))
+        if all(~strcmp(fieldNames{k}, {'matlabPath', 'toolPath', 'backupPath'}))  && ...
+                (isempty(field) || (~isempty(field) && ~any(strcmp(field(1), {'~', '/', '\'})))) && (length(field)>1 && ~strcmp(field(2), ':')) % FIXME  fragile ??
             config.(fieldNames{k}) = [experimentPath '/' field];
         else
             config.(fieldNames{k}) = field;
