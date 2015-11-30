@@ -139,7 +139,7 @@ if syncDestination<0
         movefile([serverConfig.codePath 'config/' files(k).name], [serverConfig.codePath 'config/savedConfigFiles']);
     end
     %  create bundle config
-    exportConfig = expBundleConfig(config.configFileName);
+    exportConfig = expExportConfig(config.configFileName);
     expConfigStringSave(exportConfig, [serverConfig.codePath '/config/' serverConfig.experimentName 'ConfigDefault.txt']);
     
     if ~isempty(bundle)

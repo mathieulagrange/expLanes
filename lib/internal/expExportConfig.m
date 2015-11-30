@@ -1,4 +1,4 @@
-function config = expBundleConfig(configFileName)
+function config = expExportConfig(configFileName)
 
 configFile=fopen(configFileName);
 if configFile==-1, 
@@ -21,4 +21,5 @@ end
 config.codePath = '.';
 config.dataPath = './data';
 config.obsPath = './data';
+config.inputPath = './input';
 config.localDependencies = 1;
