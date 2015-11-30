@@ -20,9 +20,25 @@
 
 \lstset{aboveskip=2pt,belowskip=2pt, basicstyle=\small} % \medskipamount
 
+%\usepackage[titles]{tocloft}
+
+\setcounter{tocdepth}{1}
+\usepackage{multicol}% http://ctan.org/pkg/multicol
+\makeatletter
+\renewcommand{\tableofcontents}[1][]{%
+  \section*{#1}
+  \begin{multicols}{2}
+    \@starttoc{toc}
+  \end{multicols}
+}
+\makeatother
+
 \begin{document} 
   
 \maketitle 
+\vspace{-1.5cm}
+\tableofcontents
+
 
 \section{About you}
 
@@ -388,6 +404,7 @@ An \explanes experiment can be controlled by editing the configuration file or o
 \item \textbf{removeFactor}: remove a factor of the experiment. Format of the request: {rankInFactorFile, defaultModalityId}
 \item \textbf{addStep}: add a step to the experiment. Format of the request: {'name', rank}
 \item \textbf{removeStep}: remove a given step of the experiment. Format of the request: rank
+\item \textbf{readMe}: fill the README.txt file with information about replication of the experiment (boolean)
 \end{itemize}
 
 \subsection{Hostnames and Paths}
@@ -401,7 +418,7 @@ An \explanes experiment can be controlled by editing the configuration file or o
 \item \textbf{dataPath}: path to the data repository of the experiment  (structured with one directory per step)
 \item \textbf{obsPath}: path to the data repository of the experiment for observation data (same as dataPath if left blank)
 \item \textbf{backupPath}: path to backup of transferred data
-\item \textbf{bundlePath}: path to export bundles
+\item \textbf{exportPath}: path to export replication of the experiment
 \item \textbf{matlabPath}: path to the directory of the Matlab binary 
 \item \textbf{toolPath}: path to Unix tools (pdflatex, rsync, ssh, screen)
 \end{itemize}
@@ -441,7 +458,7 @@ Every path can be a cell array of string. In this case, the path is selected in 
 \item \textbf{store}: perform computation to be stored: (1, 0) load data of previous step, (-1, 0) load data result of the current step
 \item \textbf{retrieve}: retrieve needed data server side: -1 no retrieval, 0 global scan of every hosts, >0 hostId
 \item \textbf{namingConventionForFiles}: naming convention for data files: long (complete naming, may lead to too long file names), short (abbreviated naming, may also lead to too long file names), hash (hash based naming, compact but may lead to naming clashes)
-\item \textbf{bundle}: generate bundle of elements designated as a string with tokens separated by white spaces: 'c' (code), 'd' (dependencies), 'i' (input), 1 (output data of step 1), 1d (stored data of step 1 only), 1o (observations of step 1 only) 
+\item \textbf{export}: export a replicate of the experiment with elements designated as a string with tokens separated by white spaces (addition of 'z' outputs a zip file): 'c' (code), 'd' (dependencies), 'i' (input), 1 (output data of step 1), 1d (stored data of step 1 only), 1o (observations of step 1 only) 
 \item \textbf{sync}: sync data across machines specified as a cell array with: elements (as in bundle), optional host as numeric id (1.2 means the second host of the first group of machines, default to 2), direction 'd' (download from server to local host, default), 'u' (upload from host to server). Provided with the elements as string, the command default to server 2 in download mode.
 \item \textbf{clean}: clean explanes directories and project data repositories. As string id : t (expLanes temporary directory), b (experiment backup directory), k (all steps directories while keeping reachable settings), 1 (output data of step 1), 1d (remove stored data of step 1 only), 1o (observations of step 1 only). As numeric id (clean the corresponding step directory, 0 means all directories) 
 \item \textbf{branchStep}:  specify at which step the branching (if any) is effective (default 0)
@@ -633,13 +650,98 @@ Parameters customizes the rendering and are defined as pair of string / value.
 \item \textbf{visible}: show the figure (default 1 except in save mode)                    
 \end{itemize}
 
+\section{Publishing your experiment}
+
+Publishing your experiment together with your research paper can have a significant impact on the pace at which your research community goes as it allows other researchers to replicate exactly your experiments in an efficient way.
+
+Indeed, any decent size processing chain have a many bells and whistles that needs to be tuned correctly in order to perform as described in your research paper. As it surely took you time and great care, it is very unlikely that another researcher, as skillful as he may be, will dedicate the time needed to do what you did.
+
+As for as the actual code of the experiment is concerned, the experiment can be duplicated and independently executed with the following command:
+\begin{lstlisting}
+geometricShape('export', 'c d', 'exporPath', <pathToExportLocation>);
+\end{lstlisting}
+
+
+\subsection{Publishing input data}
+
+Is the data used in your experiment
+\begin{itemize}
+\item freely available ? 
+\item licensed with creative commons licenses ?
+\item your property and you have the ability to distribute it freely ?
+\end{itemize} 
+
+If yes for any of those items, then your experiment can be replicated entirely which is, by far, the best case. If the data is not yet available online, as of year 2015, a convenient way to publish data online is the Archive repository\footnote{\url{https://archive.org}}. Please add the needed documentation on how to retrieve the data online in the \mcode{README.txt} file of the experiment.
+
+If the data is of small size, it can be conveniently embedded into the published version of the experiment with the \mcode{'i'} token in the export command:
+\begin{lstlisting}
+geometricShape('export', 'c d i', 'exportPath', <pathToExportLocation>);
+\end{lstlisting}
+
+\subsection{Publishing \explanes processing data}
+
+If you do not wish to publish input data, you can still help others members of the community in quickly gaining information about your work by publishing \explanes processing data.
+
+For example, if the first step of the experiment is to compute features, and you can ensure that the processing is not invertible, you may wish to publish the output of this first step, as it will allow others to replicate the following steps of the experiment:
+\begin{lstlisting}
+geometricShape('export', 'c d 1d', 'exportPath', <pathToExportLocation>);
+\end{lstlisting} 
+The \mcode{'1d'} stands for the output data of step 1.
+
+If you do not wish to do that, you can still export the observations of the processing steps in order to provide performance data that is not available in your research paper due to page limit constraints:
+\begin{lstlisting}
+geometricShape('export', 'c d 1o', 'exportPath', <pathToExportLocation>);
+\end{lstlisting} 
+The \mcode{'1o'} stands for the observations of step 1.
+
+\subsection{Ensure replicability}
+
+\subsection{Procedure}
+
+Thus, the procedure to safely publish replicable code using \explanes is:
+\begin{enumerate}
+\item Fill replicability informations
+\begin{enumerate}
+\item start a Matlab session (if possible with another blank user account)
+\item type \mcode{restoredefaultpath}, in order to remove any implicit dependencies
+\item run the command you wish other users to execute to replicate your experiment:
+\begin{lstlisting}
+geometricShape('do', 0, 'report', 'r', 'readMe', 1);
+\end{lstlisting}
+at termination, the \mcode{README.txt} will contain important informations about the soware platform used, such as :
+\begin{lstlisting}
+------
+ Replication informations about the experiment as of 30-Nov-2015
+Command: geometricShape('do', 0, 'report', 'r');
+Matlab version: 8.5.0.197613 (R2015a)
+Loaded toolboxes:
+   - matlab
+   - signal_toolbox
+   - statistics_toolbox
+------
+\end{lstlisting}
+
+\end{enumerate}
+\item Create duplicate:
+\begin{lstlisting}
+geometricShape('export', 'c d i', 'exportPath', <pathToExportLocation>);
+\end{lstlisting}
+\item Test duplicate
+\begin{enumerate}
+\item start a Matlab session (if possible with another blank user account)
+\item go the export directory
+\item optionally, decompress the zip archive
+\item run the command available in the \mcode{README.txt} file.
+\end{enumerate}
+\end{enumerate}
+
 \section{Advanced usage}
 
 \subsection{Branching experiments}
 
-Experimental research most of the time involves the implementation of many solution that will potentially improve things for a given step of the experiment. Finding the correct way to do it requires a lot of trials that may lead to code burden.
+Experimental research most of the time involves the implementation of many solutions that will potentially improve things for a given step of the experiment. Finding the correct way to do it requires a lot of trials that may lead to code burden.
 
-In order to keep a root project clean, and not to replicate the code and data and of this root project in another more experimental project, \explanes allows us to create a branch experiment that accesses the data generated by the root experiment.
+In order to keep a root project clean, and not to replicate the code and data and of this root project in a more experimental project, \explanes allows you to create a branch experiment that accesses the data generated by the root experiment.
 
 Let us assume that we want to create a new way of computing the volume of our geometric shapes. We can do so by creating a branch experiment:
 
@@ -648,7 +750,7 @@ Let us assume that we want to create a new way of computing the volume of our ge
 The last parameter specifies at which step the branching is done, in this case at step 2.
 The new experiment must keep the same factors up to the step before the branching step (in our case step 1).
 
-The merge of the new solution to the root experiment must be done by hand.
+The insertion of the new solution into the root experiment must be done manually.
 
 \subsection{Design of experiments}
 
@@ -740,9 +842,6 @@ designOfExperiments('mask', {{0 4 3 2}, {5 0 3 2}, {5 4 0 2}, {5 4 3 0}}, 'do', 
 \end{lstlisting}
 
 The design of experiments method can provide answers for other important questions. Barr \& al.  wrote a practical introduction on good practices in designing computational experiments \cite{design}. Some books provide more in depth presentation \cite{de,se}.
-
-
-
 
 \subsection{Handling compilation directives}
 
