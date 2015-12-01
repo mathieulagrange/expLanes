@@ -58,7 +58,7 @@ for k=1:length(config.stepName)-1
     storeNames(2, :) = {'\\'};storeNames(2, end) = {''};
     storeNames = [storeNames{:}];
    
-    functionCell{end+1} = ['\draw[stepArrow]   (' num2str(k) '.east) -- (' num2str(k+1) '.west) node[midway,text width=3cm,text centered,below] {\textbf{' storeNames '}} ;'];    
+    functionCell{end+1} = ['\draw[stepArrow]   (' num2str(k) '.east) -- (' num2str(k+1) '.west) node[midway,text width=3cm,text centered,below] {\textbf{' strrep(storeNames, '_', '\_') '}} ;'];    
     else
     functionCell{end+1} = ['\draw[stepArrow]   (' num2str(k) '.east) -- (' num2str(k+1) '.west) ;'];
     end
@@ -70,7 +70,7 @@ if infoType == 2 || infoType  == 4
     if ~isempty(storeNames)
         functionCell{end+1}=['\node (' num2str(length(config.stepName)+1) ') [right=of ' num2str(length(config.stepName)) ']{};'];
 
-        functionCell{end+1} = ['\draw[stepArrow]   (' num2str(length(config.stepName)) '.east) -- (' num2str(length(config.stepName)+1) '.west) node[midway, text width=3cm,text centered,below] {\textbf{' storeNames '}} ;'];
+        functionCell{end+1} = ['\draw[stepArrow]   (' num2str(length(config.stepName)) '.east) -- (' num2str(length(config.stepName)+1) '.west) node[midway, text width=3cm,text centered,below] {\textbf{' strrep(storeNames, '_', '\_') '}} ;'];
     end
 % else
 %     functionCell{end+1} = ['\draw[stepArrow]   (' num2str(length(config.stepName)) '.east) -- (' num2str(length(config.stepName)) '.east) ;'];
@@ -123,7 +123,7 @@ end
 
 functionCell={...
     ['\node (' num2str(stepId) ') [stepBlock' location ']'];...
-    ['{\textbf{' stepName '}'];...
+    ['{\textbf{' strrep(stepName, '_', '\_') '}'];...
     '\nodepart{two}\tabular{@{}l}  ', ...
     };
 
@@ -135,7 +135,7 @@ for k=1:length(factorIndex)
             seq = '';
         end
         
-        functionCell{end+1} = ['\texttt{' config.factors.names{k} '} ' seq '\\'];
+        functionCell{end+1} = ['\texttt{' strrep(config.factors.names{k}, '_', '\_') '} ' seq '\\'];
     end
 end
 functionCell{end+1} = '\endtabular';
@@ -159,6 +159,6 @@ if infoType>2
     obsNames = [obsNames{:}];
     if ~isempty(obsNames)
         
-    functionCell{end+1} = ['\draw[obsArrow]   (' num2str(stepId) '.south) -- (' num2str(stepId) '.south) node[midway,text width=3cm,text centered,below] {\textit{' obsNames '}} ;'];
+    functionCell{end+1} = ['\draw[obsArrow]   (' num2str(stepId) '.south) -- (' num2str(stepId) '.south) node[midway,text width=3cm,text centered,below] {\textit{' strrep(obsNames, '_', '\_') '}} ;'];
     end
 end
