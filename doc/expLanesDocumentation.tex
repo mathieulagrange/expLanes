@@ -1,4 +1,3 @@
-
 \documentclass[a4paper,fleqn]{tufte-handout} 
 \usepackage{graphicx} 
 \usepackage{morefloats,textcomp} 
@@ -33,6 +32,8 @@
 }
 \makeatother
 
+% TODO explain dummy mode
+
 \begin{document} 
   
 \maketitle 
@@ -42,53 +43,56 @@
 
 \section{About you}
 
-Let's assume that you are practicing computational experiments. Most probably, this takes you time and a lot of care, and may be you have some frustrations depending whether you are:
+Let's assume that you are practicing computational experiments. Most probably, this takes you time and a lot of care, and may be an endless source of frustration depending on whether you are:
 \begin{itemize}
-\item  \textbf{a Master's student ?} Then, you may at some point consider the fact that the problem is not simply to come with a new idea and implement it. To contribute significantly to the research community are striving to be part of, you need to compare your method with the ones of others. This process is tedious, hard if not impossible and involve a lot of coding and knowledge about large scale data processing, statistical analysis and reporting of quantitative data.
+\item  \textbf{a Master's student?} Then, you may at some point consider the fact that the problem is not simply to come with a new idea and implement it. To contribute significantly to the research community that you are striving to be part of, you need to compare your method with existing ones. This process is tedious, hard (if not impossible) and involves a lot of coding and knowledge about large scale data processing, statistical analysis and reporting of quantitative data.
 
-\item \textbf{a PhD student ?} You have several years to dedicate to a research project. Doing it well will help you stay motivated and efficient. But how ? Several years of work means a lot of code, a lot of bugs, a lot of failures and hopefully some gain of knowledge for you and your research community. How will you keep track of those many experiments ? How will you efficiently document them ?  How will you quickly report your progress to the members of your research team ? How will you publish your research in a reproducible way ?
+\item \textbf{a PhD student?} You have several years to dedicate to a research project. Doing it well will help you stay motivated and efficient. But how? Several years of work means a lot of code, a lot of bugs, a lot of failures and hopefully some gain of knowledge for you and your research community. How will you keep track of those many experiments? How will you efficiently document them?  How will you quickly report your progress to the members of your research team? How will you publish your research in a reproducible way?
 
-\item \textbf{a Post doctoral fellow ?} You are now an established researcher, with many ideas about what could be done in order increase knowledge in your community. But you also have to juggle with many different projects you are involved in. Keeping track of all those projects and being able to easily switch between them is mandatory for success. For example, being able to re-run years old experiments in order to efficiently satisfy a reviewer request is critical for your career.
+\item \textbf{a Post doctoral fellow?} You are now an established researcher, with many ideas about what could be done in order increase knowledge in your community. But you also have to juggle with the many different projects you are involved in. Keeping track of all those projects and being able to easily switch between them is mandatory for success. For example, being able to re-run years old experiments in order to efficiently satisfy a reviewer request is critical for your career.
 
-\item \textbf{a Full time researcher ?} Besides research, you have many duties that shreds the time you can allocate to pursue the many personal research projects you have. The time needed to switch between several projects is sometimes too long with respect to the time you can allocate to reach efficiency. More importantly, the free time you have is usually not in front of your desktop. Also, you are advising several students and most of the time, when the student goes away, the project ends at best with a student specific organization of code and data that will most probably not help the next student to pursue efficiently the research project you are interested in.
+\item \textbf{a Full time researcher?} Besides research, you have many duties that shred the time you can allocate to pursuing your many personal research projects, and the time needed to switch between projects can easily become excessive with respect to your overall available time. More importantly, the free time you have is usually not in front of your desktop. Moreover, you are supervising several students whose research work, as valuable as it may be, is more often than not plagued with such a level of organizational idiosyncrasy as to make it next to useless for the next student working on the project---or yourself.
 
 \end{itemize}
 
-And for all or others, you are heading towards sharing your code but you are not confident with your programming expertise and you do not have time to improve your experimental code into a sharable state\footnote{\url{http://sciencecodemanifesto.org}} ?
+And for all or others, maybe you are heading towards sharing your code, but not quite confident with your programming expertise yet, and you do not have time to improve your experimental code into a sharable state\footnote{\url{http://sciencecodemanifesto.org}}? Or maybe you need solid experimental data to pitch a new technology?
 
-If so, please consider giving \explanes a try as it is specifically designed with those matters in mind and hopefully will help you reducing specific burden that keep you way from reaching this goal which is one of the most important step towards true expansion of knowledge in science and engineering: reproducibility\cite{science, sp}.
+\explanes is specifically designed with those matters in mind, and will hopefully help you reduce the specific burden that keeps you from reaching this goal which is one of the most important steps towards the expansion of knowledge in science and engineering: reproducibility\cite{science, sp}.
 
 \section{Features}
 
 \explanes is a software framework currently implemented in Matlab that 
 \begin{itemize}
-\item provides a high level abstraction for running computational experiments
-\item allows multiple users per experiment
-\item allows multiple processing platforms to be used
-\item features an strong decoupling of 3 major experimental phases: 
+\item provides a high level abstraction for running computational experiments,
+\item allows multiple users per experiment,
+\item allows multiple processing platforms to be used,
+\item allows a strong decoupling of the 3 major experimental phases: 
 \begin{enumerate}
-\item coding
-\item processing
+\item coding,
+\item processing,
 \item reduction of results.
 \end{enumerate}
 \end{itemize}
 
+Concretely, \explanes lets you identify the operational parameters (factors of the experiment) of a process or algorithm, and their ranges of variation (modalities of the experiment), then proceeds to automatically explore all or a subset of the space of possible parameter combinations, using a dataset and evaluation function of your choice. Finally, it generates a report compiling the obtained results. This can for example be used to evaluate an average performance, tune an algorithm for a specific type of data, or confirm empirically that a process behaves satisfactorily in all situations.
+
 \section{Benefits} 
+
 \begin{enumerate}
 \item The user can focus on solution code,
 \item evaluated with standard experimental designs.
 \item Bugs and the time needed to solve them is reduced,
-\item context switching between projects is much easier
+\item context switching between projects is much easier,
 \item as well as diffusion of reproducible code.
 \end{enumerate}
 
 \section{The scientific method}
 
-The scientific method is a well established method to gain knowledge with demonstrated merit. Sadly, modern ways of doing research impose strong pressure on the time and efforts that can be allocated to a project. The consequence is that important steps of the scientific are often neglected. 
+Since it was expressed in its modern form by Roger Bacon in the 13th century, the scientific method has demonstrated time and again its merit, as the process that underpinned all the discoveries and innovations upon which our modern world is built. Sadly, modern ways of doing research impose strong pressure on the time and efforts that can be allocated to a project, and important steps of the scientific method are often neglected. 
 
-We believe that this quest for speed adversely reduces the meaningfulness of the research results that are nowadays published. Admittedly though, following strictly the scientific method can be tedious and shortcuts might be tempting. \explanes is designed to assist you in the most tedious and most error prone steps and will hopefully help you dedicate more time to the fundamental steps of the scientific method.
+We believe that this quest for speed adversely reduces the meaningfulness of the research results that are nowadays published. Admittedly, following strictly the scientific method can be tedious and shortcuts might be tempting. \explanes is designed to assist you in the most tedious and most error prone steps, and will hopefully help you dedicate more time to the fundamental steps of the scientific method.
 
-Quickly put, the scientific method can be divided into several steps that each may have to be iterated. On the following table, we stated where the \explanes framework can be helpful during this iteration process.
+Quickly put, the scientific method can be divided into several steps, each of which may have to be iterated. On the following table, we stated where the \explanes framework can be helpful during this iteration process.
 
 \begin{center} \bf The scientific method\cite{right} \end{center}
 \begin{tabular}{clc}
@@ -114,22 +118,23 @@ Quickly put, the scientific method can be divided into several steps that each m
 
 \section{Installation}
 
-\explanes operates in the Matlab environment. A recent version of this software (> R2014) is needed as well as the Statistical toolbox. The Parallel toolbox is needed for in session multi-core processing. 
+\explanes operates in the Matlab environment. A recent version of this software (> R2014) is needed as well as the Statistical toolbox. The Parallel toolbox is needed for in-session multi-core processing. 
 
-As much as possible, \explanes uses built in tools to manipulate data. However some functionality are handled through the use basic Unix tools:
+As much as possible, \explanes uses built-in tools to manipulate data. However some functions are handled through the use of basic Unix tools:
 \begin{enumerate}
 \item \textbf{pdflatex}: handles compilation of reports written in \LaTeX.
-\item \textbf{rsync}: allow backup, generation of bundles and data communication between hosts.
-\item \textbf{ssh}: allow secure connection between host.
-\item \textbf{screen}: allow handling of several detached terminals for background processing.
+\item \textbf{rsync}: allows backup, generation of bundles and data communication between hosts.
+\item \textbf{ssh}: allows secure connection between hosts.
+\item \textbf{screen}: allows handling of several detached terminals for background processing.
 \end{enumerate}
-Please note that those tools must be available on every host where an \explanes project is processed. That said, \explanes do not enforce their availability. For example, without \mcode{pdflatex}, no reports can be generated.
 
-Probing access of those tools by your \explanes project (in this documentation, the project we will demonstrate is called \mcode{geometricShape}) can be done using the following command:
+Please note that those tools must be available on every host where an \explanes project is processed. That said, \explanes does not enforce their availability. For example, without \mcode{pdflatex}, no reports will be generated.
+
+Probing access to those tools by your \explanes project (in this documentation, the project we will demonstrate is called \mcode{geometricShape}) can be done using the following command:
 
 \mcode{geometricShape('probe', 1);}
 
-It also check if the different data paths and processing hosts are achievable. Each of those configuration parameters can be set for each user by editing the configuration file of the project. A default configuration file that is used as template when creating a new project is available at \texttt{$\sim$/.expLanes/<userName>Config.txt}.
+It also checks if the different data paths and processing hosts are reachable. Each of those configuration parameters can be set for each user by editing the configuration file of the project. A default configuration file to be used as a template when creating a new project is available at \texttt{$\sim$/.expLanes/<userName>Config.txt}.
 
 \subsection{Linux}
 
@@ -139,29 +144,29 @@ On Linux hosts, the installation should be straightforward. For example, on Debi
 
 Installation may be achieved by typing in a terminal: 
 
-\mcode{sudo apt-get install <packagesNames>}
+\mcode{sudo apt-get install <packageNames>}
 
 Minimal configuration might be needed to configure ssh on client and server sides depending on your network configuration. In \explanes ease of use is achieved by using empty passphrase logging.
 
 \subsection{Mac OS}
 
-Several alternatives are available to install Unix packages: Fink, MacPorts and Homebrew. You shall avoid the use of \mcode{/usr} for installation, and the \mcode{PATH} environment variable shall be properly set.
+Several alternatives are available to install Unix packages: Fink, MacPorts and Homebrew. You should avoid the use of \mcode{/usr} for installation, and the \mcode{PATH} environment variable should be properly set.
 
 \subsection{Windows}
 
-For pdflatex, please use MiKTeX, for the remaining please use Cygwin. Some tweaks might be needed in order to ensure that the paths and usernames are correct.
+For pdflatex, please use MiKTeX, for the remaining please use the Cygwin environment. Some tweaks might be needed in order to ensure that the paths and usernames are correct.
 
 \section{\explanes in a nutshell}
 
-\explanes is designed to provide you with as stream lined set of tools to efficiently build the computational environment you need in order to gain knowledge about a research statement.
+\explanes is designed to provide you with as streamlined set of tools to efficiently build the computational environment you need in order to gain knowledge about a research statement.
 
-For the sake of simplicity, we will now consider a trivial research statement. We want to gain knowledge about the base area and the volume of a few 3 dimensional geometrical shapes. For reference, this project is available in the \mcode{demonstrations} directory. %
+In order to present the typical workflow of a \explanes{}-driven experiment, we detail in this section the steps to explore a trivial research statement: gaining knowledge about the base area and the volume of a few 3 dimensional geometrical shapes. For reference, this project is available in the \mcode{demonstrations} directory. Complete documentation of the commands is given in the next section.%
 
 First, we assume that the \explanes framework is in your path, if not, please type the following in your command window: \\ \mcode{addpath(genpath('<pathToExplanes>'));};
 
 \subsection{Create project}
 
-Let us call create the project \textsl{geometricShape}:
+To create the \textsl{geometricShape} project, call:
 
 \mcode{expCreate('geometricShape');}
 
@@ -181,13 +186,15 @@ The processing steps can be now be instantiated:
 \mcode{geometricShape('addStep', 'space');}
 
 \noindent
-Alternatively, the  3 previous commands can be operated at once: \\
+Alternatively, the  3 previous commands can be run at once: \\
 \mcode{expCreate('geometricShape', \{'base', 'space'\});}
 
 
 \subsection{Define factors}
 
-We are interested in the potential impact of the different attributes (shape, color, radius, width, height) of the geometric shape on its base area and volume. The shape can be a cylinder a pyramid or a cube:
+We are interested in the potential impact of the different attributes (shape, color, radius, width, height) of the geometric shape on its base area and volume. For each of those attributes, we define a set of values that shall be explored during the experiment.
+
+The shape can be a cylinder, a pyramid or a cube:
 \begin{lstlisting}
 geometricShape('addFactor', ...
 	{'shape', {'cylinder', 'pyramid', 'cube'}});
@@ -204,7 +211,7 @@ The width of the pyramid and the cube (modalities 2 and 3 of factor 1) ranges fr
 \begin{lstlisting}
 geometricShape('addFactor', {'width', '1:3', '', '1/[2 3]'});
 \end{lstlisting}
-The height of the shape is only relevant for processing step 2 and for the cylinder of the pyramid (modalities 2 and 3 of factor 1):
+The height of the shape is only relevant for processing step 2 and for the cylinder or the pyramid (modalities 2 and 3 of factor 1):
 \begin{lstlisting}
 geometricShape('addFactor', {'height', '2:2:6', '2', '1/[1 2]'});
 \end{lstlisting}
@@ -223,11 +230,11 @@ The factors can be edited in the file \\ \mcode{<shortExperimentName>Factors.txt
 
 \subsection{Implement processing steps}
 
-The first step is dedicated to the computation of the base area of the shape. The solution code is implemented in \mcode{gesh1base.m}:
+The first step is dedicated to the computation of the base area of the shape. The solution code is implemented in \mcode{gesh1base.m}, where we simulate that $\pi$ is estimated with a given precision, but 100 measurements have been made:
 \lstinputlisting[firstline=16, lastline=23]{../demo/geometricShape/gesh1base.m}
-We assume here that $\pi$ is known up to a given precision, but 100 measurements have been made.
 
-The second step build on the result of the first processing step to compute the volume (implemented in \mcode{gesh2volume.m}):
+
+The second step builds upon the result of the first processing step to compute the volume (implemented in \mcode{gesh2volume.m}):
 \lstinputlisting[firstline=16, lastline=23]{../demo/geometricShape/gesh2space.m}
 
 \subsection{Define observations}
@@ -252,7 +259,7 @@ run the base step over all 18 settings.
 \begin{lstlisting}
 geometricShape('do', 0, 'mask', {[1 2] 0 1});
 \end{lstlisting}
-runs successively every steps over the cylinders of radius 2  and all the pyramids.
+runs successively each step over the cylinders of radius 2 and all the pyramids.
 
 \subsection{Expose observations}
 
@@ -260,9 +267,9 @@ runs successively every steps over the cylinders of radius 2  and all the pyrami
 \includegraphics[trim={0 6cm 0 0},clip,width=1.2\textwidth]{../demo/geometricShape/report/figures/mtable}
 \end{marginfigure}
 
-Upon completion of the processing, the results of the last processing are displaying in the command window:
+Upon completion of the processing, the results of the last processing are displayed in the command window:
 
-This display can be achieved by issuing the following command:
+This display can be obtained by issuing the following command:
 \begin{lstlisting}
 geometricShape('display', 2, 'expose', '>', ...
 	'mask', {[1 2] 0 1});
@@ -277,7 +284,7 @@ geometricShape('display', 2, 'mask', {1 0 1},...
 \end{lstlisting}
 
 displays the volume (observation 3) of the step volume (2) for each cylinder of radius 2 sorted according to the first on a table (t). Red color indicates best performance, and blue ones, performances which have not been found statistically different from the best one. 
-\marginnote{For this example, even if the blue cylinder is bigger than the blue one due to the uncertainty in the estimation of $\pi$, this difference is not significant, so the blue and red cylinders shall be considered of equivalent volume.}
+\marginnote{For this example, even if the blue cylinder is bigger than the red one due to the uncertainty in the estimation of $\pi$, this difference is not significant, so the blue and red cylinders shall be considered of equivalent volume.}
 
 \subsection{Report}
 
@@ -286,7 +293,7 @@ displays the volume (observation 3) of the step volume (2) for each cylinder of 
 \input{../demo/geometricShape/report/tables/geolTabular}
 \end{margintable}
 
-The file \mcode{<shortExperimentName>Report.m}, that is \mcode{geshReport.m} in this example allows you to generate report that compile several expositions of observations: \LaTeX table (l), bar plot (b), and box plot (x).
+The file \mcode{<shortExperimentName>Report.m}, that is \mcode{geshReport.m} in this example, allows you to generate a report that compiles several expositions of observations: \LaTeX table (l), bar plot (b), and box plot (x).
 
 \lstinputlisting[firstline=13, lastline=19]{../demo/geometricShape/geshReport.m}
 
@@ -309,7 +316,7 @@ generates a report with base name \mcode{presentationSlides} in a slides present
 
 \subsection{Demonstrations}
 
-Together with examples detailed in this manual, some demonstrations are available in the \mcode{demo} directory. At the root of the directory, some reports are given as examples of what can be generated within an \explanes experiment.
+Together with the examples detailed in this manual, some demonstrations are available in the \mcode{demo} directory. At the root of the directory, some reports are given as examples of what can be generated within an \explanes experiment.
 
 Those reports are available online:
 \begin{enumerate}
@@ -336,11 +343,11 @@ The main directory hosts the processing routines (named \mcode{codePath} in your
 
 \subsection{Configuration}
 
-The processing environment of the experiment can be controled with the files hosted in the directory \mcode{config}.
+The processing environment of the experiment can be controlled with the files hosted in the \mcode{config} directory.
 
-Almost every processing units of an \explanes experiment has access to a structure named \mcode{config} which is imported from a file which is specific to each user. This file is generated at the creation of the experiment from a user specific template file that can be found in \texttt{$\sim$/.\explanes}.
+Almost every processing unit of an \explanes experiment has access to a structure named \mcode{config}, which is imported from a file that is specific to each user. This file is generated at the creation of the experiment from a user specific template file that can be found in \texttt{$\sim$/.\explanes}.
 
-The syntax of this file allows the user to handle several configurations that depends on which machine the experiment is processed. For example, let us assume that the project handles 3 machines with different file architectures:
+The syntax of this file allows the user to handle several configurations depending upon which machine the experiment is processed on. For example, let us assume that the project handles 4 machines with different file architectures:
 \begin{lstlisting}
 machineNames  = {{'toto', 'yoyo'}, 'dodo', 'momo'}
 codePath = {'~/code/geometricShape', '/lab/code/geometricShape}
@@ -351,7 +358,7 @@ Every entry of the configuration file can be overwritten at the command line cal
 \begin{lstlisting}
 geometricShape('do', 0, 'sendMail', 1)
 \end{lstlisting}
-process every steps and sends an email at the end of the processing.
+processes every steps and sends an email at the end of the processing.
 
 New entries can also be added and accessed in the processing files of the experiment for specific user usage:
 \begin{lstlisting}
@@ -366,7 +373,7 @@ Warning. The command line parameter myEntry is not found
 
 \subsection{Data}
 
-Access to input data is handled in the configuration file with the entry \mcode{inputPath}. Processing data is handled with the entry \mcode{dataPath}. Before processing any step, a directory is created with the name of the step and processing data generated by this step is stored here.
+Access to input data is handled in the configuration file with the entry \mcode{inputPath}. Processing data is handled with the entry \mcode{dataPath}. Before processing any step, a directory is created with the name of the step, and all processing data generated by this step is stored here.
 
 Observations are usually of smaller size. As such it may useful to store them in a different location such as a cloud filesystem. The \mcode{obsPath} stores the observation data in the same directory architecture. If left empty, the \mcode{obsPath} is set equal to \mcode{dataPath}.
 
@@ -376,9 +383,9 @@ Observations are usually of smaller size. As such it may useful to store them in
 The report directory stores expositions of observations in many flavors.
 
 \begin{itemize}
-\item \textbf{\mcode{report/}}: contains editable \LaTeX files, one for each \mcode{reportName} (default to \mcode{<projectName>.tex}) and BibTex file that can be edited and processed in a standard fashion. Expositions of observations are added to the \LaTeX file prior compilation at the location of the flag \mcode{expLanesInsertionFlag}.
+\item \textbf{\mcode{report/}}: contains editable \LaTeX files, one for each \mcode{reportName} (defaults to \mcode{<projectName>.tex}) and a BibTex file that can be edited and processed in a standard fashion. Expositions of observations are added to the \LaTeX file prior to compilation at the location of the flag \mcode{expLanesInsertionFlag}.
 \item \textbf{\mcode{report/figures}}: when the \mcode{'save'} parameter is added to a visual exposition, the resulting figure is stored in several formats (\mcode{.fig} Matlab Figure, \mcode{.eps}, \mcode{.png}, and \mcode{.pdf}). The numerical data is also made available in a \mcode{.mat} file. 
-\item \textbf{\mcode{report/reports}}: contains the generated reports with the following naming : \mcode{<reportName><userName><date>.pdf}. The data of every expositions of the corresponding report is made available in a \mcode{.mat} file.
+\item \textbf{\mcode{report/reports}}: contains the generated reports with the following naming template: \mcode{<reportName><userName><date>.pdf}. The data of each exposition of the corresponding report is made available in a \mcode{.mat} file.
 \item \textbf{\mcode{report/tables}}:  when the \mcode{'save'} parameter is added to a table exposition (\mcode{'t'} or \mcode{'l'}), the resulting table is stored in several formats (\LaTeX floating table, \LaTeX tabulary array, \mcode{.csv} file. The numerical data is also made available in a \mcode{.mat} file.
 \item \textbf{\mcode{report/tex}}: this directory is used for internal \explanes usage. Please do not edit any files in it, as they may be deleted.
 \end{itemize}
@@ -391,31 +398,29 @@ An \explanes experiment can be controlled by editing the configuration file or o
 \subsection{User}
 
 \begin{itemize}
-\item \textbf{emailAddress}: email address ticked when processing is done server side (leave empty for no mailing service), can be a cell array of email adresses
+\item \textbf{emailAddress}: email address used to acknowledge when processing is started or over server side (leave empty for no mailing service), can be a cell array of email addresses
 \item \textbf{completeName}: complete name of user
 \end{itemize}
 
 \subsection{Project}
 
 \begin{itemize}
-\item \textbf{probe}: probe tools (1), paths (2), and hosts (3), or all (0)
-\item \textbf{generateRootFile}: regenerate the root file of the experiment (use of newer versions of the expLanes lib may reguired it)
+\item \textbf{probe}: probe tools (1), paths (2), hosts (3), or all (0)
+\item \textbf{generateRootFile}: regenerate the root file of the experiment (newer versions of the expLanes lib may reguire it)
 \item \textbf{addFactor}: add a factor to the experiment. Format of the request: {'name', 'modalities', 'steps', 'selector', defaultModalityId, rankInFactorFile}
-\item \textbf{removeFactor}: remove a factor of the experiment. Format of the request: {rankInFactorFile, defaultModalityId}
+\item \textbf{removeFactor}: remove a factor from the experiment. Format of the request: {rankInFactorFile, defaultModalityId}
 \item \textbf{addStep}: add a step to the experiment. Format of the request: {'name', rank}
-\item \textbf{removeStep}: remove a given step of the experiment. Format of the request: rank
+\item \textbf{removeStep}: remove a given step from the experiment. Format of the request: rank
 \item \textbf{readMe}: fill the README.txt file with information about replication of the experiment (boolean)
 \end{itemize}
 
 \subsection{Hostnames and Paths}
 
-
-
 \begin{itemize}
-\item \textbf{machineNames}: names of the machines as a cell array of 1) string or 2) cell array of strings
+\item \textbf{machineNames}: names of the machines as a cell array of 1) strings or 2) cell arrays of strings
 \item \textbf{inputPath}: path to input data (usually accessed read only)
 \item \textbf{codePath}: path to the code repository of the experiment
-\item \textbf{dataPath}: path to the data repository of the experiment  (structured with one directory per step)
+\item \textbf{dataPath}: path to the data repository of the experiment (structured with one directory per step)
 \item \textbf{obsPath}: path to the data repository of the experiment for observation data (same as dataPath if left blank)
 \item \textbf{backupPath}: path to backup of transferred data
 \item \textbf{exportPath}: path to export replication of the experiment
@@ -428,7 +433,7 @@ Every path can be a cell array of string. In this case, the path is selected in 
 \subsection{Code}
 
 \begin{itemize}
-\item \textbf{dependencies}: code dependencies to load and export as a cell array of strings with paths to the dependencies
+\item \textbf{dependencies}: code dependencies to load and send server side as a cell array of strings with paths to the dependencies
 \item \textbf{localDependencies}: dependencies (including expLanes) can be part of the experiment in a dependencies directory: 0 do not use local versions, 1 use local versions, 2 update local versions
 \item \textbf{codeVersion}: version tag of the code of the experiment
 \end{itemize}
@@ -437,16 +442,15 @@ Every path can be a cell array of string. In this case, the path is selected in 
 
 \begin{itemize}
 \item \textbf{do}: processing steps to execute: -1 none, 0 all, >0 processing step by numeric id
-\item \textbf{resume}: do not perform computation if data and obs files with runID>resume are already there
-\item \textbf{parallel}: use parallel processing, if |parallel|>1 specify the number of cores, if array set at step level, if >0 parallelize settings, if <0 parallelize within each setting (the code of the step shall use parfor or the like), can be a numeric value for all processing steps or an array of numeric value, one per step
-\item \textbf{mask}: factor mask: cell array defining the modalities to be set for the factors (0 do all, 1 first modality, [1 3] first and third modality), can be a cell array of cell array
-
+\item \textbf{resume}: do not perform computation if data and observation files with runID>resume are already there
+\item \textbf{parallel}: use parallel processing; if |parallel|>1 specify the number of cores, if array set at step level, if >0 parallelize settings, if <0 parallelize within each setting (the code of the step shall use parfor or the like), can be a numeric value for all processing steps or an array of numeric value, one per step
+\item \textbf{mask}: factor mask: cell array defining the modalities to be set for the factors (0 do all, 1 first modality, [1 3] first and third modality), can be a cell array of cell arrays
 \item \textbf{design}: use a canonical experimental design: assume cell array of {[factors as numericIds], number of values per factor (0 complete set of values), type of plan as string 'f' (factorial) or 'o' (one factor at a time), [seed as a vector of index of factor]}
 \item \textbf{dummy}:  dummy mode: allow for short computations to dry run the experiment. Set as a numeric value. 0: no dummy mode, >1 generate stored data and observations flagged with the numeric value
 \item \textbf{setRandomSeed}: set the random seed at init for replicability purposes, 0 do not set, >0 set to value.
 \item \textbf{host}: host index to run the experiment: 0: seek by hostName, >0: server mode, <0: local mode, 2.1 means the first host of the second compound (cell array)
 \item \textbf{log}: log level (set to 0 for no log)
-\item \textbf{progress}: show processing progress 0: none, 1: garphical bar if on local mode, 2: verbose output, 3: liminar output
+\item \textbf{progress}: show processing progress 0: none, 1: graphical bar if on local mode, 2: verbose output, 3: terse output
 \item \textbf{exitMatlab}: exit matlab at the end of the computation
 \item \textbf{recordTiming}: show timing observations
 \end{itemize}
@@ -456,7 +460,7 @@ Every path can be a cell array of string. In this case, the path is selected in 
 \begin{itemize}
 \item \textbf{encodingVersion}: encoding type of mat files (doc save for specs)
 \item \textbf{store}: perform computation to be stored: (1, 0) load data of previous step, (-1, 0) load data result of the current step
-\item \textbf{retrieve}: retrieve needed data server side: -1 no retrieval, 0 global scan of every hosts, >0 hostId
+\item \textbf{retrieve}: retrieve needed data server side: -1 no retrieval, 0 global scan of every host, >0 hostId
 \item \textbf{namingConventionForFiles}: naming convention for data files: long (complete naming, may lead to too long file names), short (abbreviated naming, may also lead to too long file names), hash (hash based naming, compact but may lead to naming clashes)
 \item \textbf{export}: export a replicate of the experiment with elements designated as a string with tokens separated by white spaces (addition of 'z' outputs a zip file): 'c' (code), 'd' (dependencies), 'i' (input), 1 (output data of step 1), 1d (stored data of step 1 only), 1o (observations of step 1 only) 
 \item \textbf{sync}: sync data across machines specified as a cell array with: elements (as in bundle), optional host as numeric id (1.2 means the second host of the first group of machines, default to 2), direction 'd' (download from server to local host, default), 'u' (upload from host to server). Provided with the elements as string, the command default to server 2 in download mode.
@@ -477,11 +481,11 @@ Every path can be a cell array of string. In this case, the path is selected in 
 
 \begin{itemize}
 \item \textbf{report}: generate report: combination of r (run report), c (LaTeX compilation), and d (debug output)
-\item \textbf{reportName}: type of report: empty (default), if containing the word <slides> or <Slides>,  beamer presentation mode is used
+\item \textbf{reportName}: name of report to compile: empty (default), if containing the word <slides> or <Slides>,  beamer presentation mode is used
 \item \textbf{latexDocumentClass}: style of LaTeX document (warning: this parameter is taken into account only at the creation of the LaTeX report file)
-\item \textbf{pdfViewer}: path to the pdf viewer (if left empty, expLanes try to locate it automatically)
+\item \textbf{pdfViewer}: path to the pdf viewer (if left empty, expLanes will try to locate it automatically)
 \item \textbf{significanceThreshold}: threshold for statistical significance testing
-\item \textbf{showFactorsInReport}: show the factors graph in the report: 0, no display, 1 compact display, 2 alos show stored data, 3 also show observations, 4 also show stored data and observations (if negative only generate the figure for latter inclusion)
+\item \textbf{showFactorsInReport}: show the factors graph in the report: 0 no display, 1 compact display, 2 also show stored data, 3 also show observations, 4 also show stored data and observations (if negative only generate the figure for latter inclusion)
 \item \textbf{factorDisplayStyle}:  style of the factor graph: 0 no propagation of factors, 1 propagation of factors, 2 propagation of factors with an "all steps" node
 \item \textbf{figureCopyPath}: path where saved figures are copied outside the expLanes project
 \item \textbf{tableCopyPath}: path where saved tables are copied outside the expLanes project
@@ -490,19 +494,19 @@ Every path can be a cell array of string. In this case, the path is selected in 
 \subsection{Miscellaneous}
 
 \begin{itemize}
-\item \textbf{useExpCodeSmtp}: usage of default expcode smtp. If set to 0 assume availability of local stmp server with complete credentials
-\item \textbf{sendMail}: send email: -2, server mode, email at start and end, -1 server mode, email at end only, 0, no email ever, 1 one email at end, 2 email at start and end
+\item \textbf{useExpCodeSmtp}: usage of default expcode smtp to send emails. If set to 0, assume availability of local stmp server with complete credentials
+\item \textbf{sendMail}: send email: -2 server mode, email at start and end, -1 server mode, email at end only, 0, no email ever, 1 one email at end, 2 email at start and end
 \end{itemize}
 
 \section{Exposition of observations}
 
-To generate Tables, Figures that can be saved or embedded in your reports, the main function to use is:
+To generate Tables and Figures that can be saved or embedded in your reports, the main function to use is:
 
 \mcode{config = expExpose(config, '<typeOfExposition>', <parameters>);}
 
-The type of exposition specify the style of rendering. Several predefined styles are available and custom ones can easily be built. Parameters customizes the rendering and are defined as pair of string / value.
+The type of exposition specifies the rendering style. Several predefined styles are available and custom ones can easily be built. Parameters customize the rendering and are defined as string\,/\,value pairs.
 
-\textbf{Important}: as \explanes do not use global variables, the state of the experiment is entirely stored in the variable \mcode{config}. Therefore, this variable has to be propagated trough each of the exposition calls.
+\textbf{Important}: as \explanes does not use global variables, the state of the experiment is entirely stored in the \mcode{config} variable. Therefore, this variable must be propagated trough each of the exposition calls.
 
 \subsection{Available expositions}
 
@@ -521,44 +525,46 @@ Available expositions are:
 
 \subsection{Custom exposition}
 
-Let us assume that you need a custom way of displaying observations. You can do so:
+Should you require a custom way to display observation, you can do so by calling:
 
 \mcode{config = expExpose('custom');}
 
-At the first call, the user is prompted:
+At the first call, you are prompted:
 
-\texttt{Unable to find the function exposeCustom in your path. This function is needed to display the observations with the Custom type of display. \\
+\texttt{Unable to find the function \mcode{exposeCustom} in your path. This function is needed to display the observations with the Custom type of display. \\
 Do you want to create it ? Y/N [Y]:}
 
-After acknowledgment, the script if generated in the \mcode{codePath}. This function has the following signature:
+After acknowledgment, a skeleton script if generated in the \mcode{codePath}. This function has the following signature:
 
 \mcode{config = exposeCustom(config, data, p)}
 
-where,
+\noindent where
 \begin{itemize}
-\item \textbf{config}: contains the \explanes configuration state                  
-\item \textbf{data}: contains the observations as a struct array                  
-\item \textbf{p}: contains the exposition parameters   
+\item \textbf{config}: contains the \explanes configuration state
+\item \textbf{data}: contains the observations as a struct array
+\item \textbf{p}: contains the exposition parameters
 \end{itemize}
+
+You can then fill the body of this function to suit your needs.
 
 \subsection{Parameters}
 
-Parameters customizes the rendering and are defined as pair of string / value.
+Parameters customize the rendering and are defined as string\,/\,value pairs.
 
 \begin{itemize}
-\item \textbf{addSpecification}: add display specification to plot directive
-    	as ('parameter' / value) pairs;
+\item \textbf{addSpecification}: add display specification to the plot directive
+    	as ('parameter'\,/\,value) pairs;
            value can be a cell array, in this case the cell array is split
            across plot items                 
-\item \textbf{addSettingSpecification}:  add display specification to plot;
-           directive relative to specific settings as ('parameter' / value) pairs,
-           value have to be a cell array which is split
-           across plot items which corresponds to the settings                
+\item \textbf{addSettingSpecification}:  add display specification to the plot
+           directive relative to specific settings as ('parameter'\,/\,value) pairs;
+           value has to be a cell array which is split
+           across plot items which correspond to the settings                
 \item \textbf{caption}: caption of display as string;
-    	symbol + gets replaced by a compact description of the setting  
+    	symbol ``+'' gets replaced by a compact description of the setting  
 \item \textbf{color}: color of line;
-           1: default set of colors
-           0: black
+           1: default set of colors,
+           0: black,
            {'r', ...}: user defined set of colors                 
 \item \textbf{compactLabels}: shorten labels by removing common substrings
            (default 0)                 
@@ -573,29 +579,29 @@ Parameters customizes the rendering and are defined as pair of string / value.
     	0: variance for all observations,
     	[1, 3]: variance for the first and third observations 
 \item \textbf{highlightStyle}:  type of highlighting;
-        'best': highlight best and equivalents (default),
+        'best': highlight best and equivalent (default),
         'Best': highlight only the best,
         'better': highlight only the best if significantly better than
            the others,
         'Better': highlight only the best if significantly better than
-           the others and show only this one                
+           the others, and show only this one                
 \item \textbf{highlightColor}: use color to show highlights (default 1), -1 do
        not use * to display the best performing one                 
 \item \textbf{integrate}:  factor(s) to integrate by summation 
 \item \textbf{label}: \LaTeX label of display as string (equal to the name if left empty)             
-\item \textbf{legendLocation}: location of the legend (default 'BestOutSide', doc legend for more options)                 
+\item \textbf{legendLocation}: location of the legend (default 'BestOutSide', \mcode{doc legend} for more options)
 \item \textbf{marker}:  specification of markers for line plot;
            1: Matlab default set of markers (default),
            0: no markers,
            {'', ...}: user defined cell array of markers 
-\item \textbf{mask}:    selection of the settings to be displayed              
+\item \textbf{mask}: selection of the settings to be displayed
 \item \textbf{mergeDisplay}: concatenate current display with the previous one;
         '': no merge (default),
         'h': horizontal concatenation,
         'v': vertical concatenation                 
-\item \textbf{multipage}:   activate the multipage setting to the \LaTeX table 
+\item \textbf{multipage}: activate the multipage setting for the \LaTeX table 
 \item \textbf{name}:   name of exported file as string; 
-    	symbol + gets replaced by a compact description of the setting              
+    	symbol ``+'' gets replaced by a compact description of the setting              
 \item \textbf{number}:  add a line number for each setting in tables                
 \item \textbf{noFactor}:  remove setting factors 
 \item \textbf{noObservation}: remove observations                 
@@ -632,16 +638,16 @@ Parameters customizes the rendering and are defined as pair of string / value.
 \item \textbf{save}: save the display;
     	0: no saving,
     	1: save to a file with the name of the display as filename
-    	'name': save to a file with 'name' as filename
+    	'name': save to file 'name'
 \item \textbf{shortObservations}: compact observation names                 
 \item \textbf{shortFactors}: compact factor names  
 \item \textbf{showMissingSetting}:  show missing settings (default 0)                
 \item \textbf{sort}:   sort settings acording to the specified set of observations if
         positive or to the specified set of factors if negative
-\item \textbf{step}: show observations the specified processing step as name or
-    index (default last step)                 
-\item \textbf{title}: title of display as string,
-    	symbol + gets replaced by a compact description of the setting  
+\item \textbf{step}: show observations for the specified processing step (as name or
+    index). Defaults to the last step
+\item \textbf{title}: title of the display, as string,
+    	symbol ``+'' gets replaced by a compact description of the setting  
 \item \textbf{total}:  display average  or summed values for observations;
         'v', 'V': vertical with (v) or without (V) display of settings,
         'h', 'H': horizontal with (h) or without (H) display of settings                
@@ -652,13 +658,13 @@ Parameters customizes the rendering and are defined as pair of string / value.
 
 \section{Publishing your experiment}
 
-Publishing your experiment together with your research paper can have a significant impact on the pace at which your research community goes as it allows other researchers to replicate exactly your experiments in an efficient way.
+Publishing your experiment together with your research paper has two major benefits: not only is it the best way to assert beyond any possible doubt the trustworthiness of your reporting, it can also have a significant impact on the pace at which your research community progresses, as it allows other researchers to replicate exactly your experiments in an efficient way.
 
-Indeed, any decent size processing chain have a many bells and whistles that needs to be tuned correctly in order to perform as described in your research paper. As it surely took you time and great care, it is very unlikely that another researcher, as skillful as he may be, will dedicate the time needed to do what you did.
+Indeed, unlike our introductory example, any real-life processing chain has many bells and whistles that needs to be tuned correctly in order to perform as described in your article. As it surely took you time and great care to reach that tuning, it is very unlikely that another researcher, as skillful as he may be, will dedicate the time needed to replicate it.
 
-As for as the actual code of the experiment is concerned, the experiment can be duplicated and independently executed with the following command:
+\explanes makes it possible to export a self-contained clone of your experiment, which can then be run on any compatible system, with this simple command:
 \begin{lstlisting}
-geometricShape('export', 'c d', 'exporPath', <pathToExportLocation>);
+geometricShape('export', 'c d', 'exportPath', <pathToExportLocation>);
 \end{lstlisting}
 
 
@@ -671,7 +677,7 @@ Is the data used in your experiment
 \item your property and you have the ability to distribute it freely ?
 \end{itemize} 
 
-If yes for any of those items, then your experiment can be replicated entirely which is, by far, the best case. If the data is not yet available online, as of year 2015, a convenient way to publish data online is the Archive repository\footnote{\url{https://archive.org}}. Please add the needed documentation on how to retrieve the data online in the \mcode{README.txt} file of the experiment.
+If it falls into any of those categories, then your experiment can be replicated entirely which is, by far, the best case. If the data is not yet available online at the time of publishing, a convenient way to make data available online is the Archive repository\footnote{\url{https://archive.org}}. Please add the needed documentation on how to retrieve the data online in the \mcode{README.txt} file of the experiment.
 
 If the data is of small size, it can be conveniently embedded into the published version of the experiment with the \mcode{'i'} token in the export command:
 \begin{lstlisting}
@@ -680,27 +686,27 @@ geometricShape('export', 'c d i', 'exportPath', <pathToExportLocation>);
 
 \subsection{Publishing \explanes processing data}
 
-If you do not wish to publish input data, you can still help others members of the community in quickly gaining information about your work by publishing \explanes processing data.
+If you do not wish to publish input data, you can still help others members of the community quickly gain information about your work by publishing \explanes processing data.
 
 For example, if the first step of the experiment is to compute features, and you can ensure that the processing is not invertible, you may wish to publish the output of this first step, as it will allow others to replicate the following steps of the experiment:
 \begin{lstlisting}
 geometricShape('export', 'c d 1d', 'exportPath', <pathToExportLocation>);
 \end{lstlisting} 
-The \mcode{'1d'} stands for the output data of step 1.
+In that example, \mcode{'1d'} stands for the output data of step 1.
 
 If you do not wish to do that, you can still export the observations of the processing steps in order to provide performance data that is not available in your research paper due to page limit constraints:
 \begin{lstlisting}
 geometricShape('export', 'c d 1o', 'exportPath', <pathToExportLocation>);
 \end{lstlisting} 
-The \mcode{'1o'} stands for the observations of step 1.
+Here, \mcode{'1o'} stands for the observations of step 1.
 
-\subsection{Ensure replicability}
+\subsection{Ensuring replicability}
 
 \subsection{Procedure}
 
 Thus, the procedure to safely publish replicable code using \explanes is:
 \begin{enumerate}
-\item Fill replicability informations
+\item Fill replicability information
 \begin{enumerate}
 \item start a Matlab session (if possible with another blank user account)
 \item type \mcode{restoredefaultpath}, in order to remove any implicit dependencies
@@ -708,7 +714,7 @@ Thus, the procedure to safely publish replicable code using \explanes is:
 \begin{lstlisting}
 geometricShape('do', 0, 'report', 'r', 'readMe', 1);
 \end{lstlisting}
-at termination, the \mcode{README.txt} will contain important informations about the soware platform used, such as :
+at termination, the file \mcode{README.txt} will contain important informations about the soware platform used, such as :
 \begin{lstlisting}
 ------
  Replication informations about the experiment as of 30-Nov-2015
@@ -722,11 +728,11 @@ Loaded toolboxes:
 \end{lstlisting}
 
 \end{enumerate}
-\item Create duplicate:
+\item Create a duplicate:
 \begin{lstlisting}
 geometricShape('export', 'c d i', 'exportPath', <pathToExportLocation>);
 \end{lstlisting}
-\item Test duplicate
+\item Test the duplicate
 \begin{enumerate}
 \item start a Matlab session (if possible with another blank user account)
 \item go the export directory
@@ -748,13 +754,13 @@ Let us assume that we want to create a new way of computing the volume of our ge
 \mcode{expBranch('branchGeometricShape', <pathToGeometricShape>, 2)}
 
 The last parameter specifies at which step the branching is done, in this case at step 2.
-The new experiment must keep the same factors up to the step before the branching step (in our case step 1).
+The new experiment that replicate the structure of the root experiment in the directory \mcode{<pathToGeometricShape>} must keep the same factors up to the step before the branching step (in our case step 1).
 
 The insertion of the new solution into the root experiment must be done manually.
 
-\subsection{Design of experiments}
+\subsection{Experiment design}
 
-By default, \explanes proceed to the factorial exploration of every settings. The number of settings being the product of the cardinality of each set of modalities corresponding to the factors defined in the Factor file. For example, given 4 factors, each of 10 modalities, the number of settings to process is 1000, which may be impractical for any kind of large scale data processing.
+By default, \explanes proceeds to the factorial exploration of every setting. The number of settings being the product of the cardinality of each set of modalities corresponding to the factors defined in the Factor file. For example, given 4 factors, each of 10 modalities, the number of settings to process is 10000, which may be impractical for any kind of large scale data processing.
 
 One way is to sample the dataset, \textit{i.e.} reduce the computation time needed for each setting. This can be done by using the dummy mode in the configuration of the experiment.
 
@@ -768,7 +774,7 @@ Let us consider an experiment available in the \mcode{demo} directory called \mc
 
 \lstinputlisting[firstline=19, lastline=19]{../demo/designOfExperiments/deofex1process.m}
 
-In this example, the answer  to the 2 previous questions can easily be deduced. Factor \mcode{f4} do not need to be evaluated and factors \mcode{f1} and \mcode{f2} are correlated and thus have to be jointly considered.
+In this example, the answer  to the 2 previous questions can easily be deduced. Factor \mcode{f4} does not need to be evaluated and factors \mcode{f1} and \mcode{f2} are correlated and thus have to be jointly considered.
 
 Yet, in most systems, those facts cannot be easily deduced. Considering a reduced set of modalities allows the experiment to be tractable. This can be done by considering the \mcode{'design'} parameter. A factorial design with 2 values (minima and maxima) for each modality can be done using the following command
 
@@ -791,7 +797,7 @@ the empty array means consideration of each setting and 'f' stand for a factoria
 designOfExperiments('expose', 'a', 'design', 2);
 \end{lstlisting}
 
-allows the user to study factors relationships through a multi-way factorial anova analysis, where the correlation between \mcode{f1} and \mcode{f2} and the uselessness of \mcode{f4} are shown. In order to identify the best setting, the remaining step are:
+allows the user to study factors relationships through a multi-way factorial anova analysis, where the correlation between \mcode{f1} and \mcode{f2} and the uselessness of \mcode{f4} are shown. In order to identify the best setting, the remaining steps are:
 
 \begin{lstlisting}
 designOfExperiments('do', 1, 'mask', {0 0 1 1});
@@ -830,7 +836,7 @@ which is equivalent to
 designOfExperiments('mask', {{0 1 1 1}, {1 0 1 1}, {1 1 0 1}, {1 1 1 0}}, 'do', 1);
 \end{lstlisting}
 
-If available, a initial guess can be provided :
+If available, an initial guess can be provided :
 
 \begin{lstlisting}
 designOfExperiments('design', {[], 0, 'o', {5 4 3 2}}, 'do', 1);
@@ -847,7 +853,7 @@ The design of experiments method can provide answers for other important questio
 
 The \explanes experiment may depends on mex files or external libraries that have to be compiled before the experiment is run.
 
-If the code is static, and each processing host share the same computing environment, the compilation can be done once. If not, you may use the \mcode{expMex} function, placed in the Init file of the experiment. Then this function will, before any computation, proceed to the compilation if needed.
+If the code is static, and each processing host share the same computing environment, the compilation can be done once. If not, you may use the \mcode{expMex} function, placed in the Init file of the experiment: this function will, before any computation, proceed to the compilation if needed.
 
 %\section{Best practices} \label{sec:best}
 %

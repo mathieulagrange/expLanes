@@ -1,6 +1,6 @@
 %% USER
 
-% email address ticked when processing is done server side (leave empty for no mailing service), can be a cell array of email adresses
+% email address used to acknowledge when processing is started or over server side (leave empty for no mailing service), can be a cell array of email addresses
 emailAddress = 
 % complete name of user
 completeName = <userName>
@@ -45,7 +45,7 @@ toolPath =
 
 %% CODE
 
-% code dependencies to load and export as a cell array of strings with paths to the dependencies
+% code dependencies to load and send server side as a cell array of strings with paths to the dependencies
 dependencies = {} 
 % dependencies (including expLanes) can be part of the experiment in a dependencies directory: 0 do not use local versions, 1 use local versions, 2 update local versions
 localDependencies = 0 
@@ -73,7 +73,7 @@ setRandomSeed = 0
 host = 0
 % log level (set to 0 for no log) 
 log = 1 
-% show processing progress 0: none, 1: garphical bar if on local mode, 2: verbose output, 3: liminar output
+% show processing progress 0: none, 1: garphical bar if on local mode, 2: verbose output, 3: terse output
 progress = 1 
 % exit matlab at the end of the computation
 exitMatlab = 0
@@ -117,7 +117,7 @@ displayFontSize = 16
 
 % generate report: combination of r (run report), c (LaTeX compilation), and d (debug output)
 report = 
-% type of report: empty (default), if containing the word <slides> or <Slides>,  beamer presentation mode is used
+% name of report to compile: empty (default), if containing the word <slides> or <Slides>,  beamer presentation mode is used
 reportName =
 % style of LaTeX document (warning: this parameter is taken into account only at the creation of the LaTeX report file)
 latexDocumentClass = tufte-handout 
