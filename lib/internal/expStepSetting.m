@@ -3,7 +3,7 @@ function stepSetting = expStepSetting(vSpec, mask, currentStep)
 vSet = expSettingSet(vSpec, mask, currentStep);
 
 maskFilter = expMaskFilter(vSpec, vSet);
-maskFilter.maskFilter = sum(vSet, 2)~=0;
+
 % settings = expSettingBuild(vSpec, vSet);
 
 if isempty(vSet)

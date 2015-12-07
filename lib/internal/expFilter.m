@@ -250,7 +250,7 @@ switch p.highlightStyle
         %         highlights(highlights==2) = 1;
     case 'better'
         idx = find(sum(highlights==1));
-        highlights(highlights==1) = 0;
+%         highlights(highlights==1) = 0;
         for k=1:length(idx)
             highlights(highlights(:, idx(k))==2, idx(k)) = 1;
         end

@@ -1,11 +1,11 @@
-function expBranch(experimentName, referenceExperimentPath, branchStep, experimentPath)
-% expBranch create an expLanes experiment
-%	expBranch(experimentName, referenceExperimentPath)
+function expFork(experimentName, referenceExperimentPath, forkStep, experimentPath)
+% expFork create an expLanes experiment
+%	expFork(experimentName, referenceExperimentPath)
 %	- experimentName: name of the experiment
 %	- referenceExperimentPath: path to the reference experiment
-%   - branchStep: numeric id specifying at which step the branching is
+%   - forkStep: numeric id specifying at which step the fork is
 %   effective
-%   - experimentPath: path to the branching experiment 
+%   - experimentPath: path to the fork experiment 
 %
 %	Default values and other settings can be set in your configuration file
 % 	located in your home in the .expLanes directory. This file serves
@@ -16,7 +16,7 @@ function expBranch(experimentName, referenceExperimentPath, branchStep, experime
 
 if ~exist('experimentPath', 'var')
     if~isempty(dir('*Factors.txt'))
-        fprintf(2, 'Branching within the directory of an existing experiment is unsafe. Please change current directory or specify an alternative path.\n');
+        fprintf(2, 'Fork within the directory of an existing experiment is unsafe. Please change current directory or specify an alternative path.\n');
         return;
     end
     experimentPath = '';
@@ -30,11 +30,14 @@ expLanesPath = fileparts(mfilename('fullpath'));
 referenceConfigFileName = getUserFileName(shortReferenceExperimentName, referenceExperimentName, referenceExperimentPath, expLanesPath);
 referenceConfig = expConfigParse(referenceConfigFileName);
 
-stepName = expStepName(referenceConfig, referenceExperimentPath, shortReferenceExperimentName);
-
-expCreate(experimentName, stepName, experimentPath, [], {'inputPath', referenceConfig.dataPath, 'branchStep', num2str(branchStep)});
-
 shortExperimentName = names2shortNames(experimentName);
 shortExperimentName = shortExperimentName{1};
 
-copyfile([referenceExperimentPath '/' shortReferenceExperimentName 'Factors.txt'], [shortExperimentName 'Factors.txt']);
+copyfile([referenceExperimentPath '/' shortReferenceExperimentName 'Factors.txt'], [tempdir shortExperimentName 'Factors.txt']);
+
+stepName = expStepName(referenceConfig, referenceExperimentPath, shortReferenceExperimentName);
+
+expCreate(experimentName, stepName, experimentPath, [], {'inputPath', referenceConfig.dataPath, 'forkStep', num2str(forkStep)});
+
+
+copyfile([tempdir shortExperimentName 'Factors.txt'], [shortExperimentName 'Factors.txt']);

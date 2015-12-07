@@ -10,8 +10,6 @@ function config = expConfig(experimentPath, experimentName, shortExperimentName,
 
 % FIXME is reduceData by day still necessary ? // should not
 
-% TODO handle new version of // toolbox
-
 expLanesPath = fileparts(fileparts(mfilename('fullpath')));
 
 if exist('commands', 'var') && ~isempty(commands) && isstruct(commands{1})

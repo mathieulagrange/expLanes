@@ -49,9 +49,9 @@ else
 end
 maskInfoShort(1) = lower(maskInfoShort(1));
 
-% maskFilter.m = m;
 maskFilter.maskInfo = maskInfo;
 maskFilter.shortMaskInfo= maskInfoShort;
 % maskFilter.filterMask = filterMask;
 maskFilter.invFilter = invFilter;
 maskFilter.invFilterMask = invFilterMask;
+maskFilter.maskFilter = sum(vSet, 2)~=0;

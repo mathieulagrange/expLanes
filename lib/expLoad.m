@@ -1,6 +1,6 @@
 function [load, dataTimeStamps, config, fileNames] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
 % expLoad load data from the repository of the specified processing step
-%	[config data] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
+%	[load, dataTimeStamps, config, fileNames] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
 %	- config: expLanes configuration
 %	- name: name of the file
 %	- stepId: step number

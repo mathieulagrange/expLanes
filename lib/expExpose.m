@@ -29,10 +29,10 @@ function config = expExpose(varargin)
 %    'highlightStyle': type of highlighting
 %        'best': highlight best and equivalents (default)
 %        'Best': highlight only the best
-%        'better': highlight only the best if significantly better than
+%        'better': highlight the best if significantly better than
 %           the others
 %        'Better': highlight only the best if significantly better than
-%           the others and show only this one
+%           the others
 %    'highlightColor': use color to show highlights (default 1), -1 do
 %       not use * to display the best performing one
 %    'integrate': factor(s) to integrate by summation
@@ -266,13 +266,13 @@ else
     if ~p.obs
         p.obs = 1:length(config.evaluation.observations);
     end
-    if length(p.obs) > length(p.precision)
-        p.precision = [p.precision ones()*config.tableDigitPrecision];
-    end
+%     if length(p.obs) > length(p.precision)
+        p.precision = [p.precision*ones(1, length(config.evaluation.observations))];
+%     end
     evaluationObservations = config.evaluation.observations;
     if p.percent ~= -1
         for k=1:length(p.percent)
-            p.precision(p.percent(k)) = max(p.precision(p.percent(k))-2, 0);
+           p.precision(p.percent(k)) = max(p.precision(p.percent(k))-2, 0);
         end
         if p.percent==0
             p.percent = 1:length(evaluationObservations);

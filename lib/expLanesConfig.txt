@@ -15,7 +15,7 @@ generateRootFile = 0
 addFactor =
 % remove a factor from the experiment. Format of the request: {rankInFactorFile, defaultModalityId}
 removeFactor =
-% add a step to the experiment. Format of the request: {'name', rank}
+% add a step to the experiment. Format of the request: 'name' (last step rank) or {'name', rank}
 addStep = 
 % remove a given step from the experiment. Format of the request: rank
 removeStep = 
@@ -96,8 +96,8 @@ export =
 sync = {} 
 % clean explanes directories and project data repositories. As string id : t (expLanes temporary directory), b (experiment backup directory), k (all steps directories while keeping reachable settings), 1 (output data of step 1), 1d (remove stored data of step 1 only), 1o (observations of step 1 only). As numeric id (clean the corresponding step directory, 0 means all directories) 
 clean =  
-% specify at which step the branching (if any) is effective (default 0)
-branchStep = 0
+% specify at which step the fork (if any) is effective (default 0)
+forkStep = 0
 
 
 %% EXPOSITION

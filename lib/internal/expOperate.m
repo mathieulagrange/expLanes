@@ -37,26 +37,35 @@ end
 if all(config.do>0) && ~isempty(config.factors)
     if sum(abs(config.parallel))
         distcomp.feature('LocalUseMpiexec',false); % handling MPI bug in 2012b
-        if matlabpool('size') && ...
-                ((max(config.parallel)>1 && matlabpool('size') ~= max(config.parallel)) || ...
-                (max(config.parallel)==1 && matlabpool('size') ~= feature('numCores')))
-            matlabpool('close');
+        pool = gcp('nocreate');
+        if ~isempty(pool)
+            nbWorkers = pool.NumWorkers;
+        else
+            nbWorkers = 0 ;
         end
-        if matlabpool('size') == 0
+        %         nbWorkers = parpool('size');
+        
+        if nbWorkers && ...
+                ((max(config.parallel)>1 && nbWorkers ~= max(config.parallel)) || ...
+                (max(config.parallel)==1 && nbWorkers ~= feature('numCores')))
+            poolobj = gcp('nocreate');
+            delete(poolobj);
+        end
+        if nbWorkers == 0
             if any(abs(config.parallel)>1)
-                matlabpool('open', 'local', max(abs(config.parallel)));
-            elseif matlabpool('size') == 0
-                matlabpool('open', 'local');
+                parpool('local', max(abs(config.parallel)));
+            elseif nbWorkers == 0
+                parpool('local');
             end
         end
         
         for k=1:length(config.do)
             config.step = config.stepSettings{config.do(k)};
             % remove reduceData
-%             reduceDataFileName = [config.obsPath config.stepName{config.step.id} filesep 'reduceData.mat'];
-%             if exist(reduceDataFileName, 'file')
-%                 delete(reduceDataFileName);
-%             end
+            %             reduceDataFileName = [config.obsPath config.stepName{config.step.id} filesep 'reduceData.mat'];
+            %             if exist(reduceDataFileName, 'file')
+            %                 delete(reduceDataFileName);
+            %             end
             
             if config.parallel(config.do(k))>0 % ~= 1 % length(config.stepName)
                 settingStatus = config.settingStatus;
@@ -76,17 +85,17 @@ if all(config.do>0) && ~isempty(config.factors)
             end
         end
         if sum(abs(config.parallel))
-            config.parallel = matlabpool('size');
-            % matlabpool('close');
+            config.parallel = nbWorkers;
+            % parpool('close');
         end
         delete([config.tmpPath config.experimentName '_' num2str(config.runId) '_*_done']);
     else
         for k=1:length(config.do)
             config.step = config.stepSettings{config.do(k)}; % remove reduceData
-%             reduceDataFileName = [config.obsPath config.stepName{config.step.id} filesep 'reduceData.mat'];
-%             if exist(reduceDataFileName, 'file')
-%                 delete(reduceDataFileName);
-%             end
+            %             reduceDataFileName = [config.obsPath config.stepName{config.step.id} filesep 'reduceData.mat'];
+            %             if exist(reduceDataFileName, 'file')
+            %                 delete(reduceDataFileName);
+            %             end
             for l=1:length(config.step.sequence)
                 config = expProcessOne(config, l);
             end
@@ -168,6 +177,10 @@ if config.store > -1
         data = expLoad(config, [], [], 'data');
         if ~isempty(data)
             loadedData = data;
+        end
+        obs = expLoad(config, [], [], 'obs');
+        if ~isempty(obs)
+            loadedData.obs = obs;
         end
     else
         loadedData = config.initStore;
