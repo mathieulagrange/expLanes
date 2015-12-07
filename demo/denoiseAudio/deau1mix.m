@@ -11,7 +11,7 @@ function [config, store, obs] = deau1mix(config, setting, data)
 % Date: 04-Nov-2015                                                                
                                                                                    
 % Set behavior for debug mode                                                      
-if nargin==0, denoiseAudio('do', 1, 'mask', {}); return; else store=[]; obs=[]; end
+if nargin==0, denoiseAudio('do', 1, 'mask', {0 7}); return; else store=[]; obs=[]; end
                                                                                    
 % propagate source and and noise for the next step
 store.source = data.source;
@@ -20,3 +20,13 @@ store.noise = data.noise;
 mixture = data.source+data.noise./10^(.05*setting.snr);
 % store mix for the next step
 store.mixture = mixture;                                                                               
+
+% visualization
+if setting.snr==20
+clf
+% s = abs(computeSpectrogram(, config.fftlen, config.samplingFrequency));
+% imagesc(s);
+spectrogram(mixture, hanning(2048), 1024, config.samplingFrequency, 'yaxis');
+xlabel('Time')
+config = expExpose(config, '', 'save', ['spectrogram']);
+end

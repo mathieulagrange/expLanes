@@ -35,6 +35,7 @@ else
             config.samplingFrequency = Fs;
             store.source = y/std(y);
         end
+        audiowrite(store.source, config.samplingFrequency, sourceFileName);
     end
 end
 

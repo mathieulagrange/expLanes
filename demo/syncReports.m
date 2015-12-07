@@ -2,6 +2,6 @@
 r=dir('*pdf');
 
 for k=1:length(r)
-   [~, n] = fileparts(r(1).name);
+   [~, n] = fileparts(r(k).name);
    copyfile([n '/report/' n '.pdf'], '.'); 
 end
