@@ -15,6 +15,7 @@
 \title{ expLanes: beautiful computational experiments } 
 \author{ Mathieu Lagrange } 
 
+\newcommand{\latex}{\LaTeX\ }
 \newcommand{\explanes}{\textsf{expLanes} }  
 
 \lstset{aboveskip=2pt,belowskip=2pt, basicstyle=\small} % \medskipamount
@@ -289,7 +290,7 @@ displays the volume (observation 3) of the step volume (2) for each cylinder of 
 \subsection{Report}
 
 \begin{margintable}
-\caption{\LaTeX output.}
+\caption{\latex table output.}
 \input{../demo/geometricShape/report/tables/geolTabular}
 \end{margintable}
 
@@ -383,10 +384,10 @@ Observations are usually of smaller size. As such it may useful to store them in
 The report directory stores expositions of observations in many flavors.
 
 \begin{itemize}
-\item \textbf{\mcode{report/}}: contains editable \LaTeX files, one for each \mcode{reportName} (defaults to \mcode{<projectName>.tex}) and a BibTex file that can be edited and processed in a standard fashion. Expositions of observations are added to the \LaTeX file prior to compilation at the location of the flag \mcode{expLanesInsertionFlag}.
+\item \textbf{\mcode{report/}}: contains editable \latex files, one for each \mcode{reportName} (defaults to \mcode{<projectName>.tex}) and a BibTex file that can be edited and processed in a standard fashion. Expositions of observations are added to the \latex file prior to compilation at the location of the flag \mcode{expLanesInsertionFlag}.
 \item \textbf{\mcode{report/figures}}: when the \mcode{'save'} parameter is added to a visual exposition, the resulting figure is stored in several formats (\mcode{.fig} Matlab Figure, \mcode{.eps}, \mcode{.png}, and \mcode{.pdf}). The numerical data is also made available in a \mcode{.mat} file. 
 \item \textbf{\mcode{report/reports}}: contains the generated reports with the following naming template: \mcode{<reportName><userName><date>.pdf}. The data of each exposition of the corresponding report is made available in a \mcode{.mat} file.
-\item \textbf{\mcode{report/tables}}:  when the \mcode{'save'} parameter is added to a table exposition (\mcode{'t'} or \mcode{'l'}), the resulting table is stored in several formats (\LaTeX floating table, \LaTeX tabulary array, \mcode{.csv} file. The numerical data is also made available in a \mcode{.mat} file.
+\item \textbf{\mcode{report/tables}}:  when the \mcode{'save'} parameter is added to a table exposition (\mcode{'t'} or \mcode{'l'}), the resulting table is stored in several formats (\latex floating table, \latex tabulary array, \mcode{.csv} file. The numerical data is also made available in a \mcode{.mat} file.
 \item \textbf{\mcode{report/tex}}: this directory is used for internal \explanes usage. Please do not edit any files in it, as they may be deleted.
 \end{itemize}
 
@@ -513,7 +514,7 @@ The type of exposition specifies the rendering style. Several predefined styles 
 Available expositions are:
 \begin{itemize}
 \item \textbf{>}: redirect the observations to the command prompt
-\item \textbf{l}: generate a \LaTeX table
+\item \textbf{l}: generate a \latex table
 \item \textbf{t}: Matlab table
 \item \textbf{b}: bar plot
 \item \textbf{p}: line plot
@@ -572,7 +573,7 @@ Parameters customize the rendering and are defined as string\,/\,value pairs.
 
 \item \textbf{design}: use a canonical experimental design: assume cell array of {[factors as numericIds], number of values per factor (0 complete set of values), type of plan as string 'f' (factorial) or 'o' (one factor at a time), [ optionally a seed as a vector of index of factor]}. Shortcuts: numerid id (equivalent to {[], <numericId>}, 'f'), or 'one' design (equivalent to {[], 2, 'o'}), or 'star' design (equivalent to {[], 0, 'o'})
 \item \textbf{expand}: name or index of the factor to expand                 
-\item \textbf{fontSize}:  set the font size of \LaTeX tables (default 'normal')                
+\item \textbf{fontSize}:  set the font size of \latex tables (default 'normal')                
 \item \textbf{highlight}:  highlight settings that are not significantly
     	different from the best performing setting;
        -1: no variance,
@@ -581,14 +582,14 @@ Parameters customize the rendering and are defined as string\,/\,value pairs.
 \item \textbf{highlightStyle}:  type of highlighting;
         'best': highlight best and equivalent (default),
         'Best': highlight only the best,
-        'better': highlight only the best if significantly better than
+        'better': highlight the best if significantly better than
            the others,
         'Better': highlight only the best if significantly better than
-           the others, and show only this one                
+           the others               
 \item \textbf{highlightColor}: use color to show highlights (default 1), -1 do
        not use * to display the best performing one                 
 \item \textbf{integrate}:  factor(s) to integrate by summation 
-\item \textbf{label}: \LaTeX label of display as string (equal to the name if left empty)             
+\item \textbf{label}: \latex label of display as string (equal to the name if left empty)             
 \item \textbf{legendLocation}: location of the legend (default 'BestOutSide', \mcode{doc legend} for more options)
 \item \textbf{marker}:  specification of markers for line plot;
            1: Matlab default set of markers (default),
@@ -599,7 +600,7 @@ Parameters customize the rendering and are defined as string\,/\,value pairs.
         '': no merge (default),
         'h': horizontal concatenation,
         'v': vertical concatenation                 
-\item \textbf{multipage}: activate the multipage setting for the \LaTeX table 
+\item \textbf{multipage}: activate the multipage setting for the \latex table 
 \item \textbf{name}:   name of exported file as string; 
     	symbol ``+'' gets replaced by a compact description of the setting              
 \item \textbf{number}:  add a line number for each setting in tables                
@@ -743,20 +744,20 @@ geometricShape('export', 'c d i', 'exportPath', <pathToExportLocation>);
 
 \section{Advanced usage}
 
-\subsection{Branching experiments}
+\subsection{Fork an experiment}
 
 Experimental research most of the time involves the implementation of many solutions that will potentially improve things for a given step of the experiment. Finding the correct way to do it requires a lot of trials that may lead to code burden.
 
-In order to keep a root project clean, and not to replicate the code and data and of this root project in a more experimental project, \explanes allows you to create a branch experiment that accesses the data generated by the root experiment.
+In order to keep a root project clean, and not to replicate the code and data and of this root project in a more experimental project, \explanes allows you to create a fork experiment that accesses the data generated by the root experiment.
 
-Let us assume that we want to create a new way of computing the volume of our geometric shapes. We can do so by creating a branch experiment:
+Let us assume that we want to create a new way of computing the volume of our geometric shapes. We can do so by creating a fork experiment:
 
-\mcode{expBranch('branchGeometricShape', <pathToGeometricShape>, 2)}
+\mcode{expFork('forkGeometricShape', <pathToGeometricShape>, 2)}
 
-The last parameter specifies at which step the branching is done, in this case at step 2.
-The new experiment that replicate the structure of the root experiment in the directory \mcode{<pathToGeometricShape>} must keep the same factors up to the step before the branching step (in our case step 1).
+The last parameter specifies at which step the fork is done, in this case at step 2.
+The new experiment that replicate the structure of the root experiment in the directory \mcode{<pathToGeometricShape>} must keep the same factors up to the step before the fork step (in our case step 1).
 
-The insertion of the new solution into the root experiment must be done manually.
+The insertion of the new solution developed in the fork experiment into the root experiment is done manually.
 
 \subsection{Experiment design}
 
