@@ -10,13 +10,15 @@
 \usepackage[]{hyperref}
 % mcode options for matlab code insertion bw (for printing), numbered (line numbers), framed (frame around code blocks), useliterate (convert Matlab expressions to Latex ones), autolinebreaks (automatic code wraping, use it with caution 
 \usepackage[useliterate,autolinebreaks]{mcode} 
+\usepackage{bookmark}
+
 \graphicspath{{figures/}{report/figures/}{../figures/}{../../}}  
 
 \title{ expLanes: beautiful computational experiments } 
 \author{ Mathieu Lagrange } 
 
 \newcommand{\latex}{\LaTeX\ }
-\newcommand{\explanes}{\textsf{expLanes} }  
+\newcommand{\explanes}{\textsf{expLanes}\ }  
 
 \lstset{aboveskip=2pt,belowskip=2pt, basicstyle=\small} % \medskipamount
 
@@ -33,6 +35,7 @@
 }
 \makeatother
 
+
 % TODO explain dummy mode
 
 \begin{document} 
@@ -42,58 +45,20 @@
 \tableofcontents
 
 
-\section{About you}
-
-Let's assume that you are practicing computational experiments. Most probably, this takes you time and a lot of care, and may be an endless source of frustration depending on whether you are:
-\begin{itemize}
-\item  \textbf{a Master's student?} Then, you may at some point consider the fact that the problem is not simply to come with a new idea and implement it. To contribute significantly to the research community that you are striving to be part of, you need to compare your method with existing ones. This process is tedious, hard (if not impossible) and involves a lot of coding and knowledge about large scale data processing, statistical analysis and reporting of quantitative data.
-
-\item \textbf{a PhD student?} You have several years to dedicate to a research project. Doing it well will help you stay motivated and efficient. But how? Several years of work means a lot of code, a lot of bugs, a lot of failures and hopefully some gain of knowledge for you and your research community. How will you keep track of those many experiments? How will you efficiently document them?  How will you quickly report your progress to the members of your research team? How will you publish your research in a reproducible way?
-
-\item \textbf{a Post doctoral fellow?} You are now an established researcher, with many ideas about what could be done in order increase knowledge in your community. But you also have to juggle with the many different projects you are involved in. Keeping track of all those projects and being able to easily switch between them is mandatory for success. For example, being able to re-run years old experiments in order to efficiently satisfy a reviewer request is critical for your career.
-
-\item \textbf{a Full time researcher?} Besides research, you have many duties that shred the time you can allocate to pursuing your many personal research projects, and the time needed to switch between projects can easily become excessive with respect to your overall available time. More importantly, the free time you have is usually not in front of your desktop. Moreover, you are supervising several students whose research work, as valuable as it may be, is more often than not plagued with such a level of organizational idiosyncrasy as to make it next to useless for the next student working on the project---or yourself.
-
-\end{itemize}
-
-And for all or others, maybe you are heading towards sharing your code, but not quite confident with your programming expertise yet, and you do not have time to improve your experimental code into a sharable state\footnote{\url{http://sciencecodemanifesto.org}}? Or maybe you need solid experimental data to pitch a new technology?
-
-\explanes is specifically designed with those matters in mind, and will hopefully help you reduce the specific burden that keeps you from reaching this goal which is one of the most important steps towards the expansion of knowledge in science and engineering: reproducibility\cite{science, sp}.
-
-\section{Features}
-
-\explanes is a software framework currently implemented in Matlab that 
-\begin{itemize}
-\item provides a high level abstraction for running computational experiments,
-\item allows multiple users per experiment,
-\item allows multiple processing platforms to be used,
-\item allows a strong decoupling of the 3 major experimental phases: 
-\begin{enumerate}
-\item coding,
-\item processing,
-\item reduction of results.
-\end{enumerate}
-\end{itemize}
-
-Concretely, \explanes lets you identify the operational parameters (factors of the experiment) of a process or algorithm, and their ranges of variation (modalities of the experiment), then proceeds to automatically explore all or a subset of the space of possible parameter combinations, using a dataset and evaluation function of your choice. Finally, it generates a report compiling the obtained results. This can for example be used to evaluate an average performance, tune an algorithm for a specific type of data, or confirm empirically that a process behaves satisfactorily in all situations.
-
-\section{Benefits} 
-
-\begin{enumerate}
-\item The user can focus on solution code,
-\item evaluated with standard experimental designs.
-\item Bugs and the time needed to solve them is reduced,
-\item context switching between projects is much easier,
-\item as well as diffusion of reproducible code.
-\end{enumerate}
-
 \section{The scientific method}
+\hypertarget{science}{}
+ 
+Since it was expressed in its modern form by Roger Bacon in the 13th century, the scientific method has demonstrated time and again its merit, as the process that underpinned all the discoveries and innovations upon which our modern world is built. 
 
-Since it was expressed in its modern form by Roger Bacon in the 13th century, the scientific method has demonstrated time and again its merit, as the process that underpinned all the discoveries and innovations upon which our modern world is built. Sadly, modern ways of doing research impose strong pressure on the time and efforts that can be allocated to a project, and important steps of the scientific method are often neglected. 
+Sadly, modern ways of doing research impose strong pressure on the time and efforts that can be allocated to a project, and important steps of the scientific method are often neglected. We believe that this quest for speed adversely reduces the meaningfulness of the research results that are nowadays published. 
 
-We believe that this quest for speed adversely reduces the meaningfulness of the research results that are nowadays published. Admittedly, following strictly the scientific method can be tedious and shortcuts might be tempting. \explanes is designed to assist you in the most tedious and most error prone steps, and will hopefully help you dedicate more time to the fundamental steps of the scientific method.
+Admittedly, following strictly the scientific method can be tedious and shortcuts might be tempting. \explanes is designed to assist you in the most tedious and most error prone steps, and will hopefully help you dedicate more time to the fundamental steps of the scientific method.
+
+\newpage
 
 Quickly put, the scientific method can be divided into several steps, each of which may have to be iterated. On the following table, we stated where the \explanes framework can be helpful during this iteration process.
+
+
 
 \begin{center} \bf The scientific method\cite{right} \end{center}
 \begin{tabular}{clc}
@@ -117,7 +82,57 @@ Quickly put, the scientific method can be divided into several steps, each of wh
 & Solicit peer review & \\
 \end{tabular}
 
+
+\section{About you}
+\hypertarget{you}{} 
+
+Let's assume that you are practicing computational experiments. Most probably, this takes you time and a lot of care, and may be an endless source of frustration depending on whether you are:
+\begin{itemize}
+\item  \textbf{a Master's student?} Then, you may at some point consider the fact that the problem is not simply to come with a new idea and implement it. To contribute significantly to the research community that you are striving to be part of, you need to compare your method with existing ones. This process is tedious, hard (if not impossible) and involves a lot of coding and knowledge about large scale data processing, statistical analysis and reporting of quantitative data.
+
+\item \textbf{a PhD student?} You have several years to dedicate to a research project. Doing it well will help you stay motivated and efficient. But how? Several years of work means a lot of code, a lot of bugs, a lot of failures and hopefully some gain of knowledge for you and your research community. How will you keep track of those many experiments? How will you efficiently document them?  How will you quickly report your progress to the members of your research team? How will you publish your research in a reproducible way?
+
+\item \textbf{a Post doctoral fellow?} You are now an established researcher, with many ideas about what could be done in order increase knowledge in your community. But you also have to juggle with the many different projects you are involved in. Keeping track of all those projects and being able to easily switch between them is mandatory for success. For example, being able to re-run years old experiments in order to efficiently satisfy a reviewer request is critical for your career.
+
+\item \textbf{a Full time researcher?} Besides research, you have many duties that shred the time you can allocate to pursuing your many personal research projects, and the time needed to switch between projects can easily become excessive with respect to your overall available time. More importantly, the free time you have is usually not in front of your desktop. Moreover, you are supervising several students whose research work, as valuable as it may be, is more often than not plagued with such a level of organizational idiosyncrasy as to make it close to useless for the next student working on the project---or yourself.
+
+\end{itemize}
+
+And for all or others, maybe you are heading towards sharing your code, but not quite confident with your programming expertise yet, and you do not have time to improve your experimental code into a sharable state\footnote{\url{http://sciencecodemanifesto.org}}? Or maybe you need solid experimental data to pitch a new technology?
+
+\explanes is specifically designed with those matters in mind, and will hopefully help you reduce the specific burden that keeps you from reaching this goal which is one of the most important steps towards the expansion of knowledge in science and engineering: reproducibility\cite{science, sp}.
+
+\section{Features}
+\hypertarget{Features}{} 
+
+\explanes is a software framework currently implemented in Matlab that 
+\begin{itemize}
+\item provides a high level abstraction for running computational experiments,
+\item allows multiple users per experiment,
+\item allows multiple processing platforms to be used,
+\item allows a strong decoupling of the 3 major experimental phases: 
+\begin{enumerate}
+\item coding,
+\item processing,
+\item reduction of results.
+\end{enumerate}
+\end{itemize}
+
+Concretely, \explanes lets you identify the operational parameters (factors of the experiment) of a process or algorithm, and their ranges of variation (modalities of the experiment), then proceeds to automatically explore all or a subset of the space of possible parameter combinations, using a dataset and evaluation function of your choice. Finally, it generates a report compiling the obtained results. This can for example be used to evaluate an average performance, tune an algorithm for a specific type of data, or confirm empirically that a process behaves satisfactorily in all situations.
+
+\section{Benefits} 
+\hypertarget{benefits}{} 
+
+\begin{enumerate}
+\item The user can focus on solution code,
+\item evaluated with standard experimental designs.
+\item Bugs and the time needed to solve them is reduced,
+\item context switching between projects is much easier,
+\item as well as diffusion of reproducible code.
+\end{enumerate}
+
 \section{Installation}
+\hypertarget{installation}{} 
 
 \explanes operates in the Matlab environment. A recent version of this software (> R2014) is needed as well as the Statistical toolbox. The Parallel toolbox is needed for in-session multi-core processing. 
 
@@ -155,13 +170,14 @@ Several alternatives are available to install Unix packages: Fink, MacPorts and 
 
 \subsection{Windows}
 
-For pdflatex, please use MiKTeX, for the remaining please use the Cygwin environment. Some tweaks might be needed in order to ensure that the paths and usernames are correct.
+For pdflatex, please use MiKTeX, for the remaining, please use the Cygwin environment. Some tweaks might be needed in order to ensure that the paths and usernames are correct.
 
-\section{\explanes in a nutshell}
-
+\section{\explanes\ in a nutshell}
+\hypertarget{nutshell}{}
+ 
 \explanes is designed to provide you with as streamlined set of tools to efficiently build the computational environment you need in order to gain knowledge about a research statement.
 
-In order to present the typical workflow of a \explanes{}-driven experiment, we detail in this section the steps to explore a trivial research statement: gaining knowledge about the base area and the volume of a few 3 dimensional geometrical shapes. For reference, this project is available in the \mcode{demonstrations} directory. Complete documentation of the commands is given in the next section.%
+In order to present the typical workflow of a \textsf{expLanes}-driven experiment, we detail in this section the steps to explore a trivial research statement: gaining knowledge about the base area and the volume of a few 3 dimensional geometrical shapes. For reference, this project is available in the \mcode{demonstrations} directory. Complete documentation of the commands is given in the next section.%
 
 First, we assume that the \explanes framework is in your path, if not, please type the following in your command window: \\ \mcode{addpath(genpath('<pathToExplanes>'));};
 
@@ -328,7 +344,8 @@ Those reports are available online:
 \end{enumerate}
 
 \section{Architecture of an experiment}
-
+\hypertarget{architecture}{}
+ 
 An \explanes experiment has a specific directory architecture. 
 
 \subsection{Code}
@@ -393,6 +410,7 @@ The report directory stores expositions of observations in many flavors.
 
 
 \section{Configuration of an experiment}
+\hypertarget{configuration}{} 
 
 An \explanes experiment can be controlled by editing the configuration file or overloading it with command line settings. Each of those parameters can further be accessed at run time through the variable \mcode{config}.
 
@@ -500,7 +518,8 @@ Every path can be a cell array of string. In this case, the path is selected in 
 \end{itemize}
 
 \section{Exposition of observations}
-
+\hypertarget{exposition}{}
+ 
 To generate Tables and Figures that can be saved or embedded in your reports, the main function to use is:
 
 \mcode{config = expExpose(config, '<typeOfExposition>', <parameters>);}
@@ -743,6 +762,7 @@ geometricShape('export', 'c d i', 'exportPath', <pathToExportLocation>);
 \end{enumerate}
 
 \section{Advanced usage}
+\hypertarget{advanced}{} 
 
 \subsection{Fork an experiment}
 
@@ -889,7 +909,8 @@ If the code is static, and each processing host share the same computing environ
 %data retrieval
 
 \section{Recommended readings}
-
+\hypertarget{readings}{}
+ 
 \begin{itemize}
 
 \item \textbf{Getting it right}: R\&D Methods for Science and Engineering, Peter Bock, Academic Press
