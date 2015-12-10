@@ -6,7 +6,7 @@
 \usepackage{rotating,url} 
 \definecolor{violet}{rgb}{0.8, 0.6, 0.8}
 \definecolor{green}{rgb}{0.8 ,.9, 0.8}
-\definecolor{blue}{rgb}{0.3, 0 ,0.6}
+\definecolor{blue}{rgb}{0, .2 , .7}
 \usepackage[]{hyperref}
 % mcode options for matlab code insertion bw (for printing), numbered (line numbers), framed (frame around code blocks), useliterate (convert Matlab expressions to Latex ones), autolinebreaks (automatic code wraping, use it with caution 
 \usepackage[useliterate,autolinebreaks]{mcode} 
@@ -19,6 +19,11 @@
 
 \newcommand{\latex}{\LaTeX\ }
 \newcommand{\explanes}{\textsf{expLanes}\ }  
+\usepackage{titlesec}
+
+\titleformat{\section}
+{\color{blue}\normalfont\LARGE\bfseries}
+{\color{blue}\thesection}{1em}{}
 
 \lstset{aboveskip=2pt,belowskip=2pt, basicstyle=\small} % \medskipamount
 
@@ -172,7 +177,7 @@ Several alternatives are available to install Unix packages: Fink, MacPorts and 
 
 For pdflatex, please use MiKTeX, for the remaining, please use the Cygwin environment. Some tweaks might be needed in order to ensure that the paths and usernames are correct.
 
-\section{\explanes\ in a nutshell}
+\section{In a nutshell}
 \hypertarget{nutshell}{}
  
 \explanes is designed to provide you with as streamlined set of tools to efficiently build the computational environment you need in order to gain knowledge about a research statement.
