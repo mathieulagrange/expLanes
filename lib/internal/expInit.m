@@ -71,11 +71,11 @@ elseif ischar(commands{1})
         case 'f'
             config = expConfig(experimentPath, experimentName, shortExperimentName);
             if isempty(config), return; end;
-            expFactorDisplay(config, config.showFactorsInReport, config.factorDisplayStyle);
+            expFactorDisplay(config, abs(config.showFactorsInReport), config.factorDisplayStyle);
         case 'F'
             config = expConfig(experimentPath, experimentName, shortExperimentName);
             if isempty(config), return; end;
-            expFactorDisplay(config, config.showFactorsInReport, config.factorDisplayStyle, 0);
+            expFactorDisplay(config, abs(config.showFactorsInReport), config.factorDisplayStyle, 0);
         otherwise
             error('Unable to handle command');
     end
