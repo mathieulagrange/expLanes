@@ -19,8 +19,6 @@ functionString = char({...
     '% Set behavior for debug mode';
     ['if nargin==0, ' , config.experimentName '(''do'', ' num2str(rank) ', ''mask'', {}); return; else store=[]; obs=[]; end'];
     '';
-    '% imported data';
-    'data';
     });
 if write,
     dlmwrite([config.codePath '/' functionName '.m'], functionString,'delimiter','');

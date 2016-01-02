@@ -180,7 +180,9 @@ if config.store > -1
         end
         obs = expLoad(config, [], [], 'obs');
         if ~isempty(obs)
-            loadedData.obs = obs;
+            for k=1:length(loadedData)
+            loadedData(k).obs = obs(k);
+            end
         end
     else
         loadedData = config.initStore;
