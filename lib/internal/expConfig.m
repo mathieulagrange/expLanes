@@ -172,8 +172,9 @@ end
 if ~isempty(experimentPath)
     config.experimentPath = experimentPath;
 end
-
+   
 if strcmp(config.localHostName, expGetMachineName(config, config.host)) && ...
+         strcmp(config.localHostName, expGetMachineName(config, config.host)) && ...
    ~strcmp(strrep(config.experimentPath, '\', '/'), strrep(fileparts(which(config.experimentName)), '\', '/'))
     fprintf(2, 'The codePath in your configuration file may be wrong.\n');
 end
