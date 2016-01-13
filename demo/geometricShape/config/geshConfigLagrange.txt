@@ -1,6 +1,6 @@
 %% USER
 
-% email address ticked when processing is done server side (leave empty for no mailing service), can be a cell array of email adresses
+% email address used to acknowledge when processing is started or over server side (leave empty for no mailing service), can be a cell array of email addresses
 emailAddress  = mathieu.lagrange@cnrs.fr
 % complete name of user
 completeName  = Mathieu Lagrange
@@ -15,10 +15,12 @@ generateRootFile  = 0
 addFactor  = 
 % remove a factor from the experiment. Format of the request: {rankInFactorFile, defaultModalityId}
 removeFactor  = 
-% add a step to the experiment. Format of the request: {'name', rank}
+% add a step to the experiment. Format of the request: 'name' (last step rank) or {'name', rank}
 addStep  = 
 % remove a given step from the experiment. Format of the request: rank
 removeStep  = 
+% fill the README.txt file with information about replication of the experiment
+readMe = 0
 
 %% HOSTNAMES AND PATHS
 
@@ -32,10 +34,10 @@ codePath  = {'~/tools/expLanes/demo/geometricShape', '~/code/geometricShape'}
 dataPath  = ~/data/experiments/geometricShape
 % path to the data repository of the experiment for observation data (same as dataPath if left blank)
 obsPath  = ~/data/experiments/geometricShape
-% path to backup of transferred data
+% path to store backups of data
 backupPath  = /tmp/expLanesBackup/geometricShape
-% path to export bundles
-bundlePath  = /tmp/geometricShape
+% path to export the experiment
+exportPath = /tmp/<experimentName>
 % path to the directory of the Matlab binary
 matlabPath  = 
 % path to Unix tools (pdflatex, rsync, ssh, screen), can be a string, a cell array of strings
@@ -43,7 +45,7 @@ toolPath  = {{'/usr/bin', 'C:/cygwin/bin'}}
 
 %% CODE
 
-% code dependencies to load and export as a cell array of strings with paths to the dependencies
+% code dependencies to load and send server side as a cell array of strings with paths to the dependencies
 dependencies  = {'~/tools/expLanes/lib'}
 % dependencies (including expLanes) can be part of the experiment in a dependencies directory: 0 do not use local versions, 1 use local versions, 2 update local versions
 localDependencies  = 0
@@ -60,9 +62,7 @@ resume  = 0
 parallel  = 0
 % factor mask: cell array defining the modalities to be set for the factors (0 do all, 1 first modality, [1 3] first and third modality), can be a cell array of cell array
 mask  = {}
-% cell array of couples of string and array, if the string is parsed in a mask definition it gets replaced by the specified array
-maskPatch  = {}
-% use a canonical experimental design: assume cell array of {[factors as numericIds], number of values per factor (0 complete set of values), type of plan as string 'f' (factorial) or 'o' (one factor at a time), [seed as a vector of index of factor]}
+% cell array of couples of string and array, if the string is parsed in a mask definition it gets replaced by the specified array maskPatch = {} use a canonical experimental design: assume cell array of {[factors as numericIds], number of values per factor (0 complete set of values), type of plan as string 'f' (factorial) or 'o' (one factor at a time), [ optionally a seed as a vector of index of factor]}. Shortcuts: numerid id (equivalent to {[], <numericId>}, 'f'), or 'one' design (equivalent to {[], 2, 'o'}), or 'star' design (equivalent to {[], 0, 'o'})
 design  = 
 % dummy mode: allow for short computations to dry run the experiment. Set as a numeric value. 0: no dummy mode, >1 generate stored data and observations flagged with the numeric value
 dummy  = 0
@@ -73,7 +73,7 @@ setRandomSeed  = 0
 host  = 0
 % log level (set to 0 for no log)
 log  = 1
-% show processing progress 0: none, 1: garphical bar if on local mode, 2: verbose output, 3: liminar output
+% show processing progress 0: none, 1: garphical bar if on local mode, 2: verbose output, 3: terse output
 progress  = 1
 % exit matlab at the end of the computation
 exitMatlab  = 0
@@ -90,14 +90,14 @@ store  = 1
 retrieve  = -1
 % naming convention for data files: long (complete naming, may lead to too long file names), short (abbreviated naming, may also lead to too long file names), hash (hash based naming, compact but may lead to naming clashes)
 namingConventionForFiles  = hash
-% generate bundle of elements designated as a string with tokens separated by white spaces: 'c' (code), 'd' (dependencies), 'i' (input), 1 (output data of step 1), 1d (stored data of step 1 only), 1o (observations of step 1 only)
-bundle  = 
-% sync data across machines specified as a cell array with: elements (as in bundle), optional host as numeric id (1.2 means the second host of the first group of machines, default to 2), direction 'd' (download from server to local host, default), 'u' (upload from host to server). Provided with the elements as string, the command default to server 2 in download mode.
+% export elements of the experiment designated as a string with tokens separated by white spaces (addition of a 'z' token outputs a zip file): 'c' (code), 'd' (dependencies), 'i' (input), 1 (output data of step 1), 1d (stored data of step 1 only), 1o (observations of step 1 only)
+export =
+% sync data across machines specified as a cell array with: elements (as in export), optional host as numeric id (1.2 means the second host of the first group of machines, default to 2), direction 'd' (download from server to local host, default), 'u' (upload from host to server). Provided with the elements as string, the command default to server 2 in download mode.
 sync  = {}
 % clean explanes directories and project data repositories. As string id : t (expLanes temporary directory), b (experiment backup directory), k (all steps directories while keeping reachable settings), 1 (output data of step 1), 1d (remove stored data of step 1 only), 1o (observations of step 1 only). As numeric id (clean the corresponding step directory, 0 means all directories)
 clean  = 
-% specify at which step the branching (if any) is effective (default 0)
-branchStep = 0
+% specify at which step the fork (if any) is effective (default 0)
+forkStep = 0
 
 
 %% EXPOSITION
@@ -117,7 +117,7 @@ displayFontSize  = 16
 
 % generate report: combination of r (run report), c (LaTeX compilation), and d (debug output)
 report  = 
-% type of report: empty (default), if containing the word <slides> or <Slides>,  beamer presentation mode is used
+% name of report to compile: empty (default), if containing the word <slides> or <Slides>,  beamer presentation mode is used
 reportName  = 
 % style of LaTeX document (warning: this parameter is taken into account only at the creation of the LaTeX report file)
 latexDocumentClass  = tufte-handout
@@ -125,7 +125,7 @@ latexDocumentClass  = tufte-handout
 pdfViewer  = 
 % threshold for statistical significance testing
 significanceThreshold  = 0.05
-% show the factors graph in the report: 0, no display, 1 compact display, 2 alos show stored data, 3 also show observations, 4 also show stored data and observations (if negative only generate the figure for latter inclusion)
+% show the factors graph in the report: 0, no display, 1 compact display, 2 also show stored data, 3 also show observations, 4 also show stored data and observations (if negative only generate the figure for later inclusion)
 showFactorsInReport  = 4
 % style of the factor graph: 0 no propagation of factors, 1 propagation of factors, 2 propagation of factors with an "all steps" node
 factorDisplayStyle  = 0
@@ -141,4 +141,3 @@ useExpCodeSmtp  = 1
 % send email: -2, server mode, email at start and end, -1 server mode, email at end only, 0, no email ever, 1 one email at end, 2 email at start and end
 sendMail  = -1
 
-experimentName = geometricShape

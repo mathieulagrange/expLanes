@@ -2,8 +2,8 @@
 
 % email address used to acknowledge when processing is started or over server side (leave empty for no mailing service), can be a cell array of email addresses
 emailAddress = 
-% complete name of user
-completeName = <userName>
+% complete name of user 
+completeName =
 
 %% PROJECT
 
@@ -23,12 +23,13 @@ removeStep =
 readMe = 0
 
 %% HOSTNAMES AND PATHS
+% several paths contains a diamond operator <> do not replace unless you do not want expLanes to replace this token automatically
 
 % names of the machines as a cell array of 1) string or 2) cell array of strings
 machineNames = 
 % path to input data (usually accessed read only)
 inputPath = 
-% path to the code repository of the experiment 
+% path to the code repository of the experiment (diamond operator <> do not replace unless you do not want expLanes to fill this field automatically)
 codePath = <experimentPath> 
 % path to the data repository of the experiment (structured with one directory per step)
 dataPath = ~/data/experiments/<experimentName> 

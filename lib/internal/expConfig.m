@@ -173,7 +173,8 @@ if ~isempty(experimentPath)
     config.experimentPath = experimentPath;
 end
 
-if strcmp(config.localHostName, expGetMachineName(config, config.host)) && ~strcmp(config.experimentPath, fileparts(which(config.experimentName)))
+if strcmp(config.localHostName, expGetMachineName(config, config.host)) && ...
+   ~strcmp(strrep(config.experimentPath, '\', '/'), strrep(fileparts(which(config.experimentName)), '\', '/'))
     fprintf(2, 'The codePath in your configuration file may be wrong.\n');
 end
 
@@ -316,7 +317,7 @@ end
 for k=1:length(fieldNames)
     if ~isempty(strfind(fieldNames{k}, 'Path'))
         field = config.(fieldNames{k});
-        
+        field = strrep(field, '\', '/');
         if isempty(field) || iscell(field) || any(strcmp(field(end), {'/', '\'}))
             config.(fieldNames{k})=field;
         else
