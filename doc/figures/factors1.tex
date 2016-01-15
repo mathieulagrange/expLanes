@@ -1,0 +1,32 @@
+\documentclass{minimal}
+\usepackage[a4paper,margin=1cm,landscape]{geometry}
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes,shadows,arrows}
+\usepackage{verbatim}
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}%
+\begin{document}
+\tikzstyle{stepBlock}=[draw, rounded corners,
+         anchor=north, align=center, rectangle split part align={center, left}, rectangle split, rectangle split parts=3]
+\tikzstyle{all}=[draw, rounded corners, text=gray,
+         anchor=north, align=center, rectangle split part align={center, left}, rectangle split, rectangle split parts=3]         
+\tikzstyle{stepArrow}=[->, -diamond, thick,double]
+\tikzstyle{obsArrow}=[->, thick,double]
+        
+\begin{center}
+\begin{tikzpicture}[node distance=3cm]
+\node (1) [stepBlock]                                                                                             
+{\textbf{system}                                                                                                  
+\nodepart{two}\tabular{@{}l}                                                                                      
+\texttt{Factors} \\                                                                                               
+\endtabular                                                                                                       
+                                                                                                                  
+\nodepart{three}\tabular{@{}l}                                                                                    
+\endtabular};                                                                                                     
+\draw[obsArrow]   (1.south) -- (1.south) node[midway,text width=3cm,text centered,below] {\textit{observations}} ;
+\node (2) [right=of 1]{};                                                                                         
+\draw[stepArrow]   (1.east) -- (2.west) node[midway, text width=3cm,text centered,below] {\textbf{output}} ;      
+\end{tikzpicture}                                                                                                 
+\end{center}                                                                                                      
+\end{document}]                                                                                                   
