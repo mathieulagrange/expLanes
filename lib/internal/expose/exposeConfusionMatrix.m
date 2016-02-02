@@ -39,6 +39,9 @@ for k=1:length(data)
             set(gca, 'ytick', 1:length(classNames));
             set(gca, 'xticklabel', classNames);
             set(gca, 'yticklabel', classNames);
+            set(gca, 'fontsize', config.displayFontSize);
+            xlabel('Classes');
+            ylabel('Predictions');
             colormap('gray');
         case 2
             numCell = expNumToCell(c, [], 0, 1, eye(length(classNames)));

@@ -25,11 +25,12 @@ if p.uncertainty>-1
     end
 end
 
-tmp = p.labels;
-p.labels = p.legendNames; % FIXME improve this in expExpose
-p.legendNames = 0;
-if  ~isempty(tmp)
-    p.legendNames = tmp(data.selector);
-end
+% FIXME improve this in expExpose (when this special case is needed ?)
+% tmp = p.labels;
+% p.labels = p.legendNames; 
+% p.legendNames = 0;
+% if  ~isempty(tmp)
+%     p.legendNames = tmp(data.selector);
+% end
 
 expSetAxes(config, p);

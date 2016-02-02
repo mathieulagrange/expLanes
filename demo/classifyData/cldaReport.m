@@ -6,7 +6,7 @@ function config = cldaReport(config)
 % Copyright: Mathieu Lagrange                                 
 % Date: 04-Nov-2015                                           
                                                               
-if nargin==0, classifyData('report', 'r'); return; end        
+if nargin==0, classifyData('report', 'rcv'); return; end        
                                                               
 config = expExpose(config, 'p', 'mask', {2 0 2 0 5 0}, 'obs', 2, 'step', 2, 'expand', 4, 'color', 'k', 'legendLocation', 'best');  
 

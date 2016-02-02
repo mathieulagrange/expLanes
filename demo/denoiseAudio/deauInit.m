@@ -26,16 +26,18 @@ else
         recordblocking(a, 2);
         store.source = getaudiodata(a);
         disp('Thank you');
-        audiowrite(store.source, config.samplingFrequency, sourceFileName);
+        audiowrite(sourceFileName, store.source, config.samplingFrequency);
     else
         % load audio data built in matlab
         load handel
         if exist('y', 'var')
             % if successful, use it as input data
             config.samplingFrequency = Fs;
-            store.source = y/std(y);
+            store.source = y/(max(abs(y))+.1);
+        else
+            error('Unable to load handel builtin sound, please record some audio');
         end
-        audiowrite(store.source, config.samplingFrequency, sourceFileName);
+        audiowrite(sourceFileName, store.source, config.samplingFrequency);
     end
 end
 

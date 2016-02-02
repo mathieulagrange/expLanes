@@ -1,1 +1,2 @@
 clusteringData('do', 0)
+clusteringData('do', 2)

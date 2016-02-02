@@ -49,22 +49,22 @@ for k=1:setting.nbRuns
             [clusters, energy] = kmedoids(S, setting.nbClasses, setting.nbReplicates, setting.nbIterations);
             [m, ind] = max(sum(energy));
             clusters = clusters(:, ind);
-            %     case 'spectral'
-            %
-            %         D = diag(1 ./ sqrt(sum(K, 2)));
-            %         L = D * K * D;
-            %
-            %         if strcmp(setting.dataType, 'gaussian')
-            %             opts.tol = 1e-3;
-            %         else
-            %             opts.tol = eps;
-            %         end
-            %         warning('off');
-            %         [X, D] = eigs(L, setting.nbClasses, 'lm', opts);
-            %         warning('on');
-            %         Y = X ./ repmat(sqrt(sum(X.^2, 2)), 1, setting.nbClasses);
-            %         opts = statset('MaxIter', setting.nbIterations);
-            %         clusters = kmeans(Y, setting.nbClasses, 'replicates', setting.nbRuns, 'options', opts);
+    %     case 'spectral'
+    %
+    %         D = diag(1 ./ sqrt(sum(K, 2)));
+    %         L = D * K * D;
+    %
+    %         if strcmp(setting.dataType, 'gaussian')
+    %             opts.tol = 1e-3;
+    %         else
+    %             opts.tol = eps;
+    %         end
+    %         warning('off');
+    %         [X, D] = eigs(L, setting.nbClasses, 'lm', opts);
+    %         warning('on');
+    %         Y = X ./ repmat(sqrt(sum(X.^2, 2)), 1, setting.nbClasses);
+    %         opts = statset('MaxIter', setting.nbIterations);
+    %         clusters = kmeans(Y, setting.nbClasses, 'replicates', setting.nbRuns, 'options', opts);
         case 'chance'
             clusters = ceil(rand(1, length( data.elements))*length(unique(data.class)));
         otherwise
