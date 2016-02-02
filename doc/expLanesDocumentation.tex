@@ -18,7 +18,7 @@
 \newcommand{\latex}{\LaTeX\ }
 \newcommand{\explanes}{\textsf{expLanes}\ }  
 
-\title{ {\color{blue}expLanes}: beautiful computational experiments } 
+\title{ { \color{blue}expLanes}: beautiful computational experiments } 
 \author{ Mathieu Lagrange } 
 
 \usepackage{titlesec}
@@ -48,19 +48,20 @@
 \begin{document} 
 
 %\pagestyle{empty}
-\topskip0pt
-\vspace*{\fill}
+
+
+%\pagestyle{plain}
+
+
+\maketitle 
 
 \begin{center}
-\includegraphics[width=1.2\textwidth]{logo/logo}
+\includegraphics[width=.4\textwidth]{logo/logo}
 
-\hspace{2cm}{\Huge \color{blue} \textbf{v. 1.0}}
+{\LARGE \color{blue} v 1.0}
 \end{center}
 
-\vspace*{\fill}
-\newpage  
-%\pagestyle{plain}
-\maketitle 
+
 \vspace{-1.5cm}
 \tableofcontents
 
@@ -118,7 +119,7 @@ Let's assume that you are practicing computational experiments. Most probably, t
 
 \end{itemize}
 
-And for all or others, maybe you are heading towards sharing your code, but not quite confident with your programming expertise yet, and you do not have time to improve your experimental code into a sharable state\footnote{\url{http://sciencecodemanifesto.org}}? Or maybe you need solid experimental data to pitch a new technology?
+And for all or others, maybe you are heading towards sharing your code\cite{depsy}, but not quite confident with your programming expertise yet, and you do not have time to improve your experimental code into a sharable state\footnote{\url{http://sciencecodemanifesto.org}}? Or maybe you need solid experimental data to pitch a new technology?
 
 \explanes is specifically designed with those matters in mind, and will hopefully help you reduce the specific burden that keeps you from reaching this goal which is one of the most important steps towards the expansion of knowledge in science and engineering: reproducibility\cite{science, sp}.
 
@@ -138,7 +139,16 @@ And for all or others, maybe you are heading towards sharing your code, but not 
 \end{enumerate}
 \end{itemize}
 
-Concretely, \explanes lets you identify the operational parameters (factors of the experiment) of a process or algorithm, and their ranges of variation (modalities of the experiment), then proceeds to automatically explore all or a subset of the space of possible parameter combinations, using a dataset and evaluation function of your choice. Finally, it generates a report compiling the obtained results. This can for example be used to evaluate an average performance, tune an algorithm for a specific type of data, or confirm empirically that a process behaves satisfactorily in all situations.
+\begin{figure}[h]
+  \begin{center}
+    \leavevmode
+  \includegraphics[width=.6\textwidth]{figures/factors1}
+    \caption{The state of a numeric system (observations and ouputs) is defined by its input, and the value of its controlling factors (modalities).}
+    \label{step1}
+  \end{center}
+\end{figure}
+
+Concretely, \explanes lets you identify the operational parameters (\textbf{factors} of the experiment) of a process or algorithm, and their ranges of variation (\textbf{modalities} of the experiment), then proceeds to automatically explore all or a subset of the space of possible parameter combinations (\textbf{setting}), using a dataset and evaluation function of your choice. Finally, it generates a report compiling the obtained results (reduced version of the \textbf{observations}). This can for example be used to evaluate an average performance, tune an algorithm for a specific type of data, or confirm empirically that a process behaves satisfactorily in all situations.
 
 \section{Benefits} 
 \hypertarget{benefits}{} 

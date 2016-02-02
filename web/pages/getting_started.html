@@ -1,0 +1,22 @@
+<h3 style="margin-top: 5px">First steps</h3>
+
+<ul>
+  <li>Clone or download explanes.</li>
+  <li>Read the documentation.</li>
+  <li>Install optional requested external softwares if needed.</li>
+  <li>Experiment with the demonstrations.</li>
+  <li>Build your first experiment !!.</li>
+</ul>
+
+<h3 style="margin-top: 5px">Requisites</h3>
+
+<p>expLanes operates in the Matlab environment. A recent version of this software (> R2014) is needed as well as the Statistical toolbox. The Parallel toolbox is needed for in-session multi-core processing. As much as possible, expLanes uses built-in tools to manipulate data. However some functions are handled through the use of basic Unix tools:</p>
+
+<ul>
+  <li><strong>pdflatex</strong>: handles compilation of reports written in <span style="font-family: serif; margin-right: -.7em;">L<span style="font-size: 0.9em; position: relative; top: -.1em; left: -0.4em;">A</span><span style="position: relative; left: -.5em;">T</span><span style="position: relative; top: .2em; left: -.6em;">E</span><span style="position: relative; left: -.7em;">X</span></span>.</li>
+  <li><strong>rsync</strong>: allows backup, generation of bundles and data communication between hosts.</li>
+  <li><strong>ssh</strong>: allows secure connection between hosts.</li>
+  <li><strong>screen</strong>: allows handling of several detached terminals for background processing.</li>
+</ul>
+
+<p>If you wish to deploy your experiment across multiple hosts, those tools must be available on each host. However, expLanes will adapt to their absence, when possible: for example, without pdflatex, no reports will be generated.</p>

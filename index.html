@@ -1,3 +1,88 @@
-Welcome to the explanes project <br>
+<!doctype html>
+<html ng-app="explanes">
 
-This project have been designed to help people involved in science and engineering computational prokects
+  <head>
+    <meta charset="utf-8" /> 
+    <title>Explanes</title>
+    <script src="web/angular.min.js"></script>
+    <script src="web/utils.js"></script>
+    <script src="web/app.js"></script>
+    <script src="web/pageController.js"></script>
+    <script src="web/slidesController.js"></script>
+    <script src="web/demosController.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Libre+Baskerville:400italic,700' rel='stylesheet' type='text/css'>
+    <!--<link href='https://fonts.googleapis.com/css?family=Old+Standard+TT:400italic,700' rel='stylesheet' type='text/css'>-->
+    <!--<link href='https://fonts.googleapis.com/css?family=Sniglet' rel='stylesheet' type='text/css'>-->
+    <link rel="stylesheet" type="text/css" href="web/style.css"/>
+  </head>
+
+  <body>
+
+      
+    <a href="https://github.com/mathieulagrange/expLanes">
+      <img style="z-index: 10; position: absolute; top: 0; right: 0; border: 0" src="web/images/forkme.png"/>
+    </a>
+    
+    <div ng-controller="PageController">
+
+      <div id="top">
+	<h2 style="font-size: 48px; margin-bottom: 10px">
+	  <span style="position:relative">
+	    <div style="position:absolute; left:-210px; top: -5px">
+	      <img src="web/images/logo.png" style="width: 120px"/>
+	    </div>
+	    Explanes
+	  </span>
+	</h2>
+	<h3 style="font-size: 20px; font-style: italic">Beautiful computational experiments</h3>
+      </div>
+      
+      <div id="menu" ng-class="isAbsolute && 'normalMenu' || 'fixedMenu'">
+	<div>
+	  <a href="" ng-click="scrollTo('overview')">Overview</a> &mdash;
+	  <a href="" ng-click="scrollTo('get_started')">Get started</a> &mdash;
+	  <a href="" ng-click="scrollTo('download')">Download</a> &mdash;
+	  <a href="" ng-click="scrollTo('demos')">Demos</a> &mdash;
+	  <a href="" ng-click="scrollTo('doc')">Documentation</a> &mdash;
+	  <a href="" ng-click="scrollTo('contact')">Contact / Contribute</a>
+	</div>
+      </div>
+    
+      <div id="page">
+
+	<div class="carousel profileCarousel" ng-controller="SlidesController">
+	  <div class="carouselArrow carouselLeftArrow" ng-click="cycleSlides(-1)"></div>
+	  <div class="carouselArrow carouselRightArrow" ng-click="cycleSlides(1)"></div>
+	  <div class="slideContainer profileSlideContainer">
+	    <div class="slide profileSlide" ng-repeat="slide in slides" ng-style="{left:(900*slide.position)+'px', opacity:slide.opacity}">
+	      <img ng-src="web/{{slide.photo}}"/>
+	      <div class="profileTitle">{{slide.text}}</div>
+	      <div class="bullet" ng-repeat="bullet in slide.bullets" ng-style="bullet.style">{{bullet.text}}</div>
+	    </div>
+	  </div>
+	  <div class="profileThumbnails">
+	    <img ng-repeat="slide in slides" ng-class="{'big':slide.position==0}" ng-src="web/{{slide.thumbnail}}" ng-click="cycleTo(slide)"/>
+	  </div>
+	</div>
+
+	<div ng-repeat = "panel in panels">
+	  <h1 id="{{panel.anchor}}">{{panel.name}}</h1>
+	  <div class="panel"
+	       id="panel-{{$index}}"
+	       ng-include="panel.page">
+	  </div>
+	</div>
+      
+	<div id="footer">
+	 Initiated with love and care by Mathieu Lagrange 
+<br>
+ Contact: <a href="mailto:explanes@googlegroups.com">explanes@googlegroups.com</a>
+<br>
+with support from the <a href="http://www.cnrs.fr">CNRS</a>.
+<br>
+<a href="http://www.cnrs.fr"><img height="72" src="web/images/cnrsLogo.png"></a>
+	</div>
+      </div>
+    </div>
+  </body>
+</html>

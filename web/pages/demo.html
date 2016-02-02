@@ -1,0 +1,20 @@
+<p style="text-align:center">Four example projects are included with the expLanes distribution:</p>
+<div class="carousel demoCarousel" ng-controller="DemosController">
+  <p class="demoLinks">
+    <span class="demoLink" ng-class="{bold:0==currentDemo}" ng-click="currentDemo=0">Distances</span>&mdash;
+    <span class="demoLink" ng-class="{bold:1==currentDemo}" ng-click="currentDemo=1">Clustering</span>&mdash;
+    <span class="demoLink" ng-class="{bold:2==currentDemo}" ng-click="currentDemo=2">Classification</span>&mdash;
+    <span class="demoLink" ng-class="{bold:3==currentDemo}" ng-click="currentDemo=3">Audio source separation</span>
+  </p>
+  <div class="carouselArrow carouselLeftArrow" ng-show="currentDemo != 0" ng-click="currentDemo = currentDemo-1"></div>
+  <div class="carouselArrow carouselRightArrow" ng-show="currentDemo != 3" ng-click="currentDemo = currentDemo+1"></div>
+  <div class="slideContainer demoSlideContainer">
+    <div class="slide demoSlide" ng-repeat="demo in demos" ng-style="{left:(900*($index-currentDemo))+'px'}">
+      <h3>{{demo.title}}</h3>
+      <p><a ng-href="{{demo.url}}">{{demo.url}}</a></p>
+      <div class="demoInclude" ng-include="'pages/'+demo.html"></div>
+      <h4>Experiment report:</h4>
+      <iframe style="width:800px; height:600px" ng-src="{{demo.pdf}}"></iframe>
+    </div>
+  </div>
+</div>

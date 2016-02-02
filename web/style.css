@@ -1,0 +1,333 @@
+
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+body {
+    font-family: Helvetica, Arial, sans serif;
+    font-size: 12px;
+    background-color: #eeeeee;
+    color: #540;
+    line-height: 180%;
+}
+
+div.panel {
+    width: 100%;
+    background-color: #fefefe;
+    color: black;
+    padding: 15px;
+    font-size: 16px;
+}
+
+div#footer {
+    color: #777;
+    margin-top: 30px;
+    text-align: center;
+}
+
+div#menu {
+    text-align: center;
+    background-color: #eeeeee;
+    left: 0px;
+    width: 100%;
+    padding: 10px;
+    z-index: 100;
+    height: auto;
+}
+
+div#page {
+    width: 960px;
+    margin: auto;
+    margin-top: 230px;
+    //overflow: hidden;
+}
+
+div#top {
+    width: 100%;
+    position: absolute;
+    top: 10px;
+    left: 0px;
+    text-align: center;
+    margin-top: 40px;
+    font-family: 'Libre Baskerville';
+}
+
+div#top h2 {
+    margin-top: 0px;
+    position: relative;
+}
+
+/*
+div#profile {
+    height: 300px;
+    background-color: #44a;
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 50px;
+    box-shadow: 0 0 3px 3px rgba(0, 0, 0, .1);
+}
+*/
+
+div.carousel {
+    position: relative;
+    width: 960px;
+    margin: auto;
+}
+
+div.carouselArrow {
+    position: absolute;
+    top: 132px;
+    width: 24px;
+    height: 36px;
+    opacity: 0.6;
+    transition: opacity 0.1s;
+    cursor: pointer;
+    z-index: 10;
+}
+
+div.carouselArrow:hover {
+    opacity: 0.8;
+}
+
+div.carouselLeftArrow {
+    left: 28px;
+    background: url(images/l-arrow.png);
+}
+
+div.carouselRightArrow {
+    left: 908px;
+    background: url(images/r-arrow.png);
+}
+
+div.slideContainer {
+    position: absolute;
+    left: 80px;
+    top: 0px;
+    width: 800px;
+    overflow: hidden;
+}
+
+div.profileCarousel {
+    height: 370px;
+}
+
+div.profileSlideContainer {
+    height: 300px;
+}
+
+div.slide {
+    position: absolute;
+    top: 0px;
+    width: 800px;
+    transition: left 0.5s;
+    overflow: hidden;
+}
+
+div.profileSlide {
+    height: 300px;
+}
+
+div.profileSlide img {
+    position: absolute;
+    top: 0px;
+}
+
+div.profileThumbnails {
+    position: absolute;
+    top: 320px;
+    left: 395px;
+    height: 48px;
+    width: 170px;
+}
+
+div.profileThumbnails img {
+    width: 32px;
+    height: 32px;
+    float: left;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: all .5s;
+    margin-top: 8px;
+}
+
+div.profileThumbnails img.big {
+    width: 48px;
+    height: 48px;
+    margin-top: 0px;
+}
+
+div.profileTitle {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    font-size: 24px;
+    color: #222;
+    transition: opacity 0.7s;
+}
+
+div.bullet {
+    position: absolute;
+    transition: all 0.5s;
+    color: #eee;
+    text-align: left;
+    background-color: rgba(0, 0, 0, .8);
+    padding: 3px;
+    border-radius: 3px;
+}
+
+div#tabs {
+    width: 100%;
+    overflow: hidden;
+    background-color: #cb8;
+    border: 1px dashed #750;
+    border-right: none;
+}
+
+div.tab {
+    float: left;
+    width: 20%;
+    cursor: pointer;
+    background-color: #cb8;
+    color: #430;
+    text-align: center;
+    height: 40px;
+    line-height: 40px;
+    vertical-align: middle;
+    font-size: 15px;
+    font-family: 'Libre Baskerville';
+    border-right: 1px dashed #750;
+}
+
+div.tab:hover {
+    background-color: #edc;
+}
+
+div.tab.selected {
+    background-color: #dcb;
+}
+
+div#textPanels {
+    margin-top: 20px;
+    clear: both;
+    position: relative;
+    width: 4800px;
+    transition: left 0.2s;
+}
+
+div#menu div {
+    display: inline;
+    width: auto;
+    padding: 10px;
+    padding-left: 80px;
+    padding-right: 80px;
+}
+
+div#menu a {
+    margin-left: 15px;
+    margin-right: 15px;
+    text-decoration: none;
+    color: #540;
+    font-family: 'Libre Baskerville';
+    font-size; 15px;
+}
+
+div.normalMenu {
+    position: absolute;
+    top: 180px;
+}
+
+div.fixedMenu {
+    position: fixed;
+    top: 0px;
+    box-shadow: 0 0 3px 3px rgba(0, 0, 0, .2);
+}
+
+div.fixedMenu div {
+    background:url(images/logo.png);
+    background-size: contain;
+    background-position: 25px;
+    background-repeat: no-repeat;
+}
+
+.anchor {
+    position: relative;
+}
+
+.anchor a {
+    position: absolute;
+    top: -50px;
+}
+
+h1 {
+    position: relative;
+    left: -20px;
+    font-family: 'Libre Baskerville';
+    text-align: left;
+    margin-top: 30px;
+}
+
+div.panel li {
+    margin-top: 15px;
+}
+
+div.demoCarousel {
+    height: 820px;
+    margin-top: 15px;
+}
+
+p.demoLinks {
+    text-align: center;
+    vertical-align: middle;
+    height: 25px;
+    width: 100%;
+    color: #540;
+}
+
+span.demoLink {
+    cursor: pointer;
+    margin-left: 15px;
+    margin-right: 15px;
+    width: 200px;
+}
+
+span.demoLink:hover {
+    text-decoration: underline;
+}
+
+div.demoSlideContainer {
+    height: 775px;
+    top: 45px;
+}
+
+div.demoSlide {
+    height: 775px;
+}
+
+div.demoCarousel h3 {
+    margin: 0px;
+    height: 35px;
+}
+
+div.demoCarousel p {
+    margin: 0px;
+    height: 30px;
+}
+
+div.demoCarousel div.demoInclude {
+    height: 80px;
+}
+
+div.demoCarousel h4 {
+    margin: 0px;
+    height: 30px;
+}
+
+div.demoCarousel iframe {
+    margin: 0px;
+}
+
+.bold {
+    font-weight: bold;
+}
