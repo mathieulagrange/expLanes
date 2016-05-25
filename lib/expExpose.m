@@ -208,7 +208,7 @@ if ~isempty(p.mask) && ~isequal(p.mask, config.mask)
 end
 if ~isempty(p.design)
     config.design = p.design;
-   config = expDesign(config);
+    config = expDesign(config);
 end
 
 if ~iscell(p.marker)
@@ -251,7 +251,7 @@ if ~isempty(exposeType)
 end
 
 if ~p.percent
-   p.percent = 1:length(p.obs);
+    p.percent = 1:length(p.obs);
 end
 
 if  ~isfield(config, 'evaluation') || isempty(config.evaluation) || isempty(config.evaluation.data)  || sum(cellfun(@isempty,config.evaluation.data))== length(config.evaluation.data)
@@ -266,25 +266,22 @@ else
     if ~p.obs
         p.obs = 1:length(config.evaluation.observations);
     end
-%     if length(p.obs) > length(p.precision)
-        p.precision = [p.precision*ones(1, length(config.evaluation.observations))];
-%     end
+    %     if length(p.obs) > length(p.precision)
+    p.precision = [p.precision*ones(1, length(config.evaluation.observations))];
+    %     end
     evaluationObservations = config.evaluation.observations;
+    
+    if ~isempty(evaluationObservations)
+        evaluationObservations = evaluationObservations(p.obs);
+    end
     if p.percent ~= -1
         for k=1:length(p.percent)
-           p.precision(p.percent(k)) = max(p.precision(p.percent(k))-2, 0);
+            p.precision(p.percent(k)) = max(p.precision(p.percent(k))-2, 0);
         end
         if p.percent==0
             p.percent = 1:length(evaluationObservations);
         end
-        for k=1:length(p.percent)
-            if p.percent(k) <= length(evaluationObservations)
-                evaluationObservations{p.percent(k)} =  [evaluationObservations{p.percent(k)} ' (%)'];
-            end
-        end
-    end
-    if ~isempty(evaluationObservations)
-        evaluationObservations = evaluationObservations(p.obs);
+      
     end
     
     if p.shortObservations == 0
@@ -315,20 +312,28 @@ else
             p.expand = expandName{1};
         end
         config = expOrder(config, order);
-%         p.orderFactor = order;
+        %         p.orderFactor = order;
         % sort data and settings
     end
     
     if any(p.percent>0)
-        observations = config.evaluation.observations;
+        %         observations = config.evaluation.observations;
         for k=1:length(p.percent)
             for m=1:length(config.evaluation.results)
-                if ~isempty(config.evaluation.results{m}) && all(config.evaluation.results{m}.(observations{p.percent(k)})<=1)
-                    config.evaluation.results{m}.(observations{p.percent(k)}) = 100*config.evaluation.results{m}.(observations{p.percent(k)});
+                if ~isempty(config.evaluation.results{m}) && all(config.evaluation.results{m}.(evaluationObservations{p.percent(k)})<=1)
+                    config.evaluation.results{m}.(evaluationObservations{p.percent(k)}) = 100*config.evaluation.results{m}.(evaluationObservations{p.percent(k)});
                 end
             end
         end
+        
+        for k=1:length(p.percent)
+            if p.percent(k) <= length(evaluationObservations)
+                evaluationObservations{p.percent(k)} =  [evaluationObservations{p.percent(k)} ' (%)'];
+            end
+        end
     end
+    
+    
     
     if strcmp(p.show, 'Best')
         p.highlight = 0;
@@ -346,8 +351,8 @@ else
     
     if p.expand,
         if p.integrate,
-           fprintf(2, 'Combined use of integrate and expand is currently not supported.\n');
-           return,
+            fprintf(2, 'Combined use of integrate and expand is currently not supported.\n');
+            return,
         end
         if (isnumeric(p.expand) && length(p.expand)>1) || iscell(p.expand), fprintf(2, 'Please choose only one factor to expand.\n'); return; end
         [config, p.expand, p.expandName] = expModifyExposition(config, p.expand);
