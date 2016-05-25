@@ -98,12 +98,17 @@ res = system(['pdflatex ' texFileName silentString]); %
 cd(oldFolder);
 if ~res
     copyfile([texFileName(1:end-4) '.pdf'], pdfFileName);
-    disp(['figure available: ', pdfFileName])
+    try
+    system(['convert ' pdfFileName ' ' pdfFileName(1:end-3) 'png']);
+    catch
+       fprintf(2, 'unable to convert pdf file to png using IM convert.'); 
+    end
+    disp(['figure available: ', pdfFileName]);
 else
     return
 end
 if show
-           expShowPdf(config, pdfFileName);
+    expShowPdf(config, pdfFileName);
 end
 
 function functionCell = displayNode(config, factorIndex, stepId, style, infoType)

@@ -290,6 +290,9 @@ if config.sendMail>0
 elseif strfind(config.report, 'c')
     config = expTex(config, config.report);
 end
+if ~isempty(config.report)
+    config = expHtml(config);
+end
 if ~isempty(config.waitBar)
     delete(config.waitBar);
 end
