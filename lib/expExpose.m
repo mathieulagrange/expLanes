@@ -281,7 +281,7 @@ else
         if p.percent==0
             p.percent = 1:length(evaluationObservations);
         end
-      
+        
     end
     
     if p.shortObservations == 0
@@ -685,6 +685,16 @@ end
 if any(p.put==[0 2])
     config = expDisplay(config, p);
 end
+
+if exist('data', 'var')
+    p.put=3;
+    c = exposeTable(config, data, p);
+    json.data = c.displayData.cellData;
+    json.p = p;
+    htmlPath = [config.reportPath 'html/'];
+    savejson('', json, [htmlPath  'test.json']);
+end
+
 if p.save ~= 0
     if ischar(p.save)
         name = p.save;

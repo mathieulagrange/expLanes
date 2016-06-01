@@ -33,6 +33,9 @@ end
 if ~exist(config.reportPath, 'dir')
     mkdir(config.reportPath);
 end
+if ~exist([config.reportPath 'html'], 'dir')
+    mkdir([config.reportPath 'html']);
+end
 
 % logFileName = [config.reportPath 'logs/config.txt'];
 % config.logFile = fopen(logFileName, 'w');

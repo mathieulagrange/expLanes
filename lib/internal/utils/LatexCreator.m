@@ -130,8 +130,8 @@ CONSTRUCTOR(varargin{:});
     function CONSTRUCTOR(tex_file, keep, author_name, title, projectName, template, noFigDir, slides, noFlag)
         
         Data.TexFn=tex_file;
-        if nargin>2, Data.author=author_name; end
-        if nargin>3, Data.title=title; end
+        if nargin>2, Data.author=strrep(author_name, '_', '\_'); end
+        if nargin>3, Data.title=strrep(title, '_', '\_'); end
         if nargin<6, template=1; end
         if nargin<7, noFigDir=0; end
         if nargin<8, slides=0; end
@@ -141,7 +141,7 @@ CONSTRUCTOR(varargin{:});
         TmpCell=strread(Data.TexFn,'%s','delimiter','/');
         LengthStr=length(TmpCell);
         
-        Data.projectName = projectName;
+        Data.projectName = strrep(projectName, '_', '\_');
         Data.style = slides;
         if LengthStr == 0, disp('LatexCreator() Error : Bad file name argument'); return ; end
         

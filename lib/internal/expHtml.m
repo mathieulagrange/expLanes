@@ -41,6 +41,7 @@ for k=config.displayData.style
         % add table
         %        config.latex.addTable(config.displayData.table(t).table, 'caption', config.displayData.table(t).caption, 'multipage', config.displayData.table(t).multipage, 'landscape', config.displayData.table(t).landscape, 'label', config.displayData.table(t).label, 'fontSize', config.displayData.table(t).fontSize, 'nbFactors', config.displayData.table(t).nbFactors);
         t=t+1;
+       
     else
         % add figure
         if config.displayData.figure(l).taken && config.displayData.figure(l).report
