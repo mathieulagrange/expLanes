@@ -19,7 +19,7 @@ for k=1:length(files)
             dataTime(end+1) = file.datenum;
             end
         end
-        if isequal(loadedData.vSet, config.step.set) && modReduce.datenum > modFactors.datenum && modReduce.datenum > max(dataTime)
+        if ~isempty(dataTime) && isequal(loadedData.vSet, config.step.set) && modReduce.datenum > modFactors.datenum && modReduce.datenum > max(dataTime)
             loadedData=load(reduceFileName, 'data');
             data = loadedData.data;
         end

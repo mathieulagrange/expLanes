@@ -130,8 +130,8 @@ CONSTRUCTOR(varargin{:});
     function CONSTRUCTOR(tex_file, keep, author_name, title, projectName, template, noFigDir, slides, noFlag)
         
         Data.TexFn=tex_file;
-        if nargin>2, Data.author=author_name; end
-        if nargin>3, Data.title=title; end
+        if nargin>2, Data.author=strrep(author_name, '_', '\_'); end
+        if nargin>3, Data.title=strrep(title, '_', '\_'); end
         if nargin<6, template=1; end
         if nargin<7, noFigDir=0; end
         if nargin<8, slides=0; end
@@ -141,7 +141,7 @@ CONSTRUCTOR(varargin{:});
         TmpCell=strread(Data.TexFn,'%s','delimiter','/');
         LengthStr=length(TmpCell);
         
-        Data.projectName = projectName;
+        Data.projectName = strrep(projectName, '_', '\_');
         Data.style = slides;
         if LengthStr == 0, disp('LatexCreator() Error : Bad file name argument'); return ; end
         
@@ -608,7 +608,6 @@ CONSTRUCTOR(varargin{:});
         
         
         LocalFig2eps(h,[ Data.Dir '/figures/Fig' num2str(Data.figure_number) '.pdf' ]);
-        saveas(h,[ Data.Dir '/figures/Fig' num2str(Data.figure_number) '.fig' ], 'fig');
         
         Data.tex=[];
         Data.tex{end+1}=' ';
@@ -651,7 +650,7 @@ CONSTRUCTOR(varargin{:});
             
             
             LocalFig2eps(H_v(i),[ Data.Dir '/figures/Fig' num2str(Data.figure_number) '.pdf' ]);
-            saveas(H_v(i),[ Data.Dir '/figures/Fig' num2str(Data.figure_number) '.fig' ], 'fig');
+         %   saveas(H_v(i),[ Data.Dir '/figures/Fig' num2str(Data.figure_number) '.fig' ], 'fig');
             
             
         end
@@ -952,58 +951,7 @@ CONSTRUCTOR(varargin{:});
 
 end % END LatexCreator
 
-function LocalFig2eps(varargin)
 
-if(nargin==1)
-    
-    file_name=varargin{1};
-    h=gcf;
-    
-    
-elseif nargin==2
-    
-    
-    h=varargin{1};
-    file_name=varargin{2};
-else
-    error('Arg error');
-end
-
-%     resolution=get(0,'ScreenPixelsPerInch');
-
-
-
-set(h,'Units','centimeters');
-set(h,'PaperUnits','centimeters');
-
-Position=get(h,'Position');
-
-
-Lx=Position(3);
-Ly=Position(4);
-
-
-
-set(h,'PaperSize',[Lx Ly]);
-set(h,'PaperPosition',[0 0 Lx Ly]);
-
-
-
-print( h, '-dpdf', file_name )
-print( h, '-dpng', strrep(file_name, '.pdf', '.png'))
-
-
-set(h,'Units','points');
-
-PosPoint=get(h,'Position');
-set(h,'Units','centimeters');
-PosPoint(1:2)=0;
-
-%     FastEPSResize(file_name,PosPoint);
-
-
-
-end
 
 function Data=FastEPSResize(epsfile,Position_pts_v)
 

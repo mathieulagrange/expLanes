@@ -27,7 +27,7 @@ deselect = vSpec.deselectFactors;
 for k=1:length(deselect)
     c = regexp(deselect{k}, '/', 'split');  
     
-   deselect{k} = [num2str(io(str2num(c{1}))) '/-' c{2} '/' num2str(io(str2num(c{3})))]; 
+   deselect{k} = [num2str(io(str2num(c{1}))) '/-' c{2} '/[' num2str(io(str2num(c{3}))) ']']; 
     if length(c)==4
         deselect{k} = [deselect{k}  '/' c{4}];
     end

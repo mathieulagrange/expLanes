@@ -33,6 +33,9 @@ end
 if ~exist(config.reportPath, 'dir')
     mkdir(config.reportPath);
 end
+if ~exist([config.reportPath 'html'], 'dir')
+    mkdir([config.reportPath 'html']);
+end
 
 % logFileName = [config.reportPath 'logs/config.txt'];
 % config.logFile = fopen(logFileName, 'w');
@@ -289,6 +292,9 @@ if config.sendMail>0
     expSendMail(config, 2);
 elseif strfind(config.report, 'c')
     config = expTex(config, config.report);
+end
+if ~isempty(config.report)
+    config = expHtml(config);
 end
 if ~isempty(config.waitBar)
     delete(config.waitBar);
