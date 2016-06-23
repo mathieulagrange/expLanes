@@ -11,7 +11,7 @@ if config.probe
 end
 if isempty(config.factors)
     config.mask = {{}};
-elseif~expCheckMask(config.factors, config.mask)
+elseif~expCheckMask(config.factors, config.mask) || strcmp(commands{1},'report')
     mask = cell(1, length(config.factors.names));
     [mask{:}] = deal(-1);
     config.mask = {mask};

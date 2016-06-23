@@ -1,8 +1,5 @@
 function expSaveTable(fileName, table)
 
-latex = LatexCreator(fileName, 0, '', '', '', 0, 1, 0, 1);
-
-latex.addTable(table.table, 'caption', table.caption, 'multipage', table.multipage, 'landscape', table.landscape, 'label', table.label, 'fontSize', table.fontSize, 'nbFactors', table.nbFactors)
 
 latex = LatexCreator([fileName(1:end-4), 'Tabular.tex'], 0, '', '', '', 0, 1, 0, 1);
 
