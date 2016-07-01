@@ -686,63 +686,8 @@ if any(p.put==[0 2])
     config = expDisplay(config, p);
 end
 
-% TODO put in expHtml
-if exist('data', 'var')
-    currentDisplay = length(config.displayData.table);
-    if ~isempty(config.displayData.figure)
-        currentDisplay  = currentDisplay + sum([config.displayData.figure(:).taken]~=0);
-    end
-    % save data in json format
-    tp=p; tp.put=3;
-    c = exposeTable(config, data, tp);
-    da.rows = c.displayData.cellData;
-    da.cols = p.columnNames;
-    da.p = p;
-    tablePath = ['html/' config.reportName num2str(currentDisplay)  '.json'];
-    %savejson('', json, [config.reportPath tablePath]);
-    
-    % save data in tex format
-    tp.put=2;
-    c = exposeTable(config, data, tp);
-    latex = LatexCreator('/tmp/toto.tex', 0, '', '', '', 0, 1, 0, 1);
-    if ~isempty(c.displayData.table)
-        table = c.displayData.table(end);
-        latex.addTable(table.table, 'caption', table.caption, 'multipage', table.multipage, 'landscape', table.landscape, 'label', table.label, 'fontSize', table.fontSize, 'nbFactors', table.nbFactors)
-        getLatex = latex.get();
-        da.tex = getLatex.tex;
-        
-        
-        % save data in matlab format
-        save([config.reportPath tablePath(1:end-4) 'mat'], 'data', 'p');
-        
-        % save figure
-        if p.put == 1
-            expSaveFig([config.reportPath tablePath(1:end-5)], gcf);
-            da.figure = [tablePath(1:end-4) 'png'];
-            da.figureType = exposeType;
-        else
-            da.figure = '';
-            da.figureType = '';
-        end
-        da.sortType = '';
-        da.show = 0;
-        da.caption = table.caption;
-        config.html.title = config.reportName;
-        config.html.author = config.completeName;
-        config.html.date = date();
-        
-        config.html.tables{end+1} = da;
-        data = config.html;
-        savejson('', data, [config.reportPath 'html/' config.reportName '.js']);
-        
-        jsFile=fopen([config.reportPath 'html/' config.reportName '.js']);
-        jsCell = {'var data = '};
-        while ~feof(jsFile)
-            jsCell{end+1} = fgetl(jsFile);
-        end
-        fclose(jsFile);
-        dlmwrite([config.reportPath 'html/' config.reportName '.js'], jsCell,'delimiter','');
-    end
+if exist('data', 'var') && any(strfind(config.report, 'h'))
+ config = expHtml(config, data, p, exposeType);
 end
 
 if p.save ~= 0

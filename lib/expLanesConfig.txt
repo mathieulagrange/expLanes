@@ -116,7 +116,7 @@ displayFontSize = 16
 
 %% REPORT
 
-% generate report: combination of r (run report), c (LaTeX compilation), and d (debug output)
+% generate report: combination of r (run report), h (generate HTML output), c (LaTeX compilation), d (debug LaTeX output) and v (open report)
 report = 
 % name of report to compile: empty (default), if containing the word <slides> or <Slides>,  beamer presentation mode is used
 reportName =

@@ -199,7 +199,7 @@ functionString = char({...
     ['% Copyright: ' config.completeName];
     ['% Date: ' date()];
     '';
-    ['if nargin==0, ' , experimentName '(''report'', ''r''); return; end'];
+    ['if nargin==0, ' , experimentName '(''report'', ''rhv''); return; end'];
     '';
     ['config = expExpose(config, ''t'');'];
     });

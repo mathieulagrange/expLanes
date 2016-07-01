@@ -11,7 +11,7 @@ if config.probe
 end
 if isempty(config.factors)
     config.mask = {{}};
-elseif~expCheckMask(config.factors, config.mask) || strcmp(commands{1},'report')
+elseif~expCheckMask(config.factors, config.mask) % || strcmp(commands{1},'report')
     mask = cell(1, length(config.factors.names));
     [mask{:}] = deal(-1);
     config.mask = {mask};
@@ -32,9 +32,6 @@ if exist(config.logFileName, 'file')
 end
 if ~exist(config.reportPath, 'dir')
     mkdir(config.reportPath);
-end
-if ~exist([config.reportPath 'html'], 'dir')
-    mkdir([config.reportPath 'html']);
 end
 
 % logFileName = [config.reportPath 'logs/config.txt'];
@@ -247,6 +244,23 @@ if strfind(config.report, 'r')
             config = expLog(config, catchedError, 3, 1);
         end
     end
+    if strfind(config.report, 'h')
+        config.html.title = config.reportName;
+        config.html.author = config.completeName;
+        config.html.date = date();
+        data = config.html;
+        htmlDataName = [config.reportPath config.experimentName config.reportName '/data/data.js'];
+        savejson('', data, htmlDataName);
+        
+        jsFile=fopen(htmlDataName);
+        jsCell = {'var data = '};
+        while ~feof(jsFile)
+            jsCell{end+1} = fgetl(jsFile);
+        end
+        fclose(jsFile);
+        dlmwrite(htmlDataName, jsCell,'delimiter','');
+    end
+    
     displayData = config.displayData; %#ok<NASGU>
     save(config.staticDataFileName, 'displayData', '-append');
     if ~strcmp(config.figureCopyPath, config.codePath) && exist(config.figureCopyPath, 'dir')
@@ -292,9 +306,6 @@ if config.sendMail>0
     expSendMail(config, 2);
 elseif strfind(config.report, 'c')
     config = expTex(config, config.report);
-end
-if ~isempty(config.report)
-    config = expHtml(config);
 end
 if ~isempty(config.waitBar)
     delete(config.waitBar);
