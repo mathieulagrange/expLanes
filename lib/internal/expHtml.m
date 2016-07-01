@@ -20,6 +20,7 @@ if ~exist(reportPath, 'dir')
     copyfile([fileparts(mfilename('fullpath')) filesep 'utils/expReport.css'], reportPath);
     copyfile([fileparts(mfilename('fullpath')) filesep 'utils/comments.js'], reportPath);
     copyfile([fileparts(mfilename('fullpath')) filesep 'utils/index.html'], reportPath);
+    copyfile([fileparts(mfilename('fullpath')) filesep 'utils/logo.png'], reportPath);
 end
 
 % save data in tex format
