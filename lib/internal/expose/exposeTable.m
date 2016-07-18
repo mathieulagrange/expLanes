@@ -97,9 +97,16 @@ switch p.put
             config.displayData.cellData = config.displayData.cellData';
         end
     case 3
+        for k=1:length(p.columnNames)
+            if ~isempty(str2num(p.columnNames{k}))
+                fieldNames{k} = ['o' p.columnNames{k}];
+            else
+                fieldNames{k} = p.columnNames{k};
+            end
+        end
         for k=1:size(dataCell, 1)
             for m=1:size(dataCell, 2)
-                sData{k}.(p.columnNames{m}) = dataCell{k, m};
+                sData{k}.(fieldNames{m}) = dataCell{k, m};
             end
         end
         config.displayData.cellData = sData;

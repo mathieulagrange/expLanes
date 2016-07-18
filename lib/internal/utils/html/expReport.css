@@ -23,6 +23,12 @@
   font-size: 1em;
 }
 
+.texData {
+    border: 2px solid;
+    border-color: rgba(255, 255, 255); 
+    padding-left: 10px;
+}
+
 .latex sup {
   font-size: 0.85em;
   vertical-align: 0.15em;
@@ -34,17 +40,15 @@
     position: relative; 
 }
 
-#comment:hover #hover-comment {
-    opacity: 1;
-    display:block;
-}
 
 .report {
-    padding: 20px;
+    padding: 20px; 
+    line-height: 5px;
 }
 
 .comment {
-    padding: 10px;
+    padding: 10px; 
+    line-height: 5px;
 }
 
 div.overlay {

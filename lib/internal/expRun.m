@@ -245,7 +245,12 @@ if strfind(config.report, 'r')
         end
     end
     if strfind(config.report, 'h')
-        config.html.title = config.reportName;
+        if isempty(config.reportName)
+            reportName = config.experimentName;
+        else
+            reportName = config.reportName;
+        end
+        config.html.title = [upper(reportName(1)), reportName(2:end)];
         config.html.author = config.completeName;
         config.html.date = date();
         data = config.html;
@@ -259,6 +264,9 @@ if strfind(config.report, 'r')
         end
         fclose(jsFile);
         dlmwrite(htmlDataName, jsCell,'delimiter','');
+         if strfind(config.report, 'v')
+             web([config.reportPath config.experimentName config.reportName '/index.html'], '-browser');
+         end
     end
     
     displayData = config.displayData; %#ok<NASGU>

@@ -9,6 +9,13 @@ tp=p; tp.put=3;
 c = exposeTable(config, data, tp);
 table.rows = c.displayData.cellData;
 table.cols = p.columnNames;
+for k=1:length(p.columnNames)
+    if ~isempty(str2num(table.cols{k}))
+        table.cols{k} = ['o' table.cols{k}];
+    else
+        table.cols{k} = table.cols{k};
+    end
+end
 table.p = p;
 reportPath = [config.reportPath config.experimentName config.reportName '/'];
 
@@ -16,31 +23,29 @@ if ~exist(reportPath, 'dir')
     mkdir(reportPath);
     mkdir([reportPath '/figures']);
     mkdir([reportPath '/data']);
-    copyfile([fileparts(mfilename('fullpath')) filesep 'utils/expReport.js'], reportPath);
-    copyfile([fileparts(mfilename('fullpath')) filesep 'utils/expReport.css'], reportPath);
-    copyfile([fileparts(mfilename('fullpath')) filesep 'utils/comments.js'], reportPath);
-    copyfile([fileparts(mfilename('fullpath')) filesep 'utils/index.html'], reportPath);
-    copyfile([fileparts(mfilename('fullpath')) filesep 'utils/logo.png'], reportPath);
+    copyfile([fileparts(mfilename('fullpath')) filesep 'utils/html'], [reportPath '/internal']);
+    movefile([reportPath 'internal/index.html'], reportPath);
+    movefile([reportPath 'internal/comments.js'], reportPath);
 end
 
 % save data in tex format
 tp.put=2;
 c = exposeTable(config, data, tp);
 if ~isempty(c.displayData.table)
-    table = c.displayData.table(end);
+    currentTable = c.displayData.table(end);
     
     latex = LatexCreator([reportPath 'data/table' num2str(currentDisplay)  '.tex'], 0, '', '', '', 0, 1, 0, 1);
-    latex.addTable(table.table, 'caption', table.caption, 'multipage', table.multipage, 'landscape', table.landscape, 'label', table.label, 'fontSize', table.fontSize, 'nbFactors', table.nbFactors)
+    latex.addTable(currentTable.table, 'caption', currentTable.caption, 'multipage', currentTable.multipage, 'landscape', currentTable.landscape, 'label', currentTable.label, 'fontSize', currentTable.fontSize, 'nbFactors', currentTable.nbFactors)
     getLatex = latex.get();
     table.tex = getLatex.tex;
-   
+    table.caption = currentTable.caption;
     % save data in matlab format
     save([reportPath 'data/table' num2str(currentDisplay) '.mat'], 'data', 'p');
     
     % save figure
     if p.put == 1 && ~strcmp(exposeType, 'exposeTable')
         expSaveFig([reportPath 'figures/' num2str(currentDisplay)], gcf);
-        table.figure = [reportPath 'figures/' num2str(currentDisplay) 'png'];
+        table.figure = [reportPath 'figures/' num2str(currentDisplay) '.png'];
         table.figureType = exposeType;
     else
         table.figure = '';
