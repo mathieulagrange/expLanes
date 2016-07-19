@@ -31,6 +31,7 @@ end
 % save data in tex format
 tp.put=2;
 c = exposeTable(config, data, tp);
+c = expDisplay(c, tp);
 if ~isempty(c.displayData.table)
     currentTable = c.displayData.table(end);
     

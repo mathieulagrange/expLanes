@@ -264,8 +264,10 @@ if strfind(config.report, 'r')
         end
         fclose(jsFile);
         dlmwrite(htmlDataName, jsCell,'delimiter','');
+        htmlReportName = [config.reportPath config.experimentName config.reportName '/index.html'];
+        fprintf('The html report is available: %s\n', htmlReportName);
          if strfind(config.report, 'v')
-             web([config.reportPath config.experimentName config.reportName '/index.html'], '-browser');
+             web(htmlReportName, '-browser');
          end
     end
     
