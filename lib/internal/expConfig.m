@@ -157,8 +157,10 @@ if ~exist(config.tmpPath, 'dir')
     mkdir(config.tmpPath);
 end
 
+if isempty(config.dataPath), config.dataPath = [fileparts(which(config.experimentName)) '/data']; end
+
 if isempty(config.obsPath), config.obsPath = config.dataPath; end
-if isempty(config.codePath), config.codePath = pwd; end
+if isempty(config.codePath), config.codePath = fileparts(which(config.experimentName)); end
 
 if iscell(config.codePath)
     if length(config.codePath)>=config.hostGroup
@@ -174,11 +176,11 @@ if ~isempty(experimentPath)
     config.experimentPath = experimentPath;
 end
    
-if strcmp(config.localHostName, expGetMachineName(config, config.host)) && ...
-         strcmp(config.localHostName, expGetMachineName(config, config.host)) && ...
-   ~strcmp(strrep(config.experimentPath, '\', '/'), strrep(fileparts(which(config.experimentName)), '\', '/'))
-    fprintf(2, 'The codePath in your configuration file may be wrong.\n');
-end
+%if strcmp(config.localHostName, expGetMachineName(config, config.host)) && ...
+%         strcmp(config.localHostName, expGetMachineName(config, config.host)) && ...
+%   ~strcmp(strrep(config.experimentPath, '\', '/'), strrep(fileparts(which(config.experimentName)), '\', '/'))
+%    fprintf(2, 'The codePath in your configuration file may be wrong.\n');
+%end
 
 config = expandPath(config, config.experimentPath);
 

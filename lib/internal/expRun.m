@@ -46,9 +46,9 @@ if config.export ~= 0
 end
 
 if ~isempty(config.clean)
-%     if iscell(config.clean)
-%         config.clean = config.clean{1};
-%     end
+    %     if iscell(config.clean)
+    %         config.clean = config.clean{1};
+    %     end
     if ischar(config.clean)
         if length(config.clean) == 1
             switch config.clean
@@ -62,10 +62,10 @@ if ~isempty(config.clean)
                     dirPath = config.dataPath;
                     info = 'all steps directories while keeping data of reachable settings starting from';
                 otherwise
-                        config.clean = {config.clean config.host};
-                        dirPath = [];
-%                     fprintf(2, 'Mono letter non numeric string input for clean can be: t (expLanes temporary data directory), b (experiment backup directory), \n k (all steps directories while keeping data of reachable settings). \n');
-%                     return
+                    config.clean = {config.clean config.host};
+                    dirPath = [];
+                    %                     fprintf(2, 'Mono letter non numeric string input for clean can be: t (expLanes temporary data directory), b (experiment backup directory), \n k (all steps directories while keeping data of reachable settings). \n');
+                    %                     return
             end
             if ~isempty(dirPath) && inputQuestion(['Cleaning ' info ': ' dirPath(1:end-1)])
                 switch config.clean
@@ -266,9 +266,9 @@ if strfind(config.report, 'r')
         dlmwrite(htmlDataName, jsCell,'delimiter','');
         htmlReportName = [config.reportPath config.experimentName config.reportName '/index.html'];
         fprintf('The html report is available: %s\n', htmlReportName);
-         if strfind(config.report, 'v')
-             web(htmlReportName, '-browser');
-         end
+        if strfind(config.report, 'v')
+            web(htmlReportName, '-browser');
+        end
     end
     
     displayData = config.displayData; %#ok<NASGU>
@@ -284,16 +284,18 @@ if strfind(config.report, 'r')
         end
     end
 else
-    vars = whos('-file', config.staticDataFileName);
-    if ismember('displayData', {vars.name})
-        data = load(config.staticDataFileName, 'displayData');
-        prompt = [];
-        if ~isempty(config.displayData.prompt)
-            prompt = config.displayData.prompt;
-        end
-        config.displayData = data.displayData;
-        if ~isempty(prompt)
-            config.displayData.prompt = prompt ;
+    if exist(config.staticDataFileName, 'file')
+        vars = whos('-file', config.staticDataFileName);
+        if ismember('displayData', {vars.name})
+            data = load(config.staticDataFileName, 'displayData');
+            prompt = [];
+            if ~isempty(config.displayData.prompt)
+                prompt = config.displayData.prompt;
+            end
+            config.displayData = data.displayData;
+            if ~isempty(prompt)
+                config.displayData.prompt = prompt ;
+            end
         end
     end
 end
@@ -308,7 +310,7 @@ if config.readMe
     for k=1:length(toolboxes)
         fprintf(fid, '   - %s\n', toolboxes(k).feature);
     end
-    fclose(fid);    
+    fclose(fid);
     fprintf('The README.txt file has been updated with information about replication of this experiment.\n');
 end
 

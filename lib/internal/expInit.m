@@ -129,12 +129,13 @@ if ~isempty(strfind(lastCommand, ''''))
     
     historyFileName = expandHomePath([config.codePath 'config' filesep config.shortExperimentName 'History' upper(config.userName(1)) config.userName(2:end) '.txt']);
     fid = fopen(historyFileName, 'w');
-    if fid == -1, error(['Unable to open ' historyFileName]); end
-    
+    if fid == -1, fprintf(2, ['Unable to open ' historyFileName]); 
+    else
     for k=1:length(commands)
         fprintf(fid, '%s\n', commands{k});
     end
     fprintf(fid, '%s\n', lastCommand);
+    end
     fclose(fid);
 end
 
