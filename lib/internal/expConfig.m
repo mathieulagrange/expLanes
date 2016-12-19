@@ -98,7 +98,7 @@ config.localHostName = strrep(config.localHostName, '.local', '');
 % disp(['detectedHostName: ' config.localHostName]);
 config.hostName = config.localHostName;
 config = expDesign(config);
-if ~isempty(config.machineNames) && ~iscell(config.machineNames{1})
+if ~isempty(config.machineNames) % && ~iscell(config.machineNames{1})
     config.machineNames = {config.machineNames};
 end
 
@@ -158,6 +158,7 @@ if ~exist(config.tmpPath, 'dir')
 end
 
 if isempty(config.obsPath), config.obsPath = config.dataPath; end
+if isempty(config.codePath), config.codePath = pwd; end
 
 if iscell(config.codePath)
     if length(config.codePath)>=config.hostGroup

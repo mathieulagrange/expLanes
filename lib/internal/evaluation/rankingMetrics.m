@@ -21,7 +21,11 @@ if nargin<1
     prediction = prediction+eps;
     %   prediction = squareform(rand(length(labels)*(length(labels)-1)/2, 1));
     prediction = prediction .* abs(1-diag(ones(1, size(prediction, 1))));
+    prediction(1, 2) = 10;
+    prediction(2, 1) = 10;
+   % filter=1:length(labels);
     imagesc(prediction);
+    rank=6;
 end
 if ~exist('filter', 'var') || isempty(filter), filter=1:length(labels); end
 if ~exist('short', 'var') || isempty(short), short = 0; end
