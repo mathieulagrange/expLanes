@@ -67,6 +67,7 @@ function config = expExpose(varargin)
 %       directives as a cell array of commands
 %    'plotAxisProperties': set of command setting the current axis after plotting
 %       directives as a cell array of couple property / value (see axis properties in Matlab documentation)
+%       or string as name of script
 %    'precision': mantissa precision of data as numeric value or array
 %           -1: take value of config field tableDigitPrecision (default)
 %           0: no mantissa
@@ -676,7 +677,11 @@ else
 end
 
 if ~isempty(p.plotAxisProperties)
+    if iscell(p.plotAxisProperties)
     set(gca, p.plotAxisProperties{:});
+    else
+       eval(p.plotAxisProperties);
+    end
 end
 for k=1:length(p.plotCommand)
     eval(p.plotCommand{k});
