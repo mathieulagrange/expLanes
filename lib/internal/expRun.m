@@ -33,6 +33,10 @@ end
 if ~exist(config.reportPath, 'dir')
     mkdir(config.reportPath);
 end
+config.tmpPath = [config.homePath '/.expLanes/tmp/'];
+if ~exist(config.tmpPath, 'dir')
+    mkdir(config.tmpPath);
+end
 
 % logFileName = [config.reportPath 'logs/config.txt'];
 % config.logFile = fopen(logFileName, 'w');
