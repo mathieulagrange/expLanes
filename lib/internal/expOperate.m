@@ -53,7 +53,10 @@ if all(config.do>0) && ~isempty(config.factors)
         end
         if nbWorkers == 0
             if any(abs(config.parallel)>1)
-                parpool('local', max(abs(config.parallel)));
+                myCluster=parcluster('local');
+                N = max(abs(config.parallel));
+                myCluster.NumWorkers=N; 
+                parpool(myCluster,N);
             elseif nbWorkers == 0
                 parpool('local');
             end
