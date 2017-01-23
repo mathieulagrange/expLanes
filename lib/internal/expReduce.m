@@ -12,16 +12,13 @@ for k=1:length(files)
         modReduce = dir(reduceFileName);
         modFactors = dir(config.factorFileName);
         loadedData=load(reduceFileName, 'vSet', 'loadFileNames', 'loadedFileNames');
-      
+        
         
         dataTime = [];
-        disp('start');
         for k=1:length(loadedData.loadedFileNames)
             file=dir(loadedData.loadedFileNames{k});
-            file.name
-            file.date
             if ~isempty(file)
-            dataTime(end+1) = file.datenum;
+                dataTime(end+1) = file.datenum;
             end
         end
         newItems = 0;
@@ -33,7 +30,7 @@ for k=1:length(files)
                 if ~isempty(file)
                     found = found+1;
                 end
-            end           
+            end
             if found > length(loadedData.loadedFileNames)
                 newItems = 1;
             end
@@ -59,12 +56,12 @@ if isempty(data)
         
         [data{k}, dataTimeStamps, config, loadedFileName, loadFileName] = expLoad(config, [], config.step.id, 'obs', [], 0);
         loadedFileNames = [loadedFileNames loadedFileName];
-       loadFileNames = [loadFileNames loadFileName];
+        loadFileNames = [loadFileNames loadFileName];
         %         if ~isempty(config.load)
         %             data{k} = config.load;
         %         else
-%             data{k} = [];
-%         end
+        %             data{k} = [];
+        %         end
     end
     
     if ~isempty(dataTimeStamps) %, dataTimeStamps.dateNum(2)

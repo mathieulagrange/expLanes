@@ -5,6 +5,8 @@ if strcmpi(p.orientation(1), 'v')
     barCommand = 'bar';
 else
     barCommand = 'barh';
+    p.xName = p.methodLabel;
+    p.methodLabel = '';
 end
 if ~isempty(p.addSpecification)
     h = feval(barCommand, data.meanData, p.addSpecification{:});
