@@ -11,15 +11,35 @@ for k=1:length(files)
         % get vSet
         modReduce = dir(reduceFileName);
         modFactors = dir(config.factorFileName);
-        loadedData=load(reduceFileName, 'vSet', 'fileNames');
+        loadedData=load(reduceFileName, 'vSet', 'loadFileNames', 'loadedFileNames');
+      
+        
         dataTime = [];
-        for k=1:length(loadedData.fileNames)
-            file=dir(loadedData.fileNames{k});
+        disp('start');
+        for k=1:length(loadedData.loadedFileNames)
+            file=dir(loadedData.loadedFileNames{k});
+            file.name
+            file.date
             if ~isempty(file)
             dataTime(end+1) = file.datenum;
             end
         end
-        if ~isempty(dataTime) && isequal(loadedData.vSet, config.step.set) && modReduce.datenum > modFactors.datenum && modReduce.datenum > max(dataTime)
+        newItems = 0;
+        if length(loadedData.loadedFileNames) < length(loadedData.loadFileNames)
+            found = 0;
+            for k=1:length(loadedData.loadFileNames)
+                file=dir(loadedData.loadFileNames{k});
+                
+                if ~isempty(file)
+                    found = found+1;
+                end
+            end           
+            if found > length(loadedData.loadedFileNames)
+                newItems = 1;
+            end
+        end
+        
+        if ~newItems && ~isempty(dataTime) && isequal(loadedData.vSet, config.step.set) && modReduce.datenum > modFactors.datenum && modReduce.datenum > max(dataTime)
             loadedData=load(reduceFileName, 'data');
             data = loadedData.data;
         end
@@ -31,13 +51,15 @@ end
 if isempty(data)
     config.loadFileInfo.date = {'', ''};
     config.loadFileInfo.dateNum = [Inf, 0];
-    fileNames = {};
+    loadedFileNames = {};
+    loadFileNames = {};
     dataTimeStamps = [];
     for k=1:config.step.nbSettings
         config.step.setting = expSetting(config.step, k);
         
-        [data{k}, dataTimeStamps, config, loadedFileNames] = expLoad(config, [], config.step.id, 'obs', [], 0);
-        fileNames = [fileNames loadedFileNames];
+        [data{k}, dataTimeStamps, config, loadedFileName, loadFileName] = expLoad(config, [], config.step.id, 'obs', [], 0);
+        loadedFileNames = [loadedFileNames loadedFileName];
+       loadFileNames = [loadFileNames loadFileName];
         %         if ~isempty(config.load)
         %             data{k} = config.load;
         %         else
@@ -49,7 +71,7 @@ if isempty(data)
         disp(['Loaded data files dates are in the range: | ' config.loadFileInfo.date{1} ' || ' config.loadFileInfo.date{2} ' |']);
         vSet = config.step.set; %#ok<NASGU>
         reduceFileName = [stepPath 'reduceData_' num2str(datenum(date)) '_' num2str(ceil(rand(1)*100))];
-        save(reduceFileName, 'data', 'fileNames', 'vSet'); % , 'config' FIXME
+        save(reduceFileName, 'data', 'loadFileNames', 'loadedFileNames', 'vSet'); % , 'config' FIXME
     end
 end
 

@@ -17,7 +17,7 @@ select = vSpec.selectFactors;
 for k=1:length(select)
     c = regexp(select{k}, '/', 'split');
     select{k} = [num2str(io(str2num(c{1}))) '/' num2str(io(str2num(c{2}))) '/' c{3}];
-    if length(c)==4
+    if length(c)==4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
         select{k} = [select{k}  '/' c{4}];
     end
 end

@@ -32,11 +32,8 @@ labels=labels(:);
 if isvector(prediction), prediction = squareform(prediction); end
 nbElts = size(prediction, 1);
 
-% sort predictions
-[null, si] = sort(prediction);
-
-if rank > size(si, 1)-1
-    rank = size(si, 1)-1;
+if rank > nbElts-1
+    rank = nbElts-1;
 end
 
 % nn & map
@@ -44,11 +41,16 @@ v = zeros(nbElts, 3);
 l=1;
 n = zeros(1, nbElts);
 for k=1:nbElts
+    % inplace sorting for memory usage
+    [~, prediction(:, k)] = sort(prediction(:, k));
     if labels(k) ~= 0
         ind = labels(k)==labels;
+
         c = sum(ind);
         if c>1
-            ind = ind(si(si(:,k)~=filter(k), k));
+            %             ind = ind(prediction(prediction(:,k)~=filter(k), k));
+            ind = ind(prediction(:, k));
+            ind(1)=[];
             iRank = min(rank, sum(ind));
             n(l) = mean(ind(1:iRank));
             
@@ -61,6 +63,7 @@ for k=1:nbElts
         end
     end
 end
+
 % average number of correct answers at rank
 res.(['precisionAt' num2str(rank)]) = n';%mean(n, 2);
 %
@@ -77,7 +80,7 @@ if ~small
         % number of elements per cluster
         nbc = sum(labels==labels(k));
         % number of closest elts which are within the cluster
-        nbk = find((labels(si(:, k))==labels(k)), 1, 'last');
+        nbk = find((labels(prediction(:, k))==labels(k)), 1, 'last');
         m(k) =  nbc / nbk;
     end
     % number of elements of the shortest ranked list that contains every
@@ -85,7 +88,7 @@ if ~small
     res.precisionAtCompleteRecall = m;
     
     
-    VI=si(2:min(rank+1, size(si, 1)), :);
+    VI=prediction(2:min(rank+1, size(prediction, 1)), :);
     vI = VI(:);
     v = sort(hist(vI, (1:nbElts)));
     % orphean
@@ -109,7 +112,7 @@ if ~small
     rev=0;
     for k=1:nbElts
         for l=2:rank+1
-            if sum(si(2:rank+1, si(l, k))==k)
+            if sum(prediction(2:rank+1, prediction(l, k))==k)
                 rev=rev+1;
             else
                 disp('');

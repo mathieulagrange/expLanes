@@ -1,4 +1,4 @@
-function [load, dataTimeStamps, config, fileNames] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
+function [load, dataTimeStamps, config, loadedFileNames, loadFileNames] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
 % expLoad load data from the repository of the specified processing step
 %	[load, dataTimeStamps, config, fileNames] = expLoad(config, name, stepId, extension, fieldSelector, contracting)
 %	- config: expLanes configuration
@@ -11,7 +11,8 @@ function [load, dataTimeStamps, config, fileNames] = expLoad(config, name, stepI
 %	-- data: loaded data structure
 %	-- dataTimeStamps: time stamps of data
 %	-- config: updated config
-%	-- fileNames: names of the file accessed
+%	-- loadedFileNames: names of the file accessed
+%	-- loadFileNames: names of the file tentatively accessed
 
 %	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
 %	See licence.txt for more information.
@@ -96,6 +97,7 @@ end
 
 config.load={};
 config.loadFileName = {};
+config.loadedFileName = {};
 
 if config.dummy && stepId
     for k=1:length(names)
@@ -111,7 +113,8 @@ end
 
 load = config.load;
 dataTimeStamps = config.loadFileInfo;
-fileNames = config.loadFileName;
+loadFileNames = config.loadFileName;
+loadedFileNames = config.loadedFileName;
 
 % end
 
@@ -179,11 +182,10 @@ function config = loadFileName(config, fileName, stepId, fieldSelector)
 
 try
     if strcmp(fileName(end-2:end), 'mat')
-        
-        if isempty(fieldSelector)
-            loadData = load(fileName);
-        else
-            loadData = load(fileName, fieldSelector{:});
+        config.loadFileName{end+1} = fileName;
+        loadData = load(fileName);
+        if ~isempty(fieldSelector)
+            loadData = loadData.(fieldSelector{:});
         end
 
         if isempty(config.load)
@@ -201,7 +203,7 @@ try
             config.loadFileInfo.dateNum(2) = fileInfo.datenum;
             config.loadFileInfo.date{2} = fileInfo.date;
         end
-        config.loadFileName{end+1} = fileName;
+        config.loadedFileName{end+1} = fileName;
     else
         fid = fopen(fileName, 'r');
         if fid>0

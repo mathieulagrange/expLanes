@@ -54,7 +54,7 @@ function config = expExpose(varargin)
 %    'noFactor' : remove setting factors
 %    'noObservation': remove observations
 %    'obs': name(s) or index(es) of the observations to display
-%    'orderFactor': numeric array specifying the ordering of the factors
+%    'orderFactor': numeric array specifying the ordering of the factors (value are according to the line number in the factor file)
 %    'orderSetting': numeric array specifying the ordering of the settings
 %    'orientation': orientation of display
 %    	'v': vertical (default)
