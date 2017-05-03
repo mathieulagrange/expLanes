@@ -184,7 +184,7 @@ if config.store > -1
         obs = expLoad(config, [], [], 'obs');
         if ~isempty(obs)
             for k=1:length(loadedData)
-            loadedData(k).obs = obs(k);
+            loadedData(k).previousObs = obs(k);
             end
         end
     else
@@ -196,6 +196,12 @@ if config.store < 1
     data = expLoad(config, [], config.step.id, 'data');
     if ~isempty(data)
         loadedData.store = data;
+    end
+    obs = expLoad(config, [], config.step.id, 'obs');
+    if ~isempty(obs)
+        for k=1:length(loadedData)
+            loadedData(k).obs = obs(k);
+        end
     end
 end
 

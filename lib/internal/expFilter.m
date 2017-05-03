@@ -79,7 +79,8 @@ if  p.expand ~= 0
         selector = [setdiff(1:length(config.step.oriFactors.names), p.expand) p.expand];
         filter = filter(1:length(selector));
         filter(end) = 1;
-%         selector = selector(filter);
+%          selector = selector(filter); % FIXME sometimes need sometimes
+%          not (numeric values in modalites ?)
         
         olist{m} = [config.step.oriFactors.list{m, selector}];
     end

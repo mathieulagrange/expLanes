@@ -22,6 +22,11 @@ if ~isempty(p.methodLabel) && length(p.units)>1 && ~isempty(p.units{2})
     p.methodLabel = [p.methodLabel{1} ' (' p.units{2} ')'];
 end
 
+if p.percent
+%     p.xName = [p.xName{1} ' (%)'];
+     p.methodLabel = [p.methodLabel{1} ' (%)'];
+end
+
 xlabel(p.xName, 'fontsize', config.displayFontSize);
 if length(p.axisLabels)>1
     ylabel(p.methodLabel, 'fontsize', config.displayFontSize);
@@ -30,7 +35,18 @@ end
 if strcmpi(p.orientation(1), 'h')
     set(gca,'ytick', 1:length(p.labels));
     set(gca, 'yticklabel', p.labels);
+    
+    ylabel(p.xName, 'fontsize', config.displayFontSize);
+    if length(p.axisLabels)>1
+        xlabel(p.methodLabel, 'fontsize', config.displayFontSize);
+    end
+    
 else
+    xlabel(p.xName, 'fontsize', config.displayFontSize);
+    if length(p.axisLabels)>1
+        ylabel(p.methodLabel, 'fontsize', config.displayFontSize);
+end
+    
     set(gca,'xtick', 1:length(p.labels));
     set(gca, 'xticklabel', p.labels);
     b=get(gca,'XTick');

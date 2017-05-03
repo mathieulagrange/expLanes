@@ -4,10 +4,9 @@ config = expDisplay(config, p);
 if strcmpi(p.orientation(1), 'v')
     barCommand = 'bar';
 else
-    barCommand = 'barh';
-    p.xName = p.methodLabel;
-    p.methodLabel = '';
+    barCommand = 'barh';   
 end
+p.xName = '';
 if ~isempty(p.addSpecification)
     h = feval(barCommand, data.meanData, p.addSpecification{:});
 else
@@ -29,7 +28,7 @@ end
 
 % FIXME improve this in expExpose (when this special case is needed ?)
 % tmp = p.labels;
-% p.labels = p.legendNames; 
+% p.labels = p.legendNames;
 % p.legendNames = 0;
 % if  ~isempty(tmp)
 %     p.legendNames = tmp(data.selector);

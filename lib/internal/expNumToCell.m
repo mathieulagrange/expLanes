@@ -7,7 +7,7 @@ if ~exist('highlight', 'var'), highlight=0; end
 if ~exist('number', 'var'), number=0; end
 
 if put==2
-    og = '$\\pm$';
+    og = ' $\\pm$';
     fg = '';
 else
     og = ' (';

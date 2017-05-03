@@ -576,7 +576,11 @@ else
                         p.labels{k} = d.(d.infoStringFactors);
                     end
                 else
-                    p.labels{k} = strrep(d.infoShortStringMasked, '_', ' '); % (data.settingSelector)
+                    if p.shortFactors == -1
+                        p.labels{k} = strrep(d.infoNoStringMasked, '_', ' '); % (data.settingSelector)
+                    else
+                        p.labels{k} = strrep(d.infoShortStringMasked, '_', ' '); % (data.settingSelector)
+                    end
                 end
             end
         end

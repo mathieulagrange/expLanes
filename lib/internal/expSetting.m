@@ -6,6 +6,7 @@ maskFilter = step.maskFilter;
 
 
 t={};
+nt={};
 st={};
 mNames={};
 filter=[];
@@ -19,12 +20,22 @@ for m=1:size(vSet, 1)
         mNames{end+1} = vSpec.names{m};
         if isnumeric(value)
             t{end+1} = strrep(sprintf('%s: %g', vSpec.names{m}, value), '.', '-');
+            if length(vSpec.values{m})==2 && vSpec.values{m}{1}==0 && vSpec.values{m}{2}==1
+                if value==1
+                nt{end+1} = sprintf('%s', vSpec.names{m});
+                else
+                     nt{end+1} = '';
+                end
+            else
+                nt{end+1} = strrep(sprintf('%g', value), '.', '-');
+            end
             st{end+1} = strrep(sprintf('%s%g', vSpec.shortNames{m}, value), '.', '-');
             if ~value
                 skipIndex(end+1) = length(mNames);
             end
         else
             t{end+1} = sprintf('%s: %s', vSpec.names{m}, value);
+            nt{end+1} = sprintf('%s', value);
             sn = vSpec.shortValues{m}{vSet(m, k)};
             sn = [upper(sn(1)) sn(2:end)];
             st{end+1} = sprintf('%s%s', vSpec.shortNames{m},  sn);
@@ -64,6 +75,14 @@ end
 setting.infoString = [f{:}];
 setting.infoHash = DataHash(setting.infoString);
 
+f = nt(factorOrder(filter));
+f = f(~cellfun('isempty',f)) ;
+if ~isempty(f)
+    f(2, :) = {', '}; f(2, end) = {''};
+end
+setting.infoNoString = [f{:}];
+
+
 f = st(factorOrder(filter));
 if ~isempty(skipIndex)
     [~, id] = sort(factorOrder);
@@ -79,6 +98,13 @@ if ~isempty(f)
     f(2, :) = {', '}; f(2, end) = {''};
 end
 setting.infoStringMasked = [f{:}];
+
+f = nt(prunedFilterMask);
+f = f(~cellfun('isempty',f)) ;
+if ~isempty(f)
+    f(2, :) = {', '}; f(2, end) = {''};
+end
+setting.infoNoStringMasked = [f{:}];
 
 f = st(prunedFilterMask);
 if ~isempty(f)
