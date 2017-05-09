@@ -207,9 +207,11 @@ end
 
 ticId = tic;
 
+config = expProgress(config);
+
 [config, storeData, storeObs] = feval(functionName, config, config.step.setting, loadedData);
 
-config = expProgress(config);
+
 
 if config.recordTiming && ~isfield(storeObs, 'time')
     storeObs.time = toc(ticId);
