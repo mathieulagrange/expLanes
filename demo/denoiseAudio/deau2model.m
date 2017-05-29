@@ -11,7 +11,7 @@ function [config, store, obs] = deau2model(config, setting, data)
 % Date: 04-Nov-2015                                                                
                                                                                    
 % Set behavior for debug mode                                                      
-if nargin==0, denoiseAudio('do', 2, 'mask', {}); return; else store=[]; obs=[]; end
+if nargin==0, denoiseAudio('do', 2, 'mask', {2 1}); return; else store=[]; obs=[]; end
                                                                                    
 % propagate source, noise and mix for the next step
 store=data;

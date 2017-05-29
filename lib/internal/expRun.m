@@ -117,8 +117,8 @@ end
 if config.display == 0
     if length(config.do)>1 || config.do>0
         config.display = config.do(end);
-    else
-        config.display = length(config.stepName);
+%     else
+%         config.display = length(config.stepName);
     end
 end
 rem=[];
@@ -149,7 +149,6 @@ if ~isempty(config.factors)
         end
     end
 end
-
 
 
 for k=1:length(rem)

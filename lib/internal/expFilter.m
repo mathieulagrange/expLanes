@@ -196,7 +196,7 @@ if p.highlight ~= -1
                 maxIndex=p.better;
                 maxValue=NaN;
             else
-                [maxValue, maxIndex] = max(col);
+                [maxValue, maxIndex] = min(col);
             end
             
             if any(stdData(:, k))
