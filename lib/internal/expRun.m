@@ -6,6 +6,9 @@ config = expInit(experimentPath, experimentName, shortExperimentName, commands);
 if isempty(config), return; end;
 
 expToolPath(config);
+
+processSingleCommand(config, commands);
+
 if config.probe
     expProbe(config);
 end
@@ -209,7 +212,7 @@ if isfield(config, 'serverConfig')
     % if not edit /var/lib/locales/supported.d/local to put the needed ones
     % and run sudo dpkg-reconfigure locales or locales-gen
     
-    if system(command);
+    if system(command)
         fprintf(2, '\n Launch of experiment failed.\n');
     else
         fprintf('\nExperiment launched.\n');

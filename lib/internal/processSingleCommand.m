@@ -1,6 +1,6 @@
 function [] = processSingleCommand(config, commands)
 
-if ischar(commands{1})
+if isfield(config, 'processSingleCommand')
     switch commands{1}
         case 'h'
             docFileName = [config.expLanesPath(1:end-3) 'doc/expLanesDocumentation.pdf'];

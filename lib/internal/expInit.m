@@ -1,6 +1,6 @@
 function config = expInit(experimentPath, experimentName, shortExperimentName, commands)
 
-if length(commands)<1, % default config
+if length(commands)<1 % default config
     config = expConfig(experimentPath, experimentName, shortExperimentName, commands);
     if isempty(config), return; end;
     showFactors(config.factorFileName);
@@ -32,6 +32,7 @@ elseif isstruct(commands{1}) % server mode
     config = commands{1};
 elseif ischar(commands{1})
     config = expConfig(experimentPath, experimentName, shortExperimentName);
+    config.processSingleCommand = 1;
 %     if isempty(config), return; end;    
 %     return
 else
