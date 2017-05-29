@@ -84,7 +84,7 @@ functionCell = [functionCell;...
     ];
 
 silentString = '';
-if silent
+if silent && ~ispc()
     silentString = ' >/dev/null';
 end
 
@@ -94,7 +94,7 @@ dlmwrite(texFileName, functionString,'delimiter','', '-append');
 
 oldFolder = cd(latexPath);
 disp('generating Factors figure. Press x enter if locked for too long.');
-res = system(['pdflatex ' texFileName silentString]); %
+res = system(['pdflatex ' texFileName silentString]); 
 cd(oldFolder);
 if ~res
     copyfile([texFileName(1:end-4) '.pdf'], pdfFileName);
