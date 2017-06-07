@@ -50,6 +50,8 @@ function config = expExpose(varargin)
 %    'multipage': activate the multipage setting to the LaTeX table
 %    'name': name of exported file as string
 %    	symbol + gets replaced by a compact description of the setting
+%    'negativeRank': set the ranking direction for observations as the lower the better
+%       selector is the same as 'highlight'
 %    'number': add a line number for each setting in tables
 %    'noFactor' : remove setting factors
 %    'noObservation': remove observations
@@ -163,6 +165,7 @@ p.design = {};
 p.units = {};
 p.labels = [];
 p.tight=0;
+p.negativeRank=-1;
 
 pNames = fieldnames(p);
 % overwrite default factors with command line ones
@@ -253,6 +256,10 @@ end
 
 if ~p.percent
     p.percent = 1:length(p.obs);
+end
+
+if ~p.negativeRank
+    p.negativeRank = 1:length(p.obs);
 end
 
 if  ~isfield(config, 'evaluation') || isempty(config.evaluation) || isempty(config.evaluation.data)  || sum(cellfun(@isempty,config.evaluation.data))== length(config.evaluation.data)
