@@ -261,7 +261,7 @@ if strfind(config.report, 'r')
         config.html.date = date();
         data = config.html;
         htmlDataName = [config.reportPath config.experimentName config.reportName '/data/data.js'];
-%         savejson('', data, htmlDataName); % TODO may fail
+        savejson('', data, htmlDataName); % TODO may fail
         
         jsFile=fopen(htmlDataName);
         jsCell = {'var data = '};
