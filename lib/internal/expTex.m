@@ -117,7 +117,11 @@ for k=1:length(command)
             res = config.latex.createPDF(silent);
             cd(oldFolder);
             if ~res
+                try
                 copyfile([config.latexFileName '.pdf'], config.pdfFileName);
+                catch
+                    fprintf(2, 'Unable to update resulting pdf. Is your viewer locking the file ?\n');
+                end
                 disp(['report available: ', config.pdfFileName])
             else
                 return

@@ -547,7 +547,6 @@ else
         end
     end
     
-    
     switch p.total
         case 'v'
             for k=1:size(p.rowNames, 2)

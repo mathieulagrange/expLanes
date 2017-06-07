@@ -1,7 +1,7 @@
 function expSetAxes(config, p)
 
 if p.tight && strcmp(p.legendLocation, 'BestOutSide')
-  p.legendLocation = 'Best' ;
+    p.legendLocation = 'Best' ;
 end
 
 if  length(p.legendNames)>1
@@ -22,9 +22,9 @@ if ~isempty(p.methodLabel) && length(p.units)>1 && ~isempty(p.units{2})
     p.methodLabel = [p.methodLabel{1} ' (' p.units{2} ')'];
 end
 
-if p.percent
-%     p.xName = [p.xName{1} ' (%)'];
-     p.methodLabel = [p.methodLabel{1} ' (%)'];
+if p.percent>-1 && ~isempty(p.methodLabel)
+    %     p.xName = [p.xName{1} ' (%)'];
+    p.methodLabel = [p.methodLabel{1} ' (%)'];
 end
 
 xlabel(p.xName, 'fontsize', config.displayFontSize);
@@ -45,7 +45,7 @@ else
     xlabel(p.xName, 'fontsize', config.displayFontSize);
     if length(p.axisLabels)>1
         ylabel(p.methodLabel, 'fontsize', config.displayFontSize);
-end
+    end
     
     set(gca,'xtick', 1:length(p.labels));
     set(gca, 'xticklabel', p.labels);
@@ -60,5 +60,5 @@ end
 set(gca, 'fontsize', config.displayFontSize);
 % title(p.title);
 if p.tight
- axis tight
+    axis tight
 end
