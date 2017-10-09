@@ -51,7 +51,8 @@ function config = expExpose(varargin)
 %    'name': name of exported file as string
 %    	symbol + gets replaced by a compact description of the setting
 %    'negativeRank': set the ranking direction for observations as the lower the better
-%       selector is the same as 'highlight'
+%       selector is the same as 'highlight', -2 for all settings in an
+%       expand
 %    'number': add a line number for each setting in tables
 %    'noFactor' : remove setting factors
 %    'noObservation': remove observations
