@@ -45,11 +45,20 @@ for k=1:nbElts
     [~, prediction(:, k)] = sort(prediction(:, k));
     if labels(k) ~= 0
         ind = labels(k)==labels;
-
+        
         c = sum(ind);
         if c>1
-            %             ind = ind(prediction(prediction(:,k)~=filter(k), k));
-            ind = ind(prediction(:, k));
+            in=prediction(:,k);
+            
+%             ini=[];
+%             for m=1:length(in)
+%             if filter(k)~=filter(in(m))
+%             ini(end+1) = in(m);
+%             end
+%             end
+%             in=ini;
+            
+            ind = ind(in);            
             ind(1)=[];
             iRank = min(rank, sum(ind));
             n(l) = mean(ind(1:iRank));
@@ -57,7 +66,11 @@ for k=1:nbElts
             pk = cumsum(ind)./(1:size(ind, 1)).';
             v(l, 1) = sum(pk.*ind)/sum(ind);
             rr = find(ind==1);
+            if ~isempty(rr)
             v(l, 2) = 1./rr(1);
+            else
+                v(l, 2) = 0;
+            end
             v(l, 3) = sum(ind(1:iRank))/sum(ind);
             l=l+1;
         end

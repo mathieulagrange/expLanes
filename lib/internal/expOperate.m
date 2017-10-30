@@ -45,9 +45,14 @@ if all(config.do>0) && ~isempty(config.factors)
         end
         %         nbWorkers = parpool('size');
         
+        out = evalc('feature(''numcores'')');
+        out = strsplit(out, '\n');
+        out = out{3};
+        nbAvailableWorkers = str2num(out(22:23));
         if nbWorkers && ...
                 ((max(config.parallel)>1 && nbWorkers ~= max(config.parallel)) || ...
-                (max(config.parallel)==1 && nbWorkers ~= feature('numCores')))
+                (max(config.parallel)==1 && nbWorkers ~= nbAvailableWorkers) ...
+            )
             poolobj = gcp('nocreate');
             delete(poolobj);
         end
