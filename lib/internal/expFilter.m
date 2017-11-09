@@ -61,7 +61,7 @@ if  p.expand ~= 0
     met={};
     met2={};
     ind = [];
-    for m=1:length(observations)
+    for m=1:length(observations){k 0 0 2 1 6 0 1}
         for k=1:length(observation)
             met = [met [observations{m} observation{k}]];
             met2 = [met2 strtrim(observation{k})];
@@ -196,7 +196,7 @@ if p.highlight ~= -1
                 maxIndex=p.better;
                 maxValue=NaN;
             else
-                if p.negativeRank==-2 || (sum(p.negativeRank~=-1) && any(p.negativeRank)==p.obs(k))
+                if any(p.negativeRank==-2) || (sum(p.negativeRank~=-1) && any(p.negativeRank)==p.obs(k))
                     [maxValue, maxIndex] = min(col);
                 else
                     [maxValue, maxIndex] = max(col);
