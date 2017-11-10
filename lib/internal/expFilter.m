@@ -196,7 +196,7 @@ if p.highlight ~= -1
                 maxIndex=p.better;
                 maxValue=NaN;
             else
-                if any(p.negativeRank==-2) || (sum(p.negativeRank~=-1) && any(p.negativeRank)==p.obs(k))
+                if any(p.negativeRank==-2) || (sum(p.negativeRank~=-1) && any(p.negativeRank==p.obs(k)))
                     [maxValue, maxIndex] = min(col);
                 else
                     [maxValue, maxIndex] = max(col);

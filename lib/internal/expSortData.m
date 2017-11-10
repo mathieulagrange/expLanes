@@ -57,10 +57,15 @@ if ~isempty(factorSelector)
 %                 col{k} = strtrim(c{end});
             end
         end
-        if lower(p.total) ==  'v'
-            [bin, ind] = sort(col(1:end-1));
+        if p.sort > length(factorSelector) && (p.negativeRank==-2 || p.negativeRank==0 ||any(p.negativeRank==p.obs(p.sort-length(factorSelector))))
+           direction = 'descend'; 
         else
-            [bin, ind] = sort(col);
+           direction = 'ascend';
+        end
+        if lower(p.total) ==  'v'
+            [bin, ind] = sort(col(1:end-1), direction);
+        else
+            [bin, ind] = sort(col, direction);
         end
         if ~strcmp(p.show, 'data')
             flip=1;
