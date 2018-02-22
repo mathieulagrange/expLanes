@@ -592,6 +592,9 @@ else
             end
         end
     end
+    if ~isempty(p.orderSetting) && length(p.orderSetting) == config.step.nbSettings
+        p.labels = p.labels(p.orderSetting);
+    end
     
     p.axisLabels = evaluationObservations;
     
