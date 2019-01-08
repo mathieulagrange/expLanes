@@ -21,7 +21,7 @@ else
     serverDirectoryPath = [eval(['serverConfig.' directoryName 'Path'])  extensionPath];
 end
 
-syncString = 'rsync -arC    --exclude=.git --update ';
+syncString = 'rsync -arC --include "core"   --exclude=.git --update ';
 deleteString = [' --delete-after --backup --backup-dir=' config.backupPath ' '];
 if detach
     detachString = ' >/dev/null &';
