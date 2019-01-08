@@ -82,11 +82,13 @@ end
 t=1;
 l=1;
 for k=config.displayData.style
-    if k
+    if k 
+        if config.displayData.table(t).visible
         % add table
         config.latex.addTable(config.displayData.table(t).table, 'caption', config.displayData.table(t).caption, 'multipage', config.displayData.table(t).multipage, 'landscape', config.displayData.table(t).landscape, 'label', config.displayData.table(t).label, 'fontSize', config.displayData.table(t).fontSize, 'nbFactors', config.displayData.table(t).nbFactors);
         if ~mod(t, 10)
             config.latex.addLine('\clearpage');
+        end
         end
         t=t+1;
     else

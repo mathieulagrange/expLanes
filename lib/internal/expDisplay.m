@@ -51,6 +51,7 @@ switch p.put
         if ~isempty(config.displayData.cellData)
             config.displayData.style(end+1)=1;
             config.displayData.table(end+1).caption = p.caption;
+            config.displayData.table(end).visible = p.visible;
             config.displayData.table(end).multipage = p.multipage;
             config.displayData.table(end).landscape = p.orientation(1) == 'h';
             if length(config.displayData.table)>1 && ~isempty(p.mergeDisplay)

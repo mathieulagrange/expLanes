@@ -54,6 +54,7 @@ if  p.expand ~= 0
     expandNames = config.step.oriFactors.values{p.expand};
     observations = config.step.oriFactors.values{p.expand};
     fData = data;
+  %  fData = fData(~cellfun('isempty',fData));
     
     observations = strrep(observations, '-', 'expLanesMinus');
     observations = strrep(observations, ' ', '');
