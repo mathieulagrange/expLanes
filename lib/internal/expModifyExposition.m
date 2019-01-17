@@ -26,6 +26,19 @@ end
 for k=1:length(factorsName)
     factors(k) = find(strcmp(config.step.factors.names, factorsName{k}));
 end
+
 oriStep = config.step;
+
+selectFactors = {};
+for k=1:length(config.factors.selectFactors)
+    str = strsplit(config.factors.selectFactors{k}, '/');
+    if  str2num(str{2}) ~= length(config.factors.values)
+        selectFactors(end+1)=config.factors.selectFactors(k);
+    end
+end
+config.factors.selectFactors = selectFactors;
+
+%config.factors.selectFactors(1) = [];
+
 config.step = expStepSetting(config.factors, mask, config.step.id);
 config.step.oriFactors = oriStep.factors;
