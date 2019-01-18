@@ -54,7 +54,7 @@ if  p.expand ~= 0
     expandNames = config.step.oriFactors.values{p.expand};
     observations = config.step.oriFactors.values{p.expand};
     fData = data;
-  %  fData = fData(~cellfun('isempty',fData));
+    %  fData = fData(~cellfun('isempty',fData));
     
     observations = strrep(observations, '-', 'expLanesMinus');
     observations = strrep(observations, ' ', '');
@@ -80,8 +80,8 @@ if  p.expand ~= 0
         selector = [setdiff(1:length(config.step.oriFactors.names), p.expand) p.expand];
         filter = filter(1:length(selector));
         filter(end) = 1;
-%          selector = selector(filter); % FIXME sometimes need sometimes
-%          not (numeric values in modalites ?)
+        %          selector = selector(filter); % FIXME sometimes need sometimes
+        %          not (numeric values in modalites ?)
         
         olist{m} = [config.step.oriFactors.list{m, selector}];
     end
@@ -96,23 +96,28 @@ if  p.expand ~= 0
     %%%%%%%%%%%%%%%%
     
     data={};
+    approx = 0;
     for m=1:length(observations)
         observations{m} = [config.step.oriFactors.names{p.expand} observations{m}];
         for k=1:fSize
             index = find(strcmp(olist, [list{k} expandNames{m}]));
             
             if isempty(fData(index)) % (k-1)*length(observations)/length(observation)+ind(m)
+                index =  strnearest([list{k} expandNames{m}], olist);
+                approx = 1;
+                %    data{k}.(observations{m}) = NaN;
+            end
+            %                 data{k}.(observations{m}) = fData{(k-1)*length(observations)/length(observation)+ind(m)}.(met2{m});
+            fdi = fData{index};
+            if isempty(fdi)
                 data{k}.(observations{m}) = NaN;
             else
-                %                 data{k}.(observations{m}) = fData{(k-1)*length(observations)/length(observation)+ind(m)}.(met2{m});
-                fdi = fData{index};
-                if isempty(fdi)
-                    data{k}.(observations{m}) = NaN;
-                else
                 data{k}.(observations{m}) = fdi.(met2{m});
-                end
             end
         end
+    end
+    if approx
+         fprintf(2, 'approximate match for expansion');
     end
 end
 
@@ -175,9 +180,9 @@ for m=1:length(p.obs)
         if ~isempty(data{k}) && isfield(data{k}, observations{p.obs(m)})
             datak = data{k}.(observations{p.obs(m)});
             if ~isempty(datak)
-            fData(k, m, 1:length(datak)) = datak;
+                fData(k, m, 1:length(datak)) = datak;
             else
-            fData(k, m, 1) = NaN;              
+                fData(k, m, 1) = NaN;
             end
         end
     end
@@ -256,7 +261,7 @@ switch p.highlightStyle
         %         highlights(highlights==2) = 1;
     case 'better'
         idx = find(sum(highlights==1));
-%         highlights(highlights==1) = 0;
+        %         highlights(highlights==1) = 0;
         for k=1:length(idx)
             highlights(highlights(:, idx(k))==2, idx(k)) = 1;
         end

@@ -584,7 +584,9 @@ else
                     end
                 else
                     if p.shortFactors == -1
+                        if ~isempty(d.infoNoStringMasked)
                         p.labels{k} = strrep(d.infoNoStringMasked, '_', ' '); % (data.settingSelector)
+                        end
                     else
                         p.labels{k} = strrep(d.infoShortStringMasked, '_', ' '); % (data.settingSelector)
                     end
