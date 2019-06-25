@@ -54,12 +54,14 @@ else
             C = textscan(fid, '%s', 'delimiter', '');
             fclose(fid);
             lines = C{1};
-            [content, location] = unique(lines);
+            [~, location] = unique(lines);
             message = [message sprintf('\n\n -------------------------------------- \n')];
             for k=1:length(location)
                 if isempty(strfind(lines{location(k)}, 'while'))
                     message = [message sprintf('%s\n', lines{location(k)})];
-                    message = [message sprintf('%s\n', lines{location(k)+1})];
+                    if length(lines)>location(k)
+                      message = [message sprintf('%s\n', lines{location(k)+1})];
+                    end
                 end
             end
         end

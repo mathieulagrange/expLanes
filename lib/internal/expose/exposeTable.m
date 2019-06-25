@@ -104,6 +104,7 @@ switch p.put
                 fieldNames{k} = p.columnNames{k};
             end
         end
+    %    fieldNames = strrep(fieldNames, '_', '');
         for k=1:size(dataCell, 1)
             for m=1:size(dataCell, 2)
                 sData{k}.(fieldNames{m}) = dataCell{k, m};

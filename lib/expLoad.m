@@ -22,8 +22,8 @@ if nargin<2 || isempty(name), name = ''; end
 if nargin<3 || isempty(stepId), stepId=config.step.id-1; end
 if nargin<4 || isempty(extension),
     if isempty(name)
-        extension = '_data';
-    else
+%        extension = '_data';
+%    else
         extension ='';
     end
 else

@@ -117,7 +117,7 @@ if  p.expand ~= 0
         end
     end
     if approx
-         fprintf(2, 'approximate match for expansion');
+         fprintf(2, 'approximate match for expansion\n');
     end
 end
 

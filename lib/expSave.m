@@ -1,4 +1,4 @@
-function fileName = expSave(config, data, extension)
+function fileName = expSave(config, data, extension, write)
 % expSave save data to the the repository of the current task
 %	fileName = expSave(config, data, extension)
 %	- config: expLanes configuration
@@ -9,11 +9,13 @@ function fileName = expSave(config, data, extension)
 %	Copyright (c) 2014 Mathieu Lagrange (mathieu.lagrange@cnrs.fr)
 %	See licence.txt for more information.
 
+if ~exist('write', 'var'), write=1; end
+
 if ~exist('extension', 'var')
-    extension = '.mat';
+    extension = '';
 else
     [p, n] = fileparts(extension);
-    extension = ['_' n '.mat'];
+    extension = ['_' n ''];
 end
 
 stepName = config.stepName{config.step.id};
@@ -39,13 +41,18 @@ if config.dummy
     name = [name '_dummy_' num2str(config.dummy)];
 end
 
-if exist('data', 'var') && ~isempty(data)
+fileName = [path name  extension];
+
+if write || (exist('data', 'var') && ~isempty(data))
     data.info.runId = config.runId; %#ok<NASGU> 
     data.info.setting = config.step.setting; %#ok<NASGU>
     data.info.stepName = stepName;
     data.info.userName = config.userName;
-    save([path name  extension ], 'data', ['-v' num2str(config.encodingVersion)]);
+    config.waitBar = [];
+    data.info.config = config;
+    data.info.setting.fileName = fileName;
+    save(fileName, 'data', ['-v' num2str(config.encodingVersion)]);
 end
 
-fileName = [path name  extension];
+
 
