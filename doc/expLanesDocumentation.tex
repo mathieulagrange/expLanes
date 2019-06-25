@@ -1,25 +1,25 @@
-\documentclass[a4paper,fleqn]{tufte-handout} 
-\usepackage{graphicx} 
-\usepackage{morefloats,textcomp} 
-\usepackage{amsmath} 
-\usepackage{amssymb} 
-\usepackage{rotating,url} 
+\documentclass[a4paper,fleqn]{tufte-handout}
+\usepackage{graphicx}
+\usepackage{morefloats,textcomp}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{rotating,url}
 \definecolor{violet}{rgb}{0.8, 0.6, 0.8}
 \definecolor{green}{rgb}{0.8 ,.9, 0.8}
 \definecolor{blue}{rgb}{0, .2 , .7}
 \usepackage[]{hyperref}
-% mcode options for matlab code insertion bw (for printing), numbered (line numbers), framed (frame around code blocks), useliterate (convert Matlab expressions to Latex ones), autolinebreaks (automatic code wraping, use it with caution 
-\usepackage[useliterate,autolinebreaks]{mcode} 
+% mcode options for matlab code insertion bw (for printing), numbered (line numbers), framed (frame around code blocks), useliterate (convert Matlab expressions to Latex ones), autolinebreaks (automatic code wraping, use it with caution
+\usepackage[useliterate,autolinebreaks]{mcode}
 \usepackage{bookmark}
 
-\graphicspath{{figures/}{report/figures/}{../figures/}{../../}}  
+\graphicspath{{figures/}{report/figures/}{../figures/}{../../}}
 
 
 \newcommand{\latex}{\LaTeX\ }
-\newcommand{\explanes}{\textsf{expLanes}\ }  
+\newcommand{\explanes}{\textsf{expLanes}\ }
 
-\title{ { \color{blue}expLanes}: beautiful computational experiments } 
-\author{ Mathieu Lagrange } 
+\title{ { \color{blue}expLanes}: beautiful computational experiments }
+\author{ Mathieu Lagrange }
 
 \usepackage{titlesec}
 
@@ -45,7 +45,7 @@
 
 % TODO explain dummy mode
 
-\begin{document} 
+\begin{document}
 
 %\pagestyle{empty}
 
@@ -53,7 +53,7 @@
 %\pagestyle{plain}
 
 
-\maketitle 
+\maketitle
 
 \begin{center}
 \includegraphics[width=.4\textwidth]{logo/logo}
@@ -68,10 +68,10 @@
 
 \section{The scientific method}
 \hypertarget{science}{}
- 
-Since it was expressed in its modern form by Roger Bacon in the 13th century, the scientific method has demonstrated time and again its merit, as the process that underpinned all the discoveries and innovations upon which our modern world is built. 
 
-Sadly, modern ways of doing research impose strong pressure on the time and efforts that can be allocated to a project, and important steps of the scientific method are often neglected. We believe that this quest for speed adversely reduces the meaningfulness of the research results that are nowadays published. 
+Since it was expressed in its modern form by Roger Bacon in the 13th century, the scientific method has demonstrated time and again its merit, as the process that underpinned all the discoveries and innovations upon which our modern world is built.
+
+Sadly, modern ways of doing research impose strong pressure on the time and efforts that can be allocated to a project, and important steps of the scientific method are often neglected. We believe that this quest for speed adversely reduces the meaningfulness of the research results that are nowadays published.
 
 Admittedly, following strictly the scientific method can be tedious and shortcuts might be tempting. \explanes is designed to assist you in the most tedious and most error prone steps, and will hopefully help you dedicate more time to the fundamental steps of the scientific method.
 
@@ -105,7 +105,7 @@ Quickly put, the scientific method can be divided into several steps, each of wh
 
 
 \section{About you}
-\hypertarget{you}{} 
+\hypertarget{you}{}
 
 Let's assume that you are practicing computational experiments. Most probably, this takes you time and a lot of care, and may be an endless source of frustration depending on whether you are:
 \begin{itemize}
@@ -124,14 +124,14 @@ And for all or others, maybe you are heading towards sharing your code\cite{deps
 \explanes is specifically designed with those matters in mind, and will hopefully help you reduce the specific burden that keeps you from reaching this goal which is one of the most important steps towards the expansion of knowledge in science and engineering: reproducibility\cite{science, sp}.
 
 \section{Features}
-\hypertarget{Features}{} 
+\hypertarget{Features}{}
 
-\explanes is a software framework currently implemented in Matlab that 
+\explanes is a software framework currently implemented in Matlab that
 \begin{itemize}
 \item provides a high level abstraction for running computational experiments,
 \item allows multiple users per experiment,
 \item allows multiple processing platforms to be used,
-\item allows a strong decoupling of the 3 major experimental phases: 
+\item allows a strong decoupling of the 3 major experimental phases:
 \begin{enumerate}
 \item coding,
 \item processing,
@@ -150,8 +150,8 @@ And for all or others, maybe you are heading towards sharing your code\cite{deps
 
 Concretely, \explanes lets you identify the operational parameters (\textbf{factors} of the experiment) of a process or algorithm, and their ranges of variation (\textbf{modalities} of the experiment), then proceeds to automatically explore all or a subset of the space of possible parameter combinations (\textbf{setting}), using a dataset and evaluation function of your choice. Finally, it generates a report compiling the obtained results (reduced version of the \textbf{observations}). This can for example be used to evaluate an average performance, tune an algorithm for a specific type of data, or confirm empirically that a process behaves satisfactorily in all situations.
 
-\section{Benefits} 
-\hypertarget{benefits}{} 
+\section{Benefits}
+\hypertarget{benefits}{}
 
 \begin{enumerate}
 \item The user can focus on solution code,
@@ -162,9 +162,9 @@ Concretely, \explanes lets you identify the operational parameters (\textbf{fact
 \end{enumerate}
 
 \section{Installation}
-\hypertarget{installation}{} 
+\hypertarget{installation}{}
 
-\explanes operates in the Matlab environment. A recent version of this software (> R2014) is needed as well as the Statistical toolbox. The Parallel toolbox is needed for in-session multi-core processing. 
+\explanes operates in the Matlab environment. A recent version of this software (> R2014) is needed as well as the Statistical toolbox. The Parallel toolbox is needed for in-session multi-core processing.
 
 As much as possible, \explanes uses built-in tools to manipulate data. However some functions are handled through the use of basic Unix tools:
 \begin{enumerate}
@@ -188,7 +188,7 @@ On Linux hosts, the installation should be straightforward. For example, on Debi
 
 \mcode{texlive-full rsync openssh-server openssh-client screen}
 
-Installation may be achieved by typing in a terminal: 
+Installation may be achieved by typing in a terminal:
 
 \mcode{sudo apt-get install <packageNames>}
 
@@ -204,7 +204,7 @@ For pdflatex, please use MiKTeX, for the remaining, please use the Cygwin enviro
 
 \section{In a nutshell}
 \hypertarget{nutshell}{}
- 
+
 \explanes is designed to provide you with as streamlined set of tools to efficiently build the computational environment you need in order to gain knowledge about a research statement.
 
 In order to present the typical workflow of a \textsf{expLanes}-driven experiment, we detail in this section the steps to explore a trivial research statement: gaining knowledge about the base area and the volume of a few 3 dimensional geometrical shapes. For reference, this project is available in the \mcode{demonstrations} directory. Complete documentation of the commands is given in the next section.%
@@ -246,7 +246,7 @@ The shape can be a cylinder, a pyramid or a cube:
 geometricShape('addFactor', ...
 	{'shape', {'cylinder', 'pyramid', 'cube'}});
 \end{lstlisting}
-The shape can be blue or red:
+The color can be blue or red:
 \begin{lstlisting}
 geometricShape('addFactor', {'color', {'blue', 'red'}});
 \end{lstlisting}
@@ -321,7 +321,7 @@ This display can be obtained by issuing the following command:
 geometricShape('display', 2, 'expose', '>', ...
 	'mask', {[1 2] 0 1});
 \end{lstlisting}
-The exposition of relevant observations is important for efficient computational experimentation. \explanes provides many tools for this purpose, type \mcode{help expExpose} for quick reference. 
+The exposition of relevant observations is important for efficient computational experimentation. \explanes provides many tools for this purpose, type \mcode{help expExpose} for quick reference.
 
 
 The command:
@@ -330,7 +330,7 @@ geometricShape('display', 2, 'mask', {1 0 1},...
  'expose', {'t', 'obs', 3, 'sort', 1});
 \end{lstlisting}
 
-displays the volume (observation 3) of the step volume (2) for each cylinder of radius 2 sorted according to the first on a table (t). Red color indicates best performance, and blue ones, performances which have not been found statistically different from the best one. 
+displays the volume (observation 3) of the step volume (2) for each cylinder of radius 2 sorted according to the first on a table (t). Red color indicates best performance, and blue ones, performances which have not been found statistically different from the best one.
 \marginnote{For this example, even if the blue cylinder is bigger than the red one due to the uncertainty in the estimation of $\pi$, this difference is not significant, so the blue and red cylinders shall be considered of equivalent volume.}
 
 \subsection{Report}
@@ -358,7 +358,7 @@ Several reports can be handled for the same experiment using the key \mcode{'rep
 \begin{lstlisting}
 geometricShape('report', 'rcv', ...
   'reportName', 'presentationSlides');
-\end{lstlisting} 
+\end{lstlisting}
 generates a report with base name \mcode{presentationSlides} in a slides presentation layout. For debug information about the compilation, please add the \mcode{'b'} flag to the \mcode{report} value.
 
 \subsection{Demonstrations}
@@ -375,8 +375,8 @@ Those reports are available online:
 
 \section{Architecture of an experiment}
 \hypertarget{architecture}{}
- 
-An \explanes experiment has a specific directory architecture. 
+
+An \explanes experiment has a specific directory architecture.
 
 \subsection{Code}
 
@@ -432,7 +432,7 @@ The report directory stores expositions of observations in many flavors.
 
 \begin{itemize}
 \item \textbf{\mcode{report/}}: contains editable \latex files, one for each \mcode{reportName} (defaults to \mcode{<projectName>.tex}) and a BibTex file that can be edited and processed in a standard fashion. Expositions of observations are added to the \latex file prior to compilation at the location of the flag \mcode{expLanesInsertionFlag}.
-\item \textbf{\mcode{report/figures}}: when the \mcode{'save'} parameter is added to a visual exposition, the resulting figure is stored in several formats (\mcode{.fig} Matlab Figure, \mcode{.eps}, \mcode{.png}, and \mcode{.pdf}). The numerical data is also made available in a \mcode{.mat} file. 
+\item \textbf{\mcode{report/figures}}: when the \mcode{'save'} parameter is added to a visual exposition, the resulting figure is stored in several formats (\mcode{.fig} Matlab Figure, \mcode{.eps}, \mcode{.png}, and \mcode{.pdf}). The numerical data is also made available in a \mcode{.mat} file.
 \item \textbf{\mcode{report/reports}}: contains the generated reports with the following naming template: \mcode{<reportName><userName><date>.pdf}. The data of each exposition of the corresponding report is made available in a \mcode{.mat} file.
 \item \textbf{\mcode{report/tables}}:  when the \mcode{'save'} parameter is added to a table exposition (\mcode{'t'} or \mcode{'l'}), the resulting table is stored in several formats (\latex floating table, \latex tabulary array, \mcode{.csv} file. The numerical data is also made available in a \mcode{.mat} file.
 \item \textbf{\mcode{report/tex}}: this directory is used for internal \explanes usage. Please do not edit any files in it, as they may be deleted.
@@ -440,7 +440,7 @@ The report directory stores expositions of observations in many flavors.
 
 
 \section{Configuration of an experiment}
-\hypertarget{configuration}{} 
+\hypertarget{configuration}{}
 
 An \explanes experiment can be controlled by editing the configuration file or overloading it with command line settings. Each of those parameters can further be accessed at run time through the variable \mcode{config}.
 
@@ -473,7 +473,7 @@ An \explanes experiment can be controlled by editing the configuration file or o
 \item \textbf{obsPath}: path to the data repository of the experiment for observation data (same as dataPath if left blank)
 \item \textbf{backupPath}: path to backup of transferred data
 \item \textbf{exportPath}: path to export replication of the experiment
-\item \textbf{matlabPath}: path to the directory of the Matlab binary 
+\item \textbf{matlabPath}: path to the directory of the Matlab binary
 \item \textbf{toolPath}: path to Unix tools (pdflatex, rsync, ssh, screen)
 \end{itemize}
 
@@ -511,9 +511,9 @@ Every path can be a cell array of string. In this case, the path is selected in 
 \item \textbf{store}: perform computation to be stored: (1, 0) load data of previous step, (-1, 0) load data result of the current step
 \item \textbf{retrieve}: retrieve needed data server side: -1 no retrieval, 0 global scan of every host, >0 hostId
 \item \textbf{namingConventionForFiles}: naming convention for data files: long (complete naming, may lead to too long file names), short (abbreviated naming, may also lead to too long file names), hash (hash based naming, compact but may lead to naming clashes)
-\item \textbf{export}: export a replicate of the experiment with elements designated as a string with tokens separated by white spaces (addition of 'z' outputs a zip file): 'c' (code), 'd' (dependencies), 'i' (input), 1 (output data of step 1), 1d (stored data of step 1 only), 1o (observations of step 1 only) 
+\item \textbf{export}: export a replicate of the experiment with elements designated as a string with tokens separated by white spaces (addition of 'z' outputs a zip file): 'c' (code), 'd' (dependencies), 'i' (input), 1 (output data of step 1), 1d (stored data of step 1 only), 1o (observations of step 1 only)
 \item \textbf{sync}: sync data across machines specified as a cell array with: elements (as in bundle), optional host as numeric id (1.2 means the second host of the first group of machines, default to 2), direction 'd' (download from server to local host, default), 'u' (upload from host to server). Provided with the elements as string, the command default to server 2 in download mode.
-\item \textbf{clean}: clean explanes directories and project data repositories. As string id : t (expLanes temporary directory), b (experiment backup directory), k (all steps directories while keeping reachable settings), 1 (output data of step 1), 1d (remove stored data of step 1 only), 1o (observations of step 1 only). As numeric id (clean the corresponding step directory, 0 means all directories) 
+\item \textbf{clean}: clean explanes directories and project data repositories. As string id : t (expLanes temporary directory), b (experiment backup directory), k (all steps directories while keeping reachable settings), 1 (output data of step 1), 1d (remove stored data of step 1 only), 1o (observations of step 1 only). As numeric id (clean the corresponding step directory, 0 means all directories)
 \item \textbf{branchStep}:  specify at which step the branching (if any) is effective (default 0)
 \end{itemize}
 
@@ -549,7 +549,7 @@ Every path can be a cell array of string. In this case, the path is selected in 
 
 \section{Exposition of observations}
 \hypertarget{exposition}{}
- 
+
 To generate Tables and Figures that can be saved or embedded in your reports, the main function to use is:
 
 \mcode{config = expExpose(config, '<typeOfExposition>', <parameters>);}
@@ -605,110 +605,110 @@ Parameters customize the rendering and are defined as string\,/\,value pairs.
 \item \textbf{addSpecification}: add display specification to the plot directive
     	as ('parameter'\,/\,value) pairs;
            value can be a cell array, in this case the cell array is split
-           across plot items                 
+           across plot items
 \item \textbf{addSettingSpecification}:  add display specification to the plot
            directive relative to specific settings as ('parameter'\,/\,value) pairs;
            value has to be a cell array which is split
-           across plot items which correspond to the settings                
+           across plot items which correspond to the settings
 \item \textbf{caption}: caption of display as string;
-    	symbol ``+'' gets replaced by a compact description of the setting  
+    	symbol ``+'' gets replaced by a compact description of the setting
 \item \textbf{color}: color of line;
            1: default set of colors,
            0: black,
-           {'r', ...}: user defined set of colors                 
+           {'r', ...}: user defined set of colors
 \item \textbf{compactLabels}: shorten labels by removing common substrings
-           (default 0)                 
-\item \textbf{data}: specify data to be stored (default empty)  
+           (default 0)
+\item \textbf{data}: specify data to be stored (default empty)
 
 \item \textbf{design}: use a canonical experimental design: assume cell array of {[factors as numericIds], number of values per factor (0 complete set of values), type of plan as string 'f' (factorial) or 'o' (one factor at a time), [ optionally a seed as a vector of index of factor]}. Shortcuts: numerid id (equivalent to {[], <numericId>}, 'f'), or 'one' design (equivalent to {[], 2, 'o'}), or 'star' design (equivalent to {[], 0, 'o'})
-\item \textbf{expand}: name or index of the factor to expand                 
-\item \textbf{fontSize}:  set the font size of \latex tables (default 'normal')                
+\item \textbf{expand}: name or index of the factor to expand
+\item \textbf{fontSize}:  set the font size of \latex tables (default 'normal')
 \item \textbf{highlight}:  highlight settings that are not significantly
     	different from the best performing setting;
        -1: no variance,
     	0: variance for all observations,
-    	[1, 3]: variance for the first and third observations 
+    	[1, 3]: variance for the first and third observations
 \item \textbf{highlightStyle}:  type of highlighting;
         'best': highlight best and equivalent (default),
         'Best': highlight only the best,
         'better': highlight the best if significantly better than
            the others,
         'Better': highlight only the best if significantly better than
-           the others               
+           the others
 \item \textbf{highlightColor}: use color to show highlights (default 1), -1 do
-       not use * to display the best performing one                 
-\item \textbf{integrate}:  factor(s) to integrate by summation 
-\item \textbf{label}: \latex label of display as string (equal to the name if left empty)             
+       not use * to display the best performing one
+\item \textbf{integrate}:  factor(s) to integrate by summation
+\item \textbf{label}: \latex label of display as string (equal to the name if left empty)
 \item \textbf{legendLocation}: location of the legend (default 'BestOutSide', \mcode{doc legend} for more options)
 \item \textbf{marker}:  specification of markers for line plot;
            1: Matlab default set of markers (default),
            0: no markers,
-           {'', ...}: user defined cell array of markers 
+           {'', ...}: user defined cell array of markers
 \item \textbf{mask}: selection of the settings to be displayed
 \item \textbf{mergeDisplay}: concatenate current display with the previous one;
         '': no merge (default),
         'h': horizontal concatenation,
-        'v': vertical concatenation                 
-\item \textbf{multipage}: activate the multipage setting for the \latex table 
-\item \textbf{name}:   name of exported file as string; 
-    	symbol ``+'' gets replaced by a compact description of the setting              
-\item \textbf{number}:  add a line number for each setting in tables                
-\item \textbf{noFactor}:  remove setting factors 
-\item \textbf{noObservation}: remove observations                 
-\item \textbf{obs}: name(s) or index(es) of the observations to display                 
+        'v': vertical concatenation
+\item \textbf{multipage}: activate the multipage setting for the \latex table
+\item \textbf{name}:   name of exported file as string;
+    	symbol ``+'' gets replaced by a compact description of the setting
+\item \textbf{number}:  add a line number for each setting in tables
+\item \textbf{noFactor}:  remove setting factors
+\item \textbf{noObservation}: remove observations
+\item \textbf{obs}: name(s) or index(es) of the observations to display
 \item \textbf{orderFactor}:   numeric array specifying the ordering of the factors
-\item \textbf{orderSetting}:    numeric array specifying the ordering of the settings              
+\item \textbf{orderSetting}:    numeric array specifying the ordering of the settings
 \item \textbf{orientation}:  orientation of display;
     	'v': vertical (default),
     	'h': horizontal,
        'i': as second letter invert the table for prompt and latex
-           display                
+           display
 \item \textbf{percent}: display observations in percent;
-    	selector is the same as 'highlight'  
+    	selector is the same as 'highlight'
 \item \textbf{plotCommand}:  set of commands executed after the plotting
-       directives as a cell array of commands                  
+       directives as a cell array of commands
 \item \textbf{plotAxisProperties}: set of command setting the current axis after plotting
-       directives as a cell array of couple property / value (see axis properties in Matlab documentation)  
+       directives as a cell array of couple property / value (see axis properties in Matlab documentation)
 \item \textbf{precision}:  mantissa precision of data as numeric value or array;
            -1: take value of \mcode{config} parameter tableDigitPrecision (default),
-           0: no mantissa                  
+           0: no mantissa
 \item \textbf{put}: specify display output;
     	0: otuput to command prompt,
     	1: output to figure,
-    	2: output to \LaTeX 
+    	2: output to \LaTeX
 \item \textbf{report}:  include the current exposition in the report;
-       0: do not include (default for Matlab tables),  
-       1: include (default for other displays)                   
-\item \textbf{rotateAxis}: rotate X axis labels (in degrees)   
+       0: do not include (default for Matlab tables),
+       1: include (default for other displays)
+\item \textbf{rotateAxis}: rotate X axis labels (in degrees)
 \item \textbf{show}: display;
         'data': actual observations (default),
         'rank': ranking among settings,
         'best': select best approaches,
-        'Best': select the significantly best approach (if any)                 
+        'Best': select the significantly best approach (if any)
 \item \textbf{save}: save the display;
     	0: no saving,
     	1: save to a file with the name of the display as filename
     	'name': save to file 'name'
-\item \textbf{shortObservations}: compact observation names                 
-\item \textbf{shortFactors}: compact factor names  
-\item \textbf{showMissingSetting}:  show missing settings (default 0)                
+\item \textbf{shortObservations}: compact observation names
+\item \textbf{shortFactors}: compact factor names
+\item \textbf{showMissingSetting}:  show missing settings (default 0)
 \item \textbf{sort}:   sort settings acording to the specified set of observations if
         positive or to the specified set of factors if negative
 \item \textbf{step}: show observations for the specified processing step (as name or
     index). Defaults to the last step
 \item \textbf{title}: title of the display, as string,
-    	symbol ``+'' gets replaced by a compact description of the setting  
+    	symbol ``+'' gets replaced by a compact description of the setting
 \item \textbf{total}:  display average  or summed values for observations;
         'v', 'V': vertical with (v) or without (V) display of settings,
-        'h', 'H': horizontal with (h) or without (H) display of settings                
+        'h', 'H': horizontal with (h) or without (H) display of settings
 \item \textbf{variance}:   display variance;
     	selector is the same as 'highlight',
-\item \textbf{visible}: show the figure (default 1 except in save mode)                    
+\item \textbf{visible}: show the figure (default 1 except in save mode)
 \end{itemize}
 
 \section{Publishing your experiment}
 \hypertarget{publish}{}
- 
+
 Publishing your experiment together with your research paper has two major benefits: not only is it the best way to assert beyond any possible doubt the trustworthiness of your reporting, it can also have a significant impact on the pace at which your research community progresses, as it allows other researchers to replicate exactly your experiments in an efficient way.
 
 Indeed, unlike our introductory example, any real-life processing chain has many bells and whistles that needs to be tuned correctly in order to perform as described in your article. As it surely took you time and great care to reach that tuning, it is very unlikely that another researcher, as skillful as he may be, will dedicate the time needed to replicate it.
@@ -723,10 +723,10 @@ geometricShape('export', 'c d', 'exportPath', <pathToExportLocation>);
 
 Is the data used in your experiment
 \begin{itemize}
-\item freely available ? 
+\item freely available ?
 \item licensed with creative commons licenses ?
 \item your property and you have the ability to distribute it freely ?
-\end{itemize} 
+\end{itemize}
 
 If it falls into any of those categories, then your experiment can be replicated entirely which is, by far, the best case. If the data is not yet available online at the time of publishing, a convenient way to make data available online is the Archive repository\footnote{\url{https://archive.org}}. Please add the needed documentation on how to retrieve the data online in the \mcode{README.txt} file of the experiment.
 
@@ -742,13 +742,13 @@ If you do not wish to publish input data, you can still help others members of t
 For example, if the first step of the experiment is to compute features, and you can ensure that the processing is not invertible, you may wish to publish the output of this first step, as it will allow others to replicate the following steps of the experiment:
 \begin{lstlisting}
 geometricShape('export', 'c d 1d', 'exportPath', <pathToExportLocation>);
-\end{lstlisting} 
+\end{lstlisting}
 In that example, \mcode{'1d'} stands for the output data of step 1.
 
 If you do not wish to do that, you can still export the observations of the processing steps in order to provide performance data that is not available in your research paper due to page limit constraints:
 \begin{lstlisting}
 geometricShape('export', 'c d 1o', 'exportPath', <pathToExportLocation>);
-\end{lstlisting} 
+\end{lstlisting}
 Here, \mcode{'1o'} stands for the observations of step 1.
 
 \subsection{Ensuring replicability}
@@ -793,7 +793,7 @@ geometricShape('export', 'c d i', 'exportPath', <pathToExportLocation>);
 \end{enumerate}
 
 \section{Advanced usage}
-\hypertarget{advanced}{} 
+\hypertarget{advanced}{}
 
 \subsection{Fork an experiment}
 
@@ -941,7 +941,7 @@ If the code is static, and each processing host share the same computing environ
 
 \section{Recommended readings}
 \hypertarget{readings}{}
- 
+
 \begin{itemize}
 
 \item \textbf{Getting it right}: R\&D Methods for Science and Engineering, Peter Bock, Academic Press
