@@ -39,7 +39,7 @@ if config.log >= level
     end
     
     if codeLocation && ~isempty(stack)
-        codeLocation = sprintf('in function %s, line %d of file %s\n', stack(1).name, stack(1).line, stack(1).file);
+        codeLocation = sprintf('\n in function %s, line %d of file %s\n\n', stack(1).name, stack(1).line, stack(1).file);
         if expInfo
             codeLocation = ['   ' codeLocation];
         end
