@@ -229,6 +229,7 @@ config.expLanesPath = expLanesPath;
 config.runDuration = 0;
 config.html = [];
 config.html.tables = [];
+config.html.audioFileNames = [];
 
 if ~exist(config.reportPath, 'dir'), mkdir(config.reportPath); end
 if ~exist([config.reportPath 'figures'], 'dir'), mkdir([config.reportPath 'figures']); end

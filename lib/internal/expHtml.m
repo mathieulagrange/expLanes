@@ -23,6 +23,7 @@ if ~exist(reportPath, 'dir')
     mkdir(reportPath);
     mkdir([reportPath '/figures']);
     mkdir([reportPath '/data']);
+    mkdir([reportPath '/audio']);
     copyfile([fileparts(mfilename('fullpath')) filesep 'utils/html'], [reportPath '/internal']);
     movefile([reportPath 'internal/index.html'], reportPath);
     movefile([reportPath 'internal/comments.js'], reportPath);
@@ -55,8 +56,23 @@ if ~isempty(c.displayData.table)
     table.sortType = '';
     table.show = 0;
     table.caption = table.caption;
-      
-    config.html.tables{end+1} = table;  
+    
+    config.html.tables{end+1} = table;
+    
+    % store data for audio managment
+    fileNames = {};
+    for k=1:length(data.rawData)
+        if (isfield(data.rawData{k}, 'audioFileNames'))
+            for l=1:length(data.rawData{k}.audioFileNames)
+                [p, n, e] = fileparts(data.rawData{k}.audioFileNames{l});
+                fileNames{k}{l} = [n e];
+                system(['ln -s ' data.rawData{k}.audioFileNames{l} ' ' reportPath 'audio/' fileNames{k}{l}]);
+            end
+        else
+            fileNames{k}={};
+        end
+    end
+    config.html.audioFileNames{end+1} = fileNames;
 end
 
 %

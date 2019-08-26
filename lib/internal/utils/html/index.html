@@ -2,97 +2,110 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>expLanes</title>
-    <link rel="icon" type="image/png" href="internal/logo.png" />
-    <!-- CSS -->
-    <link rel="stylesheet" href="internal/bootstrap.min.css">
-    <link rel="stylesheet" href="internal/font-awesome-4.6.3/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="internal/expReport.css"/>
-    <style>
-      body { padding-top:50px; }
-    </style>
-    <!-- JS -->
-    <script src="internal/angular.min.js"></script>
-    <script src="internal/expReport.js"></script>
-    <script src="data/data.js"></script>
-    <script src="comments.js"></script>
-  </head>
-  <body>
-    <div class="container" ng-app="sortApp" ng-controller="mainController" align="center">
-	<h1> {{title}}</h1>
-	<h2> {{author}}</h2>
-	<h3> {{date}}</h3>
-	<div style="position:absolute; right:30px; top: 30px">
-	  <a href="http://mathieulagrange.github.io/expLanes">
-	    <img style="position: absolute; top: 0; right: 0; border: 0; width:80px; height: 80px" src="internal/github.png" alt="Fork me on GitHub">
-	    <img src="internal/logo.png" alt="This is an expLanes experiment" style="width:120px;height:120px;">
-	    <div style = "margin-top:-10px; text-align: center">
-	      expLanes
-	    </div>
-	  </a>
-	</div>
-      
-      <div class="overlay" ng-show="showTex!=-1" ng-click="showTexFile(-1)">
-	<div class="pop" ng-click="stopEvent($event)">
-	  <textarea class="texData" ng-model="tables[showTex].tex"  rows="10" cols="100">
-	  </textarea>
-	  <input type="button" value="Copy to clipboard" ng-click="copyToClipBoard(index)"/>
-	</div>
-      </div>
+<head>
+  <meta charset="UTF-8">
+  <title>expLanes</title>
+  <link rel="icon" type="image/png" href="internal/logo.png" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="internal/bootstrap.min.css"> -->
+  <link rel="stylesheet" href="internal/font-awesome-4.6.3/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="internal/expReport.css"/>
+  <style>
+  body { padding-top:50px; }
+  </style>
+  <!-- JS -->
+  <script src="internal/angular.min.js"></script>
+  <script src="internal/expReport.js"></script>
+  <script src="data/data.js"></script>
+  <script src="comments.js"></script>
+</head>
+<body>
+  <div class="container" ng-app="sortApp" ng-controller="mainController" align="center">
+    <h1> {{title}}</h1>
+    <h2> {{author}}</h2>
+    <h3> {{date}}</h3>
+    <div style="position:absolute; right:30px; top: 30px">
+      <a href="http://mathieulagrange.github.io/expLanes">
+        <img style="position: absolute; top: 0; right: 0; border: 0; width:80px; height: 80px" src="internal/github.png" alt="Fork me on GitHub">
+        <img src="internal/logo.png" alt="This is an expLanes experiment" style="width:120px;height:120px;">
+        <div style = "margin-top:-10px; text-align: center">
+          expLanes
+        </div>
+      </a>
+    </div>
 
-      <div class="report">
-	  <p ng-repeat="line in report"> {{line}} </p>
-      </div>
-
-      <div ng-repeat="table in tables">
-	<div>
-	  <div class="alert alert-info" style="display:inline-block" ng-click="showTable($index)">
-	    Tab. {{$index+1}}: {{table.caption}}
-	  </div>
-	  <div class="alert alert-info" style="display:inline-block" ng-click="showTexFile($index)">
-	    <span class="tex"><b>T<sub>e</sub>X</b></span>
-	  </div>
-	</div>
-
-	<div class="dataHider" ng-style="{height:table.visibleHeight}">
-	  <div id="table-{{$index}}-content" class="data">
-	    
-	    <img ng-if="table.figure" ng-src="{{table.figure}}" width="90%" style="border:3px solid black"/> 
-	    
-	    <div class="comment">
-	      <p ng-repeat="line in table.comment"> {{line}} </p>
-	    </div>
-
-	    <form>
-	      <div class="form-group">
-		<div class="input-group">
-		  <div class="input-group-addon"><i class="fa fa-search"></i></div>
-		  <input type="text" class="form-control" placeholder="Filter the table by keyword" ng-model="table.searchToken">
-		</div>      
-	      </div>
-	    </form>
-
-	    <a name="table{{$index}}"></a>
-	    
-	    <table class="table table-bordered table-striped">
-	      <tr>
-		<th ng-repeat="column in table.cols">
-		  <a href="#table{{$parent.$index}}" ng-click="setSortType(column)">
-		    {{column}}
-		    <span ng-show="sortType == column && sortReverse" class="fa fa-caret-up"></span>
-		    <span ng-show="sortType == column && !sortReverse" class="fa fa-caret-down"></span>
-		  </a>
-		</th>
-	      </tr>
-	      <tr ng-repeat="row in table.rows | orderBy:sortCell:sortReverse | filter:table.searchToken">
-		<td ng-repeat="column in table.cols" ng-style="{color:isBest(table, column, row[column]) && 'red' || 'black'}">{{row[column]}}</td>
-	      </tr>
-	    </table>
-	  </div>
-	</div>
+    <div class="overlay" ng-show="showTex!=-1" ng-click="showTexFile(-1)">
+      <div class="pop" ng-click="stopEvent($event)">
+        <textarea class="texData" ng-model="tables[showTex].tex"  rows="10" cols="100">
+        </textarea>
+        <input type="button" value="Copy to clipboard" ng-click="copyToClipBoard(index)"/>
       </div>
     </div>
-  </body>
+
+    <div class="report">
+      <p ng-repeat="line in report"> {{line}} </p>
+    </div>
+
+    <div ng-repeat="table in tables">
+      <div>
+        <div class="alert alert-info" style="display:inline-block" ng-click="showTable($index)">
+          Tab. {{$index+1}}: {{table.caption}}
+        </div>
+        <div class="alert alert-info" style="display:inline-block" ng-click="showTexFile($index)">
+          <span class="tex"><b>T<sub>e</sub>X</b></span>
+        </div>
+      </div>
+
+      <div class="dataHider" ng-style="{height:table.visibleHeight}">
+        <div id="table-{{$index}}-content" class="data">
+
+          <img ng-if="table.figure" ng-src="{{table.figure}}" width="90%" style="border:3px solid black"/>
+
+          <div class="comment">
+            <p ng-repeat="line in table.comment"> {{line}} </p>
+          </div>
+
+          <form>
+            <div class="form-group">
+              <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                <input type="text" class="form-control" placeholder="Filter the table by keyword" ng-model="table.searchToken">
+              </div>
+            </div>
+          </form>
+
+          <a name="table{{$index}}"></a>
+
+          <table class="table table-bordered table-striped">
+            <tr>
+              <th ng-repeat="column in table.cols">
+                <a href="#table{{$parent.$index}}" ng-click="setSortType(column)">
+                  {{column}}
+                  <span ng-show="sortType == column && sortReverse" class="fa fa-caret-up"></span>
+                  <span ng-show="sortType == column && !sortReverse" class="fa fa-caret-down"></span>
+                </a>
+              </th>
+            </tr>
+            <tr ng-repeat="row in table.rows | orderBy:sortCell:sortReverse | filter:table.searchToken">
+              <td ng-repeat="column in table.cols" ng-style="{color:isBest(table, column, row[column]) && 'red' || 'black'}">{{row[column]}}</td>
+              <td ng-click='setSetting($index)' class='glyphicon glyphicon-play' ng-style="{color:selectedSetting==$index && 'red' || 'black'}"> </td>
+            </tr>
+          </table>
+          <div>
+<table>
+<td style='padding-right:1em' class='glyphicon glyphicon-random' ng-click='setRandom()'  ng-style="{color:playRandom && 'red' || 'black'}"> </td>
+<td class='glyphicon glyphicon-step-backward' ng-click='selectAudioFile(false)'> </td>
+<td ng-show='playing'  ng-click='playAudio()' class='glyphicon glyphicon-pause'> </td>
+<td ng-hide='playing' ng-click='playAudio()' class='glyphicon glyphicon-play'> </td>
+<td class='glyphicon glyphicon-step-forward' ng-click='selectAudioFile()'> </td>
+<td style='padding-left:3em'> {{fileName}} </td>
+<td style='padding-left:3em'> {{selectedSetting}} </td>
+</table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
 </html>
