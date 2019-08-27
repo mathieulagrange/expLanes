@@ -90,7 +90,7 @@
             <tr ng-repeat="row in table.rows | orderBy:sortCell:sortReverse | filter:table.searchToken">
               <td ng-repeat="column in table.cols" ng-style="{color:isBest(table, column, row[column]) && 'red' || 'black'}">{{row[column]}}</td>
               <td ng-show='playing && selectedSetting==$index'  ng-click='playAudio()' class='glyphicon glyphicon-pause' ng-style="{color:selectedSetting==$index && 'red' || 'black'}"> </td>
-              <td ng-hide='(playing && selectedSetting==$index) || hasData($index)' ng-click='setSetting($index)' class='glyphicon glyphicon-play' ng-style="{color:selectedSetting==$index && 'red' || 'black'}"> </td>
+              <td ng-hide='(playing && selectedSetting==$index) || !hasData($index)' ng-click='setSetting($index)' class='glyphicon glyphicon-play' ng-style="{color:selectedSetting==$index && 'red' || 'black'}"> </td>
 
             </tr>
           </table>
