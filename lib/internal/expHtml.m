@@ -66,7 +66,9 @@ if ~isempty(c.displayData.table)
             for l=1:length(data.rawData{k}.audioFileNames)
                 [p, n, e] = fileparts(data.rawData{k}.audioFileNames{l});
                 fileNames{k}{l} = [n e];
-                system(['ln -s ' data.rawData{k}.audioFileNames{l} ' ' reportPath 'audio/' fileNames{k}{l}]);
+                if (~exist([reportPath 'audio/' fileNames{k}{l}], 'file'))
+                    system(['ln -s ' data.rawData{k}.audioFileNames{l} ' ' reportPath 'audio/' fileNames{k}{l}]);
+                end
             end
         else
             fileNames{k}={};
