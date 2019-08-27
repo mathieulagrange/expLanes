@@ -707,8 +707,13 @@ if any(p.put==[0 2])
     config = expDisplay(config, p);
 end
 
-if exist('data', 'var') && any(strfind(config.report, 'h'))
- config = expHtml(config, data, p, exposeType);
+if exist('data', 'var') && any(strfind(lower(config.report), 'h'))
+    if (any(strfind(config.report, 'H')))
+        hardlink = 1;
+    else
+        hardlink = 0;
+    end
+ config = expHtml(config, data, p, exposeType, hardlink);
 end
 
 if p.save ~= 0

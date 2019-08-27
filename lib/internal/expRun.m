@@ -251,7 +251,7 @@ if strfind(config.report, 'r')
             config = expLog(config, catchedError, 3, 1);
         end
     end
-    if strfind(config.report, 'h')
+    if strfind(lower(config.report), 'h')
         if isempty(config.reportName)
             reportName = config.experimentName;
         else

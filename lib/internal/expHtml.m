@@ -1,4 +1,4 @@
-function config = expHtml(config, data, p, exposeType)
+function config = expHtml(config, data, p, exposeType, hardlink)
 
 currentDisplay = length(config.displayData.table);
 if ~isempty(config.displayData.figure)
@@ -66,8 +66,16 @@ if ~isempty(c.displayData.table)
             for l=1:length(data.rawData{k}.audioFileNames)
                 [p, n, e] = fileparts(data.rawData{k}.audioFileNames{l});
                 fileNames{k}{l} = [n e];
+                destFileName = [reportPath 'audio/' fileNames{k}{l}];
+                if (hardlink)
+                    if (exist(destFileName, 'file'))
+                        delete(destFileName);
+                    end
+                    copyfile(data.rawData{k}.audioFileNames{l}, destFileName);
+                else
                 if (~exist([reportPath 'audio/' fileNames{k}{l}], 'file'))
-                    system(['ln -s ' data.rawData{k}.audioFileNames{l} ' ' reportPath 'audio/' fileNames{k}{l}]);
+                    system(['ln -s ' data.rawData{k}.audioFileNames{l} ' ' destFileName]);
+                end
                 end
             end
         else
