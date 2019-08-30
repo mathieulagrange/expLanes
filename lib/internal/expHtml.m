@@ -47,7 +47,7 @@ if ~isempty(c.displayData.table)
     % save figure
     if p.put == 1 && ~strcmp(exposeType, 'exposeTable')
         expSaveFig([reportPath 'figures/' num2str(currentDisplay)], gcf);
-        table.figure = [reportPath 'figures/' num2str(currentDisplay) '.png'];
+        table.figure = ['figures/' num2str(currentDisplay) '.png'];
         table.figureType = exposeType;
     else
         table.figure = '';
@@ -61,20 +61,21 @@ if ~isempty(c.displayData.table)
     
     % store data for audio managment
     fileNames = {};
-    for k=1:length(data.rawData)
-        if (isfield(data.rawData{k}, 'audioFileNames'))
-            for l=1:length(data.rawData{k}.audioFileNames)
-                [p, n, e] = fileparts(data.rawData{k}.audioFileNames{l});
+    sd = data.rawData(data.selector);
+    for k=1:length(sd)
+        if (isfield(sd{k}, 'audioFileNames'))
+            for l=1:length(sd{k}.audioFileNames)
+                [p, n, e] = fileparts(sd{k}.audioFileNames{l});
                 fileNames{k}{l} = [n e];
                 destFileName = [reportPath 'audio/' fileNames{k}{l}];
                 if (hardlink)
                     if (exist(destFileName, 'file'))
                         delete(destFileName);
                     end
-                    copyfile(data.rawData{k}.audioFileNames{l}, destFileName);
+                    copyfile(sd{k}.audioFileNames{l}, destFileName);
                 else
                 if (~exist([reportPath 'audio/' fileNames{k}{l}], 'file'))
-                    system(['ln -s ' data.rawData{k}.audioFileNames{l} ' ' destFileName]);
+                    system(['ln -s ' sd{k}.audioFileNames{l} ' ' destFileName]);
                 end
                 end
             end

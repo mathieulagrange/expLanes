@@ -44,6 +44,7 @@ end
 fileName = [path name  extension];
 
 if write || (exist('data', 'var') && ~isempty(data))
+    data.info = [];
     data.info.runId = config.runId; %#ok<NASGU> 
     data.info.setting = config.step.setting; %#ok<NASGU>
     data.info.stepName = stepName;
