@@ -117,7 +117,7 @@ if  p.expand ~= 0
         end
     end
     if approx
-         fprintf(2, 'approximate match for expansion\n');
+        fprintf(2, 'approximate match for expansion\n');
     end
 end
 
@@ -168,7 +168,7 @@ for m=1:length(p.obs)
             stdData(k, m) = 0;
         else
             nbData(k, m) = length(data{k}.(observations{p.obs(m)}));
-            sData(k, m) = mean(data{k}.(observations{p.obs(m)}));
+            sData(k, m) = expPooling(data{k}.(observations{p.obs(m)}), p.pooling);
             stdData(k, m) = std(double(data{k}.(observations{p.obs(m)})));
         end
     end
@@ -219,7 +219,7 @@ if p.highlight ~= -1
                         highlights(m, k) = ~rejection;
                         % better than handling
                         if p.better
-                            if rejection && mean(double(data{m}.(observations{p.obs(k)}))) > mean(double(data{maxIndex}.(observations{p.obs(k)})))
+                            if rejection && expPooling(double(data{m}.(observations{p.obs(k)})), p.pooling) > expPooling(double(data{maxIndex}.(observations{p.obs(k)})), p.pooling)
                                 highlights(m, k) = 2;
                             end
                             if m==maxIndex
@@ -323,4 +323,19 @@ if isempty(settingSelector)
     dataDisplay.settingSelector = [];
 else
     dataDisplay.settingSelector = settingSelector(select(1:min(length(select), length(settingSelector))));
+end
+
+function res = expPooling(vec, pooling)
+
+switch pooling
+    case 'a'
+        res =  mean(vec);
+    case 'f'
+        res =  vec(1);
+    case 'l'
+        res =  vec(end);
+    case 'M'
+        res =  max(vec);
+    case 'm'
+        res =  min(vec);
 end

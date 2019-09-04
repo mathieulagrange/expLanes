@@ -24,12 +24,12 @@ else
     end
     
     for k=1:length(m)
-        if  s{k}(1) == -1 || m{k}(1) == -1
+        if (~isempty(s{k}) && s{k}(1) == -1) || m{k}(1) == -1 % TODO very fragile
             m{k} = setting;
         else
-            if m{k}(1) ~= 0 && s{k}(1) ~= 0
+            if m{k}(1) ~= 0 && (~isempty(s{k}) && s{k}(1) ~= 0)
                 m{k} = intersect(m{k}, s{k});
-            elseif m{k}(1) == 0 && s{k}(1) ~= 0
+            elseif m{k}(1) == 0 && (~isempty(s{k}) && s{k}(1) ~= 0)
                 m{k} = s{k};
             elseif m{k}(1) == 0
                 m{k} = 1:length(values{k});

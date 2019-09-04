@@ -74,6 +74,12 @@ function config = expExpose(varargin)
 %    'precision': mantissa precision of data as numeric value or array
 %           -1: take value of config field tableDigitPrecision (default)
 %           0: no mantissa
+%    'pool': type of observation pooling
+%           'a': average pooling (default)
+%           'f': first value pooling
+%           'l': last value pooling
+%           'm': min pooling
+%           'M': max pooling
 %    'put': specify display output
 %    	0: output to command prompt
 %    	1: output to figure
@@ -114,7 +120,8 @@ function config = expExpose(varargin)
 %	See licence.txt for more information.
 
 oriConfig = varargin{1};
-config = varargin{1};
+config = varargin{1};%           'm': min pooling
+
 exposeType = varargin{2};
 
 p.orderFactor = [];
@@ -135,6 +142,7 @@ p.put=1;
 p.save=0;
 p.report=1;
 p.percent=-1;
+p.pooling = 'a';
 p.legendLocation='BestOutSide';
 p.integrate=0;
 p.total= 'none';
