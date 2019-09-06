@@ -162,7 +162,7 @@ stdData = [];
 nbData = 0;
 for m=1:length(p.obs)
     for k=1:length(data)
-        if isempty(data{k}) || ~isfield(data{k}, observations{p.obs(m)})
+        if isempty(data{k}) || ~isfield(data{k}, observations{p.obs(m)}) || ~isnumeric(data{k}.(observations{p.obs(m)}))
             nbData(k, m, :) = 0;
             sData(k, m) = NaN;
             stdData(k, m) = 0;
@@ -179,7 +179,7 @@ for m=1:length(p.obs)
     for k=1:length(data)
         if ~isempty(data{k}) && isfield(data{k}, observations{p.obs(m)})
             datak = data{k}.(observations{p.obs(m)});
-            if ~isempty(datak)
+            if ~isempty(datak) && isnumeric(data{k}.(observations{p.obs(m)}))
                 fData(k, m, 1:length(datak)) = datak;
             else
                 fData(k, m, 1) = NaN;

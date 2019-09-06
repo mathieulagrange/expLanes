@@ -80,7 +80,7 @@ for k=1:length(data)
     if ~isempty(data{k})
         names = fieldnames(data{k});
         for m=1:length(names)
-            if isstruct(data{k}.(names{m})) % || iscell(data{k}.(names{m}))
+            if isstruct(data{k}.(names{m})) && ~strcmp(names{m}, 'info') % || iscell(data{k}.(names{m}))
                 structObservations = [structObservations names{m}];
             elseif ~iscell(data{k}.(names{m}))
                 observations = [observations names{m}];

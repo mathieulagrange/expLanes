@@ -263,13 +263,6 @@ if ~isempty(exposeType)
     config = expReduce(config);
 end
 
-if ~p.percent
-    p.percent = 1:length(p.obs);
-end
-
-if ~p.negativeRank
-    p.negativeRank = 1:length(p.obs);
-end
 
 if  ~isfield(config, 'evaluation') || isempty(config.evaluation) || isempty(config.evaluation.data)  || sum(cellfun(@isempty,config.evaluation.data))== length(config.evaluation.data)
     if ~isempty(exposeType)
@@ -282,6 +275,14 @@ else
     end
     if ~p.obs
         p.obs = 1:length(config.evaluation.observations);
+    end
+    
+    if ~p.percent
+        p.percent = 1:length(p.obs);
+    end
+    
+    if ~p.negativeRank
+        p.negativeRank = 1:length(p.obs);
     end
     %     if length(p.obs) > length(p.precision)
     p.precision = [p.precision*ones(1, length(config.evaluation.observations))];
@@ -337,7 +338,7 @@ else
         %         observations = config.evaluation.observations;
         for k=1:length(p.percent)
             for m=1:length(config.evaluation.results)
-                if ~isempty(config.evaluation.results{m}) && all(config.evaluation.results{m}.(evaluationObservations{p.percent(k)})<=1)
+                if ~isempty(config.evaluation.results{m}) && isnumeric(config.evaluation.results{m}.(evaluationObservations{p.percent(k)})) && all(config.evaluation.results{m}.(evaluationObservations{p.percent(k)})<=1)
                     config.evaluation.results{m}.(evaluationObservations{p.percent(k)}) = 100*config.evaluation.results{m}.(evaluationObservations{p.percent(k)});
                 end
             end
@@ -593,7 +594,7 @@ else
                 else
                     if p.shortFactors == -1
                         if ~isempty(d.infoNoStringMasked)
-                        p.labels{k} = strrep(d.infoNoStringMasked, '_', ' '); % (data.settingSelector)
+                            p.labels{k} = strrep(d.infoNoStringMasked, '_', ' '); % (data.settingSelector)
                         end
                     else
                         p.labels{k} = strrep(d.infoShortStringMasked, '_', ' '); % (data.settingSelector)
@@ -702,9 +703,9 @@ end
 
 if ~isempty(p.plotAxisProperties)
     if iscell(p.plotAxisProperties)
-    set(gca, p.plotAxisProperties{:});
+        set(gca, p.plotAxisProperties{:});
     else
-       eval(p.plotAxisProperties);
+        eval(p.plotAxisProperties);
     end
 end
 for k=1:length(p.plotCommand)
@@ -721,7 +722,7 @@ if exist('data', 'var') && any(strfind(lower(config.report), 'h'))
     else
         hardlink = 0;
     end
- config = expHtml(config, data, p, exposeType, hardlink);
+    config = expHtml(config, data, p, exposeType, hardlink);
 end
 
 if p.save ~= 0
