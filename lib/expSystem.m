@@ -20,7 +20,7 @@ else
     if config.attachedMode
         echo = '-echo';
     else
-        echo = '';
+        echo = '-echo';
     end
     [status, cmdout] = system(execCommand, echo);
     

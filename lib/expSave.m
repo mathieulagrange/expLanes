@@ -44,16 +44,19 @@ end
 fileName = [path name  extension];
 
 if write || (exist('data', 'var') && ~isempty(data))
-    data.info = [];
-    data.info.runId = config.runId; %#ok<NASGU> 
-    data.info.setting = config.step.setting; %#ok<NASGU>
-    data.info.stepName = stepName;
-    data.info.userName = config.userName;
-    config.waitBar = [];
-    data.info.config = config;
-    data.info.setting.fileName = fileName;
+    data.info = expStripConfig(config);
+    data.info.settingFileName = fileName;
     save(fileName, 'data', ['-v' num2str(config.encodingVersion)]);
 end
 
+function c = expStripConfig(config)
 
-
+c.runId = config.runId;  
+c.setting = config.step.setting; 
+c.stepName = config.stepName{config.step.id};
+c.userName = config.userName;
+c.codePath = config.codePath;
+c.dataPath = config.dataPath;
+c.inputPath = config.inputPath;
+c.obsPath = config.obsPath;
+c.setting = config.step.setting;
