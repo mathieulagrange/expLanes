@@ -109,7 +109,7 @@ if  p.expand ~= 0
             end
             %                 data{k}.(observations{m}) = fData{(k-1)*length(observations)/length(observation)+ind(m)}.(met2{m});
             fdi = fData{index};
-            if isempty(fdi)
+            if isempty(fdi) || ~isfield(fdi, met2{m})
                 data{k}.(observations{m}) = NaN;
             else
                 data{k}.(observations{m}) = fdi.(met2{m});

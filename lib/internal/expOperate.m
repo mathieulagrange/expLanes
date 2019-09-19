@@ -222,10 +222,10 @@ if config.recordTiming && ~isfield(storeObs, 'time')
     storeObs.time = toc(ticId);
 end
 
-if ~isempty(storeData)
+if ~isempty(storeData) && (~isfield(config, 'dryMode') || config.dryMode~=1)
     expSave(config, storeData, 'data');
 end
-if ~isempty(storeObs)
+if ~isempty(storeObs) && (~isfield(config, 'dryMode') || config.dryMode~=1)
     expSave(config, storeObs, 'obs');
 end
 

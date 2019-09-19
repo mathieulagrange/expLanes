@@ -104,7 +104,7 @@ while ~feof(fid)
     line = fgetl(fid);
     if ischar(line) && ~isempty(line)
         line = strtrim(line);
-        if ~strcmp(line(1), '%')
+        if ~isempty(line) && ~strcmp(line(1), '%')
             if start
                 fprintf('Factors:\n');
                 start=0;

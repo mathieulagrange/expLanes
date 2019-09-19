@@ -22,7 +22,7 @@ if ~isempty(p.methodLabel) && length(p.units)>1 && ~isempty(p.units{2})
     p.methodLabel = [p.methodLabel{1} ' (' p.units{2} ')'];
 end
 
-if p.percent>-1 && ~isempty(p.methodLabel)
+if all(p.percent>-1) && ~isempty(p.methodLabel)
     %     p.xName = [p.xName{1} ' (%)'];
     p.methodLabel = [p.methodLabel{1} ' (%)'];
 end
