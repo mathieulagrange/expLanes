@@ -99,7 +99,7 @@ switch p.put
     case 3
         for k=1:length(p.columnNames)
             if ~isempty(str2num(p.columnNames{k}))
-                fieldNames{k} = ['o' p.columnNames{k}];
+                fieldNames{k} = ['o' strtrim(p.columnNames{k})];
             else
                 fieldNames{k} = p.columnNames{k};
             end

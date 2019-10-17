@@ -72,7 +72,9 @@ if ~isempty(c.displayData.table)
                     if (exist(destFileName, 'file'))
                         delete(destFileName);
                     end
-                    copyfile(sd{k}.audioFileNames{l}, destFileName);
+                    if exist(sd{k}.audioFileNames{l}, 'var')
+                      copyfile(sd{k}.audioFileNames{l}, destFileName);
+                    end
                 else
                 if (~exist([reportPath 'audio/' fileNames{k}{l}], 'file'))
                     system(['ln -s ' sd{k}.audioFileNames{l} ' ' destFileName]);
