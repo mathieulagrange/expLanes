@@ -96,21 +96,19 @@
               <td ng-repeat="column in table.cols" ng-style="{color:isBest(table, column, row[column]) && 'red' || 'black'}">{{row[column]}}</td>
               <td>
 
-              <a ng-show='playing && selectedSetting==table.rows.indexOf(row)'  ng-click='playAudio()' class='glyphicon glyphicon-pause' ng-style="{color:selectedSetting==table.rows.indexOf(row) && 'red' || 'black'}"> </a>
-  <a ng-hide='(playing && selectedSetting==table.rows.indexOf(row)) || !hasData(tableIndex, $index)' ng-click='setSetting(tableIndex, row)' class='glyphicon glyphicon-play' ng-style="{color:selectedSetting==$index && 'red' || 'black'}"> </a>
+              <a ng-show='playing[tableIndex] && selectedSetting==table.rows.indexOf(row)'  ng-click='playAudio(tableIndex)' class='glyphicon glyphicon-pause' ng-style="{color:selectedSetting==table.rows.indexOf(row) && 'red' || 'black'}"> </a>
+  <a ng-hide='(playing[tableIndex] && selectedSetting==table.rows.indexOf(row)) || !hasData(tableIndex, $index)' ng-click='setSetting(tableIndex, row)' class='glyphicon glyphicon-play' ng-style="{color:selectedSetting==table.rows.indexOf(row) && 'red' || 'black'}"> </a>
               </td>
-
-
             </tr>
           </table>
           <div>
 <table>
-<td style='padding-right:1em' class='glyphicon glyphicon-random' ng-click='setRandom(tableIndex)'  ng-style="{color:playRandom && 'red' || 'black'}"> </td>
+<td style='padding-right:1em' class='glyphicon glyphicon-random' ng-click='setRandom(tableIndex)'  ng-style="{color:playRandom[tableIndex] && 'red' || 'black'}"> </td>
 <td class='glyphicon glyphicon-step-backward' ng-click='selectAudioFile(false)'> </td>
-<td ng-show='playing'  ng-click='playAudio()' class='glyphicon glyphicon-pause'> </td>
-<td ng-hide='playing' ng-click='playAudio()' class='glyphicon glyphicon-play'> </td>
+<td ng-show='playing[tableIndex]'  ng-click='playAudio(tableIndex)' class='glyphicon glyphicon-pause'> </td>
+<td ng-hide='playing[tableIndex]' ng-click='playAudio(tableIndex)' class='glyphicon glyphicon-play'> </td>
 <td class='glyphicon glyphicon-step-forward' ng-click='selectAudioFile(tableIndex)'> </td>
-<td style='padding-left:3em'> {{fileName}} </td>
+<td style='padding-left:3em'> {{fileName[tableIndex]}} </td>
 <!-- <td style='padding-left:3em'> {{selectedSetting}} </td> -->
 </table>
           </div>
