@@ -52,9 +52,6 @@
         <div class="alert alert-info" style="display:inline-block" ng-click="showTable($index)">
           Tab. {{$index+1}}: {{table.caption}}
         </div>
-        <div class="alert alert-info" style="display:inline-block" ng-click="showTexFile($index)">
-          <span class="tex"><b>T<sub>e</sub>X</b></span>
-        </div>
       </div>
 
       <div class="dataHider" ng-style="{height:table.visibleHeight}">
@@ -113,6 +110,9 @@
 </table>
           </div>
         </div>
+      </div>
+      <div class="alert alert-info" style="display:inline-block" ng-click="showTexFile($index)">
+        <span class="tex"><b>T<sub>e</sub>X</b></span>
       </div>
     </div>
   </div>
