@@ -57,9 +57,8 @@ if ~isempty(c.displayData.table)
     table.show = 0;
     table.caption = table.caption;
     
-    config.html.tables{end+1} = table;
     
-    % store data for audio managment
+    % store data for audio management
     fileNames = {};
     sd = data.rawData(data.selector);
     for k=1:length(sd)
@@ -72,13 +71,13 @@ if ~isempty(c.displayData.table)
                     if (exist(destFileName, 'file'))
                         delete(destFileName);
                     end
-                    if exist(sd{k}.audioFileNames{l}, 'var')
-                      copyfile(sd{k}.audioFileNames{l}, destFileName);
+                    if exist(sd{k}.audioFileNames{l}, 'file')
+                        copyfile(sd{k}.audioFileNames{l}, destFileName);
                     end
                 else
-                if (~exist([reportPath 'audio/' fileNames{k}{l}], 'file'))
-                    system(['ln -s ' sd{k}.audioFileNames{l} ' ' destFileName]);
-                end
+                    if (exist(sd{k}.audioFileNames{l}, 'file') && ~exist([reportPath 'audio/' fileNames{k}{l}], 'file'))
+                        system(['ln -s ' sd{k}.audioFileNames{l} ' ' destFileName]);
+                    end
                 end
             end
         else
@@ -86,6 +85,7 @@ if ~isempty(c.displayData.table)
         end
     end
     config.html.audioFileNames{end+1} = fileNames;
+    config.html.tables{end+1} = table;
 end
 
 %

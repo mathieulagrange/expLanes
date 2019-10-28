@@ -47,7 +47,7 @@
       <p ng-repeat="line in report"> {{line}} </p>
     </div>
 
-    <div ng-repeat="table in tables">
+    <div ng-repeat="table in tables" ng-init="tableIndex = $index">
       <div>
         <div class="alert alert-info" style="display:inline-block" ng-click="showTable($index)">
           Tab. {{$index+1}}: {{table.caption}}
@@ -80,27 +80,36 @@
           <table class="table table-bordered table-striped">
             <tr>
               <th ng-repeat="column in table.cols">
-                <a href="#table{{$parent.$index}}" ng-click="setSortType(column)">
+                <a href="#table{{$parent.$index}}" ng-click="setSortType(tableIndex, column)">
                   {{column}}
-                  <span ng-show="sortType == column && sortReverse" class="fa fa-caret-up"></span>
-                  <span ng-show="sortType == column && !sortReverse" class="fa fa-caret-down"></span>
+                  <span ng-show="sortType[tableIndex] == column && sortReverse[tableIndex]" class="fa fa-caret-up"></span>
+                  <span ng-show="sortType[tableIndex] == column && !sortReverse[tableIndex]" class="fa fa-caret-down"></span>
                 </a>
-              </th>
+
+            </th>
+              <th ng-show="hasData(tableIndex)">
+                audio
+                </th>
+
             </tr>
-            <tr ng-repeat="row in table.rows | orderBy:sortCell:sortReverse | filter:table.searchToken">
+            <tr ng-repeat="row in table.rows | orderBy:sortCell:sortReverse[tableIndex] track by $index | filter:table.searchToken">
               <td ng-repeat="column in table.cols" ng-style="{color:isBest(table, column, row[column]) && 'red' || 'black'}">{{row[column]}}</td>
-              <td ng-show='playing && selectedSetting==$index'  ng-click='playAudio()' class='glyphicon glyphicon-pause' ng-style="{color:selectedSetting==$index && 'red' || 'black'}"> </td>
-              <td ng-hide='(playing && selectedSetting==$index) || !hasData($index)' ng-click='setSetting($index)' class='glyphicon glyphicon-play' ng-style="{color:selectedSetting==$index && 'red' || 'black'}"> </td>
+              <td>
+
+              <a ng-show='playing && selectedSetting==table.rows.indexOf(row)'  ng-click='playAudio()' class='glyphicon glyphicon-pause' ng-style="{color:selectedSetting==table.rows.indexOf(row) && 'red' || 'black'}"> </a>
+  <a ng-hide='(playing && selectedSetting==table.rows.indexOf(row)) || !hasData(tableIndex, $index)' ng-click='setSetting(tableIndex, row)' class='glyphicon glyphicon-play' ng-style="{color:selectedSetting==$index && 'red' || 'black'}"> </a>
+              </td>
+
 
             </tr>
           </table>
           <div>
 <table>
-<td style='padding-right:1em' class='glyphicon glyphicon-random' ng-click='setRandom()'  ng-style="{color:playRandom && 'red' || 'black'}"> </td>
+<td style='padding-right:1em' class='glyphicon glyphicon-random' ng-click='setRandom(tableIndex)'  ng-style="{color:playRandom && 'red' || 'black'}"> </td>
 <td class='glyphicon glyphicon-step-backward' ng-click='selectAudioFile(false)'> </td>
 <td ng-show='playing'  ng-click='playAudio()' class='glyphicon glyphicon-pause'> </td>
 <td ng-hide='playing' ng-click='playAudio()' class='glyphicon glyphicon-play'> </td>
-<td class='glyphicon glyphicon-step-forward' ng-click='selectAudioFile()'> </td>
+<td class='glyphicon glyphicon-step-forward' ng-click='selectAudioFile(tableIndex)'> </td>
 <td style='padding-left:3em'> {{fileName}} </td>
 <!-- <td style='padding-left:3em'> {{selectedSetting}} </td> -->
 </table>
