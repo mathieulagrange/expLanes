@@ -211,7 +211,7 @@ if p.highlight ~= -1
             
             if any(stdData(:, k))
                 for m=1:length(data)
-                    if ~isempty(data{m}) && ~isempty(data{m}.(observations{p.obs(k)}))
+                    if ~isempty(data{m}) && isfield(data{m}, observations{p.obs(k)}) && ~isempty(data{m}.(observations{p.obs(k)}))
                         rejection = ttest2(double(data{m}.(observations{p.obs(k)})), double(data{maxIndex}.(observations{p.obs(k)})));
                         if isnan(rejection), rejection = 0; end
                         
