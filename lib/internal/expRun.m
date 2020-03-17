@@ -39,6 +39,7 @@ if ~exist(config.reportPath, 'dir')
 end
 config.tmpPath = [config.homePath '/.expLanes/tmp/'];
 if ~exist(config.tmpPath, 'dir')
+    disp(['Creating expLanes tmp dir at:' config.tmpPath])
     mkdir(config.tmpPath);
 end
 

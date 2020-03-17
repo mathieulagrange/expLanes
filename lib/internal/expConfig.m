@@ -150,7 +150,8 @@ config.waitBar = [];
 config.progressId = 0;
 config.displayData.prompt = [];
 config.displayData.style = [];
-config.homePath = expandHomePath('~');
+% config.homePath = expandHomePath('~');
+config.homePath = '~';
 
 config.tmpPath = [config.homePath '/.expLanes/tmp/'];
 if ~exist(config.tmpPath, 'dir')
