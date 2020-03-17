@@ -7,7 +7,7 @@ fileName = expSave(config, data, 'sys');
 
 switch lang
     case 'python'
-        execCommand = ['LD_LIBRARY_PATH="" /usr/bin/python3 python/main.py --expLanes='  fileName '.mat'];
+        execCommand = ['LD_LIBRARY_PATH="" /usr/bin/python3 ' config.codePath 'python/main.py --expLanes '  fileName '.mat'];
     otherwise
         error('unkown language');
 end

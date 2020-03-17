@@ -42,31 +42,35 @@ if ~isempty(factorSelector)
         if p.sort > length(factorSelector)
             col = numData.meanData(:, p.sort-length(factorSelector));
         else
-            col = data(:, p.sort);            
+            col = data(:, p.sort);
         end
         if iscell(col)
             for k=1:length(col)
                 c = regexp(col{k}, '(', 'split');
                 %             col{k} = strtrim(c{1});
                 col{k} = c{1};
-%                 c = regexp(col{k}, '\$\\pm\$', 'split');
-%                 %             col{k} = strtrim(c{1});
-%                 col{k} = c{1};
-%                 c = regexp(col{k}, '{', 'split');
-%                 %             col{k} = strtrim(c{1});
-%                 col{k} = strtrim(c{end});
+                %                 c = regexp(col{k}, '\$\\pm\$', 'split');
+                %                 %             col{k} = strtrim(c{1});
+                %                 col{k} = c{1};
+                %                 c = regexp(col{k}, '{', 'split');
+                %                 %             col{k} = strtrim(c{1});
+                %                 col{k} = strtrim(c{end});
             end
         end
         if p.sort > length(factorSelector) && (p.negativeRank==-2 || p.negativeRank==0 ||any(p.negativeRank==p.obs(p.sort-length(factorSelector))))
-           direction = 'descend'; 
+            if lower(p.total) ==  'v'
+                [bin, ind] = sort(col(1:end-1), 'descend');
+            else
+                [bin, ind] = sort(col, 'descend');
+            end
         else
-           direction = 'ascend';
+            if lower(p.total) ==  'v'
+                [bin, ind] = sort(col(1:end-1));
+            else
+                [bin, ind] = sort(col);
+            end
         end
-        if lower(p.total) ==  'v'
-            [bin, ind] = sort(col(1:end-1), direction);
-        else
-            [bin, ind] = sort(col, direction);
-        end
+        
         if ~strcmp(p.show, 'data')
             flip=1;
         end
